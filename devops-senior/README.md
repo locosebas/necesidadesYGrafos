@@ -1,12 +1,16 @@
 # Plan de aprendizaje — Camino a Senior DevOps Engineer
 
 Carpeta de estudio personal de Sebastián Díaz para cerrar brechas hacia un rol
-**Senior DevOps / Azure Platform Engineer**, preparar certificaciones y medir
-avance con exámenes de autoevaluación.
+**Senior DevOps / Platform Engineer multi-cloud** (Azure, AWS y GCP), preparar
+certificaciones y medir avance con exámenes de autoevaluación.
 
 Origen: mensaje de Julieta García (PlatformX Solutions) sobre una vacante de
-**Azure Platform Engineer** (contractor, remoto, largo plazo). El stack pedido
-en esa vacante es la referencia principal usada para el diagnóstico de brechas.
+**Azure Platform Engineer** (contractor, remoto, largo plazo) — sigue siendo
+una referencia concreta para el diagnóstico de brechas. Pero el alcance del
+repo **no es solo Azure**: ya tenés experiencia real en AWS y GCP (MercadoLibre)
+y ofertas en cualquiera de las tres nubes son válidas. Por eso cada tema de
+`temas/` está organizado por **concepto** (no por nube) e incluye la
+equivalencia en Azure, AWS y GCP.
 
 ## Estructura
 
@@ -15,21 +19,22 @@ devops-senior/
 ├── 00-diagnostico/        # dónde estás hoy vs. dónde necesitas estar
 │   ├── gap-analysis.md
 │   └── roadmap.md
-├── temas/                 # una carpeta por tema, con teoría + labs + lecturas
-│   ├── 01-iac-terraform-bicep/
-│   ├── 02-azure-container-apps-acr/
-│   ├── 03-cicd-github-actions-oidc/
-│   ├── 04-identity-entra-id-rbac/
-│   ├── 05-networking-azure/
-│   ├── 06-keyvault-cosmosdb/
-│   ├── 07-observabilidad/
-│   ├── 08-python-fastapi-docker/
-│   ├── 09-azure-durable-functions/
-│   ├── 10-kubernetes-avanzado/
-│   ├── 11-seguridad-devsecops/
-│   ├── 12-arquitectura-costos-well-architected/
-│   └── 13-mercadolibre-scopes-cosmos/   # material interno MELI (confidencial, no compartir)
-├── certificaciones/       # qué certificar, en qué orden, y por qué
+├── temas/                 # una carpeta por tema (concepto), con equivalencias
+│   │                       # Azure / AWS / GCP + teoría + labs + lecturas
+│   ├── 01-iac-multicloud/                      # Bicep, CloudFormation/CDK, Terraform
+│   ├── 02-contenedores-serverless/             # Container Apps, Fargate, Cloud Run
+│   ├── 03-cicd-multicloud/                     # GitHub Actions + OIDC a las 3 nubes
+│   ├── 04-identidad-iam/                       # Entra ID/RBAC, AWS IAM, GCP IAM
+│   ├── 05-networking-multicloud/               # VNet, VPC (AWS), VPC (GCP)
+│   ├── 06-datos-secretos/                      # Key Vault/Cosmos DB, Secrets Manager/DynamoDB, Secret Manager/Firestore
+│   ├── 07-observabilidad-multicloud/           # Azure Monitor, CloudWatch, Cloud Logging/Monitoring
+│   ├── 08-python-fastapi-docker/               # cloud-agnóstico
+│   ├── 09-orquestacion-serverless/             # Durable Functions, Step Functions, Workflows
+│   ├── 10-kubernetes-avanzado/                 # K8s en general + AKS/EKS/GKE
+│   ├── 11-seguridad-devsecops/                 # Defender for Cloud, Security Hub, Security Command Center
+│   ├── 12-arquitectura-costos-multicloud/      # los 3 Well-Architected/Architecture Frameworks
+│   └── 13-mercadolibre-scopes-cosmos/          # material interno MELI (confidencial, no compartir)
+├── certificaciones/       # qué certificar, en qué orden, y por qué (Azure + AWS + GCP)
 ├── examenes/               # cómo pedir exámenes y dónde queda el registro de resultados
 │   ├── README.md
 │   └── registro/

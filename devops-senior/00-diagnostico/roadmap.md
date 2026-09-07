@@ -52,33 +52,34 @@ procesos de selección, para llegar antes a poder rendir pruebas técnicas.
 
 Lo más pedido en las ofertas, y donde ya tenés más base (Terraform, Docker, K8s).
 
-1. `temas/01-iac-terraform-bicep` — traducir tu Terraform a Bicep
-2. `temas/10-kubernetes-avanzado` — repaso senior (cerrar huecos, ya es tu fortaleza)
-3. `temas/02-azure-container-apps-acr` — Container Apps, ACR, revisiones, scaling
+1. `temas/01-iac-multicloud` — Bicep, y de paso CloudFormation/CDK (AWS) y Terraform en GCP
+2. `temas/10-kubernetes-avanzado` — repaso senior + diferencias AKS/EKS/GKE (cerrar huecos, ya es tu fortaleza)
+3. `temas/02-contenedores-serverless` — Container Apps / Fargate / Cloud Run
 
 ## Fase 2 — CI/CD (semanas 5-6)
 
-4. `temas/03-cicd-github-actions-oidc` — GitHub Actions + OIDC federation a Azure
+4. `temas/03-cicd-multicloud` — GitHub Actions + OIDC federado a Azure, AWS y GCP
 
 ## Fase 3 — Identidad, seguridad y networking (semanas 7-9)
 
-5. `temas/04-identity-entra-id-rbac` — Entra ID, Managed Identity, RBAC
-6. `temas/05-networking-azure` — VNet, Subnets, NSG, Private Endpoints, Private DNS
+5. `temas/04-identidad-iam` — Entra ID/RBAC, AWS IAM, GCP IAM
+6. `temas/05-networking-multicloud` — VNet/VPC, Private Endpoints/PrivateLink/Private Service Connect
 7. `temas/11-seguridad-devsecops` — shift-left security, escaneo de imágenes/IaC
 
-Al final de la Fase 3 deberías poder explicar de memoria cómo una app en Azure
-llega a una base de datos sin exponer secretos ni tráfico a internet público.
+Al final de la Fase 3 deberías poder explicar de memoria cómo una app llega a
+una base de datos sin exponer secretos ni tráfico a internet público — **en
+cualquiera de las tres nubes**.
 
 ## Fase 4 — Datos, serverless y observabilidad (semanas 10-12)
 
-8. `temas/06-keyvault-cosmosdb` — Key Vault, Cosmos DB
-9. `temas/09-azure-durable-functions` — orchestrator/activity functions
-10. `temas/07-observabilidad` — Azure Monitor, App Insights, Log Analytics
+8. `temas/06-datos-secretos` — Key Vault/Secrets Manager/Secret Manager, Cosmos DB/DynamoDB/Firestore
+9. `temas/09-orquestacion-serverless` — Durable Functions / Step Functions / Workflows
+10. `temas/07-observabilidad-multicloud` — Azure Monitor, CloudWatch, Cloud Logging/Monitoring
 
 ## Fase 5 — Consolidación de nivel Senior (semanas 13-14)
 
 11. `temas/08-python-fastapi-docker` — repaso y hardening de APIs
-12. `temas/12-arquitectura-costos-well-architected` — Well-Architected Framework, FinOps
+12. `temas/12-arquitectura-costos-multicloud` — Well-Architected/Architecture Frameworks, FinOps
 
 ## Fase 6 — Certificación y entrevista
 

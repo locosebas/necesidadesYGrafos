@@ -3,6 +3,12 @@
 Fuente de los requisitos: mensaje de Julieta García (PlatformX Solutions),
 2026-09-07.
 
+> Este análisis es específico de esa vacante puntual (Azure). El repo en
+> general no es Azure-only — ver `temas/` para las equivalencias en AWS y GCP
+> de cada tema, y `certificaciones/README.md` para rutas de certificación en
+> las tres nubes. Este documento sirve como caso concreto de referencia, no
+> como límite del alcance de estudio.
+
 ## Requisitos de la vacante
 
 | # | Requisito | Nivel actual | Estado |
