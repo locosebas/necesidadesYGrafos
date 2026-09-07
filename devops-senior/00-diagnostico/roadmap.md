@@ -4,6 +4,31 @@ Orden sugerido. Cada bloque es aprox. 1-2 semanas de estudio part-time
 (mientras trabajás). Ajustalo a tu ritmo real — lo importante es no saltar
 el examen de autoevaluación al final de cada tema.
 
+## Metodología: de general a específico
+
+Objetivo final: llegar a una entrevista técnica (o certificación) y poder
+resolver la prueba, no solo "haber leído sobre el tema". Por eso cada nivel
+sigue el mismo patrón general → específico:
+
+1. **General (panorama):** examen diagnóstico amplio que toca los 13 temas a
+   nivel conceptual, para medir dónde estás parado hoy en la práctica (no
+   solo lo que infiere el CV). Esto define qué temas se profundizan primero.
+2. **Específico (por tema):** dentro de cada tema, primero repaso el concepto
+   general (qué es, para qué sirve, cómo se relaciona con lo demás) y recién
+   después vamos a detalle técnico (sintaxis, configuración, troubleshooting).
+3. **Examen del tema:** mezcla teoría + escenario, nivel creciente
+   (básico → intermedio → senior) hasta llegar a ≥ 80%.
+4. **Repaso mixto/entrevista:** una vez cubiertos varios temas, exámenes que
+   combinan temas y simulan formato de entrevista técnica o prueba de
+   certificación (preguntas encadenadas, sin decirte de antemano el tema).
+
+## Fase 0 — Diagnóstico general (arranca acá)
+
+Antes de la Fase 1: un examen general de panorama (1-2 preguntas por cada uno
+de los 13 temas, nivel conceptual). Con el resultado ajustamos el orden real
+de estudio — las brechas del `gap-analysis.md` son una hipótesis basada en el
+CV, el diagnóstico general la confirma o la corrige con datos reales.
+
 ## Fase 1 — Fundamentos Azure que hoy tenés flojos (semanas 1-4)
 
 1. `temas/05-networking-azure` — VNet, Subnets, NSG, Private Endpoints, Private DNS
