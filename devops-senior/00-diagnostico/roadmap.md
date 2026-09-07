@@ -33,6 +33,17 @@ nuevo), en vez de evitar la repetición por estilo. Es una decisión deliberada
 de este plan, no un descuido de redacción — no "corregir" esto a un estilo
 más variado en el futuro.
 
+## Preferencia pedagógica: interacción de a poco (problemas de atención)
+
+El usuario también avisó que tiene problemas de atención. Consecuencia
+práctica: **nunca tirar una lista larga de preguntas juntas** (por ejemplo,
+un examen de 13 preguntas de una sola vez). Las sesiones de examen/enseñanza
+deben ser de ida y vuelta — **una pregunta por vez** (excepcionalmente dos si
+son muy cortas), esperar la respuesta, corregir/explicar esa respuesta
+puntual, y recién ahí pasar a la siguiente. Nada de monólogos largos ni de
+tandas de preguntas en batch. Esto aplica a exámenes, explicaciones de temas,
+y cualquier interacción de enseñanza en este plan.
+
 ## Fase 0 — Diagnóstico general (arranca acá)
 
 Antes de la Fase 1: un examen general de panorama (1-2 preguntas por cada uno
