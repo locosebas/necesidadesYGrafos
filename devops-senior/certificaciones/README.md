@@ -1,9 +1,17 @@
 # Certificaciones — qué rendir y en qué orden
 
-Recomendación basada en tu stack actual (Terraform, Azure, AWS, GCP, K8s) y
-el stack pedido en la vacante (Azure-céntrico). Verificá siempre el temario
-actualizado en el link oficial antes de inscribirte — Microsoft actualiza
-los exámenes con cierta frecuencia.
+Recomendación basada en tu stack actual (Terraform, Azure, AWS, GCP, K8s), el
+stack pedido en la vacante (Azure-céntrico) y una investigación de demanda
+real de mercado (sept. 2026, fuentes en `../00-diagnostico/roadmap.md`).
+Verificá siempre el temario actualizado en el link oficial antes de
+inscribirte — Microsoft actualiza los exámenes con cierta frecuencia.
+
+> **Hallazgo de la investigación de mercado:** la combinación de mayor señal
+> combinada para roles DevOps/Platform en 2026 es **CKA + Terraform Associate
+> + un cert de DevOps del cloud del empleador (AZ-400 en tu caso)** — no
+> necesariamente AZ-400 solo. Terraform Associate es además "la certificación
+> de mejor relación costo/valor de todo el espacio DevOps" (~$70 USD) dado que
+> ya usás Terraform en producción.
 
 ## Ruta recomendada
 
@@ -37,21 +45,30 @@ Vault/Networking (temas 04, 05, 06, 11 de este repo) y es un buen
 diferenciador para roles senior.
 - https://learn.microsoft.com/certifications/azure-security-engineer/
 
-## Orden sugerido dado tu perfil
+## Orden sugerido dado tu perfil (ajustado con datos de mercado)
 
 ```
-AZ-104 (si no tenés nada de Azure certificado)
+Terraform Associate  ←── más rápida y barata, capitaliza tu fortaleza ya hoy
    ↓
-AZ-400  ←── la prioridad real para esta vacante
+CKA  ←── ya tenés Kubernetes productivo, es la certificación técnica más
+   |      respetada del ecosistema DevOps según la investigación
    ↓
-Terraform Associate (rápida, capitaliza tu fortaleza)
+AZ-400  ←── la más alineada al puesto específico de Julieta (requiere
+   |         base de AZ-104/AZ-204, salteable si tu experiencia práctica alcanza)
    ↓
-CKA o AZ-500 (según hacia dónde quieras inclinar tu perfil)
+AZ-500 (opcional, si querés inclinar tu perfil hacia seguridad)
 ```
+
+Cambio respecto a la primera versión de este plan: antes proponía AZ-400
+primero por ser la más alineada 1:1 a la vacante. La investigación de mercado
+mostró que la combinación **CKA + Terraform Associate** es la de mayor señal
+combinada en el mercado general, y ambas son más rápidas/baratas de preparar
+dado lo que ya sabés — por eso van primero. AZ-400 sigue siendo la prioridad
+específica para *esta* vacante puntual si el proceso de selección avanza rápido.
 
 Si ya te sentís cómodo con fundamentos de Azure (mucha experiencia práctica),
-podés saltar directo a **AZ-400** y usar `00-diagnostico/roadmap.md` + los
-exámenes de este repo como preparación, en vez de perder tiempo en AZ-104.
+podés saltar **AZ-104** directamente y usar `../00-diagnostico/roadmap.md` +
+los exámenes de este repo como preparación en su lugar.
 
 ## Cómo preparar cada certificación acá
 

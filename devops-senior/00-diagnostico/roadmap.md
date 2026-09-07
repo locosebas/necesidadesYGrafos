@@ -29,34 +29,58 @@ de los 13 temas, nivel conceptual). Con el resultado ajustamos el orden real
 de estudio — las brechas del `gap-analysis.md` son una hipótesis basada en el
 CV, el diagnóstico general la confirma o la corrige con datos reales.
 
-## Fase 1 — Fundamentos Azure que hoy tenés flojos (semanas 1-4)
+## Orden de las fases: priorizado por demanda real del mercado
 
-1. `temas/05-networking-azure` — VNet, Subnets, NSG, Private Endpoints, Private DNS
-2. `temas/04-identity-entra-id-rbac` — Entra ID, Managed Identity, RBAC
-3. `temas/06-keyvault-cosmosdb` — Key Vault, Cosmos DB
+El orden de las fases 1-5 no sigue solo el gap-analysis basado en tu CV — se
+reordenó según qué aparece con más frecuencia en ofertas reales de Senior
+DevOps Engineer / Azure Platform Engineer (búsqueda de mercado, sept. 2026,
+ver fuentes al final del archivo). Señal consistente en las tres búsquedas:
 
-Al final de la Fase 1 deberías poder explicar de memoria cómo una app en Azure
+1. **IaC (Terraform/Bicep/ARM)** — "core requirement across most postings"
+2. **CI/CD** (Azure DevOps / GitHub Actions, YAML pipelines)
+3. **Contenedores/Kubernetes** (AKS, Container Apps, Docker, Helm)
+4. **Identidad y seguridad** (RBAC, compliance, identity management) — engloba networking/Private Endpoints como parte de "seguridad de red"
+5. **Observabilidad** (monitoring, alerting)
+6. Certificación de mayor señal combinada: **CKA + Terraform Associate + AZ-400**
+   ("highest-signal combination" según la investigación de mercado)
+
+Esto no anula tus brechas reales (Networking y Durable Functions siguen siendo
+temas nuevos para vos) — simplemente prioriza primero lo que más se repite en
+procesos de selección, para llegar antes a poder rendir pruebas técnicas.
+
+## Fase 1 — IaC y Kubernetes/Contenedores (semanas 1-4)
+
+Lo más pedido en las ofertas, y donde ya tenés más base (Terraform, Docker, K8s).
+
+1. `temas/01-iac-terraform-bicep` — traducir tu Terraform a Bicep
+2. `temas/10-kubernetes-avanzado` — repaso senior (cerrar huecos, ya es tu fortaleza)
+3. `temas/02-azure-container-apps-acr` — Container Apps, ACR, revisiones, scaling
+
+## Fase 2 — CI/CD (semanas 5-6)
+
+4. `temas/03-cicd-github-actions-oidc` — GitHub Actions + OIDC federation a Azure
+
+## Fase 3 — Identidad, seguridad y networking (semanas 7-9)
+
+5. `temas/04-identity-entra-id-rbac` — Entra ID, Managed Identity, RBAC
+6. `temas/05-networking-azure` — VNet, Subnets, NSG, Private Endpoints, Private DNS
+7. `temas/11-seguridad-devsecops` — shift-left security, escaneo de imágenes/IaC
+
+Al final de la Fase 3 deberías poder explicar de memoria cómo una app en Azure
 llega a una base de datos sin exponer secretos ni tráfico a internet público.
 
-## Fase 2 — IaC y despliegue de contenedores (semanas 5-7)
+## Fase 4 — Datos, serverless y observabilidad (semanas 10-12)
 
-4. `temas/01-iac-terraform-bicep` — traducir tu Terraform a Bicep
-5. `temas/02-azure-container-apps-acr` — Container Apps, ACR, revisiones, scaling
+8. `temas/06-keyvault-cosmosdb` — Key Vault, Cosmos DB
+9. `temas/09-azure-durable-functions` — orchestrator/activity functions
+10. `temas/07-observabilidad` — Azure Monitor, App Insights, Log Analytics
 
-## Fase 3 — CI/CD, cómputo serverless y observabilidad (semanas 8-10)
+## Fase 5 — Consolidación de nivel Senior (semanas 13-14)
 
-6. `temas/03-cicd-github-actions-oidc` — GitHub Actions + OIDC federation a Azure
-7. `temas/09-azure-durable-functions` — orchestrator/activity functions
-8. `temas/07-observabilidad` — Azure Monitor, App Insights, Log Analytics
+11. `temas/08-python-fastapi-docker` — repaso y hardening de APIs
+12. `temas/12-arquitectura-costos-well-architected` — Well-Architected Framework, FinOps
 
-## Fase 4 — Consolidación de nivel Senior (semanas 11-13)
-
-9. `temas/08-python-fastapi-docker` — repaso y hardening de APIs
-10. `temas/11-seguridad-devsecops` — shift-left security, escaneo de imágenes/IaC
-11. `temas/12-arquitectura-costos-well-architected` — Well-Architected Framework, FinOps
-12. `temas/10-kubernetes-avanzado` — repaso senior (ya es tu fortaleza, cerrar huecos)
-
-## Fase 5 — Certificación y entrevista
+## Fase 6 — Certificación y entrevista
 
 - Rendir la certificación elegida (ver `certificaciones/README.md`).
 - Repasar `temas/13-mercadolibre-scopes-cosmos` si aplica a una entrevista interna.
@@ -68,3 +92,17 @@ llega a una base de datos sin exponer secretos ni tráfico a internet público.
 No avances de fase hasta tener **≥ 80% en el examen de cada tema** de la fase
 anterior (ver `examenes/registro/`). Si un tema queda débil, se repite antes de
 seguir — la idea es no acumular huecos.
+
+## Fuentes de la investigación de mercado (sept. 2026)
+
+- [Azure DevOps and Security in 2026: Career Path, Skills & Certs — CloudThat](https://www.cloudthat.com/resources/blog/azure-devops-and-security-roadmap-for-2026-skills-and-certifications)
+- [Senior DevOps Engineer Job Description: Skills, Salary, & More — iMocha](https://www.imocha.io/job-description/senior-devops-engineer)
+- [Job Opening - Senior Azure DevOps / Cloud Platform Engineer — Randstad USA](https://www.randstadusa.com/jobs/4/1343959/senior-azure-devops-cloud-platform-engineer_woburn/)
+- [Top 10 DevOps Certifications Engineers Choose in 2026 — KodeKloud](https://kodekloud.com/blog/top-10-devops-certifications-courses-engineers-are-choosing/)
+- [AZ-400 Certification (2026 Guide) — CertDemand](https://certdemand.com/certs/az-400)
+- [Platform Engineering Certifications 2026 — ExamCert](https://www.examcert.app/blog/platform-engineering-certifications-2026/)
+
+> Nota: son fuentes secundarias (blogs/agregadores), no un estudio estadístico
+> formal. Sirven para priorizar el orden de estudio, no como verdad absoluta —
+> el `gap-analysis.md` (basado en tu CV real) sigue siendo la referencia para
+> saber qué tan profundo tenés que ir en cada tema.
