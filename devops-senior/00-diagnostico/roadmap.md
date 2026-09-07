@@ -22,6 +22,17 @@ sigue el mismo patrón general → específico:
    combinan temas y simulan formato de entrevista técnica o prueba de
    certificación (preguntas encadenadas, sin decirte de antemano el tema).
 
+## Preferencia pedagógica: repetición de términos
+
+Una de las falencias que identificaste vos mismo: se te olvidan los **términos
+y nombres de herramientas**, no los conceptos. Por eso, al enseñar/evaluar,
+Claude debe ser **redundante a propósito**: repetir el nombre exacto de cada
+término/herramienta varias veces en la misma explicación (en vez de decir
+"esto" o "dicho servicio", repetir "Managed Identity", "Managed Identity" de
+nuevo), en vez de evitar la repetición por estilo. Es una decisión deliberada
+de este plan, no un descuido de redacción — no "corregir" esto a un estilo
+más variado en el futuro.
+
 ## Fase 0 — Diagnóstico general (arranca acá)
 
 Antes de la Fase 1: un examen general de panorama (1-2 preguntas por cada uno
