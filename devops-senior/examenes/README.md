@@ -38,3 +38,11 @@ la primera vez que rindas un examen). Columnas: fecha, tema, nivel, formato,
 
 Esto permite, con el tiempo, ver qué temas necesitan repaso antes de rendir
 la certificación real o ir a la entrevista.
+
+## Tema 13 (Scopes/CoSMOS de MELI) va aparte
+
+Los **exámenes o diagnósticos generales** (los que mezclan varios temas, tipo
+panorama) **no incluyen preguntas del tema 13** por defecto — son conceptos y
+terminología específicos de MercadoLibre, no transferibles a otras entrevistas.
+Ese tema solo se evalúa si lo pedís explícitamente (*"Dame un examen basado en
+el documento de Scopes/CoSMOS"*).
