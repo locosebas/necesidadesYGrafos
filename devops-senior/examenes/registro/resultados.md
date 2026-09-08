@@ -13,3 +13,8 @@
   de `replay`/determinismo en general, pero el rol específico de una
   `activity` (por qué no se repite en el replay) quedó para repasar con más
   ejemplos. Ver `../../temas/09-orquestacion-serverless/`.
+- **Kubernetes — troubleshooting (`CrashLoopBackOff`, `OOMKilled`, exit codes)**:
+  tema declarado como no manejado (nunca lo hizo en la práctica). Ver
+  `../../temas/10-kubernetes-avanzado/` — el objetivo "Troubleshooting" de ese
+  tema es justo esto, hacer una sesión dedicada con varios escenarios de
+  `describe pod`/`logs --previous`/exit codes reales.
