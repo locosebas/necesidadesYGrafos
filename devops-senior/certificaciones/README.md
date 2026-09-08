@@ -84,6 +84,34 @@ Diseño de arquitecturas completas en GCP; buen complemento si el rol pide
 también decisiones de arquitectura, no solo operación.
 - https://cloud.google.com/certification/cloud-architect
 
+## Ruta IA / MLOps — opcional, alto crecimiento
+
+Cada vez más ofertas de DevOps/Platform piden desplegar y operar cargas de
+IA (APIs de modelos, RAG, GPUs) — es una extensión natural de lo que ya
+sabés (Container Apps/Fargate/Cloud Run para servir modelos, FastAPI para
+las APIs de inferencia). No reemplaza la ruta DevOps, la complementa.
+
+### Nivel fundamentos (rápidas, para tener el vocabulario)
+- **Azure AI Fundamentals (AI-900)** — https://learn.microsoft.com/certifications/azure-ai-fundamentals/
+- **AWS Certified AI Practitioner** — https://aws.amazon.com/certification/certified-ai-practitioner/
+- **Google Cloud Generative AI Leader** — https://cloud.google.com/certification/generative-ai-leader
+
+### Nivel técnico ⭐ (el que suma de verdad para un perfil DevOps/MLOps)
+- **Azure AI Engineer Associate (AI-102)** — construir soluciones con Azure
+  AI Services/Azure OpenAI. https://learn.microsoft.com/certifications/azure-ai-engineer/
+- **AWS Certified Machine Learning Engineer – Associate** — la más orientada
+  a **MLOps** (pipelines, despliegue, monitoreo de modelos) de las tres.
+  https://aws.amazon.com/certification/certified-machine-learning-engineer-associate/
+- **Google Professional Machine Learning Engineer** — la más exigente y
+  reconocida de las tres, cubre todo el ciclo de vida de ML en producción.
+  https://cloud.google.com/certification/machine-learning-engineer
+
+Si el objetivo es un rol tipo "MLOps Engineer" o "AI Platform Engineer" (variante
+cada vez más común del DevOps senior), la de mayor señal es la de **AWS
+Machine Learning Engineer – Associate** o **Google Professional Machine
+Learning Engineer**, según la nube del empleador — son las dos con más foco
+en productivizar modelos, no solo entrenarlos.
+
 ## Orden sugerido dado tu perfil (ajustado con datos de mercado)
 
 ```
@@ -100,7 +128,8 @@ Certificación de seguridad opcional de esa misma nube (AZ-500 / AWS Security Sp
 Empezá siempre por las dos transversales (Terraform Associate + CKA) — no
 importa a qué nube apunte la próxima oferta, ya suman. Recién ahí elegí la
 certificación específica de nube según la oferta concreta que tengas más
-cerca en ese momento (hoy, la de Julieta apunta a AZ-400).
+cerca en ese momento (hoy, la de Julieta apunta a AZ-400). La ruta IA/MLOps
+es un agregado opcional en paralelo, no un reemplazo de este orden.
 
 ## Cómo preparar cada certificación acá
 
