@@ -12,12 +12,20 @@ y ofertas en cualquiera de las tres nubes son válidas. Por eso cada tema de
 `temas/` está organizado por **concepto** (no por nube) e incluye la
 equivalencia en Azure, AWS y GCP.
 
+Segunda vacante de referencia agregada: **Chaos & Resilience Engineer**
+(Davivienda, Bogotá) — ver
+`00-diagnostico/gap-analysis-davivienda-chaos-sre.md` y el tema nuevo
+`temas/14-chaos-engineering-sre/`. Cada vacante nueva que se agregue suma
+como caso de referencia adicional (su propio `gap-analysis-<empresa>.md`),
+no reemplaza a las anteriores.
+
 ## Estructura
 
 ```
 devops-senior/
 ├── 00-diagnostico/        # dónde estás hoy vs. dónde necesitas estar
-│   ├── gap-analysis.md
+│   ├── gap-analysis.md                         # vacante Azure Platform Engineer (Julieta García)
+│   ├── gap-analysis-davivienda-chaos-sre.md    # vacante Chaos & Resilience Engineer (Davivienda)
 │   └── roadmap.md
 ├── temas/                 # una carpeta por tema (concepto), con equivalencias
 │   │                       # Azure / AWS / GCP + teoría + labs + lecturas
@@ -33,7 +41,8 @@ devops-senior/
 │   ├── 10-kubernetes-avanzado/                 # K8s en general + AKS/EKS/GKE
 │   ├── 11-seguridad-devsecops/                 # Defender for Cloud, Security Hub, Security Command Center
 │   ├── 12-arquitectura-costos-multicloud/      # los 3 Well-Architected/Architecture Frameworks
-│   └── 13-mercadolibre-scopes-cosmos/          # material interno MELI (confidencial, no compartir)
+│   ├── 13-mercadolibre-scopes-cosmos/          # material interno MELI (confidencial, no compartir)
+│   └── 14-chaos-engineering-sre/               # Litmus, Chaos Mesh, Chaos Monkey, Gremlin, OpenTelemetry, Elastic
 ├── certificaciones/       # qué certificar, en qué orden, y por qué (Azure + AWS + GCP)
 ├── examenes/               # cómo pedir exámenes y dónde queda el registro de resultados
 │   ├── README.md

@@ -112,6 +112,26 @@ Machine Learning Engineer – Associate** o **Google Professional Machine
 Learning Engineer**, según la nube del empleador — son las dos con más foco
 en productivizar modelos, no solo entrenarlos.
 
+## Ruta Chaos Engineering / SRE — agregada por la vacante Davivienda
+
+Ver `../00-diagnostico/gap-analysis-davivienda-chaos-sre.md` y
+`../temas/14-chaos-engineering-sre/`. A diferencia de las certificaciones de
+cloud, en chaos engineering hay una sola certificación con reconocimiento
+real en la industria:
+
+### Gremlin Enterprise Chaos Engineering Certification
+Certificación de Gremlin (uno de los referentes comerciales del área),
+compatible con LinkedIn. Incluye material de preparación y prueba gratis de
+la herramienta — buena forma de aprender la práctica y certificarla al
+mismo tiempo, sin depender de tener un cluster propio con Litmus/Chaos Mesh
+ya armado.
+- https://www.gremlin.com/certification
+
+No hay certificación equivalente para Litmus o Chaos Mesh (son proyectos
+open source de CNCF, sin programa formal de certificación) — para esos dos,
+la demostración es práctica (correr experimentos reales) más que un
+certificado.
+
 ## Orden sugerido dado tu perfil (ajustado con datos de mercado)
 
 ```

@@ -10,7 +10,7 @@ Objetivo final: llegar a una entrevista técnica (o certificación) y poder
 resolver la prueba, no solo "haber leído sobre el tema". Por eso cada nivel
 sigue el mismo patrón general → específico:
 
-1. **General (panorama):** examen diagnóstico amplio que toca los 13 temas a
+1. **General (panorama):** examen diagnóstico amplio que toca los 14 temas a
    nivel conceptual, para medir dónde estás parado hoy en la práctica (no
    solo lo que infiere el CV). Esto define qué temas se profundizan primero.
 2. **Específico (por tema):** dentro de cada tema, primero repaso el concepto
@@ -47,9 +47,10 @@ y cualquier interacción de enseñanza en este plan.
 ## Fase 0 — Diagnóstico general (arranca acá)
 
 Antes de la Fase 1: un examen general de panorama (1-2 preguntas por cada uno
-de los 13 temas, nivel conceptual). Con el resultado ajustamos el orden real
-de estudio — las brechas del `gap-analysis.md` son una hipótesis basada en el
-CV, el diagnóstico general la confirma o la corrige con datos reales.
+de los 14 temas, nivel conceptual). Con el resultado ajustamos el orden real
+de estudio — las brechas de `gap-analysis.md` y `gap-analysis-davivienda-chaos-sre.md`
+son una hipótesis basada en el CV, el diagnóstico general la confirma o la
+corrige con datos reales.
 
 ## Orden de las fases: priorizado por demanda real del mercado
 
@@ -103,7 +104,18 @@ cualquiera de las tres nubes**.
 11. `temas/08-python-fastapi-docker` — repaso y hardening de APIs
 12. `temas/12-arquitectura-costos-multicloud` — Well-Architected/Architecture Frameworks, FinOps
 
-## Fase 6 — Certificación y entrevista
+## Fase 6 — Chaos Engineering y SRE avanzado (semanas 15-16)
+
+Agregada a partir de la vacante Chaos & Resilience Engineer (Davivienda) —
+ver `gap-analysis-davivienda-chaos-sre.md`. Va después de la consolidación
+general porque asume base sólida de Kubernetes (tema 10) y observabilidad
+(tema 07) ya cerrada.
+
+13. `temas/14-chaos-engineering-sre` — principios de chaos engineering,
+    Litmus/Chaos Mesh/Chaos Monkey/Gremlin, OpenTelemetry, Elastic Stack,
+    nociones de AIOps
+
+## Fase 7 — Certificación y entrevista
 
 - Rendir la certificación elegida (ver `certificaciones/README.md`).
 - Repasar `temas/13-mercadolibre-scopes-cosmos` si aplica a una entrevista interna.
