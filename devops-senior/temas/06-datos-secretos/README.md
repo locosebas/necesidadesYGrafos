@@ -45,6 +45,26 @@ podés compararlos directamente.
 - DynamoDB: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html
 - Firestore: https://cloud.google.com/firestore/docs
 
+## Bases de datos relacionales gestionadas
+
+### Objetivos
+- Diferenciar una base **relacional gestionada compatible con Postgres/MySQL**
+  de una NoSQL (arriba): sigue siendo SQL, pero la nube gestiona parches,
+  backups, alta disponibilidad y réplicas de lectura.
+
+### Equivalencias
+
+| Concepto | Azure | AWS | GCP |
+|---|---|---|---|
+| Relacional gestionada (Postgres/MySQL) | Azure Database for PostgreSQL/MySQL | **RDS** (Postgres/MySQL/otros motores) | **Cloud SQL** |
+| Relacional de alto rendimiento (compatible Postgres) | — | **Aurora** (Postgres/MySQL compatible) | **AlloyDB** (Postgres compatible) |
+
+**AlloyDB** es la apuesta de GCP para cargas relacionales exigentes sin
+migrar a NoSQL: mismo lenguaje (SQL/Postgres), separación de
+cómputo/almacenamiento, y un motor columnar en memoria para analítica sobre
+los mismos datos transaccionales (HTAP) — el equivalente conceptual de
+Aurora en AWS.
+
 ## Lab sugerido
 
 Desplegá el mismo modelo de datos simple (ítems con partition key) en Cosmos
@@ -53,4 +73,5 @@ se estima/factura el throughput en cada una.
 
 ## Autoevaluación
 
-Pedime: *"Dame un examen de secretos y bases NoSQL multi-cloud nivel senior"*.
+Pedime: *"Dame un examen de secretos y bases NoSQL multi-cloud nivel senior"*
+o *"Dame un examen de bases relacionales gestionadas (RDS/Cloud SQL/AlloyDB)"*.

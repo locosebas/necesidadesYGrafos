@@ -22,6 +22,9 @@ cuando aplica — ver también las tablas de equivalencias dentro de cada tema.
 | Durable Functions | Step Functions | Workflows | Orquestación de workflows con estado |
 | Bicep | CloudFormation / CDK | Deployment Manager (o Terraform) | IaC nativo del proveedor |
 | AKS | EKS | GKE | Kubernetes gestionado |
+| — | RDS | Cloud SQL | Base relacional gestionada (Postgres/MySQL) |
+| — | Aurora | AlloyDB | Base relacional de alto rendimiento compatible con Postgres |
+| Event Hubs | MSK / Kinesis Data Streams | Pub/Sub | Log de eventos gestionado (Kafka-compatible solo Event Hubs/MSK) |
 
 ## Términos generales (no específicos de una nube)
 
@@ -33,6 +36,19 @@ cuando aplica — ver también las tablas de equivalencias dentro de cada tema.
 | KEDA | Kubernetes Event-Driven Autoscaling — escalado basado en eventos externos (colas, HTTP), usado en ACA/AKS/EKS/GKE |
 | Orchestrator function | Función que coordina un workflow con estado; debe ser determinística en modelos tipo Durable Functions |
 | Well-Architected Framework | Marco de 5 pilares (Reliability, Security, Cost, Operational Excellence, Performance) — versión propia en Azure, AWS y GCP |
+| GitOps | Patrón de CD donde un repo Git es la única fuente de verdad y un operador dentro del clúster aplica los cambios (pull), no el pipeline (push) |
+| ArgoCD | Controlador de GitOps para Kubernetes; sincroniza manifiestos de un repo Git hacia el clúster |
+| GitLab CI | Orquestador de CI/CD de GitLab, mismo rol que GitHub Actions |
+| Keycloak | IAM open-source y self-hosteable (OIDC/SAML); realms, clients, roles y groups |
+| Service mesh | Capa de red entre pods vía sidecar proxy (Envoy); da mTLS, traffic splitting y observabilidad sin tocar el código de la app |
+| Istio | Implementación más conocida de service mesh para Kubernetes |
+| OPA (Open Policy Agent) | Motor de policy-as-code (lenguaje Rego); en K8s se usa vía Gatekeeper como admission controller |
+| Rego | Lenguaje de políticas de Open Policy Agent |
+| Temporal | Motor de orquestación de workflows open-source/cloud-agnostic, mismo modelo que Durable Functions (Workflow + Activity) pero en código |
+| Kafka | Log de eventos distribuido (topics, partitions, offsets, consumer groups); estándar de facto de streaming |
+| Redpanda | Reescritura de Kafka en C++, API wire-compatible, sin JVM/ZooKeeper |
+| FHIR | Estándar moderno (HL7) de interoperabilidad de datos de salud, API REST con recursos JSON/XML |
+| HL7 | Familia de estándares de intercambio de datos clínicos; FHIR es su versión moderna |
 
 ## Enlaces generales
 

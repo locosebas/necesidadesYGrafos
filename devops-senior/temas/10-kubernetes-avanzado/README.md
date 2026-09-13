@@ -9,6 +9,7 @@ suelen aparecer en entrevistas senior y no en el uso diario.
 - Scheduling avanzado: affinity/anti-affinity, taints/tolerations, topology spread constraints.
 - Resource management: requests vs limits, QoS classes (Guaranteed/Burstable/BestEffort), qué pasa cuando un nodo tiene memory pressure.
 - Networking: cómo funciona un Service (ClusterIP/NodePort/LoadBalancer) a nivel de iptables/IPVS, Network Policies, Ingress vs Gateway API.
+- Service mesh (Istio): mTLS entre servicios, traffic splitting/canary, observabilidad de red sin instrumentar la app.
 - Autoscaling: HPA vs VPA vs Cluster Autoscaler — cuándo se pisan entre sí.
 - RBAC de Kubernetes (distinto del RBAC de Azure/IAM de AWS/GCP — no confundir en la entrevista, son capas separadas).
 - Troubleshooting: `CrashLoopBackOff`, `OOMKilled`, `ImagePullBackOff` — causa raíz de cada uno.
@@ -29,6 +30,28 @@ Ya usaste AKS/EKS/GKE en la práctica (MercadoLibre: AWS/GCP con K8s) — este
 cuadro es para verbalizar en la entrevista las diferencias que quizás usás
 "a mano" sin haberlas puesto en palabras.
 
+## Service mesh: Istio
+
+Una capa extra sobre la red de Kubernetes que ya conocés (Services, Ingress,
+Network Policies): un **service mesh** intercepta el tráfico entre pods (vía
+un *sidecar proxy*, normalmente Envoy) para dar, sin tocar el código de la
+app:
+
+- **mTLS automático** entre servicios (tráfico interno cifrado y autenticado
+  por default).
+- **Traffic management** fino: canary releases, traffic splitting por
+  porcentaje, retries/timeouts/circuit breaking a nivel de red (no en el
+  código de la app).
+- **Observabilidad de red gratis**: métricas de latencia/error rate por
+  servicio sin instrumentar cada app (complementa OpenTelemetry, tema 07).
+- **Istio** es la implementación más conocida (alternativas: Linkerd, Cilium
+  en modo mesh). Se instala sobre cualquier Kubernetes (AKS/EKS/GKE).
+
+No lo confundas con **Ingress/Gateway API** (tráfico que entra al clúster
+desde afuera): Istio gestiona sobre todo el tráfico **este-oeste** (entre
+servicios dentro del clúster), aunque también puede reemplazar el Ingress
+(Istio Gateway).
+
 ## Recursos
 
 - Kubernetes docs: https://kubernetes.io/docs/home/
@@ -36,9 +59,12 @@ cuadro es para verbalizar en la entrevista las diferencias que quizás usás
 - AKS docs: https://learn.microsoft.com/azure/aks/
 - EKS docs: https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html
 - GKE docs: https://cloud.google.com/kubernetes-engine/docs
+- Istio docs: https://istio.io/latest/docs/
 
 ## Autoevaluación
 
 Pedime: *"Dame un examen de Kubernetes nivel senior/troubleshooting"*.
 Este es un buen tema para pedir preguntas **de escenario** ("un pod está en
 CrashLoopBackOff, ¿qué revisás primero?") en vez de teóricas puras.
+
+Para el service mesh específicamente, pedime: *"Dame un examen de Istio/service mesh nivel senior"*.

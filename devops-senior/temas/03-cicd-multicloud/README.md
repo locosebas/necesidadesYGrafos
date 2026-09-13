@@ -32,6 +32,38 @@ Actions como orquestador **común a las tres nubes**, con autenticación
 4. Qué va en GitHub Secrets vs. qué debería vivir en Key Vault / Secrets Manager / Secret Manager
 5. Self-hosted runners vs. GitHub-hosted (costo/mantenimiento vs. acceso a red privada)
 
+## GitOps y CD declarativo: ArgoCD
+
+Otro patrón de CD, especialmente en Kubernetes (AKS/EKS/GKE): en vez de que
+el pipeline haga `kubectl apply` directamente, un **operador dentro del
+clúster** (Argo CD) vigila un repo Git con el estado deseado y lo aplica
+solo. El repo Git pasa a ser la única fuente de verdad ("GitOps").
+
+- **Argo CD**: controlador de GitOps para Kubernetes — sincroniza manifiestos
+  (YAML/Helm/Kustomize) de un repo Git hacia el clúster, y alerta si el
+  clúster se desvía del repo ("drift").
+- Diferencia clave con GitHub Actions "push-based": acá el clúster **tira**
+  (pull) los cambios, no el pipeline los empuja — más seguro (el clúster no
+  necesita exponer credenciales de escritura hacia afuera).
+- Relacionado con el tema 10 (Kubernetes): Argo CD vive *dentro* del clúster.
+
+## GitLab CI (alternativa a GitHub Actions)
+
+Mismo rol que GitHub Actions (orquestador de CI/CD), pero de GitLab. Conceptos
+equivalentes:
+
+| GitHub Actions | GitLab CI |
+|---|---|
+| Workflow (`.github/workflows/*.yml`) | Pipeline (`.gitlab-ci.yml`) |
+| Job | Job |
+| GitHub Environments | Environments |
+| `permissions: id-token: write` (OIDC) | `id_tokens` (OIDC hacia Azure/AWS/GCP, mismo principio) |
+| GitHub-hosted / self-hosted runners | GitLab-hosted / self-hosted runners |
+
+Si te toca una entrevista o vacante con GitLab en vez de GitHub, el concepto
+de OIDC federado (visto arriba) es el mismo — cambia la sintaxis, no el
+modelo de seguridad.
+
 ## Recursos
 
 - OIDC de GitHub Actions a Azure: https://learn.microsoft.com/azure/developer/github/connect-from-azure
@@ -47,4 +79,5 @@ mismo contenedor a su respectivo servicio serverless (tema 02).
 
 ## Autoevaluación
 
-Pedime: *"Dame un examen de GitHub Actions + OIDC multi-cloud nivel senior"*.
+Pedime: *"Dame un examen de GitHub Actions + OIDC multi-cloud nivel senior"*
+o *"Dame un examen de GitOps/ArgoCD nivel senior"*.

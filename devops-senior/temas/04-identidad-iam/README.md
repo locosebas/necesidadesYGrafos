@@ -31,6 +31,23 @@ nube, no solo "crear un usuario".
 4. Principio de mínimo privilegio: cómo auditarlo en cada nube (Access Advisor en AWS, IAM Recommender en GCP, Access Reviews en Entra ID)
 5. Roles built-in más usados de cada nube (equivalentes a Reader/Contributor/Owner de Azure)
 
+## Keycloak (IAM open-source, self-hosteable)
+
+Además de la identidad nativa de cada nube, muchas plataformas (sobre todo
+"self-service developer platforms" construidas desde cero) usan un IAM
+**propio, self-hosteado y agnóstico de nube**: **Keycloak**.
+
+- Qué es: servidor de **Identity and Access Management** open-source (de Red
+  Hat), habla los protocolos estándar **OIDC** y **SAML**.
+- Por qué se usa en vez del IAM nativo de la nube: cuando la plataforma debe
+  autenticar usuarios/servicios de la misma forma sin importar en qué nube
+  corre cada pieza (multi-cloud real, no solo Azure/AWS/GCP por separado).
+- Conceptos propios: **Realm** (espacio de aislamiento, como un tenant),
+  **Client** (una app registrada), **Roles** y **Groups**.
+- Se integra con Managed Identity/IAM Role/Service Account sin pisarse:
+  Keycloak identifica al **usuario final**; la nube identifica al
+  **recurso/servicio**.
+
 ## Recursos
 
 - Entra ID: https://learn.microsoft.com/entra/
@@ -47,4 +64,5 @@ binding en GCP. Compará cuánto código/configuración toma cada una.
 
 ## Autoevaluación
 
-Pedime: *"Dame un examen de identidad y permisos (Entra ID/IAM/GCP IAM) nivel senior"*.
+Pedime: *"Dame un examen de identidad y permisos (Entra ID/IAM/GCP IAM) nivel senior"*
+o *"Dame un examen de Keycloak"*.

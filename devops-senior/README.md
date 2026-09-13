@@ -33,7 +33,9 @@ devops-senior/
 │   ├── 10-kubernetes-avanzado/                 # K8s en general + AKS/EKS/GKE
 │   ├── 11-seguridad-devsecops/                 # Defender for Cloud, Security Hub, Security Command Center
 │   ├── 12-arquitectura-costos-multicloud/      # los 3 Well-Architected/Architecture Frameworks
-│   └── 13-mercadolibre-scopes-cosmos/          # material interno MELI (confidencial, no compartir)
+│   ├── 13-mercadolibre-scopes-cosmos/          # material interno MELI (confidencial, no compartir)
+│   ├── 14-streaming-eventos/                   # Kafka/Redpanda, Event Hubs, Kinesis, Pub/Sub
+│   └── 15-interoperabilidad-salud/             # HL7/FHIR, HAPI, Medplum (dominio, no DevOps puro)
 ├── certificaciones/       # qué certificar, en qué orden, y por qué (Azure + AWS + GCP)
 ├── examenes/               # cómo pedir exámenes y dónde queda el registro de resultados
 │   ├── README.md
@@ -57,3 +59,28 @@ intermedio" o "explicame Private Endpoints" y seguimos desde ahí.
 > material interno de MercadoLibre (preguntas de entrevista del equipo Scopes Govern).
 > Este repositorio es privado por decisión explícita del dueño. Si en algún momento
 > este repo pasa a ser público, esa carpeta debe eliminarse del historial de git antes.
+
+## Temas 14-15: agregados a partir de una vacante puntual
+
+Los temas 1-13 son el roadmap "core" (ver `00-diagnostico/roadmap.md`).
+`14-streaming-eventos` y `15-interoperabilidad-salud` se agregaron después,
+a partir de un posting de LinkedIn (Vule Human Talent, Senior DevOps/Platform
+Engineer, startup de salud en USA, GKE + Terraform + ArgoCD + Istio +
+GitLab CI + Keycloak + OPA + AlloyDB + OpenTelemetry, y como plus Redpanda/
+Temporal/HL7-FHIR/Medplum/HAPI, sept. 2026). Herramientas de ese mismo
+posting que ya estaban cubiertas por temas existentes se sumaron ahí en vez
+de crear un tema nuevo:
+
+| Herramienta del posting | Dónde quedó |
+|---|---|
+| Kubernetes, GKE | `10-kubernetes-avanzado` (ya cubierto) |
+| Terraform | `01-iac-multicloud` (ya cubierto) |
+| ArgoCD, GitLab CI | `03-cicd-multicloud` |
+| Istio | `10-kubernetes-avanzado` |
+| Keycloak | `04-identidad-iam` |
+| OPA | `11-seguridad-devsecops` |
+| AlloyDB | `06-datos-secretos` |
+| OpenTelemetry | `07-observabilidad-multicloud` (ya cubierto) |
+| Temporal | `09-orquestacion-serverless` |
+| Redpanda | `14-streaming-eventos` (tema nuevo) |
+| HL7/FHIR, Medplum, HAPI FHIR | `15-interoperabilidad-salud` (tema nuevo, dominio) |
