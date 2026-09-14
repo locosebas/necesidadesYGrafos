@@ -49,6 +49,19 @@ cuando aplica — ver también las tablas de equivalencias dentro de cada tema.
 | Redpanda | Reescritura de Kafka en C++, API wire-compatible, sin JVM/ZooKeeper |
 | FHIR | Estándar moderno (HL7) de interoperabilidad de datos de salud, API REST con recursos JSON/XML |
 | HL7 | Familia de estándares de intercambio de datos clínicos; FHIR es su versión moderna |
+| kube-apiserver | Componente del control plane de Kubernetes; única puerta de entrada para leer/escribir el estado del clúster |
+| etcd | Base de datos clave-valor distribuida donde vive el estado completo de un clúster de Kubernetes |
+| kubelet | Agente que corre en cada nodo de Kubernetes; garantiza que los contenedores asignados a ese nodo estén corriendo |
+| kube-proxy | Componente de nodo que implementa las reglas de red de los Services (iptables/IPVS) |
+| CNI (Container Network Interface) | Estándar de plugin de red de Kubernetes (Calico, Cilium, Azure CNI, VPC CNI) |
+| CSI (Container Storage Interface) | Estándar de plugin de storage de Kubernetes (conecta con Azure Disk/EBS/Persistent Disk) |
+| CRI (Container Runtime Interface) | Estándar que permite a Kubernetes usar distintos runtimes de contenedor (containerd, CRI-O) |
+| kubeadm | Herramienta para levantar un clúster de Kubernetes self-managed (vos gestionás el control plane) |
+| Reconciliation loop | Patrón central de Kubernetes: comparar estado deseado (etcd) vs. estado real, y corregir la diferencia |
+| IDP (Internal Developer Platform) | Plataforma interna self-service que abstrae infraestructura/CI-CD/observabilidad para los equipos de producto |
+| Golden path / paved road | Camino recomendado y soportado por la plataforma para una tarea común (crear servicio, desplegar) |
+| Backstage | Proyecto CNCF open-source para exponer un catálogo de software/plataforma self-service |
+| Team Topologies | Marco de diseño organizacional: equipos stream-aligned, platform, enabling, complicated-subsystem |
 
 ## Enlaces generales
 

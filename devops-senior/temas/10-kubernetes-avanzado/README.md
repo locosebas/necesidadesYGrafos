@@ -1,70 +1,43 @@
-# Kubernetes — repaso nivel senior
+# Kubernetes — de arquitectura a troubleshooting
 
-Esta es tu fortaleza (uso en producción de alto volumen en MercadoLibre). El
-objetivo acá no es aprender desde cero, sino cerrar huecos específicos que
-suelen aparecer en entrevistas senior y no en el uso diario.
+Kubernetes es tu fortaleza en el uso diario (producción de alto volumen en
+MercadoLibre). Este tema se dividió en varios archivos, en el **orden en el
+que conviene estudiarlos** — arquitectura primero, troubleshooting al final:
 
-## Objetivos (auto-chequeo — si ya dominás esto, saltá directo al examen)
+1. **[`01-arquitectura-y-cluster.md`](01-arquitectura-y-cluster.md)** —
+   componentes del control plane y de nodo, el reconciliation loop, cómo se
+   arma un clúster (kubeadm vs. managed vs. serverless-node), CNI, CSI.
+   **Empezar siempre por acá**, incluso si ya te sentís cómodo con K8s: es
+   el vocabulario exacto de arquitectura que se pide a nivel senior/arquitecto.
+2. **[`02-scheduling-recursos-autoscaling.md`](02-scheduling-recursos-autoscaling.md)** —
+   affinity/taints, requests/limits/QoS, HPA/VPA/Cluster Autoscaler, RBAC de K8s.
+3. **[`03-networking-service-mesh.md`](03-networking-service-mesh.md)** —
+   Services, Network Policies, Ingress vs. Gateway API, service mesh (Istio).
+4. **[`04-operators-crds-managed-k8s.md`](04-operators-crds-managed-k8s.md)** —
+   Operators/CRDs, y diferencias operativas entre AKS/EKS/GKE.
+5. **[`05-troubleshooting.md`](05-troubleshooting.md)** — `CrashLoopBackOff`,
+   `OOMKilled`, `ImagePullBackOff`, orden de diagnóstico, exit codes. **Va
+   último a propósito**: con `01`-`04` sólidos, troubleshooting deja de ser
+   memorizar comandos sueltos y pasa a ser "entender qué componente falló".
 
-- Scheduling avanzado: affinity/anti-affinity, taints/tolerations, topology spread constraints.
-- Resource management: requests vs limits, QoS classes (Guaranteed/Burstable/BestEffort), qué pasa cuando un nodo tiene memory pressure.
-- Networking: cómo funciona un Service (ClusterIP/NodePort/LoadBalancer) a nivel de iptables/IPVS, Network Policies, Ingress vs Gateway API.
-- Service mesh (Istio): mTLS entre servicios, traffic splitting/canary, observabilidad de red sin instrumentar la app.
-- Autoscaling: HPA vs VPA vs Cluster Autoscaler — cuándo se pisan entre sí.
-- RBAC de Kubernetes (distinto del RBAC de Azure/IAM de AWS/GCP — no confundir en la entrevista, son capas separadas).
-- Troubleshooting: `CrashLoopBackOff`, `OOMKilled`, `ImagePullBackOff` — causa raíz de cada uno.
-- Operators y CRDs (concepto, aunque no hayas escrito uno).
-- Diferencias operativas entre AKS, EKS y GKE (lo que ya usaste en AWS/GCP).
+## Por qué este orden (y no ir directo al troubleshooting)
 
-## Kubernetes gestionado: AKS vs EKS vs GKE
+Troubleshooting sin arquitectura es memorizar recetas ("si ves X corré Y").
+Con la arquitectura clara, cada síntoma se explica solo: un `OOMKilled` es
+el kernel matando el proceso porque superó el **limit** (`02`); un pod que no
+arranca puede ser el **scheduler** sin nodo candidato (`01`+`02`) o el
+**kubelet** sin poder bajar la imagen (`01`); un servicio inalcanzable puede
+ser el **Service/NetworkPolicy** (`03`) o el sidecar de Istio caído (`03`).
+Por eso se reordenó: primero construir el modelo mental completo, recién
+después practicar diagnóstico de síntomas.
 
-| Aspecto | AKS (Azure) | EKS (AWS) | GKE (GCP) |
-|---|---|---|---|
-| Control plane | Gratis | Con costo por clúster | Gratis (1 clúster) / con costo desde el 2do |
-| Modo "sin gestionar nodos" | Container Apps (fuera de AKS) o virtual nodes | Fargate profiles sobre EKS | **Autopilot** (el más maduro de los tres en este modelo) |
-| Identidad de pods hacia servicios cloud | Workload Identity (Azure AD federado) | IRSA (IAM Roles for Service Accounts) | Workload Identity (GCP) |
-| Upgrade de versión | Manual o auto-upgrade channel | Manual (más control, más responsabilidad) | Release channels (Rapid/Regular/Stable) |
-| Add-on de ingress | AGIC (App Gateway) o NGINX | AWS Load Balancer Controller | GKE Ingress nativo o Gateway API |
-
-Ya usaste AKS/EKS/GKE en la práctica (MercadoLibre: AWS/GCP con K8s) — este
-cuadro es para verbalizar en la entrevista las diferencias que quizás usás
-"a mano" sin haberlas puesto en palabras.
-
-## Service mesh: Istio
-
-Una capa extra sobre la red de Kubernetes que ya conocés (Services, Ingress,
-Network Policies): un **service mesh** intercepta el tráfico entre pods (vía
-un *sidecar proxy*, normalmente Envoy) para dar, sin tocar el código de la
-app:
-
-- **mTLS automático** entre servicios (tráfico interno cifrado y autenticado
-  por default).
-- **Traffic management** fino: canary releases, traffic splitting por
-  porcentaje, retries/timeouts/circuit breaking a nivel de red (no en el
-  código de la app).
-- **Observabilidad de red gratis**: métricas de latencia/error rate por
-  servicio sin instrumentar cada app (complementa OpenTelemetry, tema 07).
-- **Istio** es la implementación más conocida (alternativas: Linkerd, Cilium
-  en modo mesh). Se instala sobre cualquier Kubernetes (AKS/EKS/GKE).
-
-No lo confundas con **Ingress/Gateway API** (tráfico que entra al clúster
-desde afuera): Istio gestiona sobre todo el tráfico **este-oeste** (entre
-servicios dentro del clúster), aunque también puede reemplazar el Ingress
-(Istio Gateway).
-
-## Recursos
+## Recursos generales
 
 - Kubernetes docs: https://kubernetes.io/docs/home/
 - Kubernetes API concepts: https://kubernetes.io/docs/reference/using-api/
-- AKS docs: https://learn.microsoft.com/azure/aks/
-- EKS docs: https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html
-- GKE docs: https://cloud.google.com/kubernetes-engine/docs
-- Istio docs: https://istio.io/latest/docs/
 
-## Autoevaluación
+## Cómo pedir examen
 
-Pedime: *"Dame un examen de Kubernetes nivel senior/troubleshooting"*.
-Este es un buen tema para pedir preguntas **de escenario** ("un pod está en
-CrashLoopBackOff, ¿qué revisás primero?") en vez de teóricas puras.
-
-Para el service mesh específicamente, pedime: *"Dame un examen de Istio/service mesh nivel senior"*.
+Cada archivo tiene su propia sección de Autoevaluación al final — pedime el
+examen del archivo específico que acabás de repasar (uno por vez, siguiendo
+tu preferencia de a una pregunta).

@@ -19,9 +19,12 @@ Well-Architected trade-offs (buen ejemplo propio con HPA).
   ejemplos. Ver `../../temas/09-orquestacion-serverless/`.
 - **Kubernetes — troubleshooting (`CrashLoopBackOff`, `OOMKilled`, exit codes)**:
   tema declarado como no manejado (nunca lo hizo en la práctica). Ver
-  `../../temas/10-kubernetes-avanzado/` — el objetivo "Troubleshooting" de ese
-  tema es justo esto, hacer una sesión dedicada con varios escenarios de
-  `describe pod`/`logs --previous`/exit codes reales.
+  `../../temas/10-kubernetes-avanzado/05-troubleshooting.md` — sesión dedicada
+  con varios escenarios de `describe pod`/`logs --previous`/exit codes
+  reales. **Reordenado (2026-09-14)**: antes de esta sesión, repasar primero
+  `01-arquitectura-y-cluster.md` a `04-operators-crds-managed-k8s.md` del
+  mismo tema (arquitectura del clúster) — ver `../../00-diagnostico/roadmap.md`,
+  troubleshooting pasó a la Fase 8.
 - **Identidad — Managed Identity system-assigned vs. user-assigned**: no lo
   tenía claro (adivinó), quedó explicado pero conviene repasar con ejemplo
   práctico. Ver `../../temas/04-identidad-iam/`.

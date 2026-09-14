@@ -35,7 +35,8 @@ devops-senior/
 │   ├── 12-arquitectura-costos-multicloud/      # los 3 Well-Architected/Architecture Frameworks
 │   ├── 13-mercadolibre-scopes-cosmos/          # material interno MELI (confidencial, no compartir)
 │   ├── 14-streaming-eventos/                   # Kafka/Redpanda, Event Hubs, Kinesis, Pub/Sub
-│   └── 15-interoperabilidad-salud/             # HL7/FHIR, HAPI, Medplum (dominio, no DevOps puro)
+│   ├── 15-interoperabilidad-salud/             # HL7/FHIR, HAPI, Medplum (dominio, no DevOps puro)
+│   └── 16-platform-engineering/                # IDP, golden paths, Team Topologies, diagrama de la plataforma completa
 ├── certificaciones/       # qué certificar, en qué orden, y por qué (Azure + AWS + GCP)
 ├── examenes/               # cómo pedir exámenes y dónde queda el registro de resultados
 │   ├── README.md
@@ -59,6 +60,17 @@ intermedio" o "explicame Private Endpoints" y seguimos desde ahí.
 > material interno de MercadoLibre (preguntas de entrevista del equipo Scopes Govern).
 > Este repositorio es privado por decisión explícita del dueño. Si en algún momento
 > este repo pasa a ser público, esa carpeta debe eliminarse del historial de git antes.
+
+## Objetivo actualizado (2026-09-14): arquitecto de plataforma
+
+El objetivo ya no es solo cerrar brechas para una vacante puntual, sino poder
+**diseñar y construir una self-service developer platform completa desde
+cero (0→1)**, como la descrita en el posting de Vule Human Talent. Esto
+reordenó el roadmap (ver `00-diagnostico/roadmap.md`): Kubernetes se estudia
+primero por capas — arquitectura del clúster antes que troubleshooting (ver
+`temas/10-kubernetes-avanzado/README.md`, ahora un índice de 5 archivos) — y
+se agregó `temas/16-platform-engineering/` como tema de cierre que conecta
+todos los demás en un diagrama de arquitectura de referencia.
 
 ## Temas 14-15: agregados a partir de una vacante puntual
 
