@@ -73,6 +73,16 @@ puntual, y recién ahí pasar a la siguiente. Nada de monólogos largos ni de
 tandas de preguntas en batch. Esto aplica a exámenes, explicaciones de temas,
 y cualquier interacción de enseñanza en este plan.
 
+## Preferencia pedagógica: siglas siempre con su significado al lado (2026-09-16)
+
+El usuario pidió explícitamente que, cada vez que aparezca una sigla (VNet,
+NSG, ACA, FaaS, CNI, etc.), se escriba **al lado** su nombre completo (en
+inglés y, si ayuda, su traducción) — no asumir que ya la recuerda solo
+porque se explicó una vez antes en la sesión. Es la misma lógica que la
+preferencia de "repetición de términos" de arriba, pero aplicada
+específicamente a siglas: "**NSG (Network Security Group)**", nunca solo
+"NSG" a secas la primera vez que se la nombra en una explicación.
+
 ## Fase 0 — Diagnóstico general (ya hecho, ver registro)
 
 Antes de la Fase 1: un examen general de panorama (1-2 preguntas por cada uno
