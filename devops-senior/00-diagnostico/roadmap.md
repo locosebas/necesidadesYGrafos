@@ -1,7 +1,7 @@
 # Roadmap de estudio
 
 Orden sugerido. Cada bloque es aprox. 1-2 semanas de estudio part-time
-(mientras trabajás). Ajustalo a tu ritmo real — lo importante es no saltar
+(mientras trabajas). Ajústalo a tu ritmo real — lo importante es no saltar
 el examen de autoevaluación al final de cada tema.
 
 ## Metodología: de general a específico
@@ -24,7 +24,7 @@ sigue el mismo patrón general → específico:
 
 ## Preferencia pedagógica: repetición de términos
 
-Una de las falencias que identificaste vos mismo: se te olvidan los **términos
+Una de las falencias que identificaste tú mismo: se te olvidan los **términos
 y nombres de herramientas**, no los conceptos. Por eso, al enseñar/evaluar,
 Claude debe ser **redundante a propósito**: repetir el nombre exacto de cada
 término/herramienta varias veces en la misma explicación (en vez de decir
@@ -67,12 +67,12 @@ ver fuentes al final del archivo). Señal consistente en las tres búsquedas:
    ("highest-signal combination" según la investigación de mercado)
 
 Esto no anula tus brechas reales (Networking y Durable Functions siguen siendo
-temas nuevos para vos) — simplemente prioriza primero lo que más se repite en
+temas nuevos para ti) — simplemente prioriza primero lo que más se repite en
 procesos de selección, para llegar antes a poder rendir pruebas técnicas.
 
 ## Fase 1 — IaC y Kubernetes/Contenedores (semanas 1-4)
 
-Lo más pedido en las ofertas, y donde ya tenés más base (Terraform, Docker, K8s).
+Lo más pedido en las ofertas, y donde ya tienes más base (Terraform, Docker, K8s).
 
 1. `temas/01-iac-multicloud` — Bicep, y de paso CloudFormation/CDK (AWS) y Terraform en GCP
 2. `temas/10-kubernetes-avanzado` — repaso senior + diferencias AKS/EKS/GKE (cerrar huecos, ya es tu fortaleza)
@@ -110,6 +110,14 @@ cualquiera de las tres nubes**.
 - Simulacro de entrevista técnica con Claude usando `examenes/` en modo mixto
   (preguntas de varios temas, formato entrevista).
 
+## Fase 7 — IA / MLOps (opcional, en paralelo, no bloquea las fases anteriores)
+
+- `temas/14-ia-infraestructura-mlops` — infraestructura para servir y operar
+  modelos de IA (modelos administrados vs. modelo propio sobre Kubernetes),
+  ver también `certificaciones/README.md` → "Ruta IA / MLOps".
+- No reemplaza ni reordena las fases 1-6: es un agregado para cuando una
+  oferta puntual lo pida, no un requisito para avanzar de fase.
+
 ## Cómo avanzar de fase
 
 No avances de fase hasta tener **≥ 80% en el examen de cada tema** de la fase
@@ -128,4 +136,4 @@ seguir — la idea es no acumular huecos.
 > Nota: son fuentes secundarias (blogs/agregadores), no un estudio estadístico
 > formal. Sirven para priorizar el orden de estudio, no como verdad absoluta —
 > el `gap-analysis.md` (basado en tu CV real) sigue siendo la referencia para
-> saber qué tan profundo tenés que ir en cada tema.
+> saber qué tan profundo tienes que ir en cada tema.

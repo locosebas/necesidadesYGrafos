@@ -676,8 +676,8 @@
 
 **P9.2: ¿Cuál es la diferencia entre Tiger y Florida?**
 > **Respuesta esperada:**
-> - **Tiger**: autenticación (¿quién sos?). Emite tokens JWT que identifican al solicitante.
-> - **Florida**: autorización (¿qué podés hacer?). Sistema de permisos que controla si el token puede ejecutar una acción específica sobre un recurso específico.
+> - **Tiger**: autenticación (¿quién eres?). Emite tokens JWT que identifican al solicitante.
+> - **Florida**: autorización (¿qué puedes hacer?). Sistema de permisos que controla si el token puede ejecutar una acción específica sobre un recurso específico.
 >
 > Son sistemas completamente distintos. Tiger puede estar disponible pero Florida puede rechazar la operación si el usuario/servicio no tiene el rol necesario. Ejemplo: `instance-groups:hard-destroy` en Florida es necesario para el `hardDelete`.
 

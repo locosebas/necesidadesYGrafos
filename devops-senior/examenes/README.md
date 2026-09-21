@@ -9,14 +9,14 @@ la conversación.
 Ejemplos de pedidos válidos:
 
 - *"Dame un examen de Bicep nivel intermedio, 10 preguntas"*
-- *"Dame un examen de Azure Networking nivel senior, mezclá teoría y escenarios"*
-- *"Simulá una entrevista técnica de 30 minutos sobre Kubernetes troubleshooting"*
+- *"Dame un examen de Azure Networking nivel senior, mezcla teoría y escenarios"*
+- *"Simula una entrevista técnica de 30 minutos sobre Kubernetes troubleshooting"*
 - *"Dame un examen de práctica estilo AZ-400"*
 - *"Dame un examen basado en el documento de Scopes/CoSMOS"*
 - *"Mezclá preguntas de los temas 04, 05 y 06"* (examen combinado, para
   fases avanzadas del roadmap)
 
-Podés pedir formato:
+Puedes pedir formato:
 - **Opción múltiple** (rápido, bueno para repaso)
 - **Pregunta abierta** (mejor para medir profundidad real — te fuerza a
   explicar, no reconocer)
@@ -28,7 +28,7 @@ Podés pedir formato:
 2. Las respondés en el chat.
 3. Corrijo, explico lo que falló, y te doy el % de aciertos.
 4. Registro el resultado en `registro/` (ver formato abajo) — o lo hago si
-   me pedís explícitamente que lo guarde.
+   me pides explícitamente que lo guarde.
 
 ## Formato de registro
 
@@ -44,5 +44,5 @@ la certificación real o ir a la entrevista.
 Los **exámenes o diagnósticos generales** (los que mezclan varios temas, tipo
 panorama) **no incluyen preguntas del tema 13** por defecto — son conceptos y
 terminología específicos de MercadoLibre, no transferibles a otras entrevistas.
-Ese tema solo se evalúa si lo pedís explícitamente (*"Dame un examen basado en
+Ese tema solo se evalúa si lo pides explícitamente (*"Dame un examen basado en
 el documento de Scopes/CoSMOS"*).

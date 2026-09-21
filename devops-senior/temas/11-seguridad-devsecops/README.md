@@ -10,9 +10,9 @@ principio (shift-left), no parchearla después.
 - Escaneo de IaC (Bicep/Terraform/CloudFormation) antes del deploy (secrets
   hardcodeados, recursos públicos por default, roles demasiado permisivos).
 - Supply chain: SBOM (Software Bill of Materials), firma de imágenes.
-- Principio de mínimo privilegio aplicado de punta a punta (ya lo venís viendo
+- Principio de mínimo privilegio aplicado de punta a punta (ya lo vienes viendo
   en el tema 04 — acá se junta todo).
-- OWASP Top 10 a nivel conceptual (relevante si tocás las APIs con FastAPI).
+- OWASP Top 10 a nivel conceptual (relevante si tocas las APIs con FastAPI).
 - Manejo de secretos: por qué nunca en variables de entorno planas ni en git,
   siempre el gestor de secretos de la nube (tema 06) + identidad gestionada.
 
@@ -25,7 +25,7 @@ principio (shift-left), no parchearla después.
 | Escaneo de imágenes | Defender for Containers | Amazon Inspector | Artifact Analysis |
 | Secrets/credential scanning en el repo | GitHub Advanced Security | GitHub Advanced Security | GitHub Advanced Security |
 
-Herramientas open-source, agnósticas de nube (usalas igual en las tres):
+Herramientas open-source, agnósticas de nube (úsalas igual en las tres):
 **Trivy** (imágenes), **Checkov** / **tfsec** (IaC: Terraform, CloudFormation,
 Bicep), **gitleaks** (secrets en el repo).
 
@@ -39,10 +39,10 @@ Bicep), **gitleaks** (secrets en el repo).
 
 ## Lab sugerido
 
-Agregá al pipeline de GitHub Actions del lab del tema 03 un paso de escaneo de
+Agrega al pipeline de GitHub Actions del lab del tema 03 un paso de escaneo de
 la imagen Docker (Trivy) y uno de escaneo del IaC (Checkov, sobre el Bicep o
 Terraform del lab del tema 01), que falle el build si encuentra hallazgos críticos.
 
 ## Autoevaluación
 
-Pedime: *"Dame un examen de seguridad/DevSecOps nivel senior"*.
+Pídeme: *"Dame un examen de seguridad/DevSecOps nivel senior"*.

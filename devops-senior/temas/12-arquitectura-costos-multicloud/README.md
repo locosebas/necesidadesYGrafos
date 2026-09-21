@@ -41,12 +41,12 @@ Nivel senior implica poder justificar decisiones de arquitectura más allá de
 
 ## Lab sugerido
 
-Tomá la arquitectura que armaste en los labs de temas anteriores (red +
-cómputo serverless + secretos + base de datos + observabilidad) y escribí un
+Toma la arquitectura que armaste en los labs de temas anteriores (red +
+cómputo serverless + secretos + base de datos + observabilidad) y escribe un
 documento corto de decisión (ADR) justificando cada elección desde los 5
-pilares — una vez para la versión en Azure, y notá qué cambiaría si la
+pilares — una vez para la versión en Azure, y nota qué cambiaría si la
 migraras a AWS o GCP.
 
 ## Autoevaluación
 
-Pedime: *"Dame un examen de arquitectura y Well-Architected multi-cloud nivel senior"*.
+Pídeme: *"Dame un examen de arquitectura y Well-Architected multi-cloud nivel senior"*.

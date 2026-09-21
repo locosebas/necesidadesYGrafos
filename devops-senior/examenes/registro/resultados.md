@@ -8,8 +8,8 @@
 OIDC, Networking (Private Endpoint + DNS privado), FastAPI async/await,
 Well-Architected trade-offs (buen ejemplo propio con HPA).
 
-> Se completa cada vez que rendís un examen de autoevaluación. Pedime que lo
-> actualice al terminar un examen, o hacelo vos mismo siguiendo el formato.
+> Se completa cada vez que rindes un examen de autoevaluación. Pídeme que lo
+> actualice al terminar un examen, o hazlo tú mismo siguiendo el formato.
 
 ## Pendientes de profundización (retomar después)
 

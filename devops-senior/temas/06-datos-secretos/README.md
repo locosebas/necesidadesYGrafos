@@ -1,8 +1,8 @@
 # Gestión de secretos y bases de datos gestionadas
 
 Key Vault y Cosmos DB (Azure) no aparecen en tu CV. Los equivalentes de
-AWS/GCP conviene repasarlos igual, ya que tenés experiencia con MongoDB y
-podés compararlos directamente.
+AWS/GCP conviene repasarlos igual, ya que tienes experiencia con MongoDB y
+puedes compararlos directamente.
 
 ## Gestión de secretos
 
@@ -26,7 +26,7 @@ podés compararlos directamente.
 
 ### Objetivos
 - Modelo de consistencia y su trade-off con latencia/disponibilidad (ya
-  relevante para vos por tu experiencia con MongoDB).
+  relevante para ti por tu experiencia con MongoDB).
 - Cómo se calcula/factura el throughput en cada una.
 - Partition key / sharding: la decisión de diseño más importante en todas (hot partitions).
 
@@ -47,10 +47,10 @@ podés compararlos directamente.
 
 ## Lab sugerido
 
-Desplegá el mismo modelo de datos simple (ítems con partition key) en Cosmos
-DB (API NoSQL) y en DynamoDB. Compará cómo se define la partition key y cómo
+Despliega el mismo modelo de datos simple (ítems con partition key) en Cosmos
+DB (API NoSQL) y en DynamoDB. Compara cómo se define la partition key y cómo
 se estima/factura el throughput en cada una.
 
 ## Autoevaluación
 
-Pedime: *"Dame un examen de secretos y bases NoSQL multi-cloud nivel senior"*.
+Pídeme: *"Dame un examen de secretos y bases NoSQL multi-cloud nivel senior"*.

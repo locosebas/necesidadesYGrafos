@@ -4,7 +4,7 @@ Esta es tu fortaleza (uso en producción de alto volumen en MercadoLibre). El
 objetivo acá no es aprender desde cero, sino cerrar huecos específicos que
 suelen aparecer en entrevistas senior y no en el uso diario.
 
-## Objetivos (auto-chequeo — si ya dominás esto, saltá directo al examen)
+## Objetivos (auto-chequeo — si ya dominas esto, salta directo al examen)
 
 - Scheduling avanzado: affinity/anti-affinity, taints/tolerations, topology spread constraints.
 - Resource management: requests vs limits, QoS classes (Guaranteed/Burstable/BestEffort), qué pasa cuando un nodo tiene memory pressure.
@@ -26,7 +26,7 @@ suelen aparecer en entrevistas senior y no en el uso diario.
 | Add-on de ingress | AGIC (App Gateway) o NGINX | AWS Load Balancer Controller | GKE Ingress nativo o Gateway API |
 
 Ya usaste AKS/EKS/GKE en la práctica (MercadoLibre: AWS/GCP con K8s) — este
-cuadro es para verbalizar en la entrevista las diferencias que quizás usás
+cuadro es para verbalizar en la entrevista las diferencias que quizás usas
 "a mano" sin haberlas puesto en palabras.
 
 ## Recursos
@@ -39,6 +39,6 @@ cuadro es para verbalizar en la entrevista las diferencias que quizás usás
 
 ## Autoevaluación
 
-Pedime: *"Dame un examen de Kubernetes nivel senior/troubleshooting"*.
+Pídeme: *"Dame un examen de Kubernetes nivel senior/troubleshooting"*.
 Este es un buen tema para pedir preguntas **de escenario** ("un pod está en
-CrashLoopBackOff, ¿qué revisás primero?") en vez de teóricas puras.
+CrashLoopBackOff, ¿qué revisas primero?") en vez de teóricas puras.

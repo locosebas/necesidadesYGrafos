@@ -1,6 +1,6 @@
 # Infrastructure as Code: Terraform, Bicep, CloudFormation/CDK, Deployment Manager
 
-Ya sabés IaC (Terraform en producción, en Azure y AWS). El objetivo es que
+Ya sabes IaC (Terraform en producción, en Azure y AWS). El objetivo es que
 puedas escribir y leer con soltura la herramienta nativa de **cualquiera** de
 las tres nubes, entendiendo qué es transferible (el concepto de IaC
 declarativo, módulos, estado) y qué es específico de cada una.
@@ -19,7 +19,7 @@ declarativo, módulos, estado) y qué es específico de cada una.
 | Concepto | Azure | AWS | GCP |
 |---|---|---|---|
 | Herramienta nativa | **Bicep** (compila a ARM JSON) | **CloudFormation** (YAML/JSON) o **CDK** (código imperativo → CloudFormation) | **Deployment Manager** (legacy) o Terraform (el estándar de facto en GCP) |
-| Multi-cloud / agnóstico | **Terraform** ✅ ya lo dominás | **Terraform** ✅ | **Terraform** ✅ |
+| Multi-cloud / agnóstico | **Terraform** ✅ ya lo dominas | **Terraform** ✅ | **Terraform** ✅ |
 | Manejo de estado | Sin state propio (usa Azure Resource Manager) | CloudFormation: stack gestionado por AWS. CDK: igual, sintetiza a CloudFormation | Terraform: state file (local o remoto en GCS) |
 | Unidad de despliegue | Resource Group / deployment scope | Stack | Deployment / Terraform workspace |
 | Módulos reutilizables | Bicep modules / **Azure Verified Modules (AVM)** | CloudFormation nested stacks / **CDK constructs** | Terraform modules / **Google Cloud Foundation Fabric** |
@@ -48,10 +48,10 @@ declarativo, módulos, estado) y qué es específico de cada una.
 
 ## Lab sugerido
 
-Tomá un módulo Terraform simple (VNet/VPC + subnet + firewall/NSG + storage)
-y reescribilo en **Bicep** y en **CDK (Python)**, sin mirar el original hasta
-el final. Compará las tres versiones.
+Toma un módulo Terraform simple (VNet/VPC + subnet + firewall/NSG + storage)
+y reescríbelo en **Bicep** y en **CDK (Python)**, sin mirar el original hasta
+el final. Compara las tres versiones.
 
 ## Autoevaluación
 
-Pedime: *"Dame un examen de IaC multi-cloud (Bicep/CloudFormation/Terraform) nivel intermedio"*.
+Pídeme: *"Dame un examen de IaC multi-cloud (Bicep/CloudFormation/Terraform) nivel intermedio"*.

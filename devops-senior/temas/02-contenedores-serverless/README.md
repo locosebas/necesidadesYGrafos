@@ -1,6 +1,6 @@
 # Contenedores serverless: Container Apps, ECS/Fargate, Cloud Run
 
-Partís de una base sólida de Docker y Kubernetes (K8s "real" en las tres
+Partes de una base sólida de Docker y Kubernetes (K8s "real" en las tres
 nubes: AKS/EKS/GKE se ven en `10-kubernetes-avanzado`). Acá el foco es la capa
 **serverless de contenedores** — más simple que gestionar un clúster propio.
 
@@ -41,11 +41,11 @@ nubes: AKS/EKS/GKE se ven en `10-kubernetes-avanzado`). Acá el foco es la capa
 
 ## Lab sugerido
 
-Tomá la misma imagen Docker y desplegala en **Container Apps** y en
-**Cloud Run** (las dos más parecidas conceptualmente). Compará: cómo se
+Toma la misma imagen Docker y despliégala en **Container Apps** y en
+**Cloud Run** (las dos más parecidas conceptualmente). Compara: cómo se
 configura el traffic splitting entre revisiones y cómo se define el
 autoscaling en cada una.
 
 ## Autoevaluación
 
-Pedime: *"Dame un examen de contenedores serverless (ACA/Fargate/Cloud Run) nivel senior"*.
+Pídeme: *"Dame un examen de contenedores serverless (ACA/Fargate/Cloud Run) nivel senior"*.

@@ -1,6 +1,6 @@
 # Orquestación de workflows serverless: Durable Functions, Step Functions, Workflows
 
-Patrón nuevo respecto a tu CV en Azure; en AWS ya tenés experiencia con
+Patrón nuevo respecto a tu CV en Azure; en AWS ya tienes experiencia con
 serverless (AgroTec) así que Step Functions puede resultarte más natural.
 
 ## Objetivos
@@ -40,10 +40,10 @@ serverless (AgroTec) así que Step Functions puede resultarte más natural.
 
 ## Lab sugerido
 
-Implementá el mismo patrón (fan-out/fan-in: "procesar N archivos en
+Implementa el mismo patrón (fan-out/fan-in: "procesar N archivos en
 paralelo y agregar el resultado") en Durable Functions y en Step Functions.
-Compará el modelo imperativo vs. declarativo.
+Compara el modelo imperativo vs. declarativo.
 
 ## Autoevaluación
 
-Pedime: *"Dame un examen de orquestación serverless (Durable Functions/Step Functions) nivel senior"*.
+Pídeme: *"Dame un examen de orquestación serverless (Durable Functions/Step Functions) nivel senior"*.

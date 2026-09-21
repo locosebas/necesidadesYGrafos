@@ -29,7 +29,7 @@ Fuente de los requisitos: mensaje de Julieta García (PlatformX Solutions),
 - **Multi-cloud real**: Azure, AWS y GCP en producción — poco común y muy valorado.
 - **CI/CD end-to-end**: Azure Pipelines, Jenkins, y administración con Python/PowerShell.
 - **Kubernetes + Docker** en producción de alto volumen transaccional (MercadoLibre).
-- **Experiencia end-to-end de software**: no sos "solo infra", también desarrollás
+- **Experiencia end-to-end de software**: no eres "solo infra", también desarrollas
   APIs y arquitecturas event-driven — encaja con el pedido de Python/FastAPI.
 
 ## Prioridad de estudio (de mayor a menor brecha)
@@ -37,10 +37,10 @@ Fuente de los requisitos: mensaje de Julieta García (PlatformX Solutions),
 1. Azure Networking (VNet, Private Endpoints, Private DNS, NSG) — tema nuevo, base para todo lo demás en Azure.
 2. Azure Durable Functions — patrón nuevo (orchestrator/activity functions).
 3. Cosmos DB + Key Vault — servicios PaaS específicos no usados antes.
-4. Bicep — convertir tu conocimiento de Terraform (ya tenés el modelo mental de IaC).
+4. Bicep — convertir tu conocimiento de Terraform (ya tienes el modelo mental de IaC).
 5. Azure Container Apps + ACR — extensión natural de tu experiencia con K8s/Docker.
 6. GitHub Actions + OIDC federation — extensión de tu experiencia con Jenkins/Azure Pipelines.
-7. Entra ID / Managed Identity / RBAC — profundizar lo que ya usás parcialmente.
+7. Entra ID / Managed Identity / RBAC — profundizar lo que ya usas parcialmente.
 8. Azure Monitor / App Insights / Log Analytics — extensión de tu experiencia con Prometheus/Grafana.
 9. FastAPI — consolidar (partís de una base sólida de Python).
 

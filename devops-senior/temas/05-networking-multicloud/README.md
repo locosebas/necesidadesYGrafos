@@ -1,6 +1,6 @@
 # Networking: VNet/Private Endpoints, VPC de AWS, VPC de GCP
 
-Brecha declarada en Azure — pero tenés que confirmar tu nivel real en AWS/GCP
+Brecha declarada en Azure — pero tienes que confirmar tu nivel real en AWS/GCP
 también (¿trabajaste VPC peering, Private Link/PrivateLink, o fue más a nivel
 de aplicación?). Es la base de cómo se conecta todo de forma segura.
 
@@ -44,11 +44,11 @@ de aplicación?). Es la base de cómo se conecta todo de forma segura.
 
 ## Lab sugerido
 
-Elegí un servicio gestionado (base de datos) en cada nube y conectalo de
+Elige un servicio gestionado (base de datos) en cada nube y conéctalo de
 forma privada desde una VPC/VNet propia: Private Endpoint en Azure, VPC
-Endpoint (Interface) en AWS, Private Service Connect en GCP. Verificá en cada
+Endpoint (Interface) en AWS, Private Service Connect en GCP. Verifica en cada
 caso que el nombre resuelve a una IP privada.
 
 ## Autoevaluación
 
-Pedime: *"Dame un examen de networking multi-cloud nivel senior"*.
+Pídeme: *"Dame un examen de networking multi-cloud nivel senior"*.

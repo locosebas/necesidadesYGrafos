@@ -6,7 +6,7 @@ nube, no solo "crear un usuario".
 
 ## Objetivos
 
-- Diferenciar **identidad** (quién sos) de **autorización** (qué podés hacer) en cada nube.
+- Diferenciar **identidad** (quién eres) de **autorización** (qué puedes hacer) en cada nube.
 - Explicar identidad gestionada sin credenciales estáticas: Managed Identity
   (Azure), IAM Roles (AWS), Service Accounts (GCP) — mismo principio.
 - Diseñar permisos de mínimo privilegio (roles built-in vs. custom) en las tres.
@@ -40,11 +40,11 @@ nube, no solo "crear un usuario".
 
 ## Lab sugerido
 
-Diseñá el mismo modelo de identidad (una app con acceso de solo-lectura a una
+Diseña el mismo modelo de identidad (una app con acceso de solo-lectura a una
 base de datos y de escritura a un bucket/storage) en las tres nubes: Managed
 Identity + RBAC en Azure, IAM Role + Policy en AWS, Service Account + IAM
-binding en GCP. Compará cuánto código/configuración toma cada una.
+binding en GCP. Compara cuánto código/configuración toma cada una.
 
 ## Autoevaluación
 
-Pedime: *"Dame un examen de identidad y permisos (Entra ID/IAM/GCP IAM) nivel senior"*.
+Pídeme: *"Dame un examen de identidad y permisos (Entra ID/IAM/GCP IAM) nivel senior"*.

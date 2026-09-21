@@ -1,6 +1,6 @@
 # CI/CD multi-cloud: GitHub Actions + OIDC hacia Azure/AWS/GCP
 
-Ya tenés CI/CD sólido (Azure Pipelines, Jenkins). El foco acá es GitHub
+Ya tienes CI/CD sólido (Azure Pipelines, Jenkins). El foco acá es GitHub
 Actions como orquestador **común a las tres nubes**, con autenticación
 **sin secretos de larga duración** vía OIDC federado en cada una.
 
@@ -41,10 +41,10 @@ Actions como orquestador **común a las tres nubes**, con autenticación
 
 ## Lab sugerido
 
-Configurá, en un repo de prueba, tres workflows separados que hagan login sin
+Configura, en un repo de prueba, tres workflows separados que hagan login sin
 secretos a Azure, AWS y GCP respectivamente vía OIDC, cada uno desplegando el
 mismo contenedor a su respectivo servicio serverless (tema 02).
 
 ## Autoevaluación
 
-Pedime: *"Dame un examen de GitHub Actions + OIDC multi-cloud nivel senior"*.
+Pídeme: *"Dame un examen de GitHub Actions + OIDC multi-cloud nivel senior"*.

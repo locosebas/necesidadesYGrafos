@@ -1,6 +1,6 @@
 # Python / FastAPI + Docker
 
-Partís de una base fuerte de Python. El objetivo es consolidar FastAPI
+Partes de una base fuerte de Python. El objetivo es consolidar FastAPI
 específicamente (async, dependency injection, validación con Pydantic) y
 buenas prácticas de Docker para APIs Python en producción.
 
@@ -31,10 +31,10 @@ buenas prácticas de Docker para APIs Python en producción.
 
 ## Lab sugerido
 
-Reescribí (o extendé) la API del lab de Cosmos DB con: endpoints async,
+Reescribe (o extiende) la API del lab de Cosmos DB con: endpoints async,
 validación Pydantic estricta, manejo de errores global, health check, y
 Dockerfile multi-stage corriendo como usuario no-root.
 
 ## Autoevaluación
 
-Pedime: *"Dame un examen de FastAPI y Docker nivel senior"*.
+Pídeme: *"Dame un examen de FastAPI y Docker nivel senior"*.

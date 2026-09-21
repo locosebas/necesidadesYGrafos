@@ -1,7 +1,7 @@
 # Observabilidad: Azure Monitor, CloudWatch, Cloud Monitoring/Logging
 
-Ya tenés Prometheus/Grafana — el modelo mental de "métricas + logs + alertas"
-ya lo tenés. Acá es mapearlo al stack nativo de cada nube.
+Ya tienes Prometheus/Grafana — el modelo mental de "métricas + logs + alertas"
+ya lo tienes. Acá es mapearlo al stack nativo de cada nube.
 
 ## Objetivos
 
@@ -9,7 +9,7 @@ ya lo tenés. Acá es mapearlo al stack nativo de cada nube.
   cada pieza en cada nube.
 - Escribir queries básicas en el lenguaje de consulta de logs de cada una.
 - Diseñar alertas basadas en métricas y en queries de logs.
-- Tracing distribuido entre microservicios (relevante si combinás serverless + contenedores).
+- Tracing distribuido entre microservicios (relevante si combinas serverless + contenedores).
 
 ## Equivalencias multi-cloud
 
@@ -40,7 +40,7 @@ ya lo tenés. Acá es mapearlo al stack nativo de cada nube.
 ## Herramientas externas (third-party) — el otro medio del mercado
 
 Muchas ofertas piden el stack nativo de la nube **más** una herramienta
-externa. Ya conocés **Prometheus** + **Grafana** (tu fortaleza) — el resto,
+externa. Ya conoces **Prometheus** + **Grafana** (tu fortaleza) — el resto,
 ventaja principal de cada una:
 
 | Herramienta | Qué es | Ventaja principal |
@@ -53,7 +53,7 @@ ventaja principal de cada una:
 | **Elastic Stack / ELK** (Elasticsearch + Logstash + Kibana) | Motor de búsqueda full-text aplicado a logs | Mejor para búsqueda de logs a gran volumen; self-hosteable, pero pide más esfuerzo operativo |
 | **Dynatrace** | APM enterprise con IA propia ("Davis AI") | Auto-instrumentación y causa-raíz automática — apunta a "no configures nada, la IA te dice qué falló" |
 | **Honeycomb** | Pionero del concepto moderno de "**observability**" (distinto de "monitoring") | Foco en *high-cardinality* y debugging exploratorio de sistemas distribuidos — más orientado a *engineers*, menos a dashboards fijos |
-| **OpenTelemetry (OTel)** | No es una herramienta, es el **estándar** neutral de instrumentación (CNCF) | Instrumentás tu app UNA vez con OTel y podés exportar a Datadog, Grafana, New Relic, Azure Monitor, etc. sin reescribir código — es lo que evita quedar atado a un solo proveedor |
+| **OpenTelemetry (OTel)** | No es una herramienta, es el **estándar** neutral de instrumentación (CNCF) | Instrumentas tu app UNA vez con OTel y puedes exportar a Datadog, Grafana, New Relic, Azure Monitor, etc. sin reescribir código — es lo que evita quedar atado a un solo proveedor |
 
 **Dato de color:** *Prometheus* nació en SoundCloud (2012), inspirado en un
 sistema interno de Google llamado *Borgmon* — el mismo linaje de donde salió
@@ -66,11 +66,11 @@ existieran los contenedores.
 ## Lab sugerido
 
 Sobre el mismo servicio desplegado en el lab del tema 02 (Container Apps y
-Cloud Run), activá la observabilidad nativa de cada nube, generá tráfico, y
-escribí una query equivalente en KQL y en el lenguaje de Cloud Logging:
+Cloud Run), activa la observabilidad nativa de cada nube, genera tráfico, y
+escribe una query equivalente en KQL y en el lenguaje de Cloud Logging:
 "requests con error 5xx en la última hora".
 
 ## Autoevaluación
 
-Pedime: *"Dame un examen de observabilidad multi-cloud (Monitor/CloudWatch/Cloud Logging) nivel senior"*.
+Pídeme: *"Dame un examen de observabilidad multi-cloud (Monitor/CloudWatch/Cloud Logging) nivel senior"*.
 

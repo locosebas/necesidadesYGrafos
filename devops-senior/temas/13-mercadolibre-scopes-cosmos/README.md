@@ -24,7 +24,7 @@ empresa:
 
 ## Cómo usarlo
 
-- Como preparación si en algún momento te postulás/entrevistás para ese
+- Como preparación si en algún momento te postulas/entrevistas para ese
   equipo internamente.
 - Como **caso de estudio real** de diseño de plataforma senior — muchas de
   las preguntas ahí (ciclo de vida, deploy strategies, sharding) son el mismo
@@ -33,5 +33,5 @@ empresa:
 
 ## Autoevaluación
 
-Pedime: *"Dame un examen basado en el documento de Scopes/CoSMOS"* — puedo
+Pídeme: *"Dame un examen basado en el documento de Scopes/CoSMOS"* — puedo
 generar preguntas directamente desde ese material.
