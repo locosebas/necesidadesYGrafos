@@ -31,6 +31,10 @@ Well-Architected trade-offs (buen ejemplo propio con HPA).
   **Trivy**; el concepto general de seguridad temprana sí, pero la
   terminología específica no. Ver `../../temas/11-seguridad-devsecops/`.
 
+- **Kubernetes — componentes que se instalan (control plane, nodo, runtime,
+  CNI, add-ons)**: salió en la entrevista de PayU (2026-09-22) y no la supo
+  responder bien. Respuesta modelo en `../../temas/14-entrevista-payu/` (sección 2).
+
 ## Ronda de vocabulario pendiente
 
 El usuario pidió una ronda rápida de repaso de términos/nombres de

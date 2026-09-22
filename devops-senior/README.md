@@ -33,7 +33,8 @@ devops-senior/
 │   ├── 10-kubernetes-avanzado/                 # K8s en general + AKS/EKS/GKE
 │   ├── 11-seguridad-devsecops/                 # Defender for Cloud, Security Hub, Security Command Center
 │   ├── 12-arquitectura-costos-multicloud/      # los 3 Well-Architected/Architecture Frameworks
-│   └── 13-mercadolibre-scopes-cosmos/          # material interno MELI (confidencial, no compartir)
+│   ├── 13-mercadolibre-scopes-cosmos/          # material interno MELI (confidencial, no compartir)
+│   └── 14-entrevista-payu/                     # preguntas de la entrevista PayU (2026-09-22) + respuestas modelo
 ├── certificaciones/       # qué certificar, en qué orden, y por qué (Azure + AWS + GCP)
 ├── examenes/               # cómo pedir exámenes y dónde queda el registro de resultados
 │   ├── README.md
