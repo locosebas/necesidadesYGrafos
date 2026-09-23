@@ -4,6 +4,10 @@ Notas post-entrevista: preguntas que salieron, respuesta "modelo" para cada
 una y autoevaluación. Se va completando a medida que recuerdes más preguntas
 (sección [Pendientes de recordar](#pendientes-de-recordar)).
 
+> Complemento: [`herramientas-y-arquitectura.md`](herramientas-y-arquitectura.md)
+> — mapa de herramientas por categoría, framework para responder "diseñá una
+> arquitectura", arquitectura de referencia de pagos en AWS y plan de práctica.
+
 | # | Tema | Cómo me sentí | Tema de estudio relacionado |
 |---|---|---|---|
 | 1 | Terraform: componentes, buenas prácticas, multi-plataforma, despliegue correcto | Bien | `../01-iac-multicloud/` |
