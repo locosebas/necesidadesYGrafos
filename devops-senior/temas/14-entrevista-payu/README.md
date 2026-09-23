@@ -7,6 +7,9 @@ una y autoevaluación. Se va completando a medida que recuerdes más preguntas
 > Complemento: [`herramientas-y-arquitectura.md`](herramientas-y-arquitectura.md)
 > — mapa de herramientas por categoría, framework para responder "diseñá una
 > arquitectura", arquitectura de referencia de pagos en AWS y plan de práctica.
+>
+> Práctica: [`preguntas-rapidas.md`](preguntas-rapidas.md) — 57 preguntas con
+> respuesta de 1-3 líneas + fórmula para sonar con expertise.
 
 | # | Tema | Cómo me sentí | Tema de estudio relacionado |
 |---|---|---|---|
