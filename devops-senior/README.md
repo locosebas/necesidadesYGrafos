@@ -34,6 +34,7 @@ devops-senior/
 │   ├── 11-seguridad-devsecops/                 # Defender for Cloud, Security Hub, Security Command Center
 │   ├── 12-arquitectura-costos-multicloud/      # los 3 Well-Architected/Architecture Frameworks
 │   └── 13-mercadolibre-scopes-cosmos/          # material interno MELI (confidencial, no compartir)
+├── proyectos/             # ideas de proyectos prácticos (beginner → advanced) mapeadas a los temas
 ├── certificaciones/       # qué certificar, en qué orden, y por qué (Azure + AWS + GCP)
 ├── examenes/               # cómo pedir exámenes y dónde queda el registro de resultados
 │   ├── README.md
@@ -49,6 +50,8 @@ devops-senior/
 3. **Pedime un examen** de ese tema (ver `examenes/README.md` para el formato).
    Resolvelo, te corrijo, y anotamos el resultado en `examenes/registro/`.
 4. Revisamos juntos los puntos débiles y volvemos a ese tema o pasamos al siguiente.
+5. **Construí algo:** elegí un proyecto de `proyectos/README.md` ligado al tema
+   para tener evidencia práctica que mostrar en entrevistas.
 
 No hace falta pedirme permiso para arrancar: decime "dame un examen de Bicep nivel
 intermedio" o "explicame Private Endpoints" y seguimos desde ahí.
