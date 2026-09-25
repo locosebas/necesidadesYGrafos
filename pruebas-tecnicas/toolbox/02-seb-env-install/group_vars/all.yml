@@ -1,0 +1,30 @@
+---
+# group_vars/all.yml: variables que Ansible carga automáticamente para TODOS los hosts.
+# Centralizar aquí los valores permite cambiar el comportamiento sin tocar los roles.
+
+# CentOS 7 llegó a fin de vida (jun-2024): sus mirrors ya no existen.
+# true = el rol base reescribe los repos hacia vault.centos.org y el archivo de EPEL.
+centos7_eol_repos: true
+
+# Prerrequisito del tutorial: usuario no-root con sudo (el tutorial lo llama "sammy").
+app_user: sammy
+
+# Paso 2 - Contraseña de root de MariaDB.
+# lookup('env', ...) lee la variable de entorno MARIADB_ROOT_PASSWORD;
+# default(..., true) usa el valor de respaldo si la variable no existe o está vacía.
+# En un entorno real esto va cifrado con ansible-vault.
+mariadb_root_password: "{{ lookup('env', 'MARIADB_ROOT_PASSWORD') | default('Cambiar-Esta-Clave-123', true) }}"
+
+# Paso 3 - Versión de PHP del repo Remi ("74" = PHP 7.4, como en el tutorial)
+php_version: "74"
+
+# Paso 4 - Nombre con el que responde Nginx (localhost para la prueba local)
+nginx_server_name: localhost
+# Carpeta raíz de la web (la misma del tutorial)
+nginx_root: /usr/share/nginx/html
+# Socket Unix por el que Nginx le pasa los .php a PHP-FPM (más rápido que TCP)
+php_fpm_socket: /var/run/php-fpm/php-fpm.sock
+
+# Paso 5 - El tutorial pide borrar info.php después de probar.
+# true = se publica (demo local); false = se borra (servidor real).
+php_info_page: true

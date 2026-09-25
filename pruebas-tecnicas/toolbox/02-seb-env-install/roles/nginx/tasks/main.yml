@@ -1,0 +1,15 @@
+---
+# Rol nginx: Paso 1 del tutorial.
+
+# Paso 1: sudo yum install nginx
+- name: Instalar Nginx
+  ansible.builtin.yum:            # Gestor de paquetes de CentOS
+    name: nginx                   # Paquete a instalar (viene del repo EPEL)
+    state: present                # Instalar si no está; si ya está, no hace nada
+
+# Paso 1: sudo systemctl start nginx && sudo systemctl enable nginx
+- name: Iniciar Nginx y habilitarlo en el arranque
+  ansible.builtin.systemd:        # Módulo que maneja servicios con systemctl
+    name: nginx                   # Servicio a manejar
+    state: started                # Equivale a "systemctl start" (solo si está detenido)
+    enabled: true                 # Equivale a "systemctl enable" (arranca al iniciar el servidor)

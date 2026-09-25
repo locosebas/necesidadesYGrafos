@@ -1,0 +1,17 @@
+---
+# Handlers: tareas que solo corren cuando otra tarea las "notifica" (notify)
+# y hubo un cambio real. Se ejecutan al final del play o en un flush_handlers.
+
+# Primero valida la sintaxis: si la config está mal, falla aquí y Nginx
+# sigue corriendo con la config anterior (no se cae el sitio).
+- name: Validar configuración de Nginx
+  ansible.builtin.command: nginx -t   # nginx -t = probar la configuración sin aplicarla
+  changed_when: false                 # Solo lee, nunca "cambia" nada en el servidor
+  listen: reiniciar nginx             # Se dispara con notify: reiniciar nginx
+
+# Paso 4: sudo systemctl restart nginx
+- name: Reiniciar Nginx
+  ansible.builtin.systemd:
+    name: nginx                       # Servicio a reiniciar
+    state: restarted                  # Equivale a "systemctl restart"
+  listen: reiniciar nginx             # Mismo evento: corre después de la validación

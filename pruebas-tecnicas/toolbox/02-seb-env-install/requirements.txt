@@ -1,0 +1,4 @@
+# Dependencias de Python para correr Ansible localmente (pip install -r requirements.txt).
+# ansible 9.x trae ansible-core 2.16: la última versión que soporta
+# Python 2.7 en el servidor destino (el que usa yum en CentOS 7).
+ansible>=9,<10

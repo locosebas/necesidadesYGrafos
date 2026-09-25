@@ -1,0 +1,7 @@
+---
+# Handler: solo corre si la configuración de www.conf cambió (notify).
+- name: Reiniciar PHP-FPM
+  ansible.builtin.systemd:
+    name: php-fpm                 # Servicio a reiniciar
+    state: restarted              # systemctl restart: aplica la nueva configuración
+  listen: reiniciar php-fpm       # Nombre del evento que lo dispara

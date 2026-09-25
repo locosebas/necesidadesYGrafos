@@ -1,0 +1,15 @@
+# {{ ansible_managed }}
+# ↑ Ansible reemplaza esto por un aviso de "archivo administrado por Ansible".
+
+# [epel] = Extra Packages for Enterprise Linux (de aquí sale Nginx)
+[epel]
+# Nombre descriptivo que muestra yum
+name=Extra Packages for Enterprise Linux 7 - $basearch (archive)
+# URL del archivo de EPEL 7 (los mirrors normales ya no lo tienen)
+baseurl=https://dl.fedoraproject.org/pub/archive/epel/7/$basearch/
+# Repo activo
+enabled=1
+# Verificar firmas GPG de los paquetes
+gpgcheck=1
+# Llave de EPEL 7 (la instala el paquete epel-release)
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7

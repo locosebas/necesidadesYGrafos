@@ -1,0 +1,76 @@
+---
+# Rol php: Paso 3 del tutorial.
+
+# El PHP que trae CentOS 7 es 5.4 (obsoleto); el repo Remi ofrece PHP 7.x.
+# Se importa su llave primero para que yum pueda verificar la firma del paquete.
+- name: Importar la llave GPG de Remi
+  ansible.builtin.rpm_key:                       # Módulo que importa llaves GPG en rpm
+    key: https://rpms.remirepo.net/RPM-GPG-KEY-remi  # URL de la llave pública de Remi
+    state: present                               # Importarla si no está
+
+# Paso 3: sudo yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+- name: Instalar el repositorio Remi
+  ansible.builtin.yum:
+    name: https://rpms.remirepo.net/enterprise/remi-release-7.rpm  # yum acepta la URL de un .rpm
+    state: present
+
+# Paso 3: sudo yum-config-manager --enable remi-php74
+# En vez del comando se edita el .repo directamente: así es idempotente.
+- name: Habilitar el repositorio remi-php{{ php_version }}
+  community.general.ini_file:                    # Edita archivos con formato [sección] clave=valor
+    path: /etc/yum.repos.d/remi-php{{ php_version }}.repo  # Archivo del repo de PHP 7.4
+    section: remi-php{{ php_version }}           # Sección [remi-php74]
+    option: enabled                              # Clave a cambiar
+    value: "1"                                   # 1 = habilitado
+    no_extra_spaces: true                        # Escribe "enabled=1" (sin espacios, como yum)
+    mode: "0644"
+
+# Paso 3: sudo yum install php php-mysqlnd php-fpm
+- name: Instalar PHP, PHP-FPM y el conector de MySQL
+  ansible.builtin.yum:
+    name:
+      - php                                      # Intérprete de PHP
+      - php-mysqlnd                              # Extensión para conectarse a MySQL/MariaDB
+      - php-fpm                                  # FastCGI Process Manager: ejecuta PHP para Nginx
+    state: present
+
+# Paso 3: php --version
+- name: Consultar la versión de PHP instalada
+  ansible.builtin.command: php --version         # Ejecuta el comando en el servidor
+  register: php_version_output                   # Guarda la salida en una variable
+  changed_when: false                            # Solo lectura
+
+- name: Mostrar la versión de PHP
+  ansible.builtin.debug:                         # Imprime un mensaje en la salida de Ansible
+    msg: "{{ php_version_output.stdout_lines[0] }}"  # Primera línea, ej. "PHP 7.4.33 (cli) ..."
+
+# Paso 3: edición de /etc/php-fpm.d/www.conf (el tutorial lo hace con nano)
+- name: Configurar el pool www de PHP-FPM para Nginx
+  ansible.builtin.lineinfile:                    # Asegura que una línea exista con cierto contenido
+    path: /etc/php-fpm.d/www.conf                # Archivo del pool "www" de PHP-FPM
+    regexp: "{{ item.regexp }}"                  # Expresión que encuentra la línea a reemplazar
+    line: "{{ item.line }}"                      # Cómo debe quedar la línea
+  loop:                                          # Repite la tarea por cada elemento
+    - { regexp: '^user\s*=', line: 'user = nginx' }       # Procesos PHP corren como usuario nginx (antes apache)
+    - { regexp: '^group\s*=', line: 'group = nginx' }     # ...y con grupo nginx
+    - { regexp: '^listen\s*=', line: 'listen = {{ php_fpm_socket }}' }  # Escuchar en socket Unix, no en TCP 127.0.0.1:9000
+    - { regexp: '^;?\s*listen\.owner\s*=', line: 'listen.owner = nginx' }  # Dueño del socket (;? = estaba comentada)
+    - { regexp: '^;?\s*listen\.group\s*=', line: 'listen.group = nginx' }  # Grupo del socket
+    - { regexp: '^;?\s*listen\.mode\s*=', line: 'listen.mode = 0660' }     # Permisos: solo dueño y grupo leen/escriben
+  loop_control:
+    label: "{{ item.line }}"                     # Qué mostrar por cada iteración en la salida
+  notify: reiniciar php-fpm                      # Si algo cambió, reiniciar PHP-FPM al final
+
+# El directorio del socket normalmente lo crea systemd; se asegura por si acaso
+- name: Asegurar el directorio del socket de PHP-FPM
+  ansible.builtin.file:
+    path: "{{ php_fpm_socket | dirname }}"       # dirname = carpeta del socket: /var/run/php-fpm
+    state: directory                             # Que exista como directorio
+    mode: "0755"
+
+# Paso 3: sudo systemctl start php-fpm (y enable, para que sobreviva reinicios)
+- name: Iniciar PHP-FPM y habilitarlo en el arranque
+  ansible.builtin.systemd:
+    name: php-fpm                                # Servicio de PHP-FPM
+    state: started                               # systemctl start
+    enabled: true                                # systemctl enable
