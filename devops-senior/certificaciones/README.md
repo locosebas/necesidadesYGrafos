@@ -111,6 +111,41 @@ plataforma. Buen complemento si el rol pide también decisiones de
 arquitectura, no solo operación.
 - https://cloud.google.com/certification/cloud-architect
 
+## Claude Certified Architect (CCA-F) — Anthropic ⭐⭐⭐ PRIORIDAD INMEDIATA (2026-09-25)
+
+Certificación oficial de **Anthropic** (la empresa que hace Claude, la
+herramienta con la que armamos todo este plan) — no es de una nube, es
+específica de diseñar arquitecturas que usan IA agéntica. Se agrega con
+**prioridad inmediata**: apenas cerremos el bloque actual de **Terraform**
+(`00-diagnostico/roadmap.md`), este es el próximo tema a estudiar, antes de
+seguir con el resto de las fases del roadmap.
+
+- **Qué certifica**: Claude Certified Architect — Foundations (**CCA-F**),
+  para diseñadores de sistemas senior que construyen aplicaciones con Claude
+  a escala de producción/empresa. Hay un nivel superior, **Professional**,
+  dentro de la misma línea "Architect".
+- **Formato del examen**: proctoreado (vigilado), **60 preguntas**,
+  administrado por **Pearson VUE** — mismo modelo que las certificaciones de
+  nube (AWS/Azure/GCP) que ya tenés en este archivo.
+- **Temario** (con su peso en el examen):
+  - Arquitectura y Orquestación Agéntica — 27%
+  - Configuración y Workflows de Claude Code — 20%
+  - Diseño de Tools e Integración **MCP** (*Model Context Protocol*) — 18%
+  - Prompt Engineering y Structured Output — 20%
+  - Gestión de Contexto y Confiabilidad — 15%
+- **Precio**: gratis si tu organización es parte del **Claude Partner
+  Network**; **$99 USD** si no.
+- **Preparación**: cursos self-paced en **Anthropic Academy**.
+  - https://anthropic.skilljar.com/claude-certified-architect-foundations-access-request
+  - https://www.pearsonvue.com/us/en/anthropic.html
+
+**Por qué entra en este plan de arquitecto de plataforma**: el temario
+(arquitectura agéntica, MCP, gestión de contexto) es literalmente diseño de
+sistemas — la misma habilidad que venís entrenando con Kubernetes/redes/
+Terraform, aplicada a sistemas que integran IA. Cada vez más ofertas de
+"Platform Architect" van a pedir esto como parte del rol, no como un extra
+separado.
+
 ## Ruta IA / MLOps — opcional, alto crecimiento
 
 Cada vez más ofertas de DevOps/Platform piden desplegar y operar cargas de

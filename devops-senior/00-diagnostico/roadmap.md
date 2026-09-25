@@ -111,7 +111,17 @@ Para poder provisionar toda la plataforma como código, incluyendo el propio
 clúster de Kubernetes.
 
 5. `temas/01-iac-multicloud` — Terraform (ya es tu fortaleza), Bicep, y de paso CloudFormation/CDK (AWS)
-6. `temas/02-contenedores-serverless` — Container Apps / Fargate / Cloud Run (contraste con K8s "real" de la Fase 1)
+6. `temas/02-contenedores-serverless` — Container Apps / Fargate / Cloud Run
+
+## Interrupción priorizada (2026-09-25): Claude Certified Architect (CCA-F)
+
+Apenas se cierre el bloque de **Terraform** de arriba, el plan se desvía acá
+**antes** de seguir a la Fase 3 — ver `certificaciones/README.md` para el
+detalle completo (temario, formato de examen, links oficiales). Es una
+certificación de **Anthropic**, no de una nube, sobre arquitectura de
+sistemas con IA agéntica (MCP, Claude Code, gestión de contexto) — se
+estudia como un bloque propio, y recién después se retoma la Fase 3
+(CI/CD/GitOps) donde quedó. (contraste con K8s "real" de la Fase 1)
 
 ## Fase 3 — CI/CD y GitOps (semanas 5-6)
 
