@@ -37,6 +37,29 @@ Well-Architected trade-offs (buen ejemplo propio con HPA).
   **Trivy**; el concepto general de seguridad temprana sí, pero la
   terminología específica no. Ver `../../temas/11-seguridad-devsecops/`.
 
+## Repaso espaciado pendiente de programar (2026-09-25)
+
+El usuario pidió explícitamente que, más adelante, se programe una
+**revisión/evaluación** de los temas ya vistos (Kubernetes, redes, Terraform)
+— aclaró que entiende los conceptos en el momento pero **no se le quedan
+grabados** con el tiempo sin repaso. Es un pedido de **repetición espaciada**
+(*spaced repetition*), no una autoevaluación puntual como las de
+`examenes/registro/`. Pendiente: definir con el usuario la frecuencia
+(¿diario? ¿semanal?) y, si tiene sentido, armar un recordatorio/trigger
+automático para disparar esas sesiones de repaso sin que él tenga que
+acordarse de pedirlo.
+
+## Ansible — tema nuevo pendiente de agregar (2026-09-25)
+
+El usuario pidió agregar **Ansible** al temario. Es **gestión de
+configuración** (*configuration management*), agentless, basado en YAML
+(*playbooks*) — distinto de Terraform (que es **aprovisionamiento**,
+*provisioning*, declarativo). No confundir las dos categorías al armar el
+tema: van de la mano en una arquitectura real (Terraform crea la VM,
+Ansible la configura por dentro) pero no son lo mismo. Pendiente crear
+`../../temas/01-iac-multicloud/` con una sección de Ansible, o un tema
+aparte si termina siendo lo bastante grande.
+
 ## Preguntas guardadas para profundizar (2026-09-16/17)
 
 - **¿El tamaño de los pods es estándar o hay variabilidad?** Respuesta corta
