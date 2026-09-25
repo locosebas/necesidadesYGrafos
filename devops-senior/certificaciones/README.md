@@ -16,6 +16,14 @@ inscribirte — los proveedores actualizan los exámenes con cierta frecuencia.
 > de mejor relación costo/valor de todo el espacio DevOps" (~$70 USD) dado que
 > ya usás Terraform en producción.
 
+> **Actualización (2026-09-25):** el objetivo del plan pasó a "arquitecto de
+> plataforma" (ver `../00-diagnostico/roadmap.md`, 2026-09-14). Eso sube de
+> rango a las certificaciones **"Solutions Architect"** de cada nube — no
+> reemplazan a Terraform Associate/CKA/AZ-400 (siguen siendo la combinación de
+> mayor señal para DevOps puro), pero **se estudian en paralelo**, porque
+> validan exactamente lo que es tu meta ahora: diseñar arquitecturas
+> completas (red, cómputo, identidad, costos), no solo operarlas.
+
 ## Ruta transversal (agnóstica de nube) — hacela primero, sirve para cualquier oferta
 
 ### Terraform Associate (HashiCorp)
@@ -44,6 +52,15 @@ pipeline, monitoreo — prácticamente un espejo de todo lo que pide esa
 vacante. Requiere (o recomienda) AZ-104 o AZ-204 como base.
 - https://learn.microsoft.com/certifications/devops-engineer/
 
+### AZ-305: Designing Microsoft Azure Infrastructure Solutions ⭐⭐ (Microsoft Certified: Azure Solutions Architect Expert)
+La certificación **"Architect"** de Azure, nivel Expert — diseño de
+arquitecturas completas: cómputo, redes (VNet/subnets/Private Endpoint, todo
+lo que ya viste en `temas/05`), identidad, datos, alta disponibilidad y
+costos. Es la que más se alinea a tu meta actual de "arquitecto de
+plataforma", más que AZ-400 (que es operación/DevOps, no diseño). Requiere
+AZ-104 como prerrequisito recomendado.
+- https://learn.microsoft.com/certifications/azure-solutions-architect/
+
 ### AZ-500: Microsoft Azure Security Engineer — opcional, si el rol se inclina a seguridad
 Refuerza identidad/RBAC/Key Vault/Networking (temas 04, 05, 06, 11) y es un
 buen diferenciador para roles senior.
@@ -51,11 +68,19 @@ buen diferenciador para roles senior.
 
 ## Ruta AWS
 
-### AWS Certified Solutions Architect – Associate (base)
-Equivalente conceptual a AZ-104: valida fundamentos de la nube (compute,
-storage, networking, IAM) de forma amplia. Buen punto de entrada si una
-oferta AWS te pide certificación formal.
+### AWS Certified Solutions Architect – Associate (base) ⭐⭐
+Valida fundamentos de arquitectura en AWS (compute, storage, networking,
+IAM) de forma amplia — el equivalente AWS de AZ-305, pero a nivel Associate.
+Con tu experiencia real en AWS (MercadoLibre, AgroTec) es una de las más
+alcanzables ya mismo.
 - https://aws.amazon.com/certification/certified-solutions-architect-associate/
+
+### AWS Certified Solutions Architect – Professional ⭐⭐ (el "AZ-305 de AWS", nivel Expert)
+Un escalón arriba de la Associate: arquitecturas multi-cuenta, migración,
+optimización de costos a gran escala — el nivel que de verdad valida
+"arquitecto", no solo "sabe usar los servicios". Requiere la Associate (o
+experiencia equivalente) como base.
+- https://aws.amazon.com/certification/certified-solutions-architect-professional/
 
 ### AWS Certified DevOps Engineer – Professional ⭐ (equivalente a AZ-400)
 La certificación DevOps "expert-level" de AWS: CI/CD, IaC (CloudFormation/CDK),
@@ -79,9 +104,11 @@ Certificación específica de DevOps de GCP: SRE practices, CI/CD, monitoreo,
 gestión de incidentes. La más alineada si la oferta es GCP-céntrica.
 - https://cloud.google.com/certification/cloud-devops-engineer
 
-### Google Professional Cloud Architect — opcional, más amplia que DevOps Engineer
-Diseño de arquitecturas completas en GCP; buen complemento si el rol pide
-también decisiones de arquitectura, no solo operación.
+### Google Professional Cloud Architect ⭐⭐ (el "AZ-305 de GCP")
+Diseño de arquitecturas completas en GCP — antes marcada como "opcional",
+ahora en el mismo rango que AZ-305/AWS SA dado el objetivo de arquitecto de
+plataforma. Buen complemento si el rol pide también decisiones de
+arquitectura, no solo operación.
 - https://cloud.google.com/certification/cloud-architect
 
 ## Ruta IA / MLOps — opcional, alto crecimiento
@@ -112,24 +139,31 @@ Machine Learning Engineer – Associate** o **Google Professional Machine
 Learning Engineer**, según la nube del empleador — son las dos con más foco
 en productivizar modelos, no solo entrenarlos.
 
-## Orden sugerido dado tu perfil (ajustado con datos de mercado)
+## Orden sugerido dado tu perfil (ajustado con datos de mercado + meta de arquitecto)
 
 ```
 Terraform Associate  ←── más rápida y barata, sirve para las 3 nubes
    ↓
 CKA  ←── ya tenés Kubernetes productivo, sirve para las 3 nubes
    ↓
-Certificación DevOps de la nube de tu próxima oferta concreta:
-   AZ-400 (Azure) · AWS DevOps Engineer Professional (AWS) · Cloud DevOps Engineer (GCP)
+   ┌─────────────────────────────┬─────────────────────────────────┐
+   │ Cert DevOps de tu próxima   │ Cert "Architect" de esa misma    │
+   │ oferta concreta:            │ nube (EN PARALELO, no después):  │
+   │ AZ-400 · AWS DevOps Eng.    │ AZ-305 · AWS Solutions Architect │
+   │ Professional · Cloud DevOps │ (Associate→Professional) ·       │
+   │ Engineer (GCP)              │ Google Professional Cloud Arch.  │
+   └─────────────────────────────┴─────────────────────────────────┘
    ↓
 Certificación de seguridad opcional de esa misma nube (AZ-500 / AWS Security Specialty)
 ```
 
 Empezá siempre por las dos transversales (Terraform Associate + CKA) — no
-importa a qué nube apunte la próxima oferta, ya suman. Recién ahí elegí la
-certificación específica de nube según la oferta concreta que tengas más
-cerca en ese momento (hoy, la de Julieta apunta a AZ-400). La ruta IA/MLOps
-es un agregado opcional en paralelo, no un reemplazo de este orden.
+importa a qué nube apunte la próxima oferta, ya suman. Recién ahí elegí,
+**de la misma nube**, tanto la certificación **DevOps** (operación) como la
+**Architect** (diseño) — no es una o la otra, son las dos caras de tu meta
+actual de "arquitecto de plataforma": diseñar (Architect) Y operar (DevOps)
+la misma arquitectura. La ruta IA/MLOps sigue siendo un agregado opcional en
+paralelo, no un reemplazo de este orden.
 
 ## Cómo preparar cada certificación acá
 
