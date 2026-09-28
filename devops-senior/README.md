@@ -34,6 +34,8 @@ devops-senior/
 │   ├── 11-seguridad-devsecops/                 # Defender for Cloud, Security Hub, Security Command Center
 │   ├── 12-arquitectura-costos-multicloud/      # los 3 Well-Architected/Architecture Frameworks
 │   └── 13-mercadolibre-scopes-cosmos/          # material interno MELI (confidencial, no compartir)
+├── formulas-de-cero/      # recetas "¿cómo armarías X de cero?" para entrevistas
+│                           # (K8s, red interna, Terraform empresa, CI/CD, observabilidad…)
 ├── certificaciones/       # qué certificar, en qué orden, y por qué (Azure + AWS + GCP)
 ├── examenes/               # cómo pedir exámenes y dónde queda el registro de resultados
 │   ├── README.md
