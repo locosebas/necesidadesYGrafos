@@ -49,6 +49,16 @@ tiempo; nunca queda fijo en 100% solo porque se explicó una vez.
 | Compute hierarchy y curva de costos (VM→K8s→serverless→FaaS→PaaS) | 🟡 Intermedio | Explicado con gráfico, sin examen |
 | Variante serverless de la arquitectura | 🟡 Intermedio | Explicado, sin repaso |
 
+## Claude Certified Architect (CCA-F) — 2026-09-25 a 09-29
+
+| Área del examen (peso) | Nivel | Última vez puesto a prueba |
+|---|---|---|
+| Arquitectura y Orquestación Agéntica (27%) | 🟢 Sólido | Explicaste el loop ReAct, la señal de terminación, y 4 razones reales de sub-agentes (contexto, especialización, paralelización, aislamiento) — con una corrección menor en el mecanismo exacto de cierre del loop |
+| Configuración y Workflows de Claude Code (20%) | 🟢 Sólido | Razonaste bien PreToolUse vs. Stop hooks, y el alcance de `CLAUDE.md` (global/proyecto/directorio) sin ayuda |
+| Diseño de Tools e Integración MCP (18%) | 🟡 Intermedio | Buenas preguntas de seguimiento (infraestructura de un MCP server, prompt/tag injection), pero necesitaste varias rondas de aclaración sobre la mecánica cliente/servidor y el determinismo |
+| Prompt Engineering y Structured Output (20%) | 🟡 Intermedio | Intuición correcta sobre "restringir la respuesta", pero el mecanismo exacto de *forced tool use* necesitó un ejemplo completo para asentarse |
+| Gestión de Contexto y Confiabilidad (15%) | 🔴 Novato | Recién arrancado — una sola pregunta respondida (sub-agentes para archivos grandes), falta el resto del área |
+
 ## Otros
 
 | Tema | Nivel | Última vez puesto a prueba |
