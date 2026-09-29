@@ -57,7 +57,7 @@ tiempo; nunca queda fijo en 100% solo porque se explicó una vez.
 | Configuración y Workflows de Claude Code (20%) | 🟢 Sólido | Razonaste bien PreToolUse vs. Stop hooks, y el alcance de `CLAUDE.md` (global/proyecto/directorio) sin ayuda |
 | Diseño de Tools e Integración MCP (18%) | 🟡 Intermedio | Buenas preguntas de seguimiento (infraestructura de un MCP server, prompt/tag injection), pero necesitaste varias rondas de aclaración sobre la mecánica cliente/servidor y el determinismo |
 | Prompt Engineering y Structured Output (20%) | 🟡 Intermedio | Intuición correcta sobre "restringir la respuesta", pero el mecanismo exacto de *forced tool use* necesitó un ejemplo completo para asentarse |
-| Gestión de Contexto y Confiabilidad (15%) | 🔴 Novato | Recién arrancado — una sola pregunta respondida (sub-agentes para archivos grandes), falta el resto del área |
+| Gestión de Contexto y Confiabilidad (15%) | 🟢 Sólido | Sub-agentes para archivos grandes, y respuesta correcta de "check-before-act"/idempotencia sin ayuda |
 
 ## Otros
 

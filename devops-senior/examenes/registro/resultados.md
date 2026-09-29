@@ -76,6 +76,15 @@ aparte si termina siendo lo bastante grande.
   **Pendiente de profundizar**: comparación más detallada Istio Gateway vs.
   Ingress vs. Gateway API (ver `../../temas/10-kubernetes-avanzado/03-networking-service-mesh.md`).
 
+## Claude Certified Architect (CCA-F) — temario completo cubierto (2026-09-25 a 09-29)
+
+Primera pasada completa por las 5 áreas del examen: 3 en 🟢 Sólido (Agentic
+Architecture 27%, Configuración/Workflows 20%, Contexto/Confiabilidad 15%),
+2 en 🟡 Intermedio (Tool Design/MCP 18%, Prompt Engineering 20%) — ver
+`progreso.md` para el detalle. Pendiente: un repaso mixto (preguntas
+encadenadas de las 5 áreas sin avisar el tema, como ya se hace con los
+temas de nube) antes de considerar rendir el examen real.
+
 ## Ronda de vocabulario pendiente
 
 El usuario pidió una ronda rápida de repaso de términos/nombres de
