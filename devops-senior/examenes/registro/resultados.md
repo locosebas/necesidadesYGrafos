@@ -6,6 +6,7 @@
 | 2026-09-14/15 | Kubernetes — arquitectura (`10-kubernetes-avanzado/01-arquitectura-y-cluster.md`) | Fundamentos, desde cero | Guiado, de a una pregunta | Base real de partida: no conocía Kubernetes más allá de "un motor de contenedores ordenado" (confundía con Docker). Al cierre: entendió correctamente las 7 piezas del clúster (kube-apiserver, etcd, kube-scheduler, kube-controller-manager, kubelet, kube-proxy, container runtime), el reconciliation loop, y las 3 formas de levantar un clúster (kubeadm/managed/serverless-node) | Ninguno pendiente de este archivo — completado en la sesión |
 | 2026-09-14/15 | Entrevista real (EY) — feedback | — | Feedback post-entrevista, no autoevaluación | Se trabó en 2 preguntas reales: tipos de Load Balancer de AWS (ALB/NLB/GWLB) y Kubernetes Pod en estado `Pending`. Ambos repasados en la sesión | AWS Load Balancers: revisar con examen formal más adelante (`temas/02-contenedores-serverless`/`temas/05-networking-multicloud`) |
 | 2026-09-16/17 | Redes multi-cloud (`05-networking-multicloud`) + Kubernetes networking/service mesh | Fundamentos, guiado | Guiado, de a una pregunta | Buen nivel: entendió aislamiento de red (VNet/VPC), modelo de 3 capas (pública/aplicación/datos), NSG, y corrigió solo el error común de ubicar el Private Endpoint "del lado del proveedor" en vez de "del lado del consumidor" (se hizo diagrama de apoyo). En Kubernetes: entendió que los pods NO están aislados por default (red plana) a diferencia de las subnets, la diferencia entre NetworkPolicy (filtro L3/L4, kernel) e Istio/mTLS (identidad+cifrado, L7, Envoy), y que Istio en balanceo de tráfico **reemplaza** la decisión de kube-proxy en vez de sumarse a ella. Razonamiento estadístico correcto sobre distribución binomial en canary releases | Ninguno crítico — dos preguntas de profundización quedaron guardadas (ver abajo) |
+| 2026-09-29 | Ansible — fundamentos (gestión de configuración, agentless, Inventory/Playbook/Módulos, idempotencia, Handlers, Roles, variables, Jinja2) | Fundamentos, desde cero | Guiado, de a una pregunta | Buen nivel general — entendió y explicó solo la diferencia Terraform (provisioning, con state) vs. Ansible (configuration management, sin state, verificación en vivo), el rol del Inventory, y `template` vs. `copy`. Dos confusiones puntuales corregidas en la sesión: Docker vs. Ansible (pensó que Ansible modificaba contenedores en ejecución) y `ok` vs. `changed` (pensó que `ok` significaba que la acción se ejecutó) | Falta examen dedicado que lo ponga a prueba a fondo antes de subir a 🟢 Sólido; falta crear el contenido de referencia en `temas/` |
 
 **Fortalezas confirmadas en el diagnóstico:** IaC (Terraform/Bicep), CI/CD +
 OIDC, Networking (Private Endpoint + DNS privado), FastAPI async/await,
@@ -59,6 +60,10 @@ tema: van de la mano en una arquitectura real (Terraform crea la VM,
 Ansible la configura por dentro) pero no son lo mismo. Pendiente crear
 `../../temas/01-iac-multicloud/` con una sección de Ansible, o un tema
 aparte si termina siendo lo bastante grande.
+
+**Actualización (2026-09-29):** ya se dio la sesión guiada de fundamentos
+(ver fila en la tabla de arriba y `progreso.md`, nivel 🟡 Intermedio). Sigue
+pendiente crear el archivo de referencia en `../../temas/01-iac-multicloud/`.
 
 ## Preguntas guardadas para profundizar (2026-09-16/17)
 

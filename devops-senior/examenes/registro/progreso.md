@@ -41,6 +41,15 @@ tiempo; nunca queda fijo en 100% solo porque se explicó una vez.
 | Backends multi-cloud (S3/Blob/GCS) | 🟢 Sólido | Explicaste vos mismo el mecanismo de DynamoDB |
 | Buenas prácticas y ecosistema (Terragrunt, tflint, Terratest, Atlantis, Infracost) | 🟡 Intermedio | Recién explicado en profundidad, sin repaso |
 
+## Ansible
+
+| Tema | Nivel | Última vez puesto a prueba |
+|---|---|---|
+| Fundamentos (gestión de configuración vs. provisioning de Terraform, vs. Docker) | 🟡 Intermedio | 2026-09-29, sesión guiada desde cero; corrigió solo tras un par de confusiones puntuales (Docker vs. Ansible, "Terraform no depende de estado") |
+| Arquitectura agentless (nodo de control, Inventory, Playbook, Módulos) | 🟡 Intermedio | 2026-09-29, buenas respuestas propias (rol del Inventory para agrupar servidores, capa del sistema operativo) |
+| Idempotencia (`ok` vs. `changed`) y Handlers | 🟡 Intermedio | 2026-09-29, confundió inicialmente `ok` con "se ejecutó la acción", quedó claro tras la corrección |
+| Roles, variables (`defaults`/`vars`) y plantillas Jinja2 | 🟡 Intermedio | 2026-09-29, respuestas correctas sin ayuda (variable en vez de hardcodear, `template` vs. `copy`) |
+
 ## Arquitectura / Platform Engineering
 
 | Tema | Nivel | Última vez puesto a prueba |
