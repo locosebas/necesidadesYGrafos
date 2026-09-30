@@ -36,6 +36,7 @@ devops-senior/
 │   └── 13-mercadolibre-scopes-cosmos/          # material interno MELI (confidencial, no compartir)
 ├── formulas-de-cero/      # recetas "¿cómo armarías X de cero?" para entrevistas
 │                           # (K8s, red interna, Terraform empresa, CI/CD, observabilidad…)
+├── pendientes-de-estudio.md  # lo que piden las vacantes y quiero estudiar
 ├── certificaciones/       # qué certificar, en qué orden, y por qué (Azure + AWS + GCP)
 ├── examenes/               # cómo pedir exámenes y dónde queda el registro de resultados
 │   ├── README.md
