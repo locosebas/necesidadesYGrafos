@@ -123,9 +123,13 @@ sistemas con IA agéntica (MCP, Claude Code, gestión de contexto) — se
 estudia como un bloque propio, y recién después se retoma la Fase 3
 (CI/CD/GitOps) donde quedó. (contraste con K8s "real" de la Fase 1)
 
-## Fase 3 — CI/CD y GitOps (semanas 5-6)
+## Fase 3 — CI/CD y GitOps (semanas 5-6) ✅ panorama cubierto (2026-09-30)
 
 7. `temas/03-cicd-multicloud` — GitHub Actions + OIDC, **GitOps con ArgoCD**, GitLab CI como alternativa
+
+Panorama conceptual cubierto (modelo pull vs. push, dónde vive ArgoCD, OIDC)
+— ver `examenes/registro/`. Pendiente, pospuesto a pedido propio: configuración
+práctica de ArgoCD (instalación, `Application`/`AppProject`, sync policies).
 
 ## Fase 4 — Identidad (semanas 7-8)
 

@@ -50,6 +50,16 @@ tiempo; nunca queda fijo en 100% solo porque se explicó una vez.
 | Idempotencia (`ok` vs. `changed`) y Handlers | 🟡 Intermedio | 2026-09-29, confundió inicialmente `ok` con "se ejecutó la acción", quedó claro tras la corrección |
 | Roles, variables (`defaults`/`vars`) y plantillas Jinja2 | 🟡 Intermedio | 2026-09-29, respuestas correctas sin ayuda (variable en vez de hardcodear, `template` vs. `copy`) |
 
+## CI/CD y GitOps
+
+| Tema | Nivel | Última vez puesto a prueba |
+|---|---|---|
+| CI/CD tradicional (push, pipelines de build/test/deploy) | 🟢 Sólido | Experiencia real previa (Jenkins/Azure Pipelines), buena descripción propia con correcciones menores de orden |
+| GitOps — modelo pull, dónde vive ArgoCD, ventana de despliegue | 🟡 Intermedio | 2026-09-30, corrigió solo tras una confusión sobre la ubicación de ArgoCD; identificó bien solo dónde cabe la aprobación manual (merge a main) |
+| OIDC (*OpenID Connect*, autenticación sin secretos fijos) | 🟡 Intermedio | 2026-09-30, buena intuición inicial (mínimo privilegio, tiempo corto), necesitó precisión sobre el mecanismo de dos pasos (JWT firmado + credencial temporal) |
+
+**Pendiente de profundizar**: configuración práctica de ArgoCD (instalación, objetos `Application`/`AppProject`, políticas de sincronización) — pospuesto a pedido propio para una sesión futura.
+
 ## Arquitectura / Platform Engineering
 
 | Tema | Nivel | Última vez puesto a prueba |

@@ -7,6 +7,7 @@
 | 2026-09-14/15 | Entrevista real (EY) — feedback | — | Feedback post-entrevista, no autoevaluación | Se trabó en 2 preguntas reales: tipos de Load Balancer de AWS (ALB/NLB/GWLB) y Kubernetes Pod en estado `Pending`. Ambos repasados en la sesión | AWS Load Balancers: revisar con examen formal más adelante (`temas/02-contenedores-serverless`/`temas/05-networking-multicloud`) |
 | 2026-09-16/17 | Redes multi-cloud (`05-networking-multicloud`) + Kubernetes networking/service mesh | Fundamentos, guiado | Guiado, de a una pregunta | Buen nivel: entendió aislamiento de red (VNet/VPC), modelo de 3 capas (pública/aplicación/datos), NSG, y corrigió solo el error común de ubicar el Private Endpoint "del lado del proveedor" en vez de "del lado del consumidor" (se hizo diagrama de apoyo). En Kubernetes: entendió que los pods NO están aislados por default (red plana) a diferencia de las subnets, la diferencia entre NetworkPolicy (filtro L3/L4, kernel) e Istio/mTLS (identidad+cifrado, L7, Envoy), y que Istio en balanceo de tráfico **reemplaza** la decisión de kube-proxy en vez de sumarse a ella. Razonamiento estadístico correcto sobre distribución binomial en canary releases | Ninguno crítico — dos preguntas de profundización quedaron guardadas (ver abajo) |
 | 2026-09-29 | Ansible — fundamentos (gestión de configuración, agentless, Inventory/Playbook/Módulos, idempotencia, Handlers, Roles, variables, Jinja2) | Fundamentos, desde cero | Guiado, de a una pregunta | Buen nivel general — entendió y explicó solo la diferencia Terraform (provisioning, con state) vs. Ansible (configuration management, sin state, verificación en vivo), el rol del Inventory, y `template` vs. `copy`. Dos confusiones puntuales corregidas en la sesión: Docker vs. Ansible (pensó que Ansible modificaba contenedores en ejecución) y `ok` vs. `changed` (pensó que `ok` significaba que la acción se ejecutó) | Falta examen dedicado que lo ponga a prueba a fondo antes de subir a 🟢 Sólido; falta crear el contenido de referencia en `temas/` |
+| 2026-09-30 | CI/CD y GitOps (`03-cicd-multicloud`) — CI/CD tradicional, modelo pull vs. push, ArgoCD, OIDC | Repaso guiado sobre base real previa (Jenkins/Azure Pipelines) | Guiado, de a una pregunta | Buena base real de CI/CD, con un ajuste de orden (pruebas unitarias antes del build, no después). En GitOps: corrigió solo tras una confusión sobre dónde vive ArgoCD (pensó que estaba "del lado de GitHub"; en realidad vive dentro del clúster) y ubicó bien, sin ayuda, dónde cabe una ventana de despliegue manual (merge a `main`). En OIDC: buena intuición inicial (mínimo privilegio, tiempo corto), necesitó precisión sobre el mecanismo real de dos pasos (JWT firmado por GitHub + credencial temporal emitida por la nube) | Falta profundizar la configuración práctica de ArgoCD (pospuesto a pedido propio, ver nota abajo); falta GitLab CI como alternativa |
 
 **Fortalezas confirmadas en el diagnóstico:** IaC (Terraform/Bicep), CI/CD +
 OIDC, Networking (Private Endpoint + DNS privado), FastAPI async/await,
@@ -89,6 +90,16 @@ Architecture 27%, Configuración/Workflows 20%, Contexto/Confiabilidad 15%),
 `progreso.md` para el detalle. Pendiente: un repaso mixto (preguntas
 encadenadas de las 5 áreas sin avisar el tema, como ya se hace con los
 temas de nube) antes de considerar rendir el examen real.
+
+## ArgoCD — configuración en profundidad pendiente (2026-09-30)
+
+Se cubrió el panorama conceptual de GitOps/ArgoCD (modelo pull, dónde vive
+ArgoCD, dónde cabe la ventana de despliegue manual — ver fila de abajo y
+`progreso.md`), pero **no la configuración práctica**: instalación, objetos
+`Application`/`AppProject`, políticas de sincronización (`sync policies`,
+manual vs. automático, `self-heal`). El usuario pidió explícitamente
+posponerlo para una sesión futura, después de avanzar con la Fase 4
+(Identidad).
 
 ## Ronda de vocabulario pendiente
 
