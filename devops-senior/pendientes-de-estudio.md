@@ -21,3 +21,7 @@ Los pendientes que salen de los exámenes de autoevaluación siguen en
 
 | Fecha | Qué | Por qué (vacante) | Nivel actual | Dónde estudiarlo | Estado |
 |---|---|---|---|---|---|
+| 2026-09-30 | AWS Organizations, Control Tower, SCPs y landing zone multi-cuenta | Aló Credit, DevOps Senior ($16 M): obligatorio, es el centro del rol | "Uff no, honestamente no" | [`temas/04-identidad-iam/`](temas/04-identidad-iam/) y [`formulas-de-cero/06-landing-zone-identidad-seguridad.md`](formulas-de-cero/06-landing-zone-identidad-seguridad.md) | pendiente |
+| 2026-09-30 | ECS Fargate vs. ECS sobre EC2 (diferencias y cuándo usar cada uno) | Aló Credit, DevOps Senior: obligatorio (ECS Fargate) | Usó ECS, pero no tiene clara la diferencia | [`temas/02-contenedores-serverless/`](temas/02-contenedores-serverless/) | pendiente |
+| 2026-09-30 | Bases de datos de series de tiempo (TimescaleDB, InfluxDB, Amazon Timestream) | GME International, Líder de Plataforma AWS + IoT: parte del flujo de telemetría | No las ha usado | [`temas/06-datos-secretos/`](temas/06-datos-secretos/) (tema nuevo dentro de datos) | pendiente |
+| 2026-09-30 | SonarQube (calidad y seguridad de código en el pipeline) | Accenture, DevOps/Cloud: requerido junto con Artifactory | No lo ha usado | [`temas/11-seguridad-devsecops/`](temas/11-seguridad-devsecops/) | pendiente |
