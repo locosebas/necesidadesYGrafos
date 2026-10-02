@@ -17,6 +17,14 @@ Los pendientes que salen de los exámenes de autoevaluación siguen en
 - **Dónde estudiarlo:** el tema de [`temas/`](temas/) donde encaja, o "tema nuevo" si no encaja en ninguno.
 - **Estado:** pendiente, en curso o visto.
 
+## Prioridad alta
+
+- **Siglas y conceptos de las ofertas de IA** (pedido el 2026-10-02): leer el
+  [glosario de IA para ofertas](glosario-ia-ofertas.md) antes que el resto de la
+  lista. Explica cada sigla (LLM, RAG, MCP, LoRA, vLLM, evals, etc.) dentro de
+  su capa del sistema, marca cuáles ya tienes y termina con un orden sugerido
+  de estudio.
+
 ## Lista
 
 | Fecha | Qué | Por qué (vacante) | Nivel actual | Dónde estudiarlo | Estado |
@@ -30,3 +38,4 @@ Los pendientes que salen de los exámenes de autoevaluación siguen en
 | 2026-09-30 | ISO/IEC 27001 (controles y auditorías de seguridad) | Kuvasz Solutions, Cloud Engineer: deseable | Trabajó bajo ese marco en Bizagi, pero quiere estudiarlo bien | [`temas/11-seguridad-devsecops/`](temas/11-seguridad-devsecops/) | pendiente |
 | 2026-09-30 | Stack ELK (Elasticsearch, Logstash, Kibana), Redis y Cassandra | GoReel, Senior Cloud Delivery Engineer: requerido | Los ha usado, pero no a profundidad | [`temas/07-observabilidad-multicloud/`](temas/07-observabilidad-multicloud/) y [`temas/06-datos-secretos/`](temas/06-datos-secretos/) | pendiente |
 | 2026-09-30 | AWS X-Ray (trazas distribuidas) | Rekluti, Senior DevOps AWS: requerido | "Poco, pero sé del tema" | [`temas/07-observabilidad-multicloud/`](temas/07-observabilidad-multicloud/) | pendiente |
+| 2026-10-02 | **[PRIORIDAD ALTA]** Siglas de IA: LLMOps, RAG, evals, fine-tuning (SFT/LoRA/QLoRA), model serving (vLLM, KServe, Triton), bases vectoriales, frameworks de agentes | Todas las ofertas de IA del tablero (Robots & Pencils, Mariposa, BC, Niuro, Improving, Curotec, Accelerant, Blupax, Lemon.io) | Tiene LLM en producción y MCP; RAG en proyecto propio; fine-tuning y evals conocidos pero no practicados | [`glosario-ia-ofertas.md`](glosario-ia-ofertas.md) (tema nuevo) | pendiente |
