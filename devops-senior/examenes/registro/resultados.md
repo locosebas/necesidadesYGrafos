@@ -30,6 +30,15 @@ Well-Architected trade-offs (buen ejemplo propio con HPA).
 - **DevSecOps / "shift-left"**: no conocía el término ni herramientas como
   **Trivy**; el concepto general de seguridad temprana sí, pero la
   terminología específica no. Ver `../../temas/11-seguridad-devsecops/`.
+- **Cumplimiento PCI-DSS / SOC 2** (surgió en postulaciones, Rapyd): trabajó
+  dentro del entorno PCI-DSS de Mercado Pago pero no recuerda los controles.
+  Repasar qué exige PCI-DSS a infraestructura (segmentación, cifrado, logs,
+  accesos) y en qué se diferencia SOC 2. Ver `../../temas/11-seguridad-devsecops/`.
+- **HashiCorp Vault / Open Policy Agent** (surgió en postulaciones, Endava):
+  exposición poca; reforzar antes de una entrevista. Vault: motores de
+  secretos, secretos dinámicos, auth con Kubernetes/OIDC. OPA: políticas como
+  código (Rego, Gatekeeper). Ver `../../temas/06-datos-secretos/` y
+  `../../temas/11-seguridad-devsecops/`.
 
 ## Ronda de vocabulario pendiente
 
