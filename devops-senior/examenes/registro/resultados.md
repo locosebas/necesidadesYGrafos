@@ -51,6 +51,12 @@ grabados** con el tiempo sin repaso. Es un pedido de **repetición espaciada**
 automático para disparar esas sesiones de repaso sin que él tenga que
 acordarse de pedirlo.
 
+**Actualización (2026-10-02):** el usuario reforzó el pedido — cuando se
+haga ese repaso espaciado, quiere **preguntas más exigentes** (no las
+preguntas guiadas de primera pasada que se usan para enseñar un tema nuevo),
+específicamente para comprobar qué tanto quedó interiorizado de verdad, no
+solo si lo entendió en el momento en que se explicó.
+
 ## Ansible — tema nuevo pendiente de agregar (2026-09-25)
 
 El usuario pidió agregar **Ansible** al temario. Es **gestión de
