@@ -97,6 +97,8 @@ Architecture 27%, Configuración/Workflows 20%, Contexto/Confiabilidad 15%),
 encadenadas de las 5 áreas sin avisar el tema, como ya se hace con los
 temas de nube) antes de considerar rendir el examen real.
 
+| 2026-10-01/02 | Identidad (`04-identidad-iam`) — Managed Identity/IAM Role/Service Account, Keycloak, federación OIDC Kubernetes↔AWS IAM (IRSA) | Repaso guiado sobre base real previa (AWS IAM, Azure AD) | Guiado, de a una pregunta | Buena base real en roles/políticas. Corrigió el eje real de Managed Identity (ciclo de vida/compartibilidad) tras una confusión inicial; aplicó bien el trade-off de blast radius en Keycloak (Client por app) sin ayuda; conectó de forma espontánea su experiencia real en MercadoLibre (K8s self-managed sobre EC2, "MRN") con el patrón IRSA recién explicado | Quedó sin cerrar la pregunta de síntesis final de IRSA y sin profundizar RBAC específico de cada nube — la sesión se desvió a la ruta de IA/MLOps (pedido del usuario) antes de terminar |
+
 ## ArgoCD — configuración en profundidad pendiente (2026-09-30)
 
 Se cubrió el panorama conceptual de GitOps/ArgoCD (modelo pull, dónde vive
