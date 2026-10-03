@@ -99,6 +99,8 @@ temas de nube) antes de considerar rendir el examen real.
 
 | 2026-10-01/02 | Identidad (`04-identidad-iam`) — Managed Identity/IAM Role/Service Account, Keycloak, federación OIDC Kubernetes↔AWS IAM (IRSA) | Repaso guiado sobre base real previa (AWS IAM, Azure AD) | Guiado, de a una pregunta | Buena base real en roles/políticas. Corrigió el eje real de Managed Identity (ciclo de vida/compartibilidad) tras una confusión inicial; aplicó bien el trade-off de blast radius en Keycloak (Client por app) sin ayuda; conectó de forma espontánea su experiencia real en MercadoLibre (K8s self-managed sobre EC2, "MRN") con el patrón IRSA recién explicado | Quedó sin cerrar la pregunta de síntesis final de IRSA y sin profundizar RBAC específico de cada nube — la sesión se desvió a la ruta de IA/MLOps (pedido del usuario) antes de terminar |
 
+| 2026-10-03 | IA/MLOps — fundamentos (entrenamiento/inferencia, pre-entrenamiento/fine-tuning, RAG) | Fundamentos, desde cero (nivel vocabulario AI-900) | Guiado, de a una pregunta | Buena intuición general de redes neuronales y entrenamiento sin ayuda; corrigió inferencia (no es ajuste manual) y pre-entrenamiento (no sigue aprendiendo solo) tras explicación. En RAG: identificó la técnica sin ayuda y agregó por cuenta propia la variante "agentic RAG" (búsqueda vía tool call en vez de vector DB), conectándolo correctamente con Tool Design/MCP del CCA-F | Falta profundizar embeddings/bases de datos vectoriales y el resto del vocabulario de AI-900/AWS AI Practitioner/Generative AI Leader |
+
 ## ArgoCD — configuración en profundidad pendiente (2026-09-30)
 
 Se cubrió el panorama conceptual de GitOps/ArgoCD (modelo pull, dónde vive
