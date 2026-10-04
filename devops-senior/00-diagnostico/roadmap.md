@@ -142,10 +142,15 @@ a pedido propio para arrancar la Ruta IA/MLOps de abajo; se retoma después.
 
 ## Interrupción priorizada (2026-10-03): Ruta IA / MLOps
 
-El usuario pidió arrancar la **Ruta IA / MLOps** (ver más abajo) antes de
-terminar la Fase 4. Se empieza por el nivel de fundamentos (vocabulario:
-AI-900/AWS AI Practitioner/Generative AI Leader) y, si tiene sentido, se
-avanza al nivel técnico (AI-102/AWS ML Engineer Associate/GCP ML Engineer).
+El usuario pidió arrancar la **Ruta IA / MLOps** (ver `certificaciones/README.md`)
+antes de terminar la Fase 4. **Nivel de fundamentos completo (2026-10-04)**:
+entrenamiento/inferencia, pre-entrenamiento/fine-tuning, RAG/agentic RAG,
+embeddings, visión por computador, NLP, IA Responsable — ver
+`examenes/registro/`. Meta de certificación confirmada: **AWS Certified AI
+Practitioner** (motivo: más peso comercial), en paralelo con el objetivo ya
+existente del **CCA-F**. Pendiente: decidir si se avanza al nivel técnico
+(AI-102/AWS ML Engineer Associate/GCP ML Engineer) o se retoma la Fase 4
+(Identidad), que quedó pausada a la mitad.
 
 ## Fase 5 — Networking avanzado y seguridad (semanas 9-10)
 

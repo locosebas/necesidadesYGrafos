@@ -78,6 +78,10 @@ tiempo; nunca queda fijo en 100% solo porque se explicó una vez.
 | LLM (*Large Language Model*) — qué es | 🟢 Sólido | 2026-10-03, descripción correcta sin ayuda |
 | Pre-entrenamiento vs. fine-tuning | 🟡 Intermedio | 2026-10-03, tema nuevo, no sabía qué significaba "pre"; quedó claro con la explicación |
 | RAG (*Retrieval-Augmented Generation*) y "agentic RAG" (búsqueda vía tool call) | 🟢 Sólido | 2026-10-03, identificó RAG sin ayuda y agregó por cuenta propia la variante de búsqueda determinística vía tool call, conectándolo correctamente con Tool Design/MCP del CCA-F |
+| Embeddings y búsqueda semántica | 🟢 Sólido | 2026-10-03, explicó correctamente y sin ayuda por qué una búsqueda por coincidencia exacta de palabras falla donde un embedding no |
+| Visión por computador (Image Classification, Object Detection) | 🟢 Sólido | 2026-10-03/04, experiencia real propia (clasificador de calidad/conteo de pétalos de flores); identificó correctamente que usó **transfer learning vía feature extraction**, no fine-tuning real, tras una duda propia bien fundamentada |
+| NLP — Sentiment Analysis, NER, y cuándo usar servicio pre-construido vs. modelo propio vs. prompting a un LLM | 🟢 Sólido | 2026-10-04, razonamiento correcto de costo/tiempo sin ayuda |
+| Principios de IA Responsable (Fairness, Reliability & Safety, Privacy & Security, Inclusiveness, Transparency, Accountability) | 🟡 Intermedio | 2026-10-04, identificó bien Reliability & Safety aplicado a su propio caso (cámaras) una vez se le dieron las definiciones; no los recordaba de memoria |
 
 ## Arquitectura / Platform Engineering
 
