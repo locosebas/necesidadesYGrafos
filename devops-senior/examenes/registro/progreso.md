@@ -66,9 +66,10 @@ tiempo; nunca queda fijo en 100% solo porque se explicó una vez.
 |---|---|---|
 | Managed Identity system-assigned vs. user-assigned (y equivalencias AWS IAM Role / GCP Service Account) | 🟡 Intermedio | 2026-10-01/02, corrigió el eje real (ciclo de vida/compartibilidad, no duración) tras una confusión inicial; identificó bien el trade-off de blast radius en un caso concreto (5 VMs) |
 | Keycloak (Realm, Client, SSO, User Federation) | 🟡 Intermedio | 2026-10-01, tema nuevo desde cero; confundió Client único vs. uno por app (corregido con el mismo argumento de blast radius) |
-| Federación OIDC Kubernetes↔AWS IAM (IRSA): Identity Provider, trust policy con `Principal`+`Condition` sobre `sub`, ServiceAccount, `AssumeRoleWithWebIdentity` | 🟡 Intermedio | 2026-10-02, buena conexión con experiencia real propia (MercadoLibre, "MRN"); identificó bien el `Principal` y el riesgo de blast radius sin la `Condition` |
+| Federación OIDC Kubernetes↔AWS IAM (IRSA): Identity Provider, trust policy con `Principal`+`Condition` sobre `sub`, ServiceAccount, `AssumeRoleWithWebIdentity` | 🟢 Sólido | 2026-10-04, cerró la síntesis completa de los 5 pasos sin ayuda (incluido qué pasa si se borra el ServiceAccount) |
+| RBAC — scope jerárquico en Azure (Management Group→Subscription→Resource Group→Resource) y herencia | 🟢 Sólido | 2026-10-04, respondió bien sin ayuda que la herencia es automática hacia abajo |
 
-**Pendiente**: cerrar la pregunta de síntesis final de IRSA (qué pasa si se borra el ServiceAccount) y profundizar RBAC/políticas específicas de Azure/AWS/GCP — la sesión se desvió a la ruta de IA/MLOps antes de terminar este bloque.
+**Fase 4 completa (2026-10-04).**
 
 ## IA / MLOps — Fundamentos
 

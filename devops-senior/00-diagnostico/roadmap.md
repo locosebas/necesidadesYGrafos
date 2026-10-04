@@ -131,14 +131,13 @@ Panorama conceptual cubierto (modelo pull vs. push, dónde vive ArgoCD, OIDC)
 — ver `examenes/registro/`. Pendiente, pospuesto a pedido propio: configuración
 práctica de ArgoCD (instalación, `Application`/`AppProject`, sync policies).
 
-## Fase 4 — Identidad (semanas 7-8) — en pausa (2026-10-03)
+## Fase 4 — Identidad (semanas 7-8) ✅ completa (2026-10-04)
 
 8. `temas/04-identidad-iam` — Entra ID/RBAC, AWS IAM, GCP IAM, Managed Identity, y **Keycloak** (IAM propio/self-hosteado, clave para una plataforma multi-cloud real)
 
-Cubierto: Managed Identity/IAM Role/Service Account, Keycloak, federación OIDC
-Kubernetes↔AWS IAM (IRSA) — ver `examenes/registro/`. Pendiente: cerrar la
-síntesis final de IRSA y profundizar RBAC específico de cada nube. Pausado
-a pedido propio para arrancar la Ruta IA/MLOps de abajo; se retoma después.
+Cubierto completo: Managed Identity/IAM Role/Service Account, Keycloak,
+federación OIDC Kubernetes↔AWS IAM (IRSA), y RBAC scope/herencia en Azure —
+ver `examenes/registro/`.
 
 ## Interrupción priorizada (2026-10-03): Ruta IA / MLOps
 
