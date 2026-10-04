@@ -27,6 +27,13 @@ que se trabaje en este repo — no hace falta que las repita cada sesión.
   cualquier interacción de enseñanza en este repo.
 - Metodología general → específico: primero panorama conceptual del tema,
   después detalle técnico.
+- **En evaluaciones/repasos (no necesariamente al enseñar un tema por
+  primera vez): forzar el recuerdo del NOMBRE, no solo del funcionamiento.**
+  Describir cómo funciona algo y pedirle que diga qué servicio/herramienta
+  lo resuelve — no decir el nombre primero y preguntar si entiende cómo
+  funciona. El usuario reporta que a veces entiende el mecanismo perfectamente
+  cuando le dicen el nombre, pero no logra recordar el nombre por sí mismo;
+  el objetivo es interiorizar el nombre, no solo el concepto.
 
 ## Registro de avance
 

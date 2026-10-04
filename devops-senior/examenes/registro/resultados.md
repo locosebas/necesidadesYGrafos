@@ -57,6 +57,15 @@ preguntas guiadas de primera pasada que se usan para enseñar un tema nuevo),
 específicamente para comprobar qué tanto quedó interiorizado de verdad, no
 solo si lo entendió en el momento en que se explicó.
 
+**Actualización (2026-10-04):** el usuario reiteró que esto sigue pendiente
+y aplica también a la **Fase 4 (Identidad)**, recién marcada como completa —
+"completa" en el roadmap significa primera pasada cubierta, no que ya no
+necesite repaso (coherente con la escala no binaria de `progreso.md`).
+Además pidió una regla específica para esos repasos: **forzar el recuerdo
+del NOMBRE del servicio/herramienta, no solo del funcionamiento** — describir
+cómo funciona algo y que él diga qué lo resuelve, no al revés (ver regla
+nueva en `CLAUDE.md`, sección "Formato de enseñanza/examen").
+
 ## Ansible — tema nuevo pendiente de agregar (2026-09-25)
 
 El usuario pidió agregar **Ansible** al temario. Es **gestión de
