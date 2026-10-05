@@ -35,6 +35,14 @@ que se trabaje en este repo — no hace falta que las repita cada sesión.
   cuando le dicen el nombre, pero no logra recordar el nombre por sí mismo;
   el objetivo es interiorizar el nombre, no solo el concepto.
 
+## Presentar el progreso como lista numerada y calificada
+
+- Al usuario le sirve ver los temas **enumerados** (1, 2, 3...) con su
+  **nivel actual** al lado (🔴/🟡/🟢/🔵, la misma escala de `progreso.md`) —
+  la numeración le da sentido de avance total, y la calificación le dice
+  dónde repasar. Presentar esto en el chat (no solo dejarlo en el archivo)
+  al cerrar una fase, al empezar una sesión nueva, o cuando lo pida.
+
 ## Registro de avance
 
 - Antes de dar por hecho que algo "ya se sabe", revisar
