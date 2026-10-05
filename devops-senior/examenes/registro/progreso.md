@@ -32,6 +32,18 @@ tiempo; nunca queda fijo en 100% solo porque se explicó una vez.
 | Private Endpoint / Private DNS Zone | 🟢 Sólido | Corregiste vos mismo el error de ubicación tras la explicación |
 | NAT Gateway, WAF, Firewall centralizado | 🟡 Intermedio | Recién explicado, sin repaso |
 | AWS Load Balancers (ALB/NLB/GWLB) | 🟡 Intermedio | Repasado tras fallarlo en entrevista real (EY) |
+| Private Endpoint — equivalencias multi-cloud (Azure Private Endpoint / AWS PrivateLink / GCP Private Service Connect) | 🟢 Sólido | 2026-10-05, reconoció el nombre correcto vía selección múltiple tras describir bien el funcionamiento; identificó solo que "Private Endpoint" es específico de Azure |
+
+## Seguridad / DevSecOps
+
+| Tema | Nivel | Última vez puesto a prueba |
+|---|---|---|
+| Shift-left security, Trivy (escaneo de imágenes/CVEs) | 🟡 Intermedio | 2026-10-05, describió bien el funcionamiento sin ayuda; no recordó el nombre exacto (dijo "Stribi") — prioridad de repaso de NOMBRE |
+| OPA/Gatekeeper (policy-as-code) | 🟢 Sólido | 2026-10-05, no recordó el nombre a la primera, pero tras la descripción completa lo reconoció correctamente |
+
+**Fase 5 completa (2026-10-05)** dentro de lo que le corresponde — la frase
+de cierre completa del roadmap ("app a BD sin exponer secretos") se termina
+de cerrar en la Fase 6 (Key Vault/Secrets Manager).
 
 ## Terraform
 

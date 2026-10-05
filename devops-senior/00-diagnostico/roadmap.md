@@ -151,7 +151,7 @@ existente del **CCA-F**. Pendiente: decidir si se avanza al nivel técnico
 (AI-102/AWS ML Engineer Associate/GCP ML Engineer) o se retoma la Fase 4
 (Identidad), que quedó pausada a la mitad.
 
-## Fase 5 — Networking avanzado y seguridad (semanas 9-10)
+## Fase 5 — Networking avanzado y seguridad (semanas 9-10) ✅ completa (2026-10-05)
 
 9. `temas/05-networking-multicloud` — VNet/VPC, Private Endpoints/PrivateLink/Private Service Connect
 10. `temas/11-seguridad-devsecops` — shift-left security, escaneo de imágenes/IaC, **OPA/policy-as-code**
@@ -160,6 +160,11 @@ Al final de la Fase 5 deberías poder explicar de memoria cómo una app llega a
 una base de datos sin exponer secretos ni tráfico a internet público, **y**
 cómo se le impone una regla de seguridad a todo el clúster sin tocar cada
 app (OPA/Gatekeeper) — en cualquiera de las tres nubes.
+
+Cubierto: equivalencias multi-cloud de Private Endpoint, y Trivy/OPA-Gatekeeper
+(con recuerdo de nombre todavía débil, ver `examenes/registro/`). La mitad
+de "sin exponer secretos" de la frase de cierre queda pendiente para la
+Fase 6 (Key Vault/Secrets Manager, aún no enseñado).
 
 ## Fase 6 — Datos y secretos (semanas 11-12)
 
