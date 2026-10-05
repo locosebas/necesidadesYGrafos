@@ -32,14 +32,14 @@ de la tabla de arriba entre todos los temas de la fase (⬜/🔴 = 0%).
 | 4 | Identidad | 100% | 68% | ✅ Cubierta |
 | ↳ | *Interrupción: Ruta IA/MLOps (fundamentos)* | 100% | 72% | 🟡 Nivel técnico sin empezar |
 | 5 | Networking avanzado y seguridad | 100% | 68% | ✅ Cubierta |
-| 6 | Datos y secretos | 25% | 13% | 🔴 **Arrancando ahora** |
+| 6 | Datos y secretos | 50% | 34% | 🟡 En progreso |
 | 7 | Observabilidad y async/orquestación | 0% | 0% | ⬜ Sin empezar |
 | 8 | Kubernetes — troubleshooting | 100% | 50% | 🟡 Superficial, falta sesión dedicada |
 | 9 | Arquitectura de plataforma (capstone) | 50% | 25% | 🟡 Parcial, ad-hoc |
 | 10 | Certificación y entrevista final | 0% | 0% | ⬜ Sin empezar |
 
-**Promedio del plan completo (Fases 1-10, peso igual por fase): ~66% visto,
-~39% dominado.** Son dos números distintos a propósito — "visto" mide
+**Promedio del plan completo (Fases 1-10, peso igual por fase): ~69% visto,
+~41% dominado.** Son dos números distintos a propósito — "visto" mide
 cobertura del temario completo, "dominado" mide qué tan defendible es lo
 que ya se tocó. Las dos interrupciones (CCA-F, IA/MLOps) corren en paralelo
 y no cuentan en este promedio de las 10 fases numeradas.
@@ -141,7 +141,7 @@ se termina de cerrar en la Fase 6 (Key Vault/Secrets Manager).
 | # | Tema | Nivel | Última vez puesto a prueba |
 |---|---|---|---|
 | 43 | Replicación vs. sharding de bases de datos (teoría general) | 🟡 Intermedio | Explicado, sin repaso |
-| 44 | Key Vault / Secrets Manager / Secret Manager | ⬜ No visto | — |
+| 44 | Key Vault / Secrets Manager / Secret Manager (+ integración con Managed Identity/IAM Role) | 🟢 Sólido | 2026-10-05, cerró sin ayuda la síntesis completa: Managed Identity/IAM Role → lee Key Vault/Secrets Manager → conecta a la BD por Private Endpoint/PrivateLink |
 | 45 | Cosmos DB / DynamoDB / Firestore (NoSQL administradas) | ⬜ No visto | — |
 | 46 | AlloyDB / RDS / Cloud SQL (relacional administrada) | ⬜ No visto | — |
 

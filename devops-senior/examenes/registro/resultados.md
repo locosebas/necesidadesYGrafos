@@ -134,6 +134,8 @@ manual vs. automático, `self-heal`). El usuario pidió explícitamente
 posponerlo para una sesión futura, después de avanzar con la Fase 4
 (Identidad).
 
+| 2026-10-05 | Fase 6 — Datos y secretos (inicio): Key Vault/Secrets Manager + integración con Managed Identity/IAM Role | Guiado, síntesis de piezas ya vistas | Guiado, de a una pregunta | Identificó bien el servicio de secretos (con ayuda de HashiCorp Vault como externo) y cerró sin ayuda la síntesis completa de "app a BD sin exponer secretos": Managed Identity/IAM Role → Key Vault/Secrets Manager → Private Endpoint/PrivateLink | Faltan las bases administradas: Cosmos DB/DynamoDB/Firestore (NoSQL) y AlloyDB/RDS/Cloud SQL (relacional) |
+
 ## Ronda de vocabulario pendiente
 
 El usuario pidió una ronda rápida de repaso de términos/nombres de
