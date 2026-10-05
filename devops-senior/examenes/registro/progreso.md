@@ -28,7 +28,7 @@ de la tabla de arriba entre todos los temas de la fase (⬜/🔴 = 0%).
 | 1 | Kubernetes — arquitectura y fundamentos | 100% | 68% | ✅ Cubierta |
 | 2 | IaC multi-cloud (+ Ansible agregado) | 89% | 52% | ✅ Cubierta, con huecos (Bicep/CFN) |
 | ↳ | *Interrupción: Claude Certified Architect (CCA-F)* | 100% | 72% | 🟡 Falta repaso mixto |
-| 3 | CI/CD y GitOps | 75% | 46% | ✅ Cubierta, con huecos (GitLab CI) |
+| 3 | CI/CD y GitOps | 100% | 46% | ✅ Cubierta, GitLab CI por autoestudio sin verificar |
 | 4 | Identidad | 100% | 68% | ✅ Cubierta |
 | ↳ | *Interrupción: Ruta IA/MLOps (fundamentos)* | 100% | 72% | 🟡 Nivel técnico sin empezar |
 | 5 | Networking avanzado y seguridad | 100% | 68% | ✅ Cubierta |
@@ -38,7 +38,7 @@ de la tabla de arriba entre todos los temas de la fase (⬜/🔴 = 0%).
 | 9 | Arquitectura de plataforma (capstone) | 50% | 25% | 🟡 Parcial, ad-hoc |
 | 10 | Certificación y entrevista final | 0% | 0% | ⬜ Sin empezar |
 
-**Promedio del plan completo (Fases 1-10, peso igual por fase): ~64% visto,
+**Promedio del plan completo (Fases 1-10, peso igual por fase): ~66% visto,
 ~39% dominado.** Son dos números distintos a propósito — "visto" mide
 cobertura del temario completo, "dominado" mide qué tan defendible es lo
 que ya se tocó. Las dos interrupciones (CCA-F, IA/MLOps) corren en paralelo
@@ -91,7 +91,7 @@ el tema) antes de considerar rendir el examen real.
 | 21 | CI/CD tradicional (push, pipelines build/test/deploy) | 🟢 Sólido | Experiencia real previa (Jenkins/Azure Pipelines) |
 | 22 | GitOps — modelo pull, dónde vive ArgoCD, ventana de despliegue | 🟡 Intermedio | 2026-09-30, corrigió solo tras confusión sobre ubicación de ArgoCD |
 | 23 | OIDC (autenticación sin secretos fijos) | 🟡 Intermedio | 2026-09-30, necesitó precisión del mecanismo de dos pasos |
-| 24 | GitLab CI | ⬜ No visto | Mencionado como alternativa, nunca profundizado |
+| 24 | GitLab CI | 🔴 Novato | 2026-10-05, el usuario reporta autoestudio fuera de esta sesión ("lo avancé rápido"), pero no se confirmó profundidad — pendiente de verificar con preguntas antes de subir el nivel |
 
 **Pendiente**: configuración práctica de ArgoCD (instalación, `Application`/
 `AppProject`, sync policies) — pospuesto a pedido propio.
