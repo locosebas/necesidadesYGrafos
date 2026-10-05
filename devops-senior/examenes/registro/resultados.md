@@ -38,6 +38,10 @@ Well-Architected trade-offs (buen ejemplo propio con HPA).
 - **DevSecOps / "shift-left"**: no conocía el término ni herramientas como
   **Trivy**; el concepto general de seguridad temprana sí, pero la
   terminología específica no. Ver `../../temas/11-seguridad-devsecops/`.
+  **Actualización (2026-10-05)**: sigue siendo un hueco específico de
+  **nombre** (dijo "Stribi" en vez de "Trivy") aunque el funcionamiento ya
+  lo describió bien sin ayuda — marcar como prioridad alta de recuerdo de
+  NOMBRE (no de concepto) en el próximo repaso espaciado.
 
 ## Repaso espaciado pendiente de programar (2026-09-25)
 
