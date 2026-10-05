@@ -70,6 +70,13 @@ del NOMBRE del servicio/herramienta, no solo del funcionamiento** — describir
 cómo funciona algo y que él diga qué lo resuelve, no al revés (ver regla
 nueva en `CLAUDE.md`, sección "Formato de enseñanza/examen").
 
+**Actualización (2026-10-05):** para esos repasos de nombres, el usuario
+pidió específicamente el formato de **selección múltiple** (dar el
+funcionamiento + varias opciones de nombre para elegir) en vez de recuerdo
+abierto directo, como paso intermedio para ir progresando. Pendiente de
+implementar en el próximo repaso espaciado, no en sesiones de enseñanza
+normales.
+
 ## Ansible — tema nuevo pendiente de agregar (2026-09-25)
 
 El usuario pidió agregar **Ansible** al temario. Es **gestión de
