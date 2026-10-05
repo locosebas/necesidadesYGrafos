@@ -166,9 +166,14 @@ Cubierto: equivalencias multi-cloud de Private Endpoint, y Trivy/OPA-Gatekeeper
 de "sin exponer secretos" de la frase de cierre queda pendiente para la
 Fase 6 (Key Vault/Secrets Manager, aún no enseñado).
 
-## Fase 6 — Datos y secretos (semanas 11-12)
+## Fase 6 — Datos y secretos (semanas 11-12) ✅ completa (2026-10-05)
 
 11. `temas/06-datos-secretos` — Key Vault/Secrets Manager/Secret Manager, Cosmos DB/DynamoDB/Firestore, **AlloyDB**/RDS/Cloud SQL (relacional)
+
+Cubierto completo: síntesis de secretos (Managed Identity/IAM Role → Key
+Vault/Secrets Manager → Private Endpoint/PrivateLink, cerrando la frase de
+cierre de la Fase 5), niveles de consistencia NoSQL (cierra hueco del
+diagnóstico inicial), y relacional administrada — ver `examenes/registro/`.
 
 ## Fase 7 — Observabilidad y async/orquestación (semanas 13-14)
 
