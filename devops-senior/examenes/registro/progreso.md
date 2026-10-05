@@ -1,126 +1,176 @@
-# Nivel de dominio por tema
+# Nivel de dominio por tema — organizado por Fase
 
-Esto **no es** "visto / no visto" — es qué tan sólido estás en cada tema
-**hoy**, medido por cómo respondiste la última vez que se puso a prueba
-(examen, repaso espaciado, o una entrevista real). Sube o baja con el
-tiempo; nunca queda fijo en 100% solo porque se explicó una vez.
+Esto **no es** "visto / no visto" a nivel binario de tema — es qué tan
+sólido estás en cada tema **hoy**, medido por cómo respondiste la última
+vez que se puso a prueba (examen, repaso espaciado, o una entrevista real).
+Sube o baja con el tiempo; nunca queda fijo en 100% solo porque se explicó
+una vez. Las fases son las de `../../00-diagnostico/roadmap.md`.
 
 ## Escala
 
-| Nivel | Qué significa |
-|---|---|
-| 🔴 **Novato** | Recién visto, no se puso a prueba todavía |
-| 🟡 **Intermedio** | Repasado, quedan dudas puntuales o no se testeó a fondo |
-| 🟢 **Sólido** | Defendible en una entrevista real, sin ayuda |
-| 🔵 **Senior** | Lo puede explicar con matices/trade-offs, enseñarlo, sin dudar |
-
-## Kubernetes
-
-| Tema | Nivel | Última vez puesto a prueba |
+| Nivel | Qué significa | Valor para % dominado |
 |---|---|---|
-| Arquitectura (control plane, nodos, reconciliation loop) | 🟢 Sólido | 2026-09-14/15, sesión guiada completa |
-| Scheduling/recursos (QoS, HPA/VPA, RBAC de K8s) | 🟡 Intermedio | Tocado vía `Pending`, sin examen dedicado |
-| Networking (Services, Headless, NetworkPolicy, Istio, kube-proxy) | 🟢 Sólido | 2026-09-16/17, varias correcciones bien asimiladas |
-| Troubleshooting (`CrashLoopBackOff`, `Pending`, `OOMKilled`) | 🟡 Intermedio | Repasado vía preguntas reales de entrevista, falta sesión dedicada (Fase 8) |
-| Operators/CRDs, AKS vs EKS vs GKE | 🟡 Intermedio | Mencionado, no testeado a fondo |
+| ⬜ **No visto** | Nunca se tocó en este plan todavía | 0% |
+| 🔴 **Novato** | Recién visto, no se puso a prueba todavía | 0% |
+| 🟡 **Intermedio** | Repasado, quedan dudas puntuales o no se testeó a fondo | 50% |
+| 🟢 **Sólido** | Defendible en una entrevista real, sin ayuda | 85% |
+| 🔵 **Senior** | Lo puede explicar con matices/trade-offs, enseñarlo, sin dudar | 100% |
 
-## Redes
+**% Visto** de una fase = temas tocados (cualquier nivel, incluido ⬜ no
+cuenta) ÷ total de temas de esa fase. **% Dominado** = promedio del valor
+de la tabla de arriba entre todos los temas de la fase (⬜/🔴 = 0%).
 
-| Tema | Nivel | Última vez puesto a prueba |
-|---|---|---|
-| VNet/VPC, modelo de 3 capas, NSG | 🟢 Sólido | 2026-09-16/17, con diagrama de apoyo |
-| Private Endpoint / Private DNS Zone | 🟢 Sólido | Corregiste vos mismo el error de ubicación tras la explicación |
-| NAT Gateway, WAF, Firewall centralizado | 🟡 Intermedio | Recién explicado, sin repaso |
-| AWS Load Balancers (ALB/NLB/GWLB) | 🟡 Intermedio | Repasado tras fallarlo en entrevista real (EY) |
-| Private Endpoint — equivalencias multi-cloud (Azure Private Endpoint / AWS PrivateLink / GCP Private Service Connect) | 🟢 Sólido | 2026-10-05, reconoció el nombre correcto vía selección múltiple tras describir bien el funcionamiento; identificó solo que "Private Endpoint" es específico de Azure |
+## Resumen por fase
 
-## Seguridad / DevSecOps
+| Fase | Tema | % Visto | % Dominado | Estado |
+|---|---|---|---|---|
+| 0 | Diagnóstico general | — | — | ✅ Hecho |
+| 1 | Kubernetes — arquitectura y fundamentos | 100% | 68% | ✅ Cubierta |
+| 2 | IaC multi-cloud (+ Ansible agregado) | 89% | 52% | ✅ Cubierta, con huecos (Bicep/CFN) |
+| ↳ | *Interrupción: Claude Certified Architect (CCA-F)* | 100% | 72% | 🟡 Falta repaso mixto |
+| 3 | CI/CD y GitOps | 75% | 46% | ✅ Cubierta, con huecos (GitLab CI) |
+| 4 | Identidad | 100% | 68% | ✅ Cubierta |
+| ↳ | *Interrupción: Ruta IA/MLOps (fundamentos)* | 100% | 72% | 🟡 Nivel técnico sin empezar |
+| 5 | Networking avanzado y seguridad | 100% | 68% | ✅ Cubierta |
+| 6 | Datos y secretos | 25% | 13% | 🔴 **Arrancando ahora** |
+| 7 | Observabilidad y async/orquestación | 0% | 0% | ⬜ Sin empezar |
+| 8 | Kubernetes — troubleshooting | 100% | 50% | 🟡 Superficial, falta sesión dedicada |
+| 9 | Arquitectura de plataforma (capstone) | 50% | 25% | 🟡 Parcial, ad-hoc |
+| 10 | Certificación y entrevista final | 0% | 0% | ⬜ Sin empezar |
 
-| Tema | Nivel | Última vez puesto a prueba |
-|---|---|---|
-| Shift-left security, Trivy (escaneo de imágenes/CVEs) | 🟡 Intermedio | 2026-10-05, describió bien el funcionamiento sin ayuda; no recordó el nombre exacto (dijo "Stribi") — prioridad de repaso de NOMBRE |
-| OPA/Gatekeeper (policy-as-code) | 🟢 Sólido | 2026-10-05, no recordó el nombre a la primera, pero tras la descripción completa lo reconoció correctamente |
+**Promedio del plan completo (Fases 1-10, peso igual por fase): ~64% visto,
+~39% dominado.** Son dos números distintos a propósito — "visto" mide
+cobertura del temario completo, "dominado" mide qué tan defendible es lo
+que ya se tocó. Las dos interrupciones (CCA-F, IA/MLOps) corren en paralelo
+y no cuentan en este promedio de las 10 fases numeradas.
 
-**Fase 5 completa (2026-10-05)** dentro de lo que le corresponde — la frase
-de cierre completa del roadmap ("app a BD sin exponer secretos") se termina
-de cerrar en la Fase 6 (Key Vault/Secrets Manager).
+---
 
-## Terraform
+## Fase 1 — Kubernetes: arquitectura y fundamentos
 
-| Tema | Nivel | Última vez puesto a prueba |
-|---|---|---|
-| State file, locking, drift, import | 🟢 Sólido | 2026-09-24/25, buenas respuestas propias antes de la corrección |
-| Backends multi-cloud (S3/Blob/GCS) | 🟢 Sólido | Explicaste vos mismo el mecanismo de DynamoDB |
-| Buenas prácticas y ecosistema (Terragrunt, tflint, Terratest, Atlantis, Infracost) | 🟡 Intermedio | Recién explicado en profundidad, sin repaso |
+| # | Tema | Nivel | Última vez puesto a prueba |
+|---|---|---|---|
+| 1 | Arquitectura (control plane, nodos, reconciliation loop) | 🟢 Sólido | 2026-09-14/15, sesión guiada completa |
+| 2 | Scheduling/recursos (QoS, HPA/VPA, RBAC de K8s) | 🟡 Intermedio | Tocado vía `Pending`, sin examen dedicado |
+| 3 | Networking (Services, Headless, NetworkPolicy, Istio, kube-proxy) | 🟢 Sólido | 2026-09-16/17, varias correcciones bien asimiladas |
+| 4 | Operators/CRDs — concepto general | 🟡 Intermedio | Mencionado, no testeado a fondo |
+| 5 | Distribuciones de Kubernetes (AKS/EKS/GKE/OpenShift/k3s) | 🟢 Sólido | Diste la respuesta correcta en inglés sin ayuda |
+| 6 | Proxies (NGINX/HAProxy/Envoy) e Ingress | 🟡 Intermedio | Explicado a fondo, sin repaso |
 
-## Ansible
+## Fase 2 — IaC multi-cloud (+ Ansible agregado)
 
-| Tema | Nivel | Última vez puesto a prueba |
-|---|---|---|
-| Fundamentos (gestión de configuración vs. provisioning de Terraform, vs. Docker) | 🟡 Intermedio | 2026-09-29, sesión guiada desde cero; corrigió solo tras un par de confusiones puntuales (Docker vs. Ansible, "Terraform no depende de estado") |
-| Arquitectura agentless (nodo de control, Inventory, Playbook, Módulos) | 🟡 Intermedio | 2026-09-29, buenas respuestas propias (rol del Inventory para agrupar servidores, capa del sistema operativo) |
-| Idempotencia (`ok` vs. `changed`) y Handlers | 🟡 Intermedio | 2026-09-29, confundió inicialmente `ok` con "se ejecutó la acción", quedó claro tras la corrección |
-| Roles, variables (`defaults`/`vars`) y plantillas Jinja2 | 🟡 Intermedio | 2026-09-29, respuestas correctas sin ayuda (variable en vez de hardcodear, `template` vs. `copy`) |
+| # | Tema | Nivel | Última vez puesto a prueba |
+|---|---|---|---|
+| 7 | Terraform — State file, locking, drift, import | 🟢 Sólido | 2026-09-24/25, buenas respuestas propias antes de la corrección |
+| 8 | Terraform — Backends multi-cloud (S3/Blob/GCS) | 🟢 Sólido | Explicaste vos mismo el mecanismo de DynamoDB |
+| 9 | Terraform — Buenas prácticas y ecosistema (Terragrunt, tflint, Terratest, Atlantis, Infracost) | 🟡 Intermedio | Recién explicado en profundidad, sin repaso |
+| 10 | Bicep / CloudFormation / CDK | ⬜ No visto | Nunca se tocó — hueco real del roadmap |
+| 11 | Contenedores serverless (Container Apps/Fargate/Cloud Run) | 🟡 Intermedio | Visto como parte de la curva de cómputo, sin examen dedicado |
+| 12 | Ansible — Fundamentos (vs. Terraform, vs. Docker) | 🟡 Intermedio | 2026-09-29, corrigió solo tras un par de confusiones puntuales |
+| 13 | Ansible — Arquitectura agentless (Inventory, Playbook, Módulos) | 🟡 Intermedio | 2026-09-29, buenas respuestas propias |
+| 14 | Ansible — Idempotencia (`ok` vs. `changed`) y Handlers | 🟡 Intermedio | 2026-09-29, confundió `ok` inicialmente, corregido |
+| 15 | Ansible — Roles, variables (`defaults`/`vars`), plantillas Jinja2 | 🟡 Intermedio | 2026-09-29, respuestas correctas sin ayuda |
 
-## CI/CD y GitOps
+### ↳ Interrupción: Claude Certified Architect (CCA-F)
 
-| Tema | Nivel | Última vez puesto a prueba |
-|---|---|---|
-| CI/CD tradicional (push, pipelines de build/test/deploy) | 🟢 Sólido | Experiencia real previa (Jenkins/Azure Pipelines), buena descripción propia con correcciones menores de orden |
-| GitOps — modelo pull, dónde vive ArgoCD, ventana de despliegue | 🟡 Intermedio | 2026-09-30, corrigió solo tras una confusión sobre la ubicación de ArgoCD; identificó bien solo dónde cabe la aprobación manual (merge a main) |
-| OIDC (*OpenID Connect*, autenticación sin secretos fijos) | 🟡 Intermedio | 2026-09-30, buena intuición inicial (mínimo privilegio, tiempo corto), necesitó precisión sobre el mecanismo de dos pasos (JWT firmado + credencial temporal) |
+| # | Área del examen (peso) | Nivel | Última vez puesto a prueba |
+|---|---|---|---|
+| 16 | Arquitectura y Orquestación Agéntica (27%) | 🟢 Sólido | Loop ReAct, señal de terminación, 4 razones de sub-agentes — corrección menor |
+| 17 | Configuración y Workflows de Claude Code (20%) | 🟢 Sólido | PreToolUse vs. Stop hooks, alcance de `CLAUDE.md`, sin ayuda |
+| 18 | Diseño de Tools e Integración MCP (18%) | 🟡 Intermedio | Varias rondas de aclaración sobre mecánica cliente/servidor y determinismo |
+| 19 | Prompt Engineering y Structured Output (20%) | 🟡 Intermedio | Intuición correcta, necesitó ejemplo completo de *forced tool use* |
+| 20 | Gestión de Contexto y Confiabilidad (15%) | 🟢 Sólido | Sub-agentes, idempotencia/"check-before-act" sin ayuda |
 
-**Pendiente de profundizar**: configuración práctica de ArgoCD (instalación, objetos `Application`/`AppProject`, políticas de sincronización) — pospuesto a pedido propio para una sesión futura.
+**Pendiente**: repaso mixto (preguntas encadenadas de las 5 áreas sin avisar
+el tema) antes de considerar rendir el examen real.
 
-## Identidad
+## Fase 3 — CI/CD y GitOps
 
-| Tema | Nivel | Última vez puesto a prueba |
-|---|---|---|
-| Managed Identity system-assigned vs. user-assigned (y equivalencias AWS IAM Role / GCP Service Account) | 🟡 Intermedio | 2026-10-01/02, corrigió el eje real (ciclo de vida/compartibilidad, no duración) tras una confusión inicial; identificó bien el trade-off de blast radius en un caso concreto (5 VMs) |
-| Keycloak (Realm, Client, SSO, User Federation) | 🟡 Intermedio | 2026-10-01, tema nuevo desde cero; confundió Client único vs. uno por app (corregido con el mismo argumento de blast radius) |
-| Federación OIDC Kubernetes↔AWS IAM (IRSA): Identity Provider, trust policy con `Principal`+`Condition` sobre `sub`, ServiceAccount, `AssumeRoleWithWebIdentity` | 🟢 Sólido | 2026-10-04, cerró la síntesis completa de los 5 pasos sin ayuda (incluido qué pasa si se borra el ServiceAccount) |
-| RBAC — scope jerárquico en Azure (Management Group→Subscription→Resource Group→Resource) y herencia | 🟢 Sólido | 2026-10-04, respondió bien sin ayuda que la herencia es automática hacia abajo |
+| # | Tema | Nivel | Última vez puesto a prueba |
+|---|---|---|---|
+| 21 | CI/CD tradicional (push, pipelines build/test/deploy) | 🟢 Sólido | Experiencia real previa (Jenkins/Azure Pipelines) |
+| 22 | GitOps — modelo pull, dónde vive ArgoCD, ventana de despliegue | 🟡 Intermedio | 2026-09-30, corrigió solo tras confusión sobre ubicación de ArgoCD |
+| 23 | OIDC (autenticación sin secretos fijos) | 🟡 Intermedio | 2026-09-30, necesitó precisión del mecanismo de dos pasos |
+| 24 | GitLab CI | ⬜ No visto | Mencionado como alternativa, nunca profundizado |
 
-**Fase 4 completa (2026-10-04).**
+**Pendiente**: configuración práctica de ArgoCD (instalación, `Application`/
+`AppProject`, sync policies) — pospuesto a pedido propio.
 
-## IA / MLOps — Fundamentos
+## Fase 4 — Identidad
 
-| Tema | Nivel | Última vez puesto a prueba |
-|---|---|---|
-| Entrenamiento vs. inferencia (pesos/parámetros, red neuronal) | 🟡 Intermedio | 2026-10-03, buena descripción propia del entrenamiento; corrigió inferencia tras una confusión (pensaba que era ajuste manual de pesos) |
-| LLM (*Large Language Model*) — qué es | 🟢 Sólido | 2026-10-03, descripción correcta sin ayuda |
-| Pre-entrenamiento vs. fine-tuning | 🟡 Intermedio | 2026-10-03, tema nuevo, no sabía qué significaba "pre"; quedó claro con la explicación |
-| RAG (*Retrieval-Augmented Generation*) y "agentic RAG" (búsqueda vía tool call) | 🟢 Sólido | 2026-10-03, identificó RAG sin ayuda y agregó por cuenta propia la variante de búsqueda determinística vía tool call, conectándolo correctamente con Tool Design/MCP del CCA-F |
-| Embeddings y búsqueda semántica | 🟢 Sólido | 2026-10-03, explicó correctamente y sin ayuda por qué una búsqueda por coincidencia exacta de palabras falla donde un embedding no |
-| Visión por computador (Image Classification, Object Detection) | 🟢 Sólido | 2026-10-03/04, experiencia real propia (clasificador de calidad/conteo de pétalos de flores); identificó correctamente que usó **transfer learning vía feature extraction**, no fine-tuning real, tras una duda propia bien fundamentada |
-| NLP — Sentiment Analysis, NER, y cuándo usar servicio pre-construido vs. modelo propio vs. prompting a un LLM | 🟢 Sólido | 2026-10-04, razonamiento correcto de costo/tiempo sin ayuda |
-| Principios de IA Responsable (Fairness, Reliability & Safety, Privacy & Security, Inclusiveness, Transparency, Accountability) | 🟡 Intermedio | 2026-10-04, identificó bien Reliability & Safety aplicado a su propio caso (cámaras) una vez se le dieron las definiciones; no los recordaba de memoria |
+| # | Tema | Nivel | Última vez puesto a prueba |
+|---|---|---|---|
+| 25 | Managed Identity / IAM Role / Service Account (equivalencias) | 🟡 Intermedio | 2026-10-01/02, corrigió el eje real (ciclo de vida/compartibilidad) |
+| 26 | Keycloak (Realm, Client, SSO, User Federation) | 🟡 Intermedio | 2026-10-01, tema nuevo desde cero |
+| 27 | Federación OIDC Kubernetes↔AWS IAM (IRSA) | 🟢 Sólido | 2026-10-04, cerró la síntesis completa de los 5 pasos sin ayuda |
+| 28 | RBAC — scope jerárquico en Azure y herencia | 🟢 Sólido | 2026-10-04, respondió bien sin ayuda |
 
-## Arquitectura / Platform Engineering
+### ↳ Interrupción: Ruta IA / MLOps — fundamentos
 
-| Tema | Nivel | Última vez puesto a prueba |
-|---|---|---|
-| Arquitectura completa (frontend+backend, diagrama grande) | 🟡 Intermedio | Construida junto con vos, no evaluada de forma independiente |
-| Compute hierarchy y curva de costos (VM→K8s→serverless→FaaS→PaaS) | 🟡 Intermedio | Explicado con gráfico, sin examen |
-| Variante serverless de la arquitectura | 🟡 Intermedio | Explicado, sin repaso |
+| # | Tema | Nivel | Última vez puesto a prueba |
+|---|---|---|---|
+| 29 | Entrenamiento vs. inferencia (pesos/parámetros) | 🟡 Intermedio | 2026-10-03, corrigió inferencia tras una confusión |
+| 30 | LLM (*Large Language Model*) — qué es | 🟢 Sólido | 2026-10-03, descripción correcta sin ayuda |
+| 31 | Pre-entrenamiento vs. fine-tuning | 🟡 Intermedio | 2026-10-03, tema nuevo, quedó claro con la explicación |
+| 32 | RAG y "agentic RAG" | 🟢 Sólido | 2026-10-03, identificó RAG sin ayuda y aportó la variante agéntica |
+| 33 | Embeddings y búsqueda semántica | 🟢 Sólido | 2026-10-03, explicó correctamente sin ayuda |
+| 34 | Visión por computador (Image Classification, Object Detection, transfer learning) | 🟢 Sólido | 2026-10-03/04, caso real propio (clasificador de flores) |
+| 35 | NLP (Sentiment Analysis, NER, pre-built vs. propio vs. prompting) | 🟢 Sólido | 2026-10-04, razonamiento correcto sin ayuda |
+| 36 | Principios de IA Responsable (6 pilares) | 🟡 Intermedio | 2026-10-04, no los recordaba de memoria, aplicó bien una vez definidos |
 
-## Claude Certified Architect (CCA-F) — 2026-09-25 a 09-29
+**Meta de certificación confirmada**: AWS Certified AI Practitioner (motivo
+comercial) + CCA-F en paralelo. **Nivel técnico** (AI-102/AWS ML Engineer
+Associate/GCP ML Engineer) — ⬜ sin empezar.
 
-| Área del examen (peso) | Nivel | Última vez puesto a prueba |
-|---|---|---|
-| Arquitectura y Orquestación Agéntica (27%) | 🟢 Sólido | Explicaste el loop ReAct, la señal de terminación, y 4 razones reales de sub-agentes (contexto, especialización, paralelización, aislamiento) — con una corrección menor en el mecanismo exacto de cierre del loop |
-| Configuración y Workflows de Claude Code (20%) | 🟢 Sólido | Razonaste bien PreToolUse vs. Stop hooks, y el alcance de `CLAUDE.md` (global/proyecto/directorio) sin ayuda |
-| Diseño de Tools e Integración MCP (18%) | 🟡 Intermedio | Buenas preguntas de seguimiento (infraestructura de un MCP server, prompt/tag injection), pero necesitaste varias rondas de aclaración sobre la mecánica cliente/servidor y el determinismo |
-| Prompt Engineering y Structured Output (20%) | 🟡 Intermedio | Intuición correcta sobre "restringir la respuesta", pero el mecanismo exacto de *forced tool use* necesitó un ejemplo completo para asentarse |
-| Gestión de Contexto y Confiabilidad (15%) | 🟢 Sólido | Sub-agentes para archivos grandes, y respuesta correcta de "check-before-act"/idempotencia sin ayuda |
+## Fase 5 — Networking avanzado y seguridad
 
-## Otros
+| # | Tema | Nivel | Última vez puesto a prueba |
+|---|---|---|---|
+| 37 | VNet/VPC, modelo de 3 capas, NSG | 🟢 Sólido | 2026-09-16/17, con diagrama de apoyo |
+| 38 | Private Endpoint / PrivateLink / Private Service Connect (equivalencias multi-cloud) | 🟢 Sólido | 2026-10-05, reconoció el nombre vía selección múltiple |
+| 39 | NAT Gateway, WAF, Firewall centralizado | 🟡 Intermedio | Recién explicado, sin repaso |
+| 40 | AWS Load Balancers (ALB/NLB/GWLB) | 🟡 Intermedio | Repasado tras fallarlo en entrevista real (EY) |
+| 41 | Shift-left security, Trivy (escaneo de imágenes/CVEs) | 🟡 Intermedio | 2026-10-05, funcionamiento bien explicado; **nombre débil** (dijo "Stribi") — prioridad de repaso |
+| 42 | OPA/Gatekeeper (policy-as-code) | 🟢 Sólido | 2026-10-05, no recordó el nombre a la primera, lo reconoció bien tras la descripción |
 
-| Tema | Nivel | Última vez puesto a prueba |
-|---|---|---|
-| Distribuciones de Kubernetes (AKS/EKS/GKE/OpenShift/k3s) | 🟢 Sólido | Diste la respuesta correcta en inglés sin ayuda |
-| Proxies (NGINX/HAProxy/Envoy) | 🟡 Intermedio | Explicado a fondo, sin repaso |
-| Replicación vs. sharding de bases de datos | 🟡 Intermedio | Explicado, sin repaso |
+**Nota**: la frase de cierre del roadmap ("app a BD sin exponer secretos")
+se termina de cerrar en la Fase 6 (Key Vault/Secrets Manager).
+
+## Fase 6 — Datos y secretos 🔴 arrancando ahora
+
+| # | Tema | Nivel | Última vez puesto a prueba |
+|---|---|---|---|
+| 43 | Replicación vs. sharding de bases de datos (teoría general) | 🟡 Intermedio | Explicado, sin repaso |
+| 44 | Key Vault / Secrets Manager / Secret Manager | ⬜ No visto | — |
+| 45 | Cosmos DB / DynamoDB / Firestore (NoSQL administradas) | ⬜ No visto | — |
+| 46 | AlloyDB / RDS / Cloud SQL (relacional administrada) | ⬜ No visto | — |
+
+## Fase 7 — Observabilidad y async/orquestación
+
+| # | Tema | Nivel | Última vez puesto a prueba |
+|---|---|---|---|
+| 47 | Observabilidad (Azure Monitor/CloudWatch/Cloud Logging, OpenTelemetry) | ⬜ No visto | — |
+| 48 | Orquestación serverless (Durable Functions/Step Functions/Workflows, Temporal) | ⬜ No visto | — |
+| 49 | Streaming de eventos (Kafka/Redpanda, Event Hubs, Kinesis, Pub/Sub) | ⬜ No visto | — |
+
+## Fase 8 — Kubernetes: troubleshooting
+
+| # | Tema | Nivel | Última vez puesto a prueba |
+|---|---|---|---|
+| 50 | Troubleshooting (`CrashLoopBackOff`, `Pending`, `OOMKilled`) | 🟡 Intermedio | Repasado vía preguntas reales de entrevista, falta sesión dedicada |
+
+## Fase 9 — Arquitectura de plataforma (capstone)
+
+| # | Tema | Nivel | Última vez puesto a prueba |
+|---|---|---|---|
+| 51 | Platform Engineering (Internal Developer Platform, golden paths, Team Topologies) | ⬜ No visto | — |
+| 52 | Arquitectura/costos multi-cloud (Well-Architected, FinOps) | 🟡 Intermedio | Compute hierarchy y curva de costos explicados, sin examen |
+| 53 | Python/FastAPI — repaso y hardening de APIs | ⬜ No visto | — |
+| 54 | Arquitectura completa propia (diagrama frontend+backend construido en sesión) | 🟡 Intermedio | Construida junto con vos, no evaluada de forma independiente |
+
+## Fase 10 — Certificación y entrevista final
+
+Sin empezar — depende de cerrar las fases anteriores primero.
 
 ---
 
