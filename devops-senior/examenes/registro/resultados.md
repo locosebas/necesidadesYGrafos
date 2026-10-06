@@ -138,6 +138,22 @@ posponerlo para una sesión futura, después de avanzar con la Fase 4
 
 | 2026-10-06 | Fase 7 (completa) — Observabilidad (OpenTelemetry), orquestación serverless (Durable Functions), streaming de eventos (Kafka/Redpanda vs. SQS) | Guiado, de a una pregunta | Guiado, de a una pregunta | Observabilidad: buena base real (Grafana/Datadog), corrigió alertas vs. traces. Durable Functions: cerró el hueco del diagnóstico inicial (`activity` no se repite en el replay porque el framework consulta el historial, no por "idempotencia" de la activity). Streaming: buena base real con SQS, identificó sin ayuda la ventaja multi-consumidor de Kafka/Redpanda (faltó nombrar el replay, se completó en la explicación) | **Fase 7 completa.** Ninguno pendiente de este tema |
 
+## Diseño de arquitectura — profundización pendiente (2026-10-06)
+
+El usuario pidió explícitamente ir más allá de las definiciones sueltas en
+dos temas ya vistos, hacia **criterios de diseño según la necesidad real**
+(no solo "qué es", sino "cuál elijo y por qué" en un caso concreto):
+
+- **Kafka/Redpanda vs. SQS**: cuándo conviene un stream de eventos
+  (multi-consumidor, replay) vs. una cola tradicional (point-to-point,
+  más simple) — casos de uso reales, no solo la diferencia mecánica ya
+  vista.
+- **Redes**: patrones de diseño de arquitectura de red según el caso
+  (no solo los componentes sueltos — VNet/VPC, Private Endpoint, NAT,
+  WAF — ya vistos en la Fase 5).
+
+Pendiente de una sesión dedicada a esto, con escenarios concretos.
+
 ## Ronda de vocabulario pendiente
 
 El usuario pidió una ronda rápida de repaso de términos/nombres de
