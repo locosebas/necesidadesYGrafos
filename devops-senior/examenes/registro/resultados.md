@@ -154,6 +154,8 @@ dos temas ya vistos, hacia **criterios de diseño según la necesidad real**
 
 Pendiente de una sesión dedicada a esto, con escenarios concretos.
 
+| 2026-10-06 | Fase 8 (completa) — Troubleshooting: `CrashLoopBackOff`, `OOMKilled`, `ImagePullBackOff` | Sesión dedicada con escenarios reales | Guiado, de a una pregunta | Corrigió solo el mecanismo exacto de `CrashLoopBackOff` (confundía con `Ready`/readiness probe). `OOMKilled` (137, cgroups, sin gracia) e `ImagePullBackOff` (auth. vía Managed Identity/IAM Role a un registry privado) respondidos sin ayuda. Aprendió los comandos `kubectl logs --previous` y `kubectl describe pod` | **Fase 8 completa.** Ninguno pendiente de este tema |
+
 ## Ronda de vocabulario pendiente
 
 El usuario pidió una ronda rápida de repaso de términos/nombres de

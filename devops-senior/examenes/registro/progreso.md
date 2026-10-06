@@ -34,12 +34,12 @@ de la tabla de arriba entre todos los temas de la fase (⬜/🔴 = 0%).
 | 5 | Networking avanzado y seguridad | 100% | 68% | ✅ Cubierta |
 | 6 | Datos y secretos | 100% | 76% | ✅ Cubierta |
 | 7 | Observabilidad y async/orquestación | 100% | 73% | ✅ Cubierta |
-| 8 | Kubernetes — troubleshooting | 100% | 50% | 🟡 Superficial, falta sesión dedicada |
+| 8 | Kubernetes — troubleshooting | 100% | 85% | ✅ Cubierta |
 | 9 | Arquitectura de plataforma (capstone) | 50% | 25% | 🟡 Parcial, ad-hoc |
 | 10 | Certificación y entrevista final | 0% | 0% | ⬜ Sin empezar |
 
 **Promedio del plan completo (Fases 1-10, peso igual por fase): ~84% visto,
-~53% dominado.** Son dos números distintos a propósito — "visto" mide
+~56% dominado.** Son dos números distintos a propósito — "visto" mide
 cobertura del temario completo, "dominado" mide qué tan defendible es lo
 que ya se tocó. Las dos interrupciones (CCA-F, IA/MLOps) corren en paralelo
 y no cuentan en este promedio de las 10 fases numeradas.
@@ -153,11 +153,11 @@ se termina de cerrar en la Fase 6 (Key Vault/Secrets Manager).
 | 48 | Orquestación serverless — Durable Functions (`orchestrator` replay, `activity` con ejecución única vía historial) | 🟢 Sólido | 2026-10-06, cierra el hueco del diagnóstico inicial (2026-09-08); corrigió solo tras una confusión de fraseo ("no tienen idempotencia" → en realidad el framework garantiza ejecución única) |
 | 49 | Streaming de eventos — Kafka/Redpanda (log retenido, multi-consumidor, replay) vs. cola tradicional (SQS) | 🟢 Sólido | 2026-10-06, buena base real con SQS; identificó sin ayuda la ventaja de múltiples consumidores independientes |
 
-## Fase 8 — Kubernetes: troubleshooting
+## Fase 8 — Kubernetes: troubleshooting ✅ completa (2026-10-06)
 
 | # | Tema | Nivel | Última vez puesto a prueba |
 |---|---|---|---|
-| 50 | Troubleshooting (`CrashLoopBackOff`, `Pending`, `OOMKilled`) | 🟡 Intermedio | Repasado vía preguntas reales de entrevista, falta sesión dedicada |
+| 50 | Troubleshooting — `CrashLoopBackOff` (mecanismo, exit codes, `logs --previous`/`describe pod`), `OOMKilled` (137, cgroups), `ImagePullBackOff` (auth. a registry privado vía Managed Identity/IAM Role) | 🟢 Sólido | 2026-10-06, sesión dedicada completa. Corrigió solo el mecanismo exacto de `CrashLoopBackOff` (no es sobre `Ready`, es sobre el proceso cayéndose); el resto, sin ayuda |
 
 ## Fase 9 — Arquitectura de plataforma (capstone)
 

@@ -186,9 +186,13 @@ replay/historial de Durable Functions (cierra hueco del diagnóstico
 inicial), y Kafka/Redpanda vs. cola tradicional (SQS) — ver
 `examenes/registro/`.
 
-## Fase 8 — Kubernetes: troubleshooting (semana 15)
+## Fase 8 — Kubernetes: troubleshooting (semana 15) ✅ completa (2026-10-06)
 
 15. `temas/10-kubernetes-avanzado/05-troubleshooting.md` — `CrashLoopBackOff`, `OOMKilled`, `ImagePullBackOff`, con toda la base de las fases 1-7 ya cubierta
+
+Cubierto completo: mecanismo y exit codes de los 3 estados, comandos
+`kubectl logs --previous`/`describe pod`, y autenticación a registries
+privados vía Managed Identity/IAM Role — ver `examenes/registro/`.
 
 ## Fase 9 — Arquitectura de plataforma (capstone) (semanas 16-17)
 
