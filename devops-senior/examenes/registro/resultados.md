@@ -18,10 +18,10 @@ Well-Architected trade-offs (buen ejemplo propio con HPA).
 
 ## Pendientes de profundización (retomar después)
 
-- **Durable Functions — `activity` vs. `orchestrator`**: entendido el mecanismo
-  de `replay`/determinismo en general, pero el rol específico de una
-  `activity` (por qué no se repite en el replay) quedó para repasar con más
-  ejemplos. Ver `../../temas/09-orquestacion-serverless/`.
+- **Durable Functions — `activity` vs. `orchestrator`**: ✅ **Resuelto
+  (2026-10-06)** — el framework consulta el historial de ejecución antes de
+  invocar una activity; si ya se completó, reusa el resultado guardado en
+  vez de volver a ejecutar su código. Ver fila de la Fase 7 arriba.
 - **Kubernetes — troubleshooting (`CrashLoopBackOff`, `OOMKilled`, exit codes)**:
   tema declarado como no manejado (nunca lo hizo en la práctica). Ver
   `../../temas/10-kubernetes-avanzado/05-troubleshooting.md` — sesión dedicada
@@ -136,7 +136,7 @@ posponerlo para una sesión futura, después de avanzar con la Fase 4
 
 | 2026-10-05 | Fase 6 — Datos y secretos (completa): Key Vault/Secrets Manager + Managed Identity, niveles de consistencia NoSQL, relacional administrada | Guiado, de a una pregunta | Guiado, de a una pregunta | Cerró sin ayuda la síntesis "app a BD sin exponer secretos" (Managed Identity/IAM Role → Key Vault/Secrets Manager → Private Endpoint/PrivateLink). Respondió bien consistencia eventual vs. fuerte (cierra hueco del diagnóstico inicial 2026-09-08) y la ventaja de gestión reducida de RDS/Cloud SQL/AlloyDB, todo sin ayuda | **Fase 6 completa.** Ninguno pendiente de este tema |
 
-| 2026-10-06 | Fase 7 (inicio) — Observabilidad: OpenTelemetry (métricas/logs/traces), traces vs. alertas | Guiado, sobre base real previa (Grafana/Datadog) | Guiado, de a una pregunta | Buena experiencia real consumiendo dashboards/alertas (Grafana, Datadog), pero nunca configuró instrumentación. Confundió inicialmente "alerta por servicio" con "trace de una petición específica" — corregido con el ejemplo de 5 microservicios y 3 segundos de demora | Faltan orquestación serverless (Durable Functions/Step Functions) y streaming de eventos (Kafka/Redpanda) de la Fase 7 |
+| 2026-10-06 | Fase 7 (completa) — Observabilidad (OpenTelemetry), orquestación serverless (Durable Functions), streaming de eventos (Kafka/Redpanda vs. SQS) | Guiado, de a una pregunta | Guiado, de a una pregunta | Observabilidad: buena base real (Grafana/Datadog), corrigió alertas vs. traces. Durable Functions: cerró el hueco del diagnóstico inicial (`activity` no se repite en el replay porque el framework consulta el historial, no por "idempotencia" de la activity). Streaming: buena base real con SQS, identificó sin ayuda la ventaja multi-consumidor de Kafka/Redpanda (faltó nombrar el replay, se completó en la explicación) | **Fase 7 completa.** Ninguno pendiente de este tema |
 
 ## Ronda de vocabulario pendiente
 

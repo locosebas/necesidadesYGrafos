@@ -175,11 +175,16 @@ Vault/Secrets Manager → Private Endpoint/PrivateLink, cerrando la frase de
 cierre de la Fase 5), niveles de consistencia NoSQL (cierra hueco del
 diagnóstico inicial), y relacional administrada — ver `examenes/registro/`.
 
-## Fase 7 — Observabilidad y async/orquestación (semanas 13-14)
+## Fase 7 — Observabilidad y async/orquestación (semanas 13-14) ✅ completa (2026-10-06)
 
 12. `temas/07-observabilidad-multicloud` — Azure Monitor, CloudWatch, Cloud Logging/Monitoring, OpenTelemetry
 13. `temas/09-orquestacion-serverless` — Durable Functions / Step Functions / Workflows, **Temporal**
 14. `temas/14-streaming-eventos` — Kafka/**Redpanda**, Event Hubs, Kinesis, Pub/Sub
+
+Cubierto completo: OpenTelemetry (métricas/logs/traces), mecanismo de
+replay/historial de Durable Functions (cierra hueco del diagnóstico
+inicial), y Kafka/Redpanda vs. cola tradicional (SQS) — ver
+`examenes/registro/`.
 
 ## Fase 8 — Kubernetes: troubleshooting (semana 15)
 
