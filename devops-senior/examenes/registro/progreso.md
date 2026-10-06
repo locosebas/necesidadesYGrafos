@@ -33,13 +33,13 @@ de la tabla de arriba entre todos los temas de la fase (⬜/🔴 = 0%).
 | ↳ | *Interrupción: Ruta IA/MLOps (fundamentos)* | 100% | 72% | 🟡 Nivel técnico sin empezar |
 | 5 | Networking avanzado y seguridad | 100% | 68% | ✅ Cubierta |
 | 6 | Datos y secretos | 100% | 76% | ✅ Cubierta |
-| 7 | Observabilidad y async/orquestación | 0% | 0% | ⬜ Sin empezar |
+| 7 | Observabilidad y async/orquestación | 33% | 17% | 🟡 En progreso |
 | 8 | Kubernetes — troubleshooting | 100% | 50% | 🟡 Superficial, falta sesión dedicada |
 | 9 | Arquitectura de plataforma (capstone) | 50% | 25% | 🟡 Parcial, ad-hoc |
 | 10 | Certificación y entrevista final | 0% | 0% | ⬜ Sin empezar |
 
-**Promedio del plan completo (Fases 1-10, peso igual por fase): ~74% visto,
-~45% dominado.** Son dos números distintos a propósito — "visto" mide
+**Promedio del plan completo (Fases 1-10, peso igual por fase): ~77% visto,
+~47% dominado.** Son dos números distintos a propósito — "visto" mide
 cobertura del temario completo, "dominado" mide qué tan defendible es lo
 que ya se tocó. Las dos interrupciones (CCA-F, IA/MLOps) corren en paralelo
 y no cuentan en este promedio de las 10 fases numeradas.
@@ -149,7 +149,7 @@ se termina de cerrar en la Fase 6 (Key Vault/Secrets Manager).
 
 | # | Tema | Nivel | Última vez puesto a prueba |
 |---|---|---|---|
-| 47 | Observabilidad (Azure Monitor/CloudWatch/Cloud Logging, OpenTelemetry) | ⬜ No visto | — |
+| 47 | Observabilidad — OpenTelemetry (métricas/logs/traces), traces vs. alertas | 🟡 Intermedio | 2026-10-06, buena experiencia real previa en consumo (Grafana/Datadog), pero nunca configuró la instrumentación; confundió inicialmente alertas con traces, corregido con el ejemplo de los 5 microservicios |
 | 48 | Orquestación serverless (Durable Functions/Step Functions/Workflows, Temporal) | ⬜ No visto | — |
 | 49 | Streaming de eventos (Kafka/Redpanda, Event Hubs, Kinesis, Pub/Sub) | ⬜ No visto | — |
 

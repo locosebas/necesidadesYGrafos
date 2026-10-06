@@ -136,6 +136,8 @@ posponerlo para una sesión futura, después de avanzar con la Fase 4
 
 | 2026-10-05 | Fase 6 — Datos y secretos (completa): Key Vault/Secrets Manager + Managed Identity, niveles de consistencia NoSQL, relacional administrada | Guiado, de a una pregunta | Guiado, de a una pregunta | Cerró sin ayuda la síntesis "app a BD sin exponer secretos" (Managed Identity/IAM Role → Key Vault/Secrets Manager → Private Endpoint/PrivateLink). Respondió bien consistencia eventual vs. fuerte (cierra hueco del diagnóstico inicial 2026-09-08) y la ventaja de gestión reducida de RDS/Cloud SQL/AlloyDB, todo sin ayuda | **Fase 6 completa.** Ninguno pendiente de este tema |
 
+| 2026-10-06 | Fase 7 (inicio) — Observabilidad: OpenTelemetry (métricas/logs/traces), traces vs. alertas | Guiado, sobre base real previa (Grafana/Datadog) | Guiado, de a una pregunta | Buena experiencia real consumiendo dashboards/alertas (Grafana, Datadog), pero nunca configuró instrumentación. Confundió inicialmente "alerta por servicio" con "trace de una petición específica" — corregido con el ejemplo de 5 microservicios y 3 segundos de demora | Faltan orquestación serverless (Durable Functions/Step Functions) y streaming de eventos (Kafka/Redpanda) de la Fase 7 |
+
 ## Ronda de vocabulario pendiente
 
 El usuario pidió una ronda rápida de repaso de términos/nombres de
