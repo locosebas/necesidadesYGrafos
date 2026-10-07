@@ -170,7 +170,7 @@ pilares)** — resultado **2/6 correctos, 1 parcial, 1 inventado, 3 ausentes**
 adelante:
 
 - Well-Architected Framework — 6 pilares (🟡 2do intento 2026-10-07: 3/6 correctos, 1 parcial, 0 inventados, 2 ausentes — mejora real, repetir más adelante hasta 6/6)
-- CCA-F — 5 áreas del examen (con su peso %)
+- CCA-F — 5 áreas del examen (❌ repaso estricto #4: 0/5 exactos, reintentar)
 - Principios de IA Responsable — 6 pilares
 - Métricas DORA — 4 métricas (❌ repaso estricto #3: 0/4, reintentar)
 - Componentes del control plane/nodo de Kubernetes — 7 piezas (kube-apiserver, etcd, kube-scheduler, kube-controller-manager, kubelet, kube-proxy, container runtime)
@@ -182,6 +182,8 @@ adelante:
 | 2026-10-07 | Repaso estricto #2 — Well-Architected Framework (6 pilares) | Recitación completa sin pistas | Recitación completa sin pistas | Segundo intento del mismo día: Reliability, Security y Sustainability correctos (Sustainability es nuevo respecto al intento #1); "cost eficiente" parcial por Cost Optimization; sin inventos esta vez (antes había inventado "Simplicity"); siguen ausentes Operational Excellence y Performance Efficiency | 3/6 correctos, 1 parcial, 2 ausentes — mejora real sobre el intento #1 (2/6), reintentar más adelante hasta 6/6 |
 
 | 2026-10-07 | Repaso estricto #3 — Métricas DORA (4 métricas) | Recitación completa sin pistas | Recitación completa sin pistas | No recordó ninguna métrica ni el tema de origen ("ni siquiera recuerdo de qué tema es"). Re-explicadas desde cero (eje de velocidad: Deployment Frequency, Lead Time for Changes; eje de estabilidad: Change Failure Rate, Time to Restore Service/MTTR) | **0/4, peor resultado de los repasos estrictos hasta ahora.** Separado como tema 51b en `progreso.md`, pendiente de reintento |
+
+| 2026-10-07 | Repaso estricto #4 — CCA-F, las 5 áreas del examen con su peso % | Recitación completa sin pistas | Recitación completa sin pistas | 0/5 coincidencias exactas de nombre. 3 parciales (mcps→área 18; "agentes y herramientas"→mezcla áreas 16+18; "Harness"/"hooks"→subtemas del área 17, no el nombre del área); 1 inventado ajeno al examen (reinforcement learning vs. fine-tuning, de la ruta IA/MLOps); 0 pesos % correctos; faltaron completas las áreas 19 y 20 | **0/5 exactos — peor resultado de recall-de-lista hasta ahora.** El mecanismo de cada área individual ya estaba bien evaluado antes; el hueco es puramente de la lista. Pendiente de reintento |
 
 ## Diagnóstico general de IA pendiente
 

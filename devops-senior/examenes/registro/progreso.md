@@ -37,7 +37,7 @@ de la tabla de arriba entre todos los temas de la fase (⬜/🔴 = 0%).
 | 0 | Diagnóstico general | — | — | ✅ Hecho |
 | 1 | Kubernetes — arquitectura y fundamentos | 100% | 68% | ✅ Cubierta |
 | 2 | IaC multi-cloud (+ Ansible agregado) | 89% | 52% | ✅ Cubierta, con huecos (Bicep/CFN) |
-| ↳ | *Interrupción: Claude Certified Architect (CCA-F)* | 100% | 72% | 🟡 Falta repaso mixto |
+| ↳ | *Interrupción: Claude Certified Architect (CCA-F)* | 100% | 72% | 🟡 Falta repaso mixto; recall de la lista de 5 áreas falló 0/5 |
 | 3 | CI/CD y GitOps | 100% | 46% | ✅ Cubierta, GitLab CI por autoestudio sin verificar |
 | 4 | Identidad | 100% | 68% | ✅ Cubierta |
 | ↳ | *Interrupción: Ruta IA/MLOps (fundamentos)* | 100% | 72% | 🟡 Nivel técnico sin empezar |
@@ -93,6 +93,16 @@ y no cuentan en este promedio de las 10 fases numeradas.
 
 **Pendiente**: repaso mixto (preguntas encadenadas de las 5 áreas sin avisar
 el tema) antes de considerar rendir el examen real.
+
+**Repaso estricto de la lista de las 5 áreas (2026-10-07):** 0/5 exactos,
+3 parciales (tocó la idea sin el nombre completo: "los mcps" → área 18;
+"agentes y herramientas" → mezcla vaga de áreas 16 y 18; "Harness"/"hooks"
+→ subtemas del área 17, no el nombre), 1 inventado ajeno al examen
+("reinforcement learning vs. fine-tuning", de la ruta IA/MLOps), ningún
+peso % correcto, y faltaron completas las áreas 19 y 20. Importante: esto
+es un hueco de **recordar la lista como lista**, no de mecanismo — cada
+área individual (16-20 arriba) ya se evaluó por separado con buen nivel.
+Pendiente de reintento.
 
 ## Fase 3 — CI/CD y GitOps
 
