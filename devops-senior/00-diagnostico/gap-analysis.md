@@ -45,3 +45,23 @@ Fuente de los requisitos: mensaje de Julieta García (PlatformX Solutions),
 9. FastAPI — consolidar (partís de una base sólida de Python).
 
 Ver el orden de estudio semana a semana en `roadmap.md`.
+
+## Brechas de IA (hipótesis — falta diagnóstico)
+
+El objetivo del plan ya no es solo DevOps: también es IA (desarrollo de apps
+con IA y operación de IA en producción). Esta parte todavía **no tiene
+diagnóstico real** — se confirma con el diagnóstico general de IA (Fase 0 del
+roadmap). Hipótesis inicial:
+
+| Área | Base que ya tenés | Estado supuesto |
+|---|---|---|
+| Fundamentos de IA/LLMs (tema 14) | — | 🔴 por diagnosticar |
+| Desarrollo de apps con LLMs (tema 15) | Python fuerte + APIs (FastAPI) | 🟡 base fuerte, falta la parte LLM |
+| RAG y bases vectoriales (tema 16) | Bases de datos en producción | 🔴 por diagnosticar |
+| Agentes y MCP (tema 17) | Orquestación serverless (parcial) | 🔴 por diagnosticar |
+| MLOps / LLMOps (tema 18) | CI/CD + observabilidad fuertes | 🟡 base Ops fuerte, falta el ciclo de vida de modelos |
+| Serving y GPUs (tema 19) | Kubernetes productivo | 🟡 base K8s fuerte, falta GPU/inferencia |
+| Seguridad de IA (tema 20) | Seguridad cloud (parcial) | 🔴 por diagnosticar |
+
+Tu ventaja diferencial: venir de Ops. MLOps, LLMOps y serving de modelos
+son justamente las áreas donde la mayoría de los perfiles de IA son débiles.

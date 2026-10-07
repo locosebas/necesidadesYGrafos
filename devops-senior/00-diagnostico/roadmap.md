@@ -1,6 +1,12 @@
-# Roadmap de estudio
+# Roadmap de estudio — DevOps + IA (un solo camino)
 
-Orden sugerido. Cada bloque es aprox. 1-2 semanas de estudio part-time
+Objetivo: ser **experto en DevOps/Platform multi-cloud y en IA** (desarrollo
+de aplicaciones con IA + operación de IA en producción, MLOps/LLMOps). No son
+dos planes separados: cada fase combina un bloque **Ops** y un bloque **IA**
+que se apoyan entre sí (por ejemplo, Kubernetes primero y después servir
+modelos con GPU sobre Kubernetes).
+
+Orden sugerido. Cada fase es aprox. 3-4 semanas de estudio part-time
 (mientras trabajás). Ajustalo a tu ritmo real — lo importante es no saltar
 el examen de autoevaluación al final de cada tema.
 
@@ -10,7 +16,7 @@ Objetivo final: llegar a una entrevista técnica (o certificación) y poder
 resolver la prueba, no solo "haber leído sobre el tema". Por eso cada nivel
 sigue el mismo patrón general → específico:
 
-1. **General (panorama):** examen diagnóstico amplio que toca los 13 temas a
+1. **General (panorama):** examen diagnóstico amplio que toca todos los temas (Ops e IA) a
    nivel conceptual, para medir dónde estás parado hoy en la práctica (no
    solo lo que infiere el CV). Esto define qué temas se profundizan primero.
 2. **Específico (por tema):** dentro de cada tema, primero repaso el concepto
@@ -44,12 +50,47 @@ puntual, y recién ahí pasar a la siguiente. Nada de monólogos largos ni de
 tandas de preguntas en batch. Esto aplica a exámenes, explicaciones de temas,
 y cualquier interacción de enseñanza en este plan.
 
+## Tablero de avance (mirá acá cómo vas)
+
+Estados: ⬜ sin empezar · 🟡 en curso · ✅ aprobado (≥ 80% en el examen del
+tema) · 🔁 repasar. Se actualiza cada vez que rendís un examen (ver
+`../examenes/registro/resultados.md` para el detalle).
+
+| Fase | Bloque | Tema | Estado |
+|---|---|---|---|
+| 0 | Ops | Diagnóstico general DevOps (temas 01-12) | ✅ hecho 2026-09-08 |
+| 0 | IA | Diagnóstico general IA (temas 14-20) | ⬜ |
+| 1 | Ops | 01 — IaC multi-cloud | ⬜ |
+| 1 | Ops | 10 — Kubernetes avanzado | 🔁 troubleshooting pendiente |
+| 1 | Ops | 02 — Contenedores serverless | ⬜ |
+| 1 | IA | 14 — Fundamentos de IA, ML y LLMs | ⬜ |
+| 2 | Ops | 03 — CI/CD multi-cloud | ⬜ |
+| 2 | Ops | 08 — Python / FastAPI + Docker | ⬜ |
+| 2 | IA | 15 — Desarrollo de apps con LLMs | ⬜ |
+| 3 | Ops | 04 — Identidad e IAM | 🔁 Managed Identity pendiente |
+| 3 | Ops | 05 — Networking multi-cloud | ⬜ |
+| 3 | Ops | 11 — Seguridad / DevSecOps | 🔁 shift-left pendiente |
+| 3 | IA | 20 — Seguridad y gobernanza de IA | ⬜ |
+| 4 | Ops | 06 — Datos y secretos | 🔁 consistencia NoSQL pendiente |
+| 4 | IA | 16 — RAG y bases vectoriales | ⬜ |
+| 4 | Ops | 09 — Orquestación serverless | 🔁 activity vs. orchestrator pendiente |
+| 4 | IA | 17 — Agentes de IA y MCP | ⬜ |
+| 5 | Ops | 07 — Observabilidad multi-cloud | ⬜ |
+| 5 | IA | 18 — MLOps y LLMOps | ⬜ |
+| 5 | IA | 19 — Serving de modelos y GPUs | ⬜ |
+| 5 | Ops | 12 — Arquitectura y costos multi-cloud | ⬜ |
+| 6 | — | Certificaciones + simulacros de entrevista (DevOps, IA y mixtos) | ⬜ |
+
 ## Fase 0 — Diagnóstico general (arranca acá)
 
-Antes de la Fase 1: un examen general de panorama (1-2 preguntas por cada uno
-de los 13 temas, nivel conceptual). Con el resultado ajustamos el orden real
-de estudio — las brechas del `gap-analysis.md` son una hipótesis basada en el
-CV, el diagnóstico general la confirma o la corrige con datos reales.
+Antes de la Fase 1: un examen general de panorama (1-2 preguntas por tema,
+nivel conceptual). Con el resultado ajustamos el orden real de estudio — las
+brechas del `gap-analysis.md` son una hipótesis basada en el CV, el
+diagnóstico general la confirma o la corrige con datos reales.
+
+- **Parte Ops (temas 01-12):** ✅ hecha el 2026-09-08.
+- **Parte IA (temas 14-20):** ⬜ pendiente — es lo próximo a hacer. Pedime:
+  *"Dame el diagnóstico general de IA"*. Mismo formato: una pregunta por vez.
 
 ## Orden de las fases: priorizado por demanda real del mercado
 
@@ -70,51 +111,98 @@ Esto no anula tus brechas reales (Networking y Durable Functions siguen siendo
 temas nuevos para vos) — simplemente prioriza primero lo que más se repite en
 procesos de selección, para llegar antes a poder rendir pruebas técnicas.
 
-## Fase 1 — IaC y Kubernetes/Contenedores (semanas 1-4)
+**Cómo se encastra la IA:** cada tema de IA va en la fase donde ya viste la
+base Ops que necesita. Desarrollo con LLMs va junto con FastAPI (una API de IA
+es una API FastAPI que llama a un modelo); RAG va junto con datos (una base
+vectorial es otra base de datos); agentes van junto con orquestación (un
+agente es un orquestador donde decide el modelo); MLOps va junto con
+observabilidad y CI/CD; serving de modelos va después de Kubernetes y antes
+de costos (las GPUs son lo más caro de la factura).
+
+## Fase 1 — Infraestructura base + fundamentos de IA (semanas 1-4)
 
 Lo más pedido en las ofertas, y donde ya tenés más base (Terraform, Docker, K8s).
+En paralelo, el vocabulario de IA que vas a usar en todas las fases siguientes.
 
-1. `temas/01-iac-multicloud` — Bicep, y de paso CloudFormation/CDK (AWS) y Terraform en GCP
-2. `temas/10-kubernetes-avanzado` — repaso senior + diferencias AKS/EKS/GKE (cerrar huecos, ya es tu fortaleza)
-3. `temas/02-contenedores-serverless` — Container Apps / Fargate / Cloud Run
+- **Ops**
+  1. `temas/01-iac-multicloud` — Bicep, y de paso CloudFormation/CDK (AWS) y Terraform en GCP
+  2. `temas/10-kubernetes-avanzado` — repaso senior + diferencias AKS/EKS/GKE (incluye el troubleshooting pendiente)
+  3. `temas/02-contenedores-serverless` — Container Apps / Fargate / Cloud Run
+- **IA**
+  4. `temas/14-fundamentos-ia-llm` — ML, LLMs, tokens, embeddings, prompting vs. RAG vs. fine-tuning
 
-## Fase 2 — CI/CD (semanas 5-6)
+## Fase 2 — CI/CD + desarrollo de apps con IA (semanas 5-8)
 
-4. `temas/03-cicd-multicloud` — GitHub Actions + OIDC federado a Azure, AWS y GCP
+- **Ops**
+  5. `temas/03-cicd-multicloud` — GitHub Actions + OIDC federado a Azure, AWS y GCP
+  6. `temas/08-python-fastapi-docker` — repaso y hardening de APIs (base para la parte IA)
+- **IA**
+  7. `temas/15-desarrollo-apps-llm` — APIs de LLMs, structured output, tool use, streaming
 
-## Fase 3 — Identidad, seguridad y networking (semanas 7-9)
+Al final de la Fase 2 deberías tener **una API FastAPI de IA desplegada con
+CI/CD** (GitHub Actions + OIDC) en Container Apps / Fargate / Cloud Run.
 
-5. `temas/04-identidad-iam` — Entra ID/RBAC, AWS IAM, GCP IAM
-6. `temas/05-networking-multicloud` — VNet/VPC, Private Endpoints/PrivateLink/Private Service Connect
-7. `temas/11-seguridad-devsecops` — shift-left security, escaneo de imágenes/IaC
+## Fase 3 — Identidad, seguridad y networking (incluida la seguridad de IA) (semanas 9-12)
+
+- **Ops**
+  8. `temas/04-identidad-iam` — Entra ID/RBAC, AWS IAM, GCP IAM
+  9. `temas/05-networking-multicloud` — VNet/VPC, Private Endpoints/PrivateLink/Private Service Connect
+  10. `temas/11-seguridad-devsecops` — shift-left security, escaneo de imágenes/IaC
+- **IA**
+  11. `temas/20-seguridad-gobernanza-ia` — prompt injection, guardrails, OWASP Top 10 para LLMs
 
 Al final de la Fase 3 deberías poder explicar de memoria cómo una app llega a
-una base de datos sin exponer secretos ni tráfico a internet público — **en
-cualquiera de las tres nubes**.
+una base de datos **y a un modelo de IA** sin exponer secretos ni tráfico a
+internet público — **en cualquiera de las tres nubes**.
 
-## Fase 4 — Datos, serverless y observabilidad (semanas 10-12)
+## Fase 4 — Datos, orquestación, RAG y agentes (semanas 13-17)
 
-8. `temas/06-datos-secretos` — Key Vault/Secrets Manager/Secret Manager, Cosmos DB/DynamoDB/Firestore
-9. `temas/09-orquestacion-serverless` — Durable Functions / Step Functions / Workflows
-10. `temas/07-observabilidad-multicloud` — Azure Monitor, CloudWatch, Cloud Logging/Monitoring
+- **Ops**
+  12. `temas/06-datos-secretos` — Key Vault/Secrets Manager/Secret Manager, Cosmos DB/DynamoDB/Firestore
+- **IA**
+  13. `temas/16-rag-bases-vectoriales` — RAG, embeddings, búsqueda vectorial e híbrida
+- **Ops**
+  14. `temas/09-orquestacion-serverless` — Durable Functions / Step Functions / Workflows
+- **IA**
+  15. `temas/17-agentes-ia` — agentes, tool use en loop, MCP, multi-agente
 
-## Fase 5 — Consolidación de nivel Senior (semanas 13-14)
+## Fase 5 — Operación de IA en producción + nivel Senior (semanas 18-22)
 
-11. `temas/08-python-fastapi-docker` — repaso y hardening de APIs
-12. `temas/12-arquitectura-costos-multicloud` — Well-Architected/Architecture Frameworks, FinOps
+- **Ops**
+  16. `temas/07-observabilidad-multicloud` — Azure Monitor, CloudWatch, Cloud Logging/Monitoring
+- **IA**
+  17. `temas/18-mlops-llmops` — ciclo de vida de modelos, evals en CI, observabilidad de LLMs
+  18. `temas/19-serving-modelos-gpu` — vLLM/KServe, GPUs en Kubernetes, autoscaling de inferencia
+- **Ops**
+  19. `temas/12-arquitectura-costos-multicloud` — Well-Architected/Architecture Frameworks, FinOps (incluido costo de IA/GPU)
 
 ## Fase 6 — Certificación y entrevista
 
-- Rendir la certificación elegida (ver `certificaciones/README.md`).
+- Rendir las certificaciones elegidas (ver `certificaciones/README.md` —
+  ruta única que intercala certificaciones DevOps y de IA).
 - Repasar `temas/13-mercadolibre-scopes-cosmos` si aplica a una entrevista interna.
-- Simulacro de entrevista técnica con Claude usando `examenes/` en modo mixto
-  (preguntas de varios temas, formato entrevista).
+- Simulacros de entrevista técnica con Claude usando `examenes/` en modo mixto:
+  DevOps, IA, y **mixtos DevOps + IA** (por ejemplo, *"diseñá la plataforma
+  para servir un RAG a 10.000 usuarios en AWS"*), formato entrevista.
+
+## Proyecto integrador (atraviesa todas las fases)
+
+Para que todo quede junto y tengas algo para mostrar en entrevistas, los labs
+de cada fase construyen **una sola aplicación** que va creciendo:
+
+1. Fase 1: infraestructura con Terraform/Bicep + cluster/contenedor base.
+2. Fase 2: API FastAPI que llama a un LLM, con CI/CD y OIDC.
+3. Fase 3: identidad gestionada, acceso privado al modelo, guardrails.
+4. Fase 4: RAG sobre documentos propios + un agente con herramientas (MCP).
+5. Fase 5: evals en el pipeline, observabilidad de tokens/costo/latencia, y
+   (opcional) un modelo abierto servido con vLLM en Kubernetes.
 
 ## Cómo avanzar de fase
 
 No avances de fase hasta tener **≥ 80% en el examen de cada tema** de la fase
-anterior (ver `examenes/registro/`). Si un tema queda débil, se repite antes de
-seguir — la idea es no acumular huecos.
+anterior (ver `examenes/registro/`), tanto de los temas Ops como de los de IA.
+Si un tema queda débil, se repite antes de seguir — la idea es no acumular
+huecos. Actualizá el **tablero de avance** de arriba al cerrar cada tema.
 
 ## Fuentes de la investigación de mercado (sept. 2026)
 

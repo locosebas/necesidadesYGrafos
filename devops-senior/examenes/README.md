@@ -15,6 +15,10 @@ Ejemplos de pedidos válidos:
 - *"Dame un examen basado en el documento de Scopes/CoSMOS"*
 - *"Mezclá preguntas de los temas 04, 05 y 06"* (examen combinado, para
   fases avanzadas del roadmap)
+- *"Dame el diagnóstico general de IA"* (panorama de los temas 14-20)
+- *"Dame un examen de RAG nivel intermedio"* o *"...de MLOps nivel senior"*
+- *"Simulá una entrevista mixta DevOps + IA: diseñar la plataforma para un
+  RAG en producción"*
 
 Podés pedir formato:
 - **Opción múltiple** (rápido, bueno para repaso)

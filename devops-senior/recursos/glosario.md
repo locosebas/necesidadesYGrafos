@@ -22,6 +22,11 @@ cuando aplica — ver también las tablas de equivalencias dentro de cada tema.
 | Durable Functions | Step Functions | Workflows | Orquestación de workflows con estado |
 | Bicep | CloudFormation / CDK | Deployment Manager (o Terraform) | IaC nativo del proveedor |
 | AKS | EKS | GKE | Kubernetes gestionado |
+| Azure AI Foundry | Amazon Bedrock | Vertex AI | Plataforma para usar/desplegar modelos de IA generativa (LLMs) |
+| Azure Machine Learning | SageMaker AI | Vertex AI (Training/Pipelines) | Plataforma de MLOps: entrenar, registrar y desplegar modelos propios |
+| Azure AI Search | OpenSearch Serverless / Bedrock Knowledge Bases | Vertex AI Vector Search / RAG Engine | Búsqueda vectorial/híbrida para RAG |
+| Azure AI Content Safety | Bedrock Guardrails | Model Armor | Guardrails: filtros de entrada/salida de un LLM |
+| Azure AI Foundry Agent Service | Bedrock Agents / AgentCore | Vertex AI Agent Engine | Servicio gestionado para correr agentes de IA |
 
 ## Términos generales (no específicos de una nube)
 
@@ -32,6 +37,19 @@ cuando aplica — ver también las tablas de equivalencias dentro de cada tema.
 | Terraform | Herramienta de IaC multi-cloud (HashiCorp); mantiene su propio state file |
 | KEDA | Kubernetes Event-Driven Autoscaling — escalado basado en eventos externos (colas, HTTP), usado en ACA/AKS/EKS/GKE |
 | Orchestrator function | Función que coordina un workflow con estado; debe ser determinística en modelos tipo Durable Functions |
+| LLM | Large Language Model — modelo de lenguaje grande (Claude, GPT, Gemini, Llama) |
+| Token | Unidad en la que un LLM lee/escribe texto (aprox. ¾ de palabra); se cobra por token |
+| Context window | Cantidad máxima de tokens que el modelo puede "ver" en una llamada |
+| Embedding | Vector numérico que representa el significado de un texto; permite búsqueda por similitud |
+| RAG | Retrieval-Augmented Generation — buscar documentos relevantes y dárselos al LLM para responder |
+| Fine-tuning | Reentrenar parcialmente un modelo con datos propios |
+| Tool use / function calling | El LLM pide ejecutar una función tuya y usa el resultado |
+| Agente | LLM que elige herramientas en loop hasta cumplir un objetivo |
+| MCP | Model Context Protocol — estándar para exponer herramientas y datos a agentes de IA |
+| Evals | Tests automáticos de calidad para apps de IA (equivalente a tests unitarios) |
+| Prompt injection | Ataque que mete instrucciones maliciosas en el input del LLM |
+| vLLM | Motor open source para servir LLMs con alto rendimiento |
+| MLflow | Herramienta open source de MLOps: tracking de experimentos y model registry |
 | Well-Architected Framework | Marco de 5 pilares (Reliability, Security, Cost, Operational Excellence, Performance) — versión propia en Azure, AWS y GCP |
 
 ## Enlaces generales

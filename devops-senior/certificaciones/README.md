@@ -84,12 +84,14 @@ Diseño de arquitecturas completas en GCP; buen complemento si el rol pide
 también decisiones de arquitectura, no solo operación.
 - https://cloud.google.com/certification/cloud-architect
 
-## Ruta IA / MLOps — opcional, alto crecimiento
+## Ruta IA / MLOps — parte del plan principal
 
 Cada vez más ofertas de DevOps/Platform piden desplegar y operar cargas de
 IA (APIs de modelos, RAG, GPUs) — es una extensión natural de lo que ya
 sabés (Container Apps/Fargate/Cloud Run para servir modelos, FastAPI para
-las APIs de inferencia). No reemplaza la ruta DevOps, la complementa.
+las APIs de inferencia). Como tu objetivo es ser experto en DevOps **y** en
+IA, esta ruta va intercalada con la de DevOps en el orden de abajo (temas
+14-20 del roadmap).
 
 ### Nivel fundamentos (rápidas, para tener el vocabulario)
 - **Azure AI Fundamentals (AI-900)** — https://learn.microsoft.com/certifications/azure-ai-fundamentals/
@@ -112,24 +114,33 @@ Machine Learning Engineer – Associate** o **Google Professional Machine
 Learning Engineer**, según la nube del empleador — son las dos con más foco
 en productivizar modelos, no solo entrenarlos.
 
-## Orden sugerido dado tu perfil (ajustado con datos de mercado)
+## Orden sugerido dado tu perfil (DevOps + IA, ajustado con datos de mercado)
+
+Una sola ruta que intercala DevOps e IA, alineada con las fases del roadmap:
 
 ```
-Terraform Associate  ←── más rápida y barata, sirve para las 3 nubes
+Fase 1 → Terraform Associate        ←── más rápida y barata, sirve para las 3 nubes
+         + AI Fundamentals de la nube que elijas (AI-900 / AWS AI Practitioner)  ←── opcional, vocabulario
    ↓
-CKA  ←── ya tenés Kubernetes productivo, sirve para las 3 nubes
+Fase 1-2 → CKA                       ←── ya tenés Kubernetes productivo, sirve para las 3 nubes
    ↓
-Certificación DevOps de la nube de tu próxima oferta concreta:
-   AZ-400 (Azure) · AWS DevOps Engineer Professional (AWS) · Cloud DevOps Engineer (GCP)
+Fase 2-3 → AI-102 (Azure AI Engineer) ←── desarrollo de apps de IA (temas 15, 16, 17, 20)
    ↓
-Certificación de seguridad opcional de esa misma nube (AZ-500 / AWS Security Specialty)
+Fase 3-4 → Certificación DevOps de la nube de tu próxima oferta concreta:
+           AZ-400 (Azure) · AWS DevOps Engineer Professional (AWS) · Cloud DevOps Engineer (GCP)
+   ↓
+Fase 5 → Certificación de MLOps de la nube de tu próxima oferta:
+         AWS ML Engineer – Associate · Google Professional ML Engineer   ←── temas 18 y 19
+   ↓
+Opcional → seguridad de esa misma nube (AZ-500 / AWS Security Specialty)
 ```
 
 Empezá siempre por las dos transversales (Terraform Associate + CKA) — no
-importa a qué nube apunte la próxima oferta, ya suman. Recién ahí elegí la
-certificación específica de nube según la oferta concreta que tengas más
-cerca en ese momento (hoy, la de Julieta apunta a AZ-400). La ruta IA/MLOps
-es un agregado opcional en paralelo, no un reemplazo de este orden.
+importa a qué nube apunte la próxima oferta, ya suman. Después alternás una
+de IA y una de DevOps, eligiendo la nube según la oferta concreta que tengas
+más cerca en ese momento (hoy, la de Julieta apunta a AZ-400, y por eso
+AI-102 encaja bien al lado). La certificación de MLOps va al final porque
+necesita los temas de observabilidad, CI/CD y Kubernetes ya cerrados.
 
 ## Cómo preparar cada certificación acá
 
@@ -137,6 +148,7 @@ es un agregado opcional en paralelo, no un reemplazo de este orden.
    la tabla de equivalencias Azure/AWS/GCP.
 2. Pedime exámenes de práctica con el formato de la certificación:
    *"Dame un examen de práctica estilo AZ-400"* o *"...estilo AWS DevOps
-   Engineer Professional"* o *"...estilo Google Cloud DevOps Engineer"*.
+   Engineer Professional"* o *"...estilo AI-102"* o *"...estilo AWS Machine
+   Learning Engineer"*.
 3. Registrá resultados en `../examenes/registro/` para ver evolución antes de
    pagar el examen real.

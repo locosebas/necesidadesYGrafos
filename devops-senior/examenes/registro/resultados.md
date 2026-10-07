@@ -31,6 +31,12 @@ Well-Architected trade-offs (buen ejemplo propio con HPA).
   **Trivy**; el concepto general de seguridad temprana sí, pero la
   terminología específica no. Ver `../../temas/11-seguridad-devsecops/`.
 
+## Diagnóstico general de IA pendiente
+
+Con la fusión DevOps + IA del roadmap (2026-10-07) se agregaron los temas
+14-20 (IA). Falta rendir el **diagnóstico general de IA** (Fase 0, parte IA)
+— mismo formato que el de DevOps: preguntas abiertas, de a una.
+
 ## Ronda de vocabulario pendiente
 
 El usuario pidió una ronda rápida de repaso de términos/nombres de
