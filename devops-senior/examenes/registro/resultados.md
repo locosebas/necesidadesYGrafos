@@ -172,7 +172,7 @@ adelante:
 - Well-Architected Framework — 6 pilares (🟡 2do intento 2026-10-07: 3/6 correctos, 1 parcial, 0 inventados, 2 ausentes — mejora real, repetir más adelante hasta 6/6)
 - CCA-F — 5 áreas del examen (con su peso %)
 - Principios de IA Responsable — 6 pilares
-- Métricas DORA — 4 métricas
+- Métricas DORA — 4 métricas (❌ repaso estricto #3: 0/4, reintentar)
 - Componentes del control plane/nodo de Kubernetes — 7 piezas (kube-apiserver, etcd, kube-scheduler, kube-controller-manager, kubelet, kube-proxy, container runtime)
 - Ecosistema de herramientas de Terraform (Terragrunt, tflint, Checkov/tfsec, Terratest, Atlantis, Infracost)
 - Niveles de consistencia de Cosmos DB (5 niveles)
@@ -180,6 +180,8 @@ adelante:
 
 | 2026-10-07 | Python/FastAPI/Docker (tema 08) — hardening: BOLA y contenedor sin privilegios de root | Guiado, de a una pregunta | Guiado, de a una pregunta | Confirmó que el primer caso (BOLA) lo vivió pero no lo resolvió él mismo, y el segundo (root) nunca se trabajó. Tras la explicación, distinguió sin ayuda que un contenedor non-root no previene BOLA, solo limita el daño — con ejemplo propio (feature flag de Flipt) | **Fase 9 completa.** Ninguno pendiente de este tema |
 | 2026-10-07 | Repaso estricto #2 — Well-Architected Framework (6 pilares) | Recitación completa sin pistas | Recitación completa sin pistas | Segundo intento del mismo día: Reliability, Security y Sustainability correctos (Sustainability es nuevo respecto al intento #1); "cost eficiente" parcial por Cost Optimization; sin inventos esta vez (antes había inventado "Simplicity"); siguen ausentes Operational Excellence y Performance Efficiency | 3/6 correctos, 1 parcial, 2 ausentes — mejora real sobre el intento #1 (2/6), reintentar más adelante hasta 6/6 |
+
+| 2026-10-07 | Repaso estricto #3 — Métricas DORA (4 métricas) | Recitación completa sin pistas | Recitación completa sin pistas | No recordó ninguna métrica ni el tema de origen ("ni siquiera recuerdo de qué tema es"). Re-explicadas desde cero (eje de velocidad: Deployment Frequency, Lead Time for Changes; eje de estabilidad: Change Failure Rate, Time to Restore Service/MTTR) | **0/4, peor resultado de los repasos estrictos hasta ahora.** Separado como tema 51b en `progreso.md`, pendiente de reintento |
 
 ## Diagnóstico general de IA pendiente
 

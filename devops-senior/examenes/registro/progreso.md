@@ -45,7 +45,7 @@ de la tabla de arriba entre todos los temas de la fase (⬜/🔴 = 0%).
 | 6 | Datos y secretos | 100% | 76% | ✅ Cubierta |
 | 7 | Observabilidad y async/orquestación | 100% | 73% | ✅ Cubierta |
 | 8 | Kubernetes — troubleshooting | 100% | 100% | ✅ Cubierta |
-| 9 | Arquitectura de plataforma (capstone) | 100% | 68% | ✅ Cubierta |
+| 9 | Arquitectura de plataforma (capstone) | 100% | 55% | ✅ Cubierta, con hueco real en métricas DORA (repaso estricto dio 0/4) |
 | 10 | Certificación y entrevista final | 0% | 0% | ⬜ Sin empezar |
 
 **Promedio del plan completo (Fases 1-10, peso igual por fase): ~89% visto,
@@ -173,7 +173,8 @@ se termina de cerrar en la Fase 6 (Key Vault/Secrets Manager).
 
 | # | Tema | Nivel | Última vez puesto a prueba |
 |---|---|---|---|
-| 51 | Platform Engineering — IDP, golden path, Backstage, Team Topologies/carga cognitiva, multi-tenancy en K8s (Namespace/RBAC/NetworkPolicy/ResourceQuota), métricas DORA | 🟢 Sólido | 2026-10-07, buena síntesis propia (sobreventa de recursos con plan de contingencia, no enseñado explícitamente); corrigió solo un lapsus puntual (pensó que los Pods NO se ven entre sí por defecto — se re-confirmó que la red es plana/abierta) |
+| 51 | Platform Engineering — IDP, golden path, Backstage, Team Topologies/carga cognitiva, multi-tenancy en K8s (Namespace/RBAC/NetworkPolicy/ResourceQuota) | 🟢 Sólido | 2026-10-07, buena síntesis propia (sobreventa de recursos con plan de contingencia, no enseñado explícitamente); corrigió solo un lapsus puntual (pensó que los Pods NO se ven entre sí por defecto — se re-confirmó que la red es plana/abierta) |
+| 51b | Métricas DORA (4 métricas: Deployment Frequency, Lead Time for Changes, Change Failure Rate, Time to Restore Service) | 🔴 Novato | 2026-10-07, repaso estricto dio **0/4** — no recordaba ni siquiera que el tema era DORA. Re-explicado desde cero el mismo día; separado como sub-tema propio por el tamaño real de la brecha; pendiente de reintento |
 | 52 | Arquitectura/costos multi-cloud (Well-Architected, FinOps) | 🟡 Intermedio | 2026-10-07, FinOps (visibilidad de costos cruzando equipos, negociación de descuentos por volumen) respondido bien sin ayuda. **Lista de los 6 pilares de Well-Architected — repaso estricto #1 (2026-10-07): 2/6 correctos, 1 parcial, 1 inventado ("Simplicity"), 3 ausentes.** **Repaso estricto #2 (2026-10-07, mismo día): 3/6 correctos (Reliability, Security, Sustainability), 1 parcial ("cost eficiente" por Cost Optimization), 0 inventados, 2 ausentes (Operational Excellence, Performance Efficiency) — mejora real, sigue sin ser 6/6, reintentar más adelante** |
 | 53 | Python/FastAPI/Docker — hardening: BOLA (OWASP API #1, autorización a nivel de objeto) y contenedor sin privilegios de root | 🟢 Sólido | 2026-10-07, distinguió sin ayuda que un contenedor non-root no previene BOLA (error de lógica de app), solo limita el daño si el atacante escala más allá — con ejemplo propio (modificar un feature flag) |
 | 54 | Arquitectura completa propia (diagrama frontend+backend construido en sesión) | 🟡 Intermedio | Construida junto con vos, no evaluada de forma independiente |
