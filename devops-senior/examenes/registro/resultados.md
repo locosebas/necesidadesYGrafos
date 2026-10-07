@@ -171,7 +171,7 @@ adelante:
 
 - Well-Architected Framework — 6 pilares (🟡 2do intento 2026-10-07: 3/6 correctos, 1 parcial, 0 inventados, 2 ausentes — mejora real, repetir más adelante hasta 6/6)
 - CCA-F — 5 áreas del examen (❌ repaso estricto #4: 0/5 exactos, reintentar)
-- Principios de IA Responsable — 6 pilares
+- Principios de IA Responsable — 6 pilares (❌ repaso estricto #5: 0/6, segunda falla del mismo recall, reintentar)
 - Métricas DORA — 4 métricas (❌ repaso estricto #3: 0/4, reintentar)
 - Componentes del control plane/nodo de Kubernetes — 7 piezas (kube-apiserver, etcd, kube-scheduler, kube-controller-manager, kubelet, kube-proxy, container runtime)
 - Ecosistema de herramientas de Terraform (Terragrunt, tflint, Checkov/tfsec, Terratest, Atlantis, Infracost)
@@ -184,6 +184,8 @@ adelante:
 | 2026-10-07 | Repaso estricto #3 — Métricas DORA (4 métricas) | Recitación completa sin pistas | Recitación completa sin pistas | No recordó ninguna métrica ni el tema de origen ("ni siquiera recuerdo de qué tema es"). Re-explicadas desde cero (eje de velocidad: Deployment Frequency, Lead Time for Changes; eje de estabilidad: Change Failure Rate, Time to Restore Service/MTTR) | **0/4, peor resultado de los repasos estrictos hasta ahora.** Separado como tema 51b en `progreso.md`, pendiente de reintento |
 
 | 2026-10-07 | Repaso estricto #4 — CCA-F, las 5 áreas del examen con su peso % | Recitación completa sin pistas | Recitación completa sin pistas | 0/5 coincidencias exactas de nombre. 3 parciales (mcps→área 18; "agentes y herramientas"→mezcla áreas 16+18; "Harness"/"hooks"→subtemas del área 17, no el nombre del área); 1 inventado ajeno al examen (reinforcement learning vs. fine-tuning, de la ruta IA/MLOps); 0 pesos % correctos; faltaron completas las áreas 19 y 20 | **0/5 exactos — peor resultado de recall-de-lista hasta ahora.** El mecanismo de cada área individual ya estaba bien evaluado antes; el hueco es puramente de la lista. Pendiente de reintento |
+
+| 2026-10-07 | Repaso estricto #5 — Principios de IA Responsable (6 pilares) | Recitación completa sin pistas | Recitación completa sin pistas | No arriesgó ningún intento ("No, no recuerdo"). Re-explicados desde cero (Fairness, Reliability & Safety, Privacy & Security, Inclusiveness, Transparency, Accountability) | **0/6 — segunda falla del mismo recall** (el 2026-10-04 tampoco los recordaba de memoria, aunque ese día sí los aplicó bien una vez definidos). Prioridad real para el próximo repaso |
 
 ## Diagnóstico general de IA pendiente
 

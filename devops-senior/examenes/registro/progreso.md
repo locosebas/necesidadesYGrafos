@@ -136,7 +136,7 @@ Pendiente de reintento.
 | 33 | Embeddings y búsqueda semántica | 🟢 Sólido | 2026-10-03, explicó correctamente sin ayuda |
 | 34 | Visión por computador (Image Classification, Object Detection, transfer learning) | 🟢 Sólido | 2026-10-03/04, caso real propio (clasificador de flores) |
 | 35 | NLP (Sentiment Analysis, NER, pre-built vs. propio vs. prompting) | 🟢 Sólido | 2026-10-04, razonamiento correcto sin ayuda |
-| 36 | Principios de IA Responsable (6 pilares) | 🟡 Intermedio | 2026-10-04, no los recordaba de memoria, aplicó bien una vez definidos |
+| 36 | Principios de IA Responsable (6 pilares) | 🔴 Novato | 2026-10-04, no los recordaba de memoria, aplicó bien una vez definidos. **Repaso estricto 2026-10-07: 0/6, no arriesgó ningún intento esta vez** — segunda falla del mismo recall, prioridad real para el próximo repaso |
 
 **Meta de certificación confirmada**: AWS Certified AI Practitioner (motivo
 comercial) + CCA-F en paralelo. **Nivel técnico** (AI-102/AWS ML Engineer
