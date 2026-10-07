@@ -136,7 +136,7 @@ actualiza cada vez que avanza una sesión de estudio (ver
 | 5 | IA | 18 — MLOps y LLMOps | ⬜ |
 | 5 | IA | 19 — Serving de modelos y GPUs | ⬜ |
 | 5 | Ops | 12 — Arquitectura y costos multi-cloud | 🟡 compute hierarchy y curva de costos explicados, sin examen dedicado |
-| 5 | Ops | 23 — Platform engineering | ⬜ |
+| 5 | Ops | 23 — Platform engineering | ✅ |
 | 6 | Dominio | 22 — Salud: HL7/FHIR (solo si apuntás a healthtech) | ⬜ |
 | 6 | — | Certificaciones + simulacros de entrevista (DevOps, IA y mixtos) | ⬜ — metas confirmadas: **AWS Certified AI Practitioner** + **CCA-F** (ver arriba y `certificaciones/README.md`) |
 
@@ -249,7 +249,7 @@ modelos) todavía no se vio.
   19. `temas/19-serving-modelos-gpu` — ⬜ vLLM/KServe, GPUs en Kubernetes, autoscaling de inferencia
 - **Ops**
   20. `temas/12-arquitectura-costos-multicloud` — 🟡 Well-Architected/Architecture Frameworks, FinOps (compute hierarchy explicado, sin examen dedicado)
-  21. `temas/23-platform-engineering` — ⬜ IDP, golden paths, multi-tenancy, métricas DORA (junta todo lo anterior)
+  21. `temas/23-platform-engineering` — ✅ IDP, golden paths, Backstage, Team Topologies/carga cognitiva, multi-tenancy, métricas DORA (junta todo lo anterior)
 
 ## Fase 6 — Dominio salud + certificaciones
 

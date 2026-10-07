@@ -6,6 +6,11 @@ forma de trabajar. Este tema junta todo lo anterior (IaC, CI/CD, Kubernetes,
 GitOps, observabilidad, seguridad) bajo la pregunta: *¿cómo hago que diez
 equipos desplieguen solos, seguros y sin pedirme nada?*
 
+**Estado (2026-10-07, ✅ cubierto):** IDP, golden path, Backstage, Team
+Topologies y carga cognitiva (intrínseca/extrínseca/productiva, cómo se
+evalúa), multi-tenancy en Kubernetes (Namespace+RBAC+NetworkPolicy+
+ResourceQuota), y métricas DORA — ver `../../examenes/registro/`.
+
 ## Objetivos
 
 - Explicar qué es una **IDP (Internal Developer Platform)** y la idea de

@@ -157,6 +157,8 @@ Pendiente de una sesión dedicada a esto, con escenarios concretos.
 | 2026-10-06 | Fase 8 (completa) — Troubleshooting: `CrashLoopBackOff`, `OOMKilled`, `ImagePullBackOff` | Sesión dedicada con escenarios reales | Guiado, de a una pregunta | Corrigió solo el mecanismo exacto de `CrashLoopBackOff` (confundía con `Ready`/readiness probe). `OOMKilled` (137, cgroups, sin gracia) e `ImagePullBackOff` (auth. vía Managed Identity/IAM Role a un registry privado) respondidos sin ayuda. Aprendió los comandos `kubectl logs --previous` y `kubectl describe pod` | **Fase 8 completa.** Ninguno pendiente de este tema |
 | 2026-10-07 | Fase 8 — profundización espontánea: `OOMKilled` vs. `Evicted` (nodo), terminación graceful (`SIGTERM`/143), preemption | Pregunta propia del usuario | Guiado, de a una pregunta | Distinguió sin ayuda `OOMKilled` (límite del propio contenedor) de `Evicted` (presión de recursos a nivel de todo el nodo) — sube el tema a 🔵 Senior | Ninguno |
 
+| 2026-10-07 | Platform Engineering (tema 23) — IDP, golden path, Backstage, Team Topologies/carga cognitiva, multi-tenancy en K8s, métricas DORA | Guiado, de a una pregunta | Guiado, de a una pregunta | Buena síntesis propia de capacidad/sobreventa con plan de contingencia (no enseñado, razonamiento propio); investigación en vivo sobre carga cognitiva y su relación con IA (paradoja de carga cognitiva: la IA sube la capacidad de producción pero no la cognitiva). Corrigió un lapsus sobre el modelo de red plana/abierta por defecto de Kubernetes (ya visto antes, resurgió momentáneamente) | Ninguno pendiente de este tema |
+
 ## Diagnóstico general de IA pendiente
 
 Con la fusión DevOps + IA del roadmap (2026-10-07) se agregaron los temas
