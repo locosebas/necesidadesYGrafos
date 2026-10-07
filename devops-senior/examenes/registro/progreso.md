@@ -4,7 +4,17 @@ Esto **no es** "visto / no visto" a nivel binario de tema — es qué tan
 sólido estás en cada tema **hoy**, medido por cómo respondiste la última
 vez que se puso a prueba (examen, repaso espaciado, o una entrevista real).
 Sube o baja con el tiempo; nunca queda fijo en 100% solo porque se explicó
-una vez. Las fases son las de `../../00-diagnostico/roadmap.md`.
+una vez.
+
+> **Nota sobre numeración de fases (2026-10-07):** el roadmap se
+> reestructuró para fusionar DevOps + IA en un solo camino (Fases 0-6,
+> bloques Ops/IA combinados, temas renumerados 14-23 — ver
+> `../../00-diagnostico/roadmap.md`, sección "Tablero de avance" para el
+> mapeo actualizado y autoritativo). Las fases numeradas 1-10 de **este**
+> archivo son las del esquema **anterior** (solo-DevOps) — se conservan tal
+> cual porque el detalle de cada corrección sigue siendo válido, pero para
+> saber en qué Fase/tema del roadmap actual cae cada cosa, guiate por el
+> tablero del roadmap, no por los números de acá abajo.
 
 ## Escala
 
