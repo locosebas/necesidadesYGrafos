@@ -33,7 +33,8 @@ devops-senior/
 │   ├── 10-kubernetes-avanzado/                 # K8s en general + AKS/EKS/GKE
 │   ├── 11-seguridad-devsecops/                 # Defender for Cloud, Security Hub, Security Command Center
 │   ├── 12-arquitectura-costos-multicloud/      # los 3 Well-Architected/Architecture Frameworks
-│   └── 13-mercadolibre-scopes-cosmos/          # material interno MELI (confidencial, no compartir)
+│   ├── 13-mercadolibre-scopes-cosmos/          # material interno MELI (confidencial, no compartir)
+│   └── 14-respuesta-incidentes-l2-l3/          # on-call, triage, mitigación, post-mortem (L2/L3)
 ├── certificaciones/       # qué certificar, en qué orden, y por qué (Azure + AWS + GCP)
 ├── examenes/               # cómo pedir exámenes y dónde queda el registro de resultados
 │   ├── README.md

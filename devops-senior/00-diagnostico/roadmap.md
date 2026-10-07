@@ -102,6 +102,7 @@ cualquiera de las tres nubes**.
 
 11. `temas/08-python-fastapi-docker` — repaso y hardening de APIs
 12. `temas/12-arquitectura-costos-multicloud` — Well-Architected/Architecture Frameworks, FinOps
+13. `temas/14-respuesta-incidentes-l2-l3` — proceso de respuesta a incidentes (on-call L2/L3): clasificar, mitigar, diagnosticar, resolver, post-mortem. Clave para los escenarios "son las 3am, ¿qué hacés?" de entrevista
 
 ## Fase 6 — Certificación y entrevista
 
