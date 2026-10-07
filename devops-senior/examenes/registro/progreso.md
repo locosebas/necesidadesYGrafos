@@ -41,7 +41,7 @@ de la tabla de arriba entre todos los temas de la fase (⬜/🔴 = 0%).
 | 3 | CI/CD y GitOps | 100% | 46% | ✅ Cubierta, GitLab CI por autoestudio sin verificar |
 | 4 | Identidad | 100% | 68% | ✅ Cubierta |
 | ↳ | *Interrupción: Ruta IA/MLOps (fundamentos)* | 100% | 72% | 🟡 Nivel técnico sin empezar |
-| 5 | Networking avanzado y seguridad | 100% | 68% | ✅ Cubierta |
+| 5 | Networking avanzado y seguridad | 100% | 73% | ✅ Cubierta |
 | 6 | Datos y secretos | 100% | 76% | ✅ Cubierta |
 | 7 | Observabilidad y async/orquestación | 100% | 73% | ✅ Cubierta |
 | 8 | Kubernetes — troubleshooting | 100% | 100% | ✅ Cubierta |
@@ -148,7 +148,7 @@ Associate/GCP ML Engineer) — ⬜ sin empezar.
 |---|---|---|---|
 | 37 | VNet/VPC, modelo de 3 capas, NSG | 🟢 Sólido | 2026-09-16/17, con diagrama de apoyo |
 | 38 | Private Endpoint / PrivateLink / Private Service Connect (equivalencias multi-cloud) | 🟢 Sólido | 2026-10-05, reconoció el nombre vía selección múltiple |
-| 39 | NAT Gateway, WAF, Firewall centralizado | 🟡 Intermedio | Recién explicado, sin repaso |
+| 39 | NAT Gateway, WAF, Firewall centralizado; diseño según necesidad (subredes pública/privada, Load Balancer/Ingress vs. NAT Gateway, dirección de tráfico por iniciador) | 🟢 Sólido | 2026-10-07, profundización a pedido propio con caso real (API pública + BD privada); corrigió solo la confusión inicial de creer que el Load Balancer también resuelve la salida; identificó bien que subredes distintas pueden convivir en la misma VPC/VNet y razonó correctamente la regla de "quién inicia la conexión" para el tráfico de respuesta a un GET |
 | 40 | AWS Load Balancers (ALB/NLB/GWLB) | 🟡 Intermedio | Repasado tras fallarlo en entrevista real (EY) |
 | 41 | Shift-left security, Trivy (escaneo de imágenes/CVEs) | 🟡 Intermedio | 2026-10-05, funcionamiento bien explicado; **nombre débil** (dijo "Stribi") — prioridad de repaso |
 | 42 | OPA/Gatekeeper (policy-as-code) | 🟢 Sólido | 2026-10-05, no recordó el nombre a la primera, lo reconoció bien tras la descripción |
@@ -171,7 +171,7 @@ se termina de cerrar en la Fase 6 (Key Vault/Secrets Manager).
 |---|---|---|---|
 | 47 | Observabilidad — OpenTelemetry (métricas/logs/traces), traces vs. alertas | 🟡 Intermedio | 2026-10-06, buena experiencia real previa en consumo (Grafana/Datadog), pero nunca configuró la instrumentación; confundió inicialmente alertas con traces, corregido con el ejemplo de los 5 microservicios |
 | 48 | Orquestación serverless — Durable Functions (`orchestrator` replay, `activity` con ejecución única vía historial) | 🟢 Sólido | 2026-10-06, cierra el hueco del diagnóstico inicial (2026-09-08); corrigió solo tras una confusión de fraseo ("no tienen idempotencia" → en realidad el framework garantiza ejecución única) |
-| 49 | Streaming de eventos — Kafka/Redpanda (log retenido, multi-consumidor, replay) vs. cola tradicional (SQS) | 🟢 Sólido | 2026-10-06, buena base real con SQS; identificó sin ayuda la ventaja de múltiples consumidores independientes |
+| 49 | Streaming de eventos — Kafka/Redpanda (log retenido, multi-consumidor, replay) vs. cola tradicional (SQS) | 🟢 Sólido | 2026-10-06, buena base real con SQS; identificó sin ayuda la ventaja de múltiples consumidores independientes. **Profundización 2026-10-07** (a pedido propio): caso de 3 consumidores de un mismo evento, retention configurable en Kafka/Redpanda, y patrón Transactional Outbox (RDS/S3 + SNS+SQS) como alternativa real sin Kafka — conectó correctamente su propia experiencia previa (RDS+SNS+SQS) con la teoría; corrigió solo un matiz (creer que Kafka "garantiza la transacción" en vez de durabilidad+replay) y una idea equivocada sobre la escalabilidad de Kafka (es al revés: escala mejor, no peor) |
 
 ## Fase 8 — Kubernetes: troubleshooting ✅ completa (2026-10-06)
 

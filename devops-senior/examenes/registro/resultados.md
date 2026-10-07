@@ -138,7 +138,7 @@ posponerlo para una sesión futura, después de avanzar con la Fase 4
 
 | 2026-10-06 | Fase 7 (completa) — Observabilidad (OpenTelemetry), orquestación serverless (Durable Functions), streaming de eventos (Kafka/Redpanda vs. SQS) | Guiado, de a una pregunta | Guiado, de a una pregunta | Observabilidad: buena base real (Grafana/Datadog), corrigió alertas vs. traces. Durable Functions: cerró el hueco del diagnóstico inicial (`activity` no se repite en el replay porque el framework consulta el historial, no por "idempotencia" de la activity). Streaming: buena base real con SQS, identificó sin ayuda la ventaja multi-consumidor de Kafka/Redpanda (faltó nombrar el replay, se completó en la explicación) | **Fase 7 completa.** Ninguno pendiente de este tema |
 
-## Diseño de arquitectura — profundización pendiente (2026-10-06)
+## Diseño de arquitectura — profundización pedida 2026-10-06, resuelta 2026-10-07
 
 El usuario pidió explícitamente ir más allá de las definiciones sueltas en
 dos temas ya vistos, hacia **criterios de diseño según la necesidad real**
@@ -152,7 +152,8 @@ dos temas ya vistos, hacia **criterios de diseño según la necesidad real**
   (no solo los componentes sueltos — VNet/VPC, Private Endpoint, NAT,
   WAF — ya vistos en la Fase 5).
 
-Pendiente de una sesión dedicada a esto, con escenarios concretos.
+| 2026-10-07 | Profundización — Kafka/Redpanda vs. SQS con caso de 3 consumidores de un mismo evento | Caso concreto, de a una pregunta | Caso concreto, de a una pregunta | Identificó bien el fan-out con una cola SQS por consumidor y el riesgo de desincronización; corrigió el matiz de que Kafka no "garantiza la transacción" sino durabilidad+replay por offset, y una idea equivocada sobre escalabilidad (es al revés: Kafka escala mejor, no peor). Conectó sin ayuda su propia experiencia real (RDS+SNS+SQS con un daemon) con el patrón Transactional Outbox, y entendió por qué se usaba RDS (consulta relacional) en vez de S3 | Ninguno — profundización completa |
+| 2026-10-07 | Profundización — Diseño de red según necesidad: API pública + BD privada | Caso concreto, de a una pregunta | Caso concreto, de a una pregunta | Corrigió la confusión de creer que el tráfico público pasa por el kube-apiserver (es el plano de administración, no de datos). Explicado el camino real (DNS → Load Balancer/Ingress en subred pública → Pod en subred privada → BD en subred aún más privada, con Security Groups/NSG filtrando en cada salto). Identificó bien que las 3 subredes pueden convivir en una misma VPC/VNet. Corrigió solo la idea de que el Load Balancer también resuelve la salida (es el NAT Gateway) y razonó correctamente, con la regla de "quién inicia la conexión", que la respuesta a un GET es tráfico de retorno de la conexión de entrada, no una conexión de salida nueva | Ninguno — profundización completa |
 
 | 2026-10-06 | Fase 8 (completa) — Troubleshooting: `CrashLoopBackOff`, `OOMKilled`, `ImagePullBackOff` | Sesión dedicada con escenarios reales | Guiado, de a una pregunta | Corrigió solo el mecanismo exacto de `CrashLoopBackOff` (confundía con `Ready`/readiness probe). `OOMKilled` (137, cgroups, sin gracia) e `ImagePullBackOff` (auth. vía Managed Identity/IAM Role a un registry privado) respondidos sin ayuda. Aprendió los comandos `kubectl logs --previous` y `kubectl describe pod` | **Fase 8 completa.** Ninguno pendiente de este tema |
 | 2026-10-07 | Fase 8 — profundización espontánea: `OOMKilled` vs. `Evicted` (nodo), terminación graceful (`SIGTERM`/143), preemption | Pregunta propia del usuario | Guiado, de a una pregunta | Distinguió sin ayuda `OOMKilled` (límite del propio contenedor) de `Evicted` (presión de recursos a nivel de todo el nodo) — sube el tema a 🔵 Senior | Ninguno |

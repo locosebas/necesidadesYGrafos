@@ -124,13 +124,13 @@ actualiza cada vez que avanza una sesión de estudio (ver
 | 2 | Ops | 08 — Python / FastAPI + Docker | ✅ hardening: BOLA y contenedor sin privilegios de root |
 | 2 | IA | 15 — Desarrollo de apps con LLMs | ⬜ |
 | 3 | Ops | 04 — Identidad e IAM | ✅ Managed Identity/IAM Role/Service Account, Keycloak, federación OIDC K8s↔AWS IAM (IRSA), RBAC scope/herencia |
-| 3 | Ops | 05 — Networking multi-cloud | ✅ VNet/VPC, Private Endpoint/PrivateLink/Private Service Connect |
+| 3 | Ops | 05 — Networking multi-cloud | ✅ VNet/VPC, Private Endpoint/PrivateLink/Private Service Connect; diseño según necesidad ✅ profundizado (2026-10-07: subredes pública/privada, Load Balancer/Ingress vs. NAT Gateway, dirección del tráfico por iniciador) |
 | 3 | Ops | 11 — Seguridad / DevSecOps | ✅ shift-left, Trivy (nombre débil, ver registro), OPA/Gatekeeper |
 | 3 | IA | 20 — Seguridad y gobernanza de IA | ⬜ |
 | 4 | Ops | 06 — Datos y secretos | ✅ Key Vault/Secrets Manager + Managed Identity, consistencia NoSQL, relacional administrada (AlloyDB/RDS/Cloud SQL) |
 | 4 | IA | 16 — RAG y bases vectoriales | 🟡 RAG/agentic RAG/embeddings y búsqueda semántica ✅ (conceptual, ver tema 14); bases vectoriales hands-on (pgvector, AI Search, etc.) sin ver |
 | 4 | Ops | 09 — Orquestación serverless | ✅ Durable Functions (`orchestrator` replay, `activity` con ejecución única vía historial) |
-| 4 | Ops | 21 — Event streaming y workflows durables (Redpanda, Temporal) | 🟡 Kafka/Redpanda vs. SQS (log retenido, multi-consumidor, replay) ✅ conceptual; hands-on de Redpanda/Temporal sin ver — **profundización pendiente a pedido propio** |
+| 4 | Ops | 21 — Event streaming y workflows durables (Redpanda, Temporal) | 🟡 Kafka/Redpanda vs. SQS ✅ profundizado (2026-10-07: patrón Transactional Outbox, retention configurable, caso propio RDS+SNS+SQS); hands-on de Redpanda/Temporal sin ver |
 | 4 | IA | 17 — Agentes de IA y MCP | ⬜ como tema IA general — pero **MCP sí está cubierto a fondo** dentro de la pista paralela del CCA-F |
 | 5 | Ops | 07 — Observabilidad multi-cloud | ✅ OpenTelemetry (métricas/logs/traces), traces vs. alertas |
 | 5 | IA | 18 — MLOps y LLMOps | ⬜ |
@@ -141,10 +141,11 @@ actualiza cada vez que avanza una sesión de estudio (ver
 | 6 | — | Certificaciones + simulacros de entrevista (DevOps, IA y mixtos) | ⬜ — metas confirmadas: **AWS Certified AI Practitioner** + **CCA-F** (ver arriba y `certificaciones/README.md`) |
 
 **Pendientes puntuales que no son un tema completo** (ver `examenes/registro/`
-para el detalle de cada uno): profundizar Kafka/Redpanda vs. SQS y diseño de
-arquitectura de red según necesidad (a pedido propio), repaso de nombre de
-Trivy, repaso espaciado general con preguntas exigentes (formato selección
-múltiple para nombres), y la hoja de vida pendiente de actualizar.
+para el detalle de cada uno): repaso de nombre de Trivy, repaso espaciado
+general con preguntas exigentes (formato selección múltiple para nombres),
+repasos estrictos de listas pendientes de reintento (Well-Architected,
+métricas DORA, CCA-F, IA Responsable — todos con resultado bajo el
+2026-10-07), y la hoja de vida pendiente de actualizar.
 
 ## Fase 0 — Diagnóstico general (arranca acá)
 
@@ -236,7 +237,7 @@ modelos) todavía no se vio.
   13. `temas/16-rag-bases-vectoriales` — 🟡 RAG, embeddings, búsqueda vectorial e híbrida cubiertos a nivel conceptual (ver tema 14); falta la parte hands-on de bases vectoriales reales
 - **Ops**
   14. `temas/09-orquestacion-serverless` — ✅ Durable Functions / Step Functions / Workflows (mecanismo de replay/historial)
-  15. `temas/21-event-streaming-workflows` — 🟡 **Redpanda**/Kafka vs. SQS cubierto conceptual; Temporal (workflows durables) cubierto vía Durable Functions; falta hands-on — profundización pendiente a pedido propio
+  15. `temas/21-event-streaming-workflows` — 🟡 **Redpanda**/Kafka vs. SQS ✅ profundizado (caso de 3 consumidores, patrón Transactional Outbox, retention configurable); Temporal (workflows durables) cubierto vía Durable Functions; falta hands-on de Redpanda/Temporal
 - **IA**
   16. `temas/17-agentes-ia` — ⬜ como tema IA general (multi-agente, Foundry/Bedrock/Vertex Agent); MCP en sí ya está cubierto a fondo en la pista paralela del CCA-F
 
