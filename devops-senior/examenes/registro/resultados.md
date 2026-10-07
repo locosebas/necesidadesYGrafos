@@ -155,6 +155,7 @@ dos temas ya vistos, hacia **criterios de diseño según la necesidad real**
 Pendiente de una sesión dedicada a esto, con escenarios concretos.
 
 | 2026-10-06 | Fase 8 (completa) — Troubleshooting: `CrashLoopBackOff`, `OOMKilled`, `ImagePullBackOff` | Sesión dedicada con escenarios reales | Guiado, de a una pregunta | Corrigió solo el mecanismo exacto de `CrashLoopBackOff` (confundía con `Ready`/readiness probe). `OOMKilled` (137, cgroups, sin gracia) e `ImagePullBackOff` (auth. vía Managed Identity/IAM Role a un registry privado) respondidos sin ayuda. Aprendió los comandos `kubectl logs --previous` y `kubectl describe pod` | **Fase 8 completa.** Ninguno pendiente de este tema |
+| 2026-10-07 | Fase 8 — profundización espontánea: `OOMKilled` vs. `Evicted` (nodo), terminación graceful (`SIGTERM`/143), preemption | Pregunta propia del usuario | Guiado, de a una pregunta | Distinguió sin ayuda `OOMKilled` (límite del propio contenedor) de `Evicted` (presión de recursos a nivel de todo el nodo) — sube el tema a 🔵 Senior | Ninguno |
 
 ## Ronda de vocabulario pendiente
 

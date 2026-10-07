@@ -34,12 +34,12 @@ de la tabla de arriba entre todos los temas de la fase (⬜/🔴 = 0%).
 | 5 | Networking avanzado y seguridad | 100% | 68% | ✅ Cubierta |
 | 6 | Datos y secretos | 100% | 76% | ✅ Cubierta |
 | 7 | Observabilidad y async/orquestación | 100% | 73% | ✅ Cubierta |
-| 8 | Kubernetes — troubleshooting | 100% | 85% | ✅ Cubierta |
+| 8 | Kubernetes — troubleshooting | 100% | 100% | ✅ Cubierta |
 | 9 | Arquitectura de plataforma (capstone) | 50% | 25% | 🟡 Parcial, ad-hoc |
 | 10 | Certificación y entrevista final | 0% | 0% | ⬜ Sin empezar |
 
 **Promedio del plan completo (Fases 1-10, peso igual por fase): ~84% visto,
-~56% dominado.** Son dos números distintos a propósito — "visto" mide
+~58% dominado.** Son dos números distintos a propósito — "visto" mide
 cobertura del temario completo, "dominado" mide qué tan defendible es lo
 que ya se tocó. Las dos interrupciones (CCA-F, IA/MLOps) corren en paralelo
 y no cuentan en este promedio de las 10 fases numeradas.
@@ -157,7 +157,7 @@ se termina de cerrar en la Fase 6 (Key Vault/Secrets Manager).
 
 | # | Tema | Nivel | Última vez puesto a prueba |
 |---|---|---|---|
-| 50 | Troubleshooting — `CrashLoopBackOff` (mecanismo, exit codes, `logs --previous`/`describe pod`), `OOMKilled` (137, cgroups), `ImagePullBackOff` (auth. a registry privado vía Managed Identity/IAM Role) | 🟢 Sólido | 2026-10-06, sesión dedicada completa. Corrigió solo el mecanismo exacto de `CrashLoopBackOff` (no es sobre `Ready`, es sobre el proceso cayéndose); el resto, sin ayuda |
+| 50 | Troubleshooting — `CrashLoopBackOff`, `OOMKilled` (vs. `Evicted` a nivel de nodo, terminación graceful `SIGTERM`/143, preemption), `ImagePullBackOff` | 🔵 Senior | 2026-10-06/07, sesión dedicada completa. Distinguió sin ayuda `OOMKilled` (límite del contenedor) de `Evicted` (presión del nodo completo) — matiz que muchos confunden |
 
 ## Fase 9 — Arquitectura de plataforma (capstone)
 
