@@ -146,17 +146,23 @@ Terraform, aplicada a sistemas que integran IA. Cada vez más ofertas de
 "Platform Architect" van a pedir esto como parte del rol, no como un extra
 separado.
 
-## Ruta IA / MLOps — opcional, alto crecimiento
+## Ruta IA / MLOps — parte del plan principal
 
 Cada vez más ofertas de DevOps/Platform piden desplegar y operar cargas de
 IA (APIs de modelos, RAG, GPUs) — es una extensión natural de lo que ya
 sabés (Container Apps/Fargate/Cloud Run para servir modelos, FastAPI para
-las APIs de inferencia). No reemplaza la ruta DevOps, la complementa.
+las APIs de inferencia). Como tu objetivo es ser experto en DevOps **y** en
+IA, esta ruta va intercalada con la de DevOps en el orden de abajo (temas
+14-20 del roadmap).
 
 ### Nivel fundamentos (rápidas, para tener el vocabulario)
 - **Azure AI Fundamentals (AI-900)** — https://learn.microsoft.com/certifications/azure-ai-fundamentals/
-- **AWS Certified AI Practitioner** — https://aws.amazon.com/certification/certified-ai-practitioner/
+- **AWS Certified AI Practitioner** ⭐ **elegida (2026-10-04)**, por peso comercial — https://aws.amazon.com/certification/certified-ai-practitioner/
 - **Google Cloud Generative AI Leader** — https://cloud.google.com/certification/generative-ai-leader
+
+Nivel de fundamentos ya cubierto en el plan (ver `examenes/registro/`):
+entrenamiento/inferencia, pre-entrenamiento/fine-tuning, RAG/agentic RAG,
+embeddings, visión por computador, NLP, IA Responsable.
 
 ### Nivel técnico ⭐ (el que suma de verdad para un perfil DevOps/MLOps)
 - **Azure AI Engineer Associate (AI-102)** — construir soluciones con Azure
@@ -174,12 +180,30 @@ Machine Learning Engineer – Associate** o **Google Professional Machine
 Learning Engineer**, según la nube del empleador — son las dos con más foco
 en productivizar modelos, no solo entrenarlos.
 
-## Orden sugerido dado tu perfil (ajustado con datos de mercado + meta de arquitecto)
+## Certificaciones de herramientas CNCF — opcionales, para ofertas startup
+
+Si la oferta pide herramientas puntuales (tema 23 y las de la tabla del
+roadmap), estas certificaciones de la Linux Foundation / CNCF son cortas y
+las validan directamente. No reemplazan a las de arriba.
+
+- **ICA — Istio Certified Associate** — https://training.linuxfoundation.org/certification/istio-certified-associate-ica/
+- **CAPA — Certified Argo Project Associate** (ArgoCD) — https://training.linuxfoundation.org/certification/certified-argo-project-associate-capa/
+- **OTCA — OpenTelemetry Certified Associate** — https://training.linuxfoundation.org/certification/opentelemetry-certified-associate-otca/
+- **CKS — Certified Kubernetes Security Specialist** (incluye OPA Gatekeeper y seguridad de K8s) — después de la CKA
+
+## Orden sugerido dado tu perfil (DevOps + IA, ajustado con datos de mercado + meta de arquitecto)
+
+Una sola ruta que intercala DevOps e IA, alineada con las fases del roadmap.
+El **CCA-F** (arriba) corre en **paralelo**, independiente de esta ruta —
+no es de una nube y no compite por el mismo orden.
 
 ```
-Terraform Associate  ←── más rápida y barata, sirve para las 3 nubes
+Fase 1 → Terraform Associate        ←── más rápida y barata, sirve para las 3 nubes
+         + AI Fundamentals de la nube que elijas (AI-900 / AWS AI Practitioner)  ←── opcional, vocabulario
    ↓
-CKA  ←── ya tenés Kubernetes productivo, sirve para las 3 nubes
+Fase 1-2 → CKA                       ←── ya tenés Kubernetes productivo, sirve para las 3 nubes
+   ↓
+Fase 2-3 → AI-102 (Azure AI Engineer) ←── desarrollo de apps de IA (temas 15, 16, 17, 20)
    ↓
    ┌─────────────────────────────┬─────────────────────────────────┐
    │ Cert DevOps de tu próxima   │ Cert "Architect" de esa misma    │
@@ -189,16 +213,22 @@ CKA  ←── ya tenés Kubernetes productivo, sirve para las 3 nubes
    │ Engineer (GCP)              │ Google Professional Cloud Arch.  │
    └─────────────────────────────┴─────────────────────────────────┘
    ↓
-Certificación de seguridad opcional de esa misma nube (AZ-500 / AWS Security Specialty)
+Fase 5 → Certificación de MLOps de la nube de tu próxima oferta:
+         AWS ML Engineer – Associate · Google Professional ML Engineer   ←── temas 18 y 19
+   ↓
+Opcional → seguridad de esa misma nube (AZ-500 / AWS Security Specialty)
 ```
 
 Empezá siempre por las dos transversales (Terraform Associate + CKA) — no
-importa a qué nube apunte la próxima oferta, ya suman. Recién ahí elegí,
-**de la misma nube**, tanto la certificación **DevOps** (operación) como la
-**Architect** (diseño) — no es una o la otra, son las dos caras de tu meta
-actual de "arquitecto de plataforma": diseñar (Architect) Y operar (DevOps)
-la misma arquitectura. La ruta IA/MLOps sigue siendo un agregado opcional en
-paralelo, no un reemplazo de este orden.
+importa a qué nube apunte la próxima oferta, ya suman. Después viene AI-102,
+eligiendo la nube según la oferta concreta que tengas más cerca en ese
+momento (hoy, la de Julieta apunta a AZ-400, y por eso AI-102 de Azure encaja
+bien al lado). Recién ahí elegí, **de la misma nube**, tanto la certificación
+**DevOps** (operación) como la **Architect** (diseño) — no es una o la otra,
+son las dos caras de tu meta actual de "arquitecto de plataforma": diseñar
+(Architect) Y operar (DevOps) la misma arquitectura. La certificación de
+MLOps va al final porque necesita los temas de observabilidad, CI/CD y
+Kubernetes ya cerrados.
 
 ## Cómo preparar cada certificación acá
 
@@ -206,6 +236,7 @@ paralelo, no un reemplazo de este orden.
    la tabla de equivalencias Azure/AWS/GCP.
 2. Pedime exámenes de práctica con el formato de la certificación:
    *"Dame un examen de práctica estilo AZ-400"* o *"...estilo AWS DevOps
-   Engineer Professional"* o *"...estilo Google Cloud DevOps Engineer"*.
+   Engineer Professional"* o *"...estilo AI-102"* o *"...estilo AWS Machine
+   Learning Engineer"*.
 3. Registrá resultados en `../examenes/registro/` para ver evolución antes de
    pagar el examen real.

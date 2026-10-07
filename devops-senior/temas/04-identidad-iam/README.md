@@ -31,22 +31,48 @@ nube, no solo "crear un usuario".
 4. Principio de mínimo privilegio: cómo auditarlo en cada nube (Access Advisor en AWS, IAM Recommender en GCP, Access Reviews en Entra ID)
 5. Roles built-in más usados de cada nube (equivalentes a Reader/Contributor/Owner de Azure)
 
-## Keycloak (IAM open-source, self-hosteable)
+**Estado (2026-10-04, ✅ cubierto):** Managed Identity system-assigned vs.
+user-assigned (eje real: ciclo de vida/compartibilidad, no duración),
+federación OIDC Kubernetes↔AWS IAM (**IRSA**: Identity Provider, trust
+policy con `Principal`+`Condition` sobre `sub`, `AssumeRoleWithWebIdentity`),
+y scope jerárquico de RBAC en Azure (herencia automática hacia abajo,
+`Deny assignment` como única excepción) — ver `../../examenes/registro/`.
+
+## Keycloak (IAM open-source, self-hosteable) — ✅ cubierto 2026-10-01
 
 Además de la identidad nativa de cada nube, muchas plataformas (sobre todo
 "self-service developer platforms" construidas desde cero) usan un IAM
-**propio, self-hosteado y agnóstico de nube**: **Keycloak**.
+**propio, self-hosteado y agnóstico de nube**: **Keycloak**, un **Identity
+Provider (IdP) open source** (parte de la **CNCF**, de Red Hat originalmente).
 
-- Qué es: servidor de **Identity and Access Management** open-source (de Red
-  Hat), habla los protocolos estándar **OIDC** y **SAML**.
+- Qué es: servidor de **Identity and Access Management**, habla los
+  protocolos estándar **OIDC** y **SAML**. Cumple el rol de Entra ID /
+  Cognito / Identity Platform cuando la empresa no quiere depender de la
+  nube o necesita correrlo dentro de su propio Kubernetes.
 - Por qué se usa en vez del IAM nativo de la nube: cuando la plataforma debe
   autenticar usuarios/servicios de la misma forma sin importar en qué nube
   corre cada pieza (multi-cloud real, no solo Azure/AWS/GCP por separado).
-- Conceptos propios: **Realm** (espacio de aislamiento, como un tenant),
-  **Client** (una app registrada), **Roles** y **Groups**.
+- Conceptos propios: **Realm** (espacio de aislamiento, como un tenant —
+  usuarios/roles distintos ameritan Realms distintos), **Client** (una app
+  registrada — cada app distinta necesita su propio Client, nunca uno
+  compartido, por *blast radius*), **SSO** (*Single Sign-On*) y **User
+  Federation** (conectarse a un Active Directory/LDAP ya existente en vez de
+  duplicar cuentas).
 - Se integra con Managed Identity/IAM Role/Service Account sin pisarse:
   Keycloak identifica al **usuario final**; la nube identifica al
   **recurso/servicio**.
+
+| Concepto | Keycloak | Azure | AWS | GCP |
+|---|---|---|---|---|
+| IdP para usuarios de las apps | **Keycloak** (realm, clients, users) | Entra ID / Entra External ID | **Cognito** | Identity Platform |
+
+Subtemas extra (sin profundizar todavía):
+- *Identity brokering* (login con Google/Entra ID a través de Keycloak).
+- Flujos **OIDC** (Authorization Code + PKCE, Client Credentials) — los mismos que usa GitHub Actions en el tema 03.
+- Proteger una API FastAPI validando el JWT que emite **Keycloak**.
+- Operar **Keycloak** en Kubernetes (Keycloak Operator, base de datos Postgres, alta disponibilidad).
+
+- Keycloak: https://www.keycloak.org/documentation
 
 ## Recursos
 

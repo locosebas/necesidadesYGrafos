@@ -1,6 +1,12 @@
-# Roadmap de estudio
+# Roadmap de estudio — DevOps + IA (un solo camino)
 
-Orden sugerido. Cada bloque es aprox. 1-2 semanas de estudio part-time
+Objetivo: ser **experto en DevOps/Platform multi-cloud y en IA** (desarrollo
+de aplicaciones con IA + operación de IA en producción, MLOps/LLMOps). No son
+dos planes separados: cada fase combina un bloque **Ops** y un bloque **IA**
+que se apoyan entre sí (por ejemplo, Kubernetes primero y después servir
+modelos con GPU sobre Kubernetes).
+
+Orden sugerido. Cada fase es aprox. 3-4 semanas de estudio part-time
 (mientras trabajás). Ajustalo a tu ritmo real — lo importante es no saltar
 el examen de autoevaluación al final de cada tema.
 
@@ -21,17 +27,12 @@ Esto cambia el orden de estudio en dos puntos concretos:
    qué componente falló. Ver `temas/10-kubernetes-avanzado/README.md`, que
    ahora es un índice ordenado (arquitectura → scheduling/recursos →
    networking/mesh → operators/managed-k8s → troubleshooting, al final).
-2. **Se agrega un tema de cierre: `temas/16-platform-engineering/`.** Saber
-   cada herramienta suelta no alcanza para ser arquitecto — hace falta el
-   marco que explica cómo se combinan (Internal Developer Platform, golden
-   paths, Team Topologies, production readiness) y un diagrama de referencia
-   que ubica cada tema del plan dentro de la arquitectura completa del
-   posting.
-
-Las fases de abajo (1-9) siguen siendo el contenido técnico por
-herramienta/concepto — ahora reordenadas para construir de abajo hacia
-arriba (cómputo y red primero, plataforma completa al final) en vez de por
-frecuencia en ofertas de trabajo.
+2. **Se agrega un tema de cierre: `temas/23-platform-engineering/`** (antes
+   numerado `16-platform-engineering`). Saber cada herramienta suelta no
+   alcanza para ser arquitecto — hace falta el marco que explica cómo se
+   combinan (Internal Developer Platform, golden paths, Team Topologies,
+   production readiness) y un diagrama de referencia que ubica cada tema del
+   plan dentro de la arquitectura completa del posting.
 
 ## Metodología: de general a específico
 
@@ -39,7 +40,7 @@ Objetivo final: llegar a una entrevista técnica (o certificación) y poder
 resolver la prueba, no solo "haber leído sobre el tema". Por eso cada nivel
 sigue el mismo patrón general → específico:
 
-1. **General (panorama):** examen diagnóstico amplio que toca los 13 temas a
+1. **General (panorama):** examen diagnóstico amplio que toca todos los temas (Ops e IA) a
    nivel conceptual, para medir dónde estás parado hoy en la práctica (no
    solo lo que infiere el CV). Esto define qué temas se profundizan primero.
 2. **Específico (por tema):** dentro de cada tema, primero repaso el concepto
@@ -83,135 +84,204 @@ preferencia de "repetición de términos" de arriba, pero aplicada
 específicamente a siglas: "**NSG (Network Security Group)**", nunca solo
 "NSG" a secas la primera vez que se la nombra en una explicación.
 
-## Fase 0 — Diagnóstico general (ya hecho, ver registro)
+Más preferencias pedagógicas (nombres, selección múltiple, lista numerada
+calificada) están documentadas en `/CLAUDE.md`, que aplica siempre que se
+trabaje en este repo.
 
-Antes de la Fase 1: un examen general de panorama (1-2 preguntas por cada uno
-de los 13 temas originales, nivel conceptual). Con el resultado se ajustó el
-orden real de estudio — ver `examenes/registro/resultados.md` para los
-puntos débiles detectados y pendientes de profundización.
+## Pista paralela: Claude Certified Architect (CCA-F)
 
-## Fase 1 — Kubernetes: arquitectura y fundamentos (arranca acá)
+No es parte de la grilla Ops/IA de abajo — es una certificación de
+**Anthropic**, no de una nube, sobre arquitectura de sistemas con IA agéntica
+(MCP, Claude Code, gestión de contexto). Corre **en paralelo** a las fases
+numeradas, sin ocupar un número de fase propio.
 
-Base de todo lo demás — la plataforma completa (Fase 9) corre sobre
-Kubernetes. Por eso va primero, no al final como "repaso de fortaleza".
+- **Qué certifica**: Claude Certified Architect — Foundations (**CCA-F**).
+  Examen proctoreado, 60 preguntas, Pearson VUE. Detalle completo (temario,
+  pesos, precio, links) en `certificaciones/README.md`.
+- **Estado (2026-10-04)**: ✅ primera pasada completa por las 5 áreas del
+  examen — ver `examenes/registro/`. 🔁 **Pendiente**: repaso mixto
+  (preguntas encadenadas de las 5 áreas sin avisar el tema) antes de
+  considerar rendir el examen real.
 
-1. `temas/10-kubernetes-avanzado/01-arquitectura-y-cluster.md` — componentes, reconciliation loop, cómo se arma un clúster, CNI, CSI
-2. `temas/10-kubernetes-avanzado/02-scheduling-recursos-autoscaling.md` — scheduling, QoS, HPA/VPA/Cluster Autoscaler, RBAC de K8s
-3. `temas/10-kubernetes-avanzado/03-networking-service-mesh.md` — Services, Network Policies, Ingress/Gateway API, Istio
-4. `temas/10-kubernetes-avanzado/04-operators-crds-managed-k8s.md` — Operators/CRDs, diferencias AKS/EKS/GKE (foco GKE por el posting)
+## Tablero de avance (mirá acá cómo vas)
 
-`05-troubleshooting.md` de este mismo tema se deja para la **Fase 8**, una
-vez que el resto del plan (identidad, red, datos, observabilidad) ya esté
-visto — la mayoría de los síntomas de troubleshooting son fallas en esas
-capas vistas desde Kubernetes.
+Estados: ⬜ sin empezar · 🟡 parcial/tocado, sin examen a fondo · ✅ completo
+(ver `examenes/registro/progreso.md` para el nivel exacto por sub-tema) · 🔁
+hueco puntual pendiente dentro de un tema ya mayormente cubierto. Se
+actualiza cada vez que avanza una sesión de estudio (ver
+`../examenes/registro/resultados.md` para el detalle).
 
-## Fase 2 — IaC multi-cloud (semanas 3-4)
+| Fase | Bloque | Tema | Estado |
+|---|---|---|---|
+| 0 | Ops | Diagnóstico general DevOps (temas 01-12) | ✅ hecho 2026-09-08 |
+| 0 | IA | Diagnóstico general IA (temas 14-20) | ⬜ — los fundamentos se cubrieron enseñando directo, sin el examen diagnóstico formal |
+| 0 | Ops | Diagnóstico de herramientas startup (Istio, ArgoCD, Keycloak, OPA, ESO, Valkey, Redpanda, Temporal…) | ⬜ |
+| 1 | Ops | 01 — IaC multi-cloud | ✅ Terraform + Ansible (agregado fuera del roadmap original); 🔁 Bicep/CloudFormation/CDK nunca visto |
+| 1 | Ops | 10 — Kubernetes avanzado | ✅ completo, incluido troubleshooting (`CrashLoopBackOff`/`OOMKilled`/`ImagePullBackOff`, nivel 🔵 Senior) |
+| 1 | Ops | 02 — Contenedores serverless | 🟡 tocado vía la curva de cómputo (VM→K8s→serverless→FaaS→PaaS), sin examen dedicado |
+| 1 | IA | 14 — Fundamentos de IA, ML y LLMs | ✅ entrenamiento/inferencia, pre-entrenamiento/fine-tuning, RAG/agentic RAG, embeddings, visión por computador, NLP, IA Responsable |
+| 2 | Ops | 03 — CI/CD multi-cloud | ✅ panorama (push vs. pull, ArgoCD, OIDC); 🔁 configuración práctica de ArgoCD pendiente; GitLab CI por autoestudio propio, sin verificar profundidad |
+| 2 | Ops | 08 — Python / FastAPI + Docker | ⬜ |
+| 2 | IA | 15 — Desarrollo de apps con LLMs | ⬜ |
+| 3 | Ops | 04 — Identidad e IAM | ✅ Managed Identity/IAM Role/Service Account, Keycloak, federación OIDC K8s↔AWS IAM (IRSA), RBAC scope/herencia |
+| 3 | Ops | 05 — Networking multi-cloud | ✅ VNet/VPC, Private Endpoint/PrivateLink/Private Service Connect |
+| 3 | Ops | 11 — Seguridad / DevSecOps | ✅ shift-left, Trivy (nombre débil, ver registro), OPA/Gatekeeper |
+| 3 | IA | 20 — Seguridad y gobernanza de IA | ⬜ |
+| 4 | Ops | 06 — Datos y secretos | ✅ Key Vault/Secrets Manager + Managed Identity, consistencia NoSQL, relacional administrada (AlloyDB/RDS/Cloud SQL) |
+| 4 | IA | 16 — RAG y bases vectoriales | 🟡 RAG/agentic RAG/embeddings y búsqueda semántica ✅ (conceptual, ver tema 14); bases vectoriales hands-on (pgvector, AI Search, etc.) sin ver |
+| 4 | Ops | 09 — Orquestación serverless | ✅ Durable Functions (`orchestrator` replay, `activity` con ejecución única vía historial) |
+| 4 | Ops | 21 — Event streaming y workflows durables (Redpanda, Temporal) | 🟡 Kafka/Redpanda vs. SQS (log retenido, multi-consumidor, replay) ✅ conceptual; hands-on de Redpanda/Temporal sin ver — **profundización pendiente a pedido propio** |
+| 4 | IA | 17 — Agentes de IA y MCP | ⬜ como tema IA general — pero **MCP sí está cubierto a fondo** dentro de la pista paralela del CCA-F |
+| 5 | Ops | 07 — Observabilidad multi-cloud | ✅ OpenTelemetry (métricas/logs/traces), traces vs. alertas |
+| 5 | IA | 18 — MLOps y LLMOps | ⬜ |
+| 5 | IA | 19 — Serving de modelos y GPUs | ⬜ |
+| 5 | Ops | 12 — Arquitectura y costos multi-cloud | 🟡 compute hierarchy y curva de costos explicados, sin examen dedicado |
+| 5 | Ops | 23 — Platform engineering | ⬜ |
+| 6 | Dominio | 22 — Salud: HL7/FHIR (solo si apuntás a healthtech) | ⬜ |
+| 6 | — | Certificaciones + simulacros de entrevista (DevOps, IA y mixtos) | ⬜ — metas confirmadas: **AWS Certified AI Practitioner** + **CCA-F** (ver arriba y `certificaciones/README.md`) |
 
-Para poder provisionar toda la plataforma como código, incluyendo el propio
-clúster de Kubernetes.
+**Pendientes puntuales que no son un tema completo** (ver `examenes/registro/`
+para el detalle de cada uno): profundizar Kafka/Redpanda vs. SQS y diseño de
+arquitectura de red según necesidad (a pedido propio), repaso de nombre de
+Trivy, repaso espaciado general con preguntas exigentes (formato selección
+múltiple para nombres), y la hoja de vida pendiente de actualizar.
 
-5. `temas/01-iac-multicloud` — Terraform (ya es tu fortaleza), Bicep, y de paso CloudFormation/CDK (AWS)
-6. `temas/02-contenedores-serverless` — Container Apps / Fargate / Cloud Run
+## Fase 0 — Diagnóstico general (arranca acá)
 
-## Interrupción priorizada (2026-09-25): Claude Certified Architect (CCA-F)
+Antes de la Fase 1: un examen general de panorama (1-2 preguntas por tema,
+nivel conceptual). Con el resultado ajustamos el orden real de estudio — las
+brechas del `gap-analysis.md` son una hipótesis basada en el CV, el
+diagnóstico general la confirma o la corrige con datos reales.
 
-Apenas se cierre el bloque de **Terraform** de arriba, el plan se desvía acá
-**antes** de seguir a la Fase 3 — ver `certificaciones/README.md` para el
-detalle completo (temario, formato de examen, links oficiales). Es una
-certificación de **Anthropic**, no de una nube, sobre arquitectura de
-sistemas con IA agéntica (MCP, Claude Code, gestión de contexto) — se
-estudia como un bloque propio, y recién después se retoma la Fase 3
-(CI/CD/GitOps) donde quedó. (contraste con K8s "real" de la Fase 1)
+- **Parte Ops (temas 01-12):** ✅ hecha el 2026-09-08.
+- **Parte IA (temas 14-20):** los fundamentos (tema 14) ya se cubrieron
+  enseñando directo durante la Fase 1, sin pasar primero por el examen
+  diagnóstico formal — si querés, pedime *"Dame el diagnóstico general de
+  IA"* para confirmar con un examen que no quedaron huecos.
+- **Herramientas de ofertas startup** (Istio, ArgoCD, Keycloak, OPA, AlloyDB,
+  OpenTelemetry, ESO, Atlas, Valkey, Flipt, Redpanda, Temporal, platform
+  engineering): ⬜ pendiente. Pedime *"Dame el diagnóstico de herramientas
+  startup"*. El tema 22 (salud) no entra, igual que el 13.
 
-## Fase 3 — CI/CD y GitOps (semanas 5-6) ✅ panorama cubierto (2026-09-30)
+## Herramientas de ofertas startup (dónde está cada una)
 
-7. `temas/03-cicd-multicloud` — GitHub Actions + OIDC, **GitOps con ArgoCD**, GitLab CI como alternativa
+Agregadas a partir de una oferta de startup (healthtech) del 2026-10-07. No
+son un bloque aparte: cada herramienta vive en el tema donde se entiende.
 
-Panorama conceptual cubierto (modelo pull vs. push, dónde vive ArgoCD, OIDC)
-— ver `examenes/registro/`. Pendiente, pospuesto a pedido propio: configuración
-práctica de ArgoCD (instalación, `Application`/`AppProject`, sync policies).
+| Herramienta | Tema | Fase |
+|---|---|---|
+| **Istio** (service mesh) | 10 — Kubernetes avanzado | 1 |
+| **ArgoCD** (GitOps), **Flipt** (feature flags) | 03 — CI/CD | 2 |
+| **Keycloak** (Identity Provider) | 04 — Identidad | 3 |
+| **OPA** (policy as code) | 11 — DevSecOps | 3 |
+| **AlloyDB**, **ESO**, **Atlas**, **Valkey** | 06 — Datos y secretos | 4 |
+| **Redpanda**, **Temporal** | 21 — Event streaming y workflows (nuevo) | 4 |
+| **OpenTelemetry** (hands-on: Collector, OTLP) | 07 — Observabilidad | 5 |
+| Equipo de platform engineering | 23 — Platform engineering (nuevo) | 5 |
+| **HL7/FHIR**, **Medplum**, **HAPI FHIR**, **OIE** | 22 — Salud (nuevo, dominio) | 6 |
 
-## Fase 4 — Identidad (semanas 7-8) ✅ completa (2026-10-04)
+**Cómo se encastra la IA:** cada tema de IA va en la fase donde ya viste la
+base Ops que necesita. Desarrollo con LLMs va junto con FastAPI (una API de IA
+es una API FastAPI que llama a un modelo); RAG va junto con datos (una base
+vectorial es otra base de datos); agentes van junto con orquestación (un
+agente es un orquestador donde decide el modelo); MLOps va junto con
+observabilidad y CI/CD; serving de modelos va después de Kubernetes y antes
+de costos (las GPUs son lo más caro de la factura).
 
-8. `temas/04-identidad-iam` — Entra ID/RBAC, AWS IAM, GCP IAM, Managed Identity, y **Keycloak** (IAM propio/self-hosteado, clave para una plataforma multi-cloud real)
+## Fase 1 — Infraestructura base + fundamentos de IA (semanas 1-4) ✅ en su mayoría
 
-Cubierto completo: Managed Identity/IAM Role/Service Account, Keycloak,
-federación OIDC Kubernetes↔AWS IAM (IRSA), y RBAC scope/herencia en Azure —
-ver `examenes/registro/`.
+Lo más pedido en las ofertas, y donde ya tenés más base (Terraform, Docker, K8s).
+En paralelo, el vocabulario de IA que vas a usar en todas las fases siguientes.
 
-## Interrupción priorizada (2026-10-03): Ruta IA / MLOps
+- **Ops**
+  1. `temas/01-iac-multicloud` — ✅ Terraform (+ Ansible agregado); 🔁 Bicep, y de paso CloudFormation/CDK (AWS) todavía sin ver
+  2. `temas/10-kubernetes-avanzado` — ✅ completo: arquitectura, scheduling, networking/mesh, operators/managed-k8s, y troubleshooting (🔵 Senior)
+  3. `temas/02-contenedores-serverless` — 🟡 Container Apps / Fargate / Cloud Run tocado, sin examen dedicado
+- **IA**
+  4. `temas/14-fundamentos-ia-llm` — ✅ ML, LLMs, tokens, embeddings, prompting vs. RAG vs. fine-tuning
 
-El usuario pidió arrancar la **Ruta IA / MLOps** (ver `certificaciones/README.md`)
-antes de terminar la Fase 4. **Nivel de fundamentos completo (2026-10-04)**:
-entrenamiento/inferencia, pre-entrenamiento/fine-tuning, RAG/agentic RAG,
-embeddings, visión por computador, NLP, IA Responsable — ver
-`examenes/registro/`. Meta de certificación confirmada: **AWS Certified AI
-Practitioner** (motivo: más peso comercial), en paralelo con el objetivo ya
-existente del **CCA-F**. Pendiente: decidir si se avanza al nivel técnico
-(AI-102/AWS ML Engineer Associate/GCP ML Engineer) o se retoma la Fase 4
-(Identidad), que quedó pausada a la mitad.
+## Fase 2 — CI/CD + desarrollo de apps con IA (semanas 5-8) 🟡 parcial
 
-## Fase 5 — Networking avanzado y seguridad (semanas 9-10) ✅ completa (2026-10-05)
+- **Ops**
+  5. `temas/03-cicd-multicloud` — ✅ GitHub Actions + OIDC federado; GitOps con ArgoCD (🔁 configuración práctica pendiente); GitLab CI por autoestudio propio, sin verificar
+  6. `temas/08-python-fastapi-docker` — ⬜ repaso y hardening de APIs (base para la parte IA)
+- **IA**
+  7. `temas/15-desarrollo-apps-llm` — ⬜ APIs de LLMs, structured output, tool use, streaming
 
-9. `temas/05-networking-multicloud` — VNet/VPC, Private Endpoints/PrivateLink/Private Service Connect
-10. `temas/11-seguridad-devsecops` — shift-left security, escaneo de imágenes/IaC, **OPA/policy-as-code**
+Al final de la Fase 2 deberías tener **una API FastAPI de IA desplegada con
+CI/CD** (GitHub Actions + OIDC) en Container Apps / Fargate / Cloud Run —
+pendiente, falta construirlo.
 
-Al final de la Fase 5 deberías poder explicar de memoria cómo una app llega a
-una base de datos sin exponer secretos ni tráfico a internet público, **y**
-cómo se le impone una regla de seguridad a todo el clúster sin tocar cada
-app (OPA/Gatekeeper) — en cualquiera de las tres nubes.
+## Fase 3 — Identidad, seguridad y networking (incluida la seguridad de IA) (semanas 9-12) 🟡 parcial
 
-Cubierto: equivalencias multi-cloud de Private Endpoint, y Trivy/OPA-Gatekeeper
-(con recuerdo de nombre todavía débil, ver `examenes/registro/`). La mitad
-de "sin exponer secretos" de la frase de cierre queda pendiente para la
-Fase 6 (Key Vault/Secrets Manager, aún no enseñado).
+- **Ops**
+  8. `temas/04-identidad-iam` — ✅ Entra ID/RBAC, AWS IAM, GCP IAM, Managed Identity, Keycloak
+  9. `temas/05-networking-multicloud` — ✅ VNet/VPC, Private Endpoints/PrivateLink/Private Service Connect
+  10. `temas/11-seguridad-devsecops` — ✅ shift-left security, Trivy, OPA/policy-as-code
+- **IA**
+  11. `temas/20-seguridad-gobernanza-ia` — ⬜ prompt injection, guardrails, OWASP Top 10 para LLMs
 
-## Fase 6 — Datos y secretos (semanas 11-12) ✅ completa (2026-10-05)
+Al final de la Fase 3 deberías poder explicar de memoria cómo una app llega a
+una base de datos **y a un modelo de IA** sin exponer secretos ni tráfico a
+internet público — **en cualquiera de las tres nubes**. La mitad Ops ya
+quedó demostrada sin ayuda (Managed Identity/IAM Role → Key Vault/Secrets
+Manager → Private Endpoint/PrivateLink); la mitad de IA (seguridad de
+modelos) todavía no se vio.
 
-11. `temas/06-datos-secretos` — Key Vault/Secrets Manager/Secret Manager, Cosmos DB/DynamoDB/Firestore, **AlloyDB**/RDS/Cloud SQL (relacional)
+## Fase 4 — Datos, orquestación, RAG y agentes (semanas 13-18) 🟡 parcial
 
-Cubierto completo: síntesis de secretos (Managed Identity/IAM Role → Key
-Vault/Secrets Manager → Private Endpoint/PrivateLink, cerrando la frase de
-cierre de la Fase 5), niveles de consistencia NoSQL (cierra hueco del
-diagnóstico inicial), y relacional administrada — ver `examenes/registro/`.
+- **Ops**
+  12. `temas/06-datos-secretos` — ✅ Key Vault/Secrets Manager/Secret Manager, Cosmos DB/DynamoDB/Firestore (consistencia), AlloyDB/RDS/Cloud SQL
+- **IA**
+  13. `temas/16-rag-bases-vectoriales` — 🟡 RAG, embeddings, búsqueda vectorial e híbrida cubiertos a nivel conceptual (ver tema 14); falta la parte hands-on de bases vectoriales reales
+- **Ops**
+  14. `temas/09-orquestacion-serverless` — ✅ Durable Functions / Step Functions / Workflows (mecanismo de replay/historial)
+  15. `temas/21-event-streaming-workflows` — 🟡 **Redpanda**/Kafka vs. SQS cubierto conceptual; Temporal (workflows durables) cubierto vía Durable Functions; falta hands-on — profundización pendiente a pedido propio
+- **IA**
+  16. `temas/17-agentes-ia` — ⬜ como tema IA general (multi-agente, Foundry/Bedrock/Vertex Agent); MCP en sí ya está cubierto a fondo en la pista paralela del CCA-F
 
-## Fase 7 — Observabilidad y async/orquestación (semanas 13-14) ✅ completa (2026-10-06)
+## Fase 5 — Operación de IA en producción + nivel Senior (semanas 19-24) 🟡 parcial
 
-12. `temas/07-observabilidad-multicloud` — Azure Monitor, CloudWatch, Cloud Logging/Monitoring, OpenTelemetry
-13. `temas/09-orquestacion-serverless` — Durable Functions / Step Functions / Workflows, **Temporal**
-14. `temas/14-streaming-eventos` — Kafka/**Redpanda**, Event Hubs, Kinesis, Pub/Sub
+- **Ops**
+  17. `temas/07-observabilidad-multicloud` — ✅ Azure Monitor, CloudWatch, Cloud Logging/Monitoring, OpenTelemetry (métricas/logs/traces)
+- **IA**
+  18. `temas/18-mlops-llmops` — ⬜ ciclo de vida de modelos, evals en CI, observabilidad de LLMs
+  19. `temas/19-serving-modelos-gpu` — ⬜ vLLM/KServe, GPUs en Kubernetes, autoscaling de inferencia
+- **Ops**
+  20. `temas/12-arquitectura-costos-multicloud` — 🟡 Well-Architected/Architecture Frameworks, FinOps (compute hierarchy explicado, sin examen dedicado)
+  21. `temas/23-platform-engineering` — ⬜ IDP, golden paths, multi-tenancy, métricas DORA (junta todo lo anterior)
 
-Cubierto completo: OpenTelemetry (métricas/logs/traces), mecanismo de
-replay/historial de Durable Functions (cierra hueco del diagnóstico
-inicial), y Kafka/Redpanda vs. cola tradicional (SQS) — ver
-`examenes/registro/`.
+## Fase 6 — Dominio salud + certificaciones
 
-## Fase 8 — Kubernetes: troubleshooting (semana 15) ✅ completa (2026-10-06)
-
-15. `temas/10-kubernetes-avanzado/05-troubleshooting.md` — `CrashLoopBackOff`, `OOMKilled`, `ImagePullBackOff`, con toda la base de las fases 1-7 ya cubierta
-
-Cubierto completo: mecanismo y exit codes de los 3 estados, comandos
-`kubectl logs --previous`/`describe pod`, y autenticación a registries
-privados vía Managed Identity/IAM Role — ver `examenes/registro/`.
-
-## Fase 9 — Arquitectura de plataforma (capstone) (semanas 16-17)
-
-16. `temas/16-platform-engineering` — Internal Developer Platform, golden paths, Team Topologies, production readiness, y el diagrama de referencia que une **todos** los temas anteriores en la plataforma completa del posting de Vule.
-17. `temas/12-arquitectura-costos-multicloud` — Well-Architected/Architecture Frameworks, FinOps (costos de la plataforma completa)
-18. `temas/08-python-fastapi-docker` — repaso y hardening de APIs (lo que corre *dentro* de la plataforma)
-
-## Fase 10 — Certificación y entrevista
-
-- Rendir la certificación elegida (ver `certificaciones/README.md`).
 - Repasar `temas/13-mercadolibre-scopes-cosmos` si aplica a una entrevista interna.
-- Repasar `temas/15-interoperabilidad-salud` si la vacante es de un dominio de salud (HL7/FHIR/Medplum/HAPI).
-- Simulacro de entrevista técnica con Claude usando `examenes/` en modo mixto (preguntas de varios temas, formato entrevista), y un simulacro de **diseño de arquitectura en vivo** ("diseñame la plataforma del posting paso a paso") usando el tema 16.
+- Repasar `temas/22-datos-salud-hl7-fhir` si la oferta es de salud / healthtech.
+- Rendir las certificaciones elegidas (ver `certificaciones/README.md` — ruta
+  única que intercala certificaciones DevOps y de IA). Metas confirmadas:
+  **AWS Certified AI Practitioner** + **CCA-F**.
+- Simulacros de entrevista técnica con Claude usando `examenes/` en modo mixto:
+  DevOps, IA, y **mixtos DevOps + IA** (por ejemplo, *"diseñá la plataforma
+  para servir un RAG a 10.000 usuarios en AWS"*), formato entrevista.
+
+## Proyecto integrador (atraviesa todas las fases) — ⬜ sin empezar
+
+Para que todo quede junto y tengas algo para mostrar en entrevistas, los labs
+de cada fase construyen **una sola aplicación** que va creciendo. Todavía no
+se arrancó a construir — lo visto hasta ahora es conceptual/examinado, no
+código corriendo:
+
+1. Fase 1: infraestructura con Terraform/Bicep + cluster/contenedor base.
+2. Fase 2: API FastAPI que llama a un LLM, con CI/CD y OIDC.
+3. Fase 3: identidad gestionada, acceso privado al modelo, guardrails.
+4. Fase 4: RAG sobre documentos propios + un agente con herramientas (MCP).
+5. Fase 5: evals en el pipeline, observabilidad de tokens/costo/latencia, y
+   (opcional) un modelo abierto servido con vLLM en Kubernetes.
 
 ## Cómo avanzar de fase
 
 No avances de fase hasta tener **≥ 80% en el examen de cada tema** de la fase
-anterior (ver `examenes/registro/`). Si un tema queda débil, se repite antes de
-seguir — la idea es no acumular huecos.
+anterior (ver `examenes/registro/`), tanto de los temas Ops como de los de IA.
+Si un tema queda débil, se repite antes de seguir — la idea es no acumular
+huecos. Actualizá el **tablero de avance** de arriba al cerrar cada tema.
 
 ## Fuentes de la investigación de mercado (sept. 2026)
 
@@ -228,5 +298,5 @@ qué certificación/skill tiene más demanda real:
 
 > Nota: son fuentes secundarias (blogs/agregadores), no un estudio estadístico
 > formal. Sirven de contexto de mercado — el `gap-analysis.md` (basado en tu
-> CV real) y el diagrama de plataforma del tema 16 son la referencia real
+> CV real) y el diagrama de plataforma del tema 23 son la referencia real
 > para saber qué tan profundo tenés que ir en cada tema.
