@@ -174,7 +174,7 @@ se termina de cerrar en la Fase 6 (Key Vault/Secrets Manager).
 | # | Tema | Nivel | Última vez puesto a prueba |
 |---|---|---|---|
 | 51 | Platform Engineering — IDP, golden path, Backstage, Team Topologies/carga cognitiva, multi-tenancy en K8s (Namespace/RBAC/NetworkPolicy/ResourceQuota), métricas DORA | 🟢 Sólido | 2026-10-07, buena síntesis propia (sobreventa de recursos con plan de contingencia, no enseñado explícitamente); corrigió solo un lapsus puntual (pensó que los Pods NO se ven entre sí por defecto — se re-confirmó que la red es plana/abierta) |
-| 52 | Arquitectura/costos multi-cloud (Well-Architected, FinOps) | 🟡 Intermedio | Compute hierarchy y curva de costos explicados, sin examen |
+| 52 | Arquitectura/costos multi-cloud (Well-Architected, FinOps) | 🟡 Intermedio | 2026-10-07, FinOps (visibilidad de costos cruzando equipos, negociación de descuentos por volumen) respondido bien sin ayuda. **Lista de los 6 pilares de Well-Architected: repaso estricto en 2026-10-07 dio 2/6 correctos, 1 parcial, 1 inventado ("Simplicity"), 3 ausentes (Operational Excellence, Performance Efficiency, Sustainability) — prioridad alta para próximo repaso de listas** |
 | 53 | Python/FastAPI — repaso y hardening de APIs | ⬜ No visto | — |
 | 54 | Arquitectura completa propia (diagrama frontend+backend construido en sesión) | 🟡 Intermedio | Construida junto con vos, no evaluada de forma independiente |
 

@@ -159,6 +159,25 @@ Pendiente de una sesión dedicada a esto, con escenarios concretos.
 
 | 2026-10-07 | Platform Engineering (tema 23) — IDP, golden path, Backstage, Team Topologies/carga cognitiva, multi-tenancy en K8s, métricas DORA | Guiado, de a una pregunta | Guiado, de a una pregunta | Buena síntesis propia de capacidad/sobreventa con plan de contingencia (no enseñado, razonamiento propio); investigación en vivo sobre carga cognitiva y su relación con IA (paradoja de carga cognitiva: la IA sube la capacidad de producción pero no la cognitiva). Corrigió un lapsus sobre el modelo de red plana/abierta por defecto de Kubernetes (ya visto antes, resurgió momentáneamente) | Ninguno pendiente de este tema |
 
+## Listas enumeradas pendientes de repaso estricto (2026-10-07)
+
+El usuario pidió un repaso **estricto** para listas enumeradas ya vistas
+(pilares de un framework, áreas de un examen, etc.): recitarlas completas de
+memoria, sin pistas, con calificación solo después del intento completo (ver
+regla nueva en `CLAUDE.md`). Primera probada: **Well-Architected Framework (6
+pilares)** — resultado **2/6 correctos, 1 parcial, 1 inventado, 3 ausentes**
+(ver `progreso.md`, tema 52). Candidatas a revisar con el mismo formato más
+adelante:
+
+- Well-Architected Framework — 6 pilares (❌ ya falló una vez, repetir)
+- CCA-F — 5 áreas del examen (con su peso %)
+- Principios de IA Responsable — 6 pilares
+- Métricas DORA — 4 métricas
+- Componentes del control plane/nodo de Kubernetes — 7 piezas (kube-apiserver, etcd, kube-scheduler, kube-controller-manager, kubelet, kube-proxy, container runtime)
+- Ecosistema de herramientas de Terraform (Terragrunt, tflint, Checkov/tfsec, Terratest, Atlantis, Infracost)
+- Niveles de consistencia de Cosmos DB (5 niveles)
+- Estados de troubleshooting de Kubernetes (`CrashLoopBackOff`, `OOMKilled`, `Evicted`, `ImagePullBackOff`) y sus exit codes
+
 ## Diagnóstico general de IA pendiente
 
 Con la fusión DevOps + IA del roadmap (2026-10-07) se agregaron los temas
