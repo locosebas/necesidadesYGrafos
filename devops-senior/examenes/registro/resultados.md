@@ -169,7 +169,7 @@ pilares)** — resultado **2/6 correctos, 1 parcial, 1 inventado, 3 ausentes**
 (ver `progreso.md`, tema 52). Candidatas a revisar con el mismo formato más
 adelante:
 
-- Well-Architected Framework — 6 pilares (❌ ya falló una vez, repetir)
+- Well-Architected Framework — 6 pilares (🟡 2do intento 2026-10-07: 3/6 correctos, 1 parcial, 0 inventados, 2 ausentes — mejora real, repetir más adelante hasta 6/6)
 - CCA-F — 5 áreas del examen (con su peso %)
 - Principios de IA Responsable — 6 pilares
 - Métricas DORA — 4 métricas
@@ -179,6 +179,7 @@ adelante:
 - Estados de troubleshooting de Kubernetes (`CrashLoopBackOff`, `OOMKilled`, `Evicted`, `ImagePullBackOff`) y sus exit codes
 
 | 2026-10-07 | Python/FastAPI/Docker (tema 08) — hardening: BOLA y contenedor sin privilegios de root | Guiado, de a una pregunta | Guiado, de a una pregunta | Confirmó que el primer caso (BOLA) lo vivió pero no lo resolvió él mismo, y el segundo (root) nunca se trabajó. Tras la explicación, distinguió sin ayuda que un contenedor non-root no previene BOLA, solo limita el daño — con ejemplo propio (feature flag de Flipt) | **Fase 9 completa.** Ninguno pendiente de este tema |
+| 2026-10-07 | Repaso estricto #2 — Well-Architected Framework (6 pilares) | Recitación completa sin pistas | Recitación completa sin pistas | Segundo intento del mismo día: Reliability, Security y Sustainability correctos (Sustainability es nuevo respecto al intento #1); "cost eficiente" parcial por Cost Optimization; sin inventos esta vez (antes había inventado "Simplicity"); siguen ausentes Operational Excellence y Performance Efficiency | 3/6 correctos, 1 parcial, 2 ausentes — mejora real sobre el intento #1 (2/6), reintentar más adelante hasta 6/6 |
 
 ## Diagnóstico general de IA pendiente
 
