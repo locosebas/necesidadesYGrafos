@@ -55,6 +55,19 @@ ventaja principal de cada una:
 | **Honeycomb** | Pionero del concepto moderno de "**observability**" (distinto de "monitoring") | Foco en *high-cardinality* y debugging exploratorio de sistemas distribuidos — más orientado a *engineers*, menos a dashboards fijos |
 | **OpenTelemetry (OTel)** | No es una herramienta, es el **estándar** neutral de instrumentación (CNCF) | Instrumentás tu app UNA vez con OTel y podés exportar a Datadog, Grafana, New Relic, Azure Monitor, etc. sin reescribir código — es lo que evita quedar atado a un solo proveedor |
 
+### OpenTelemetry en la práctica (lo piden "hands-on")
+
+Las ofertas no piden solo saber qué es **OpenTelemetry**, sino haberlo
+operado. Piezas a dominar:
+
+- **SDKs / auto-instrumentación**: instrumentar una app (por ejemplo, FastAPI) para emitir trazas, métricas y logs.
+- **OTLP**: el protocolo estándar de **OpenTelemetry** para mandar la telemetría.
+- **OpenTelemetry Collector**: el proceso intermedio con *receivers* → *processors* (batching, sampling, filtrado de datos sensibles) → *exporters* (a Grafana, Datadog, Azure Monitor, CloudWatch, Cloud Trace…).
+- Despliegue del **Collector** en Kubernetes: como *DaemonSet* (agente por nodo) o *Deployment* (gateway); **OpenTelemetry Operator**.
+- Propagación de contexto (`traceparent`) entre servicios, incluso a través de colas o streaming (tema 21).
+
+Recurso: https://opentelemetry.io/docs/
+
 **Dato de color:** *Prometheus* nació en SoundCloud (2012), inspirado en un
 sistema interno de Google llamado *Borgmon* — el mismo linaje de donde salió
 después *Azure Monitor for containers* y buena parte del monitoreo moderno de

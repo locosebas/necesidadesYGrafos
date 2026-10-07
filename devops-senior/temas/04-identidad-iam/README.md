@@ -31,6 +31,26 @@ nube, no solo "crear un usuario".
 4. Principio de mínimo privilegio: cómo auditarlo en cada nube (Access Advisor en AWS, IAM Recommender en GCP, Access Reviews en Entra ID)
 5. Roles built-in más usados de cada nube (equivalentes a Reader/Contributor/Owner de Azure)
 
+## Herramienta que piden las ofertas (startup): Keycloak
+
+**Keycloak** es un **Identity Provider (IdP) open source** (CNCF) que se
+self-hostea: login, SSO, usuarios, roles, **OIDC** y **SAML** para las
+aplicaciones. Cumple el rol de Entra ID / Cognito / Identity Platform cuando
+la empresa no quiere depender de la nube o necesita correrlo dentro de su
+Kubernetes.
+
+| Concepto | Keycloak | Azure | AWS | GCP |
+|---|---|---|---|---|
+| IdP para usuarios de las apps | **Keycloak** (realm, clients, users) | Entra ID / Entra External ID | **Cognito** | Identity Platform |
+
+Subtemas extra:
+- Conceptos de **Keycloak**: *realm*, *client*, *roles*, *groups*, *identity brokering* (login con Google/Entra ID).
+- Flujos **OIDC** (Authorization Code + PKCE, Client Credentials) — los mismos que usa GitHub Actions en el tema 03.
+- Proteger una API FastAPI validando el JWT que emite **Keycloak**.
+- Operar **Keycloak** en Kubernetes (Keycloak Operator, base de datos Postgres, alta disponibilidad).
+
+- Keycloak: https://www.keycloak.org/documentation
+
 ## Recursos
 
 - Entra ID: https://learn.microsoft.com/entra/

@@ -15,6 +15,10 @@ Ejemplos de pedidos válidos:
 - *"Dame un examen basado en el documento de Scopes/CoSMOS"*
 - *"Mezclá preguntas de los temas 04, 05 y 06"* (examen combinado, para
   fases avanzadas del roadmap)
+- *"Dame el diagnóstico general de IA"* (panorama de los temas 14-20)
+- *"Dame un examen de RAG nivel intermedio"* o *"...de MLOps nivel senior"*
+- *"Simulá una entrevista mixta DevOps + IA: diseñar la plataforma para un
+  RAG en producción"*
 
 Podés pedir formato:
 - **Opción múltiple** (rápido, bueno para repaso)
@@ -39,10 +43,13 @@ la primera vez que rindas un examen). Columnas: fecha, tema, nivel, formato,
 Esto permite, con el tiempo, ver qué temas necesitan repaso antes de rendir
 la certificación real o ir a la entrevista.
 
-## Tema 13 (Scopes/CoSMOS de MELI) va aparte
+## Temas de dominio (13 MELI y 22 Salud) van aparte
 
 Los **exámenes o diagnósticos generales** (los que mezclan varios temas, tipo
 panorama) **no incluyen preguntas del tema 13** por defecto — son conceptos y
 terminología específicos de MercadoLibre, no transferibles a otras entrevistas.
 Ese tema solo se evalúa si lo pedís explícitamente (*"Dame un examen basado en
 el documento de Scopes/CoSMOS"*).
+
+Lo mismo con el **tema 22 (salud: HL7/FHIR)**: es conocimiento de dominio,
+solo se evalúa si lo pedís (*"Dame un examen de HL7/FHIR"*).
