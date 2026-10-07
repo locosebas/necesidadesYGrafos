@@ -44,8 +44,14 @@ devops-senior/
 │   ├── 17-agentes-ia/                          # agentes, MCP, Foundry Agent Service, Bedrock AgentCore, ADK
 │   ├── 18-mlops-llmops/                        # Azure ML, SageMaker, Vertex AI Pipelines, MLflow, evals
 │   ├── 19-serving-modelos-gpu/                 # vLLM, KServe, GPUs en AKS/EKS/GKE
-│   └── 20-seguridad-gobernanza-ia/             # prompt injection, Content Safety, Bedrock Guardrails, Model Armor
+│   ├── 20-seguridad-gobernanza-ia/             # prompt injection, Content Safety, Bedrock Guardrails, Model Armor
+│   │   # ── Herramientas de ofertas startup ──
+│   ├── 21-event-streaming-workflows/           # Redpanda/Kafka, Temporal (Event Hubs, MSK, Pub/Sub)
+│   ├── 22-datos-salud-hl7-fhir/                # dominio salud: HL7/FHIR, Medplum, HAPI FHIR, OIE
+│   └── 23-platform-engineering/                # IDP, golden paths, Backstage, multi-tenancy, DORA
 ├── certificaciones/       # qué certificar, en qué orden, y por qué (DevOps + IA, Azure + AWS + GCP)
+│   # Istio, ArgoCD, Keycloak, OPA, AlloyDB, OpenTelemetry, ESO, Atlas, Valkey y Flipt
+│   # están dentro de los temas 03, 04, 06, 07, 10 y 11 (ver tabla en el roadmap)
 ├── examenes/               # cómo pedir exámenes y dónde queda el registro de resultados
 │   ├── README.md
 │   └── registro/

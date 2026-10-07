@@ -50,6 +50,21 @@ cuando aplica — ver también las tablas de equivalencias dentro de cada tema.
 | Prompt injection | Ataque que mete instrucciones maliciosas en el input del LLM |
 | vLLM | Motor open source para servir LLMs con alto rendimiento |
 | MLflow | Herramienta open source de MLOps: tracking de experimentos y model registry |
+| Istio | Service mesh: mTLS entre servicios, gestión de tráfico (canary) y observabilidad, sin tocar el código |
+| ArgoCD | Herramienta de GitOps: sincroniza el cluster de Kubernetes con lo que hay en Git |
+| GitOps | Git como fuente de verdad del estado deseado; un agente (ArgoCD, Flux) lo aplica |
+| Keycloak | Identity Provider open source (OIDC/SAML, SSO), self-hosteable |
+| OPA / Rego | Open Policy Agent: motor de policy as code; Rego es su lenguaje. Gatekeeper lo aplica en Kubernetes |
+| AlloyDB | Base de datos de GCP compatible con PostgreSQL, de alto rendimiento |
+| ESO | External Secrets Operator: sincroniza secretos del gestor de la nube a Secrets de Kubernetes |
+| Atlas (Ariga) | Migraciones de schema de base de datos como código (no confundir con MongoDB Atlas) |
+| Valkey | Cache key-value en memoria, fork open source de Redis |
+| Flipt | Plataforma open source de feature flags |
+| Redpanda | Plataforma de event streaming compatible con la API de Kafka, sin JVM ni ZooKeeper |
+| Temporal | Motor de workflows durables (workflows + activities), agnóstico de nube |
+| HL7 v2 / FHIR | Estándares de intercambio de datos de salud: HL7 v2 (mensajes legacy), FHIR (API REST + JSON) |
+| IDP (Internal Developer Platform) | Plataforma interna que da self-service a los equipos de producto |
+| Métricas DORA | Deployment frequency, lead time, change failure rate, time to restore |
 | Well-Architected Framework | Marco de 5 pilares (Reliability, Security, Cost, Operational Excellence, Performance) — versión propia en Azure, AWS y GCP |
 
 ## Enlaces generales

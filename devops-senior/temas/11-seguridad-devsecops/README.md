@@ -37,6 +37,26 @@ Bicep), **gitleaks** (secrets en el repo).
 4. Secrets scanning en el propio repo (gitleaks, GitHub secret scanning)
 5. OWASP Top 10: https://owasp.org/www-project-top-ten/
 
+## Herramienta que piden las ofertas (startup): OPA (policy as code)
+
+**OPA (Open Policy Agent)** es un motor de políticas de propósito general
+(CNCF): las reglas se escriben en el lenguaje **Rego** y se evalúan donde
+haga falta. Es **policy as code**: las reglas de seguridad/compliance viven
+en Git, se testean y se versionan como cualquier código.
+
+Dónde se usa **OPA**:
+- **Kubernetes**: **OPA Gatekeeper** (admission controller) rechaza recursos que no cumplen (por ejemplo, contenedores corriendo como root, imágenes de registries no aprobados, falta de `resources.limits`).
+- **CI**: **Conftest** evalúa Terraform, manifiestos de Kubernetes o Dockerfiles en el pipeline, antes del deploy (*shift-left*).
+- **Apps / APIs**: autorización fina (por ejemplo, una API FastAPI le pregunta a **OPA** si el usuario puede hacer una acción).
+
+| Concepto | Agnóstico | Azure | AWS | GCP |
+|---|---|---|---|---|
+| Políticas sobre recursos de nube | **OPA** / Conftest | **Azure Policy** (usa Gatekeeper para AKS) | AWS Config rules / SCPs | Organization Policy / **Policy Controller** (basado en Gatekeeper) |
+| Políticas en Kubernetes | **OPA Gatekeeper**, Kyverno | Azure Policy for AKS | Gatekeeper / Kyverno en EKS | Policy Controller (GKE) |
+
+- OPA: https://www.openpolicyagent.org/docs/
+- Gatekeeper: https://open-policy-agent.github.io/gatekeeper/
+
 ## Lab sugerido
 
 Agregá al pipeline de GitHub Actions del lab del tema 03 un paso de escaneo de

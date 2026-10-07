@@ -39,6 +39,26 @@ Actions como orquestador **común a las tres nubes**, con autenticación
 - OIDC de GitHub Actions a GCP: https://github.com/google-github-actions/auth#workload-identity-federation
 - GitHub Actions docs: https://docs.github.com/actions
 
+## Herramientas que piden las ofertas (startup): GitOps y feature flags
+
+| Herramienta | Qué es | Para qué se usa |
+|---|---|---|
+| **ArgoCD** | Herramienta de **GitOps** para Kubernetes (CNCF) | El estado deseado del cluster vive en Git; **ArgoCD** detecta la diferencia (*drift*) y sincroniza. El pipeline ya no hace `kubectl apply`: hace un commit y **ArgoCD** despliega |
+| **Flipt** | Plataforma open source de **feature flags** | Separar *deploy* de *release*: el código llega a producción apagado y se prende con un flag (por usuario, porcentaje, ambiente) sin redeployar |
+
+Subtemas extra:
+- **GitOps** con **ArgoCD**: `Application`, `ApplicationSet`, sync automático vs. manual, *self-heal*, patrón *app of apps*.
+- Promoción entre ambientes con **ArgoCD** (un repo de config por ambiente vs. carpetas por ambiente).
+- **Feature flags** con **Flipt**: progressive delivery, *kill switch*, limpieza de flags viejos.
+
+Equivalentes gestionados de GitOps: **Flux** (extensión GitOps de AKS y GKE
+Config Sync) y **EKS Capabilities para Argo CD** en AWS. Equivalentes de
+feature flags: Azure App Configuration (feature flags), AWS AppConfig,
+Firebase Remote Config; SaaS: LaunchDarkly.
+
+- ArgoCD: https://argo-cd.readthedocs.io/
+- Flipt: https://docs.flipt.io/
+
 ## Lab sugerido
 
 Configurá, en un repo de prueba, tres workflows separados que hagan login sin

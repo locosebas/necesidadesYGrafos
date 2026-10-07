@@ -65,3 +65,26 @@ roadmap). Hipótesis inicial:
 
 Tu ventaja diferencial: venir de Ops. MLOps, LLMOps y serving de modelos
 son justamente las áreas donde la mayoría de los perfiles de IA son débiles.
+
+## Oferta startup healthtech (2026-10-07) — requisitos "nice to have"
+
+Segunda oferta de referencia. Pide experiencia de startup con estas
+herramientas. Estado **por confirmar** con el diagnóstico de herramientas
+startup (Fase 0 del roadmap).
+
+| Requisito | Tema | Base que ya tenés | Estado supuesto |
+|---|---|---|---|
+| Istio | 10 | Kubernetes productivo (MELI) | 🟡 por confirmar |
+| ArgoCD (GitOps) | 03 | CI/CD fuerte | 🟡 por confirmar |
+| Keycloak | 04 | OIDC (GitHub Actions) | 🔴 por confirmar |
+| OPA | 11 | — | 🔴 por confirmar |
+| AlloyDB | 06 | GCP + bases de datos | 🟡 por confirmar |
+| OpenTelemetry (hands-on) | 07 | Prometheus/Grafana | 🟡 por confirmar |
+| ESO | 06 | Kubernetes + secretos | 🟡 por confirmar |
+| Atlas (migraciones de schema) | 06 | — | 🔴 por confirmar |
+| Valkey / Redis | 06 | — | 🟡 por confirmar |
+| Flipt (feature flags) | 03 | — | 🔴 por confirmar |
+| Redpanda / Kafka, Temporal | 21 | Arquitecturas event-driven (CV) | 🟡 por confirmar |
+| HL7/FHIR, Medplum/HAPI, OIE | 22 | — | 🔴 dominio nuevo |
+| Equipo de platform engineering para varios equipos de producto | 23 | MELI (por confirmar si encaja como historia) | 🟡 preparar historias STAR |
+| Título universitario (Ing. en Computación / Sistemas o equivalente) | — | por confirmar | — no es de estudio en este plan |

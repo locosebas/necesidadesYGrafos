@@ -29,6 +29,28 @@ Ya usaste AKS/EKS/GKE en la práctica (MercadoLibre: AWS/GCP con K8s) — este
 cuadro es para verbalizar en la entrevista las diferencias que quizás usás
 "a mano" sin haberlas puesto en palabras.
 
+## Herramienta que piden las ofertas (startup): Istio (service mesh)
+
+**Istio** es un **service mesh**: agrega una capa de red entre los servicios
+de Kubernetes sin cambiar el código de las apps. Da tres cosas:
+
+1. **Seguridad**: **mTLS** automático entre servicios (cifrado + identidad de cada servicio) y `AuthorizationPolicy` (qué servicio puede hablar con cuál).
+2. **Gestión de tráfico**: `VirtualService` y `DestinationRule` para canary releases, retries, timeouts, circuit breaking.
+3. **Observabilidad**: métricas y trazas de cada llamada entre servicios (se integra con **OpenTelemetry**, tema 07).
+
+| Concepto | Istio | Azure | AWS | GCP |
+|---|---|---|---|---|
+| Service mesh | **Istio** (modo *sidecar* con Envoy, o modo **ambient** sin sidecar) | **Istio-based service mesh add-on para AKS** | Istio en EKS (AWS App Mesh fue discontinuado) | **Cloud Service Mesh** (basado en Istio) |
+
+Subtemas extra:
+- Sidecar (Envoy) vs. **ambient mode** (ztunnel + waypoint): costo de recursos y complejidad.
+- `PeerAuthentication` (mTLS STRICT vs. PERMISSIVE) y `AuthorizationPolicy`.
+- Canary con `VirtualService` (por ejemplo, 90/10) — combinable con **ArgoCD** (tema 03) y Argo Rollouts.
+- Troubleshooting de **Istio**: `istioctl analyze`, `istioctl proxy-status`, errores 503 típicos.
+- Cuándo **no** poner un service mesh (pocos servicios, equipo chico).
+
+- Istio: https://istio.io/latest/docs/
+
 ## Recursos
 
 - Kubernetes docs: https://kubernetes.io/docs/home/

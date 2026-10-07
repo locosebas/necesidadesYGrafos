@@ -114,6 +114,17 @@ Machine Learning Engineer – Associate** o **Google Professional Machine
 Learning Engineer**, según la nube del empleador — son las dos con más foco
 en productivizar modelos, no solo entrenarlos.
 
+## Certificaciones de herramientas CNCF — opcionales, para ofertas startup
+
+Si la oferta pide herramientas puntuales (tema 23 y las de la tabla del
+roadmap), estas certificaciones de la Linux Foundation / CNCF son cortas y
+las validan directamente. No reemplazan a las de arriba.
+
+- **ICA — Istio Certified Associate** — https://training.linuxfoundation.org/certification/istio-certified-associate-ica/
+- **CAPA — Certified Argo Project Associate** (ArgoCD) — https://training.linuxfoundation.org/certification/certified-argo-project-associate-capa/
+- **OTCA — OpenTelemetry Certified Associate** — https://training.linuxfoundation.org/certification/opentelemetry-certified-associate-otca/
+- **CKS — Certified Kubernetes Security Specialist** (incluye OPA Gatekeeper y seguridad de K8s) — después de la CKA
+
 ## Orden sugerido dado tu perfil (DevOps + IA, ajustado con datos de mercado)
 
 Una sola ruta que intercala DevOps e IA, alineada con las fases del roadmap:

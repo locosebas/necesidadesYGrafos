@@ -45,6 +45,31 @@ podés compararlos directamente.
 - DynamoDB: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html
 - Firestore: https://cloud.google.com/firestore/docs
 
+## Herramientas que piden las ofertas (startup)
+
+| Herramienta | Qué es | Equivalentes |
+|---|---|---|
+| **AlloyDB** | Base de datos de GCP **compatible con PostgreSQL**, de alto rendimiento (más rápida que Cloud SQL para cargas transaccionales y analíticas), con soporte de vectores (**pgvector**, tema 16) | Azure Database for PostgreSQL · Amazon **Aurora PostgreSQL** |
+| **ESO (External Secrets Operator)** | Operador de Kubernetes que **sincroniza secretos** desde Key Vault / Secrets Manager / Secret Manager hacia `Secret` de Kubernetes. Los secretos viven en la nube, no en el repo ni en los manifiestos | Alternativa: **Secrets Store CSI Driver** (monta los secretos como archivos) |
+| **Atlas** (Ariga) | Herramienta de **migraciones de schema de base de datos como código** ("Terraform para el schema"): declarás el schema deseado y **Atlas** calcula el plan de migración, lo valida en CI (*lint*) y lo aplica | Flyway, Liquibase, Alembic (Python) |
+| **Valkey** | **Cache / key-value en memoria**, fork open source de **Redis** (Linux Foundation, tras el cambio de licencia de Redis en 2024). Misma API que Redis | Azure Managed Redis · Amazon **ElastiCache for Valkey** · **Memorystore for Valkey** (GCP) |
+
+> Si en una oferta "Atlas" aparece junto a MongoDB, se refiere a
+> **MongoDB Atlas** (la base MongoDB gestionada). En esta lista, al ir junto
+> a AlloyDB, Valkey y Flipt, lo más probable es **Atlas de Ariga**
+> (migraciones de schema). Conviene preguntarlo en la entrevista.
+
+Subtemas extra:
+- **AlloyDB** vs. Cloud SQL vs. Aurora: cuándo vale la pena pagar más.
+- **ESO**: `SecretStore` / `ClusterSecretStore` + `ExternalSecret`; autenticación con Workload Identity / IRSA (tema 10), sin credenciales estáticas.
+- **Atlas**: enfoque declarativo vs. versionado, `atlas migrate lint` en el pipeline de CI (tema 03).
+- **Valkey**: patrones de cache (*cache-aside*, TTL, invalidación), sesiones, rate limiting.
+
+- AlloyDB: https://cloud.google.com/alloydb/docs
+- External Secrets Operator: https://external-secrets.io/
+- Atlas: https://atlasgo.io/docs
+- Valkey: https://valkey.io/docs/
+
 ## Lab sugerido
 
 Desplegá el mismo modelo de datos simple (ítems con partition key) en Cosmos

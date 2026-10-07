@@ -60,6 +60,7 @@ tema) · 🔁 repasar. Se actualiza cada vez que rendís un examen (ver
 |---|---|---|---|
 | 0 | Ops | Diagnóstico general DevOps (temas 01-12) | ✅ hecho 2026-09-08 |
 | 0 | IA | Diagnóstico general IA (temas 14-20) | ⬜ |
+| 0 | Ops | Diagnóstico de herramientas startup (Istio, ArgoCD, Keycloak, OPA, ESO, Valkey, Redpanda, Temporal…) | ⬜ |
 | 1 | Ops | 01 — IaC multi-cloud | ⬜ |
 | 1 | Ops | 10 — Kubernetes avanzado | 🔁 troubleshooting pendiente |
 | 1 | Ops | 02 — Contenedores serverless | ⬜ |
@@ -74,11 +75,14 @@ tema) · 🔁 repasar. Se actualiza cada vez que rendís un examen (ver
 | 4 | Ops | 06 — Datos y secretos | 🔁 consistencia NoSQL pendiente |
 | 4 | IA | 16 — RAG y bases vectoriales | ⬜ |
 | 4 | Ops | 09 — Orquestación serverless | 🔁 activity vs. orchestrator pendiente |
+| 4 | Ops | 21 — Event streaming y workflows durables (Redpanda, Temporal) | ⬜ |
 | 4 | IA | 17 — Agentes de IA y MCP | ⬜ |
 | 5 | Ops | 07 — Observabilidad multi-cloud | ⬜ |
 | 5 | IA | 18 — MLOps y LLMOps | ⬜ |
 | 5 | IA | 19 — Serving de modelos y GPUs | ⬜ |
 | 5 | Ops | 12 — Arquitectura y costos multi-cloud | ⬜ |
+| 5 | Ops | 23 — Platform engineering | ⬜ |
+| 6 | Dominio | 22 — Salud: HL7/FHIR (solo si apuntás a healthtech) | ⬜ |
 | 6 | — | Certificaciones + simulacros de entrevista (DevOps, IA y mixtos) | ⬜ |
 
 ## Fase 0 — Diagnóstico general (arranca acá)
@@ -91,6 +95,27 @@ diagnóstico general la confirma o la corrige con datos reales.
 - **Parte Ops (temas 01-12):** ✅ hecha el 2026-09-08.
 - **Parte IA (temas 14-20):** ⬜ pendiente — es lo próximo a hacer. Pedime:
   *"Dame el diagnóstico general de IA"*. Mismo formato: una pregunta por vez.
+- **Herramientas de ofertas startup** (Istio, ArgoCD, Keycloak, OPA, AlloyDB,
+  OpenTelemetry, ESO, Atlas, Valkey, Flipt, Redpanda, Temporal, platform
+  engineering): ⬜ pendiente. Pedime *"Dame el diagnóstico de herramientas
+  startup"*. El tema 22 (salud) no entra, igual que el 13.
+
+## Herramientas de ofertas startup (dónde está cada una)
+
+Agregadas a partir de una oferta de startup (healthtech) del 2026-10-07. No
+son un bloque aparte: cada herramienta vive en el tema donde se entiende.
+
+| Herramienta | Tema | Fase |
+|---|---|---|
+| **Istio** (service mesh) | 10 — Kubernetes avanzado | 1 |
+| **ArgoCD** (GitOps), **Flipt** (feature flags) | 03 — CI/CD | 2 |
+| **Keycloak** (Identity Provider) | 04 — Identidad | 3 |
+| **OPA** (policy as code) | 11 — DevSecOps | 3 |
+| **AlloyDB**, **ESO**, **Atlas**, **Valkey** | 06 — Datos y secretos | 4 |
+| **Redpanda**, **Temporal** | 21 — Event streaming y workflows (nuevo) | 4 |
+| **OpenTelemetry** (hands-on: Collector, OTLP) | 07 — Observabilidad | 5 |
+| Equipo de platform engineering | 23 — Platform engineering (nuevo) | 5 |
+| **HL7/FHIR**, **Medplum**, **HAPI FHIR**, **OIE** | 22 — Salud (nuevo, dominio) | 6 |
 
 ## Orden de las fases: priorizado por demanda real del mercado
 
@@ -155,7 +180,7 @@ Al final de la Fase 3 deberías poder explicar de memoria cómo una app llega a
 una base de datos **y a un modelo de IA** sin exponer secretos ni tráfico a
 internet público — **en cualquiera de las tres nubes**.
 
-## Fase 4 — Datos, orquestación, RAG y agentes (semanas 13-17)
+## Fase 4 — Datos, orquestación, RAG y agentes (semanas 13-18)
 
 - **Ops**
   12. `temas/06-datos-secretos` — Key Vault/Secrets Manager/Secret Manager, Cosmos DB/DynamoDB/Firestore
@@ -163,24 +188,27 @@ internet público — **en cualquiera de las tres nubes**.
   13. `temas/16-rag-bases-vectoriales` — RAG, embeddings, búsqueda vectorial e híbrida
 - **Ops**
   14. `temas/09-orquestacion-serverless` — Durable Functions / Step Functions / Workflows
+  15. `temas/21-event-streaming-workflows` — **Redpanda**/Kafka y **Temporal** (workflows durables agnósticos de nube)
 - **IA**
-  15. `temas/17-agentes-ia` — agentes, tool use en loop, MCP, multi-agente
+  16. `temas/17-agentes-ia` — agentes, tool use en loop, MCP, multi-agente
 
-## Fase 5 — Operación de IA en producción + nivel Senior (semanas 18-22)
+## Fase 5 — Operación de IA en producción + nivel Senior (semanas 19-24)
 
 - **Ops**
-  16. `temas/07-observabilidad-multicloud` — Azure Monitor, CloudWatch, Cloud Logging/Monitoring
+  17. `temas/07-observabilidad-multicloud` — Azure Monitor, CloudWatch, Cloud Logging/Monitoring
 - **IA**
-  17. `temas/18-mlops-llmops` — ciclo de vida de modelos, evals en CI, observabilidad de LLMs
-  18. `temas/19-serving-modelos-gpu` — vLLM/KServe, GPUs en Kubernetes, autoscaling de inferencia
+  18. `temas/18-mlops-llmops` — ciclo de vida de modelos, evals en CI, observabilidad de LLMs
+  19. `temas/19-serving-modelos-gpu` — vLLM/KServe, GPUs en Kubernetes, autoscaling de inferencia
 - **Ops**
-  19. `temas/12-arquitectura-costos-multicloud` — Well-Architected/Architecture Frameworks, FinOps (incluido costo de IA/GPU)
+  20. `temas/12-arquitectura-costos-multicloud` — Well-Architected/Architecture Frameworks, FinOps (incluido costo de IA/GPU)
+  21. `temas/23-platform-engineering` — IDP, golden paths, multi-tenancy, métricas DORA (junta todo lo anterior)
 
 ## Fase 6 — Certificación y entrevista
 
 - Rendir las certificaciones elegidas (ver `certificaciones/README.md` —
   ruta única que intercala certificaciones DevOps y de IA).
 - Repasar `temas/13-mercadolibre-scopes-cosmos` si aplica a una entrevista interna.
+- Repasar `temas/22-datos-salud-hl7-fhir` si la oferta es de salud / healthtech.
 - Simulacros de entrevista técnica con Claude usando `examenes/` en modo mixto:
   DevOps, IA, y **mixtos DevOps + IA** (por ejemplo, *"diseñá la plataforma
   para servir un RAG a 10.000 usuarios en AWS"*), formato entrevista.
