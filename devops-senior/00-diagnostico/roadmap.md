@@ -121,7 +121,7 @@ actualiza cada vez que avanza una sesión de estudio (ver
 | 1 | Ops | 02 — Contenedores serverless | 🟡 tocado vía la curva de cómputo (VM→K8s→serverless→FaaS→PaaS), sin examen dedicado |
 | 1 | IA | 14 — Fundamentos de IA, ML y LLMs | ✅ entrenamiento/inferencia, pre-entrenamiento/fine-tuning, RAG/agentic RAG, embeddings, visión por computador, NLP, IA Responsable |
 | 2 | Ops | 03 — CI/CD multi-cloud | ✅ panorama (push vs. pull, ArgoCD, OIDC); 🔁 configuración práctica de ArgoCD pendiente; GitLab CI por autoestudio propio, sin verificar profundidad |
-| 2 | Ops | 08 — Python / FastAPI + Docker | ⬜ |
+| 2 | Ops | 08 — Python / FastAPI + Docker | ✅ hardening: BOLA y contenedor sin privilegios de root |
 | 2 | IA | 15 — Desarrollo de apps con LLMs | ⬜ |
 | 3 | Ops | 04 — Identidad e IAM | ✅ Managed Identity/IAM Role/Service Account, Keycloak, federación OIDC K8s↔AWS IAM (IRSA), RBAC scope/herencia |
 | 3 | Ops | 05 — Networking multi-cloud | ✅ VNet/VPC, Private Endpoint/PrivateLink/Private Service Connect |
@@ -135,7 +135,7 @@ actualiza cada vez que avanza una sesión de estudio (ver
 | 5 | Ops | 07 — Observabilidad multi-cloud | ✅ OpenTelemetry (métricas/logs/traces), traces vs. alertas |
 | 5 | IA | 18 — MLOps y LLMOps | ⬜ |
 | 5 | IA | 19 — Serving de modelos y GPUs | ⬜ |
-| 5 | Ops | 12 — Arquitectura y costos multi-cloud | 🟡 compute hierarchy y curva de costos explicados, sin examen dedicado |
+| 5 | Ops | 12 — Arquitectura y costos multi-cloud | 🟡 Well-Architected Framework (6 pilares), FinOps; repaso estricto de los 6 pilares falló (2/6) — 🔁 pendiente de reintento |
 | 5 | Ops | 23 — Platform engineering | ✅ |
 | 6 | Dominio | 22 — Salud: HL7/FHIR (solo si apuntás a healthtech) | ⬜ |
 | 6 | — | Certificaciones + simulacros de entrevista (DevOps, IA y mixtos) | ⬜ — metas confirmadas: **AWS Certified AI Practitioner** + **CCA-F** (ver arriba y `certificaciones/README.md`) |
@@ -204,7 +204,7 @@ En paralelo, el vocabulario de IA que vas a usar en todas las fases siguientes.
 
 - **Ops**
   5. `temas/03-cicd-multicloud` — ✅ GitHub Actions + OIDC federado; GitOps con ArgoCD (🔁 configuración práctica pendiente); GitLab CI por autoestudio propio, sin verificar
-  6. `temas/08-python-fastapi-docker` — ⬜ repaso y hardening de APIs (base para la parte IA)
+  6. `temas/08-python-fastapi-docker` — ✅ hardening: BOLA (Broken Object Level Authorization) y contenedores sin privilegios de root
 - **IA**
   7. `temas/15-desarrollo-apps-llm` — ⬜ APIs de LLMs, structured output, tool use, streaming
 
@@ -248,7 +248,7 @@ modelos) todavía no se vio.
   18. `temas/18-mlops-llmops` — ⬜ ciclo de vida de modelos, evals en CI, observabilidad de LLMs
   19. `temas/19-serving-modelos-gpu` — ⬜ vLLM/KServe, GPUs en Kubernetes, autoscaling de inferencia
 - **Ops**
-  20. `temas/12-arquitectura-costos-multicloud` — 🟡 Well-Architected/Architecture Frameworks, FinOps (compute hierarchy explicado, sin examen dedicado)
+  20. `temas/12-arquitectura-costos-multicloud` — 🟡 Well-Architected/Architecture Frameworks, FinOps explicados; repaso estricto de los 6 pilares falló (2/6, ver registro) — 🔁 reintento pendiente
   21. `temas/23-platform-engineering` — ✅ IDP, golden paths, Backstage, Team Topologies/carga cognitiva, multi-tenancy, métricas DORA (junta todo lo anterior)
 
 ## Fase 6 — Dominio salud + certificaciones

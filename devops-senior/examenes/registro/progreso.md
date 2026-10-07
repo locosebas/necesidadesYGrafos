@@ -45,11 +45,11 @@ de la tabla de arriba entre todos los temas de la fase (⬜/🔴 = 0%).
 | 6 | Datos y secretos | 100% | 76% | ✅ Cubierta |
 | 7 | Observabilidad y async/orquestación | 100% | 73% | ✅ Cubierta |
 | 8 | Kubernetes — troubleshooting | 100% | 100% | ✅ Cubierta |
-| 9 | Arquitectura de plataforma (capstone) | 75% | 46% | 🟡 Parcial |
+| 9 | Arquitectura de plataforma (capstone) | 100% | 68% | ✅ Cubierta |
 | 10 | Certificación y entrevista final | 0% | 0% | ⬜ Sin empezar |
 
-**Promedio del plan completo (Fases 1-10, peso igual por fase): ~86% visto,
-~58% dominado.** Son dos números distintos a propósito — "visto" mide
+**Promedio del plan completo (Fases 1-10, peso igual por fase): ~89% visto,
+~60% dominado.** Son dos números distintos a propósito — "visto" mide
 cobertura del temario completo, "dominado" mide qué tan defendible es lo
 que ya se tocó. Las dos interrupciones (CCA-F, IA/MLOps) corren en paralelo
 y no cuentan en este promedio de las 10 fases numeradas.
@@ -175,7 +175,7 @@ se termina de cerrar en la Fase 6 (Key Vault/Secrets Manager).
 |---|---|---|---|
 | 51 | Platform Engineering — IDP, golden path, Backstage, Team Topologies/carga cognitiva, multi-tenancy en K8s (Namespace/RBAC/NetworkPolicy/ResourceQuota), métricas DORA | 🟢 Sólido | 2026-10-07, buena síntesis propia (sobreventa de recursos con plan de contingencia, no enseñado explícitamente); corrigió solo un lapsus puntual (pensó que los Pods NO se ven entre sí por defecto — se re-confirmó que la red es plana/abierta) |
 | 52 | Arquitectura/costos multi-cloud (Well-Architected, FinOps) | 🟡 Intermedio | 2026-10-07, FinOps (visibilidad de costos cruzando equipos, negociación de descuentos por volumen) respondido bien sin ayuda. **Lista de los 6 pilares de Well-Architected: repaso estricto en 2026-10-07 dio 2/6 correctos, 1 parcial, 1 inventado ("Simplicity"), 3 ausentes (Operational Excellence, Performance Efficiency, Sustainability) — prioridad alta para próximo repaso de listas** |
-| 53 | Python/FastAPI — repaso y hardening de APIs | ⬜ No visto | — |
+| 53 | Python/FastAPI/Docker — hardening: BOLA (OWASP API #1, autorización a nivel de objeto) y contenedor sin privilegios de root | 🟢 Sólido | 2026-10-07, distinguió sin ayuda que un contenedor non-root no previene BOLA (error de lógica de app), solo limita el daño si el atacante escala más allá — con ejemplo propio (modificar un feature flag) |
 | 54 | Arquitectura completa propia (diagrama frontend+backend construido en sesión) | 🟡 Intermedio | Construida junto con vos, no evaluada de forma independiente |
 
 ## Fase 10 — Certificación y entrevista final

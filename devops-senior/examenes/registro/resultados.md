@@ -178,6 +178,8 @@ adelante:
 - Niveles de consistencia de Cosmos DB (5 niveles)
 - Estados de troubleshooting de Kubernetes (`CrashLoopBackOff`, `OOMKilled`, `Evicted`, `ImagePullBackOff`) y sus exit codes
 
+| 2026-10-07 | Python/FastAPI/Docker (tema 08) — hardening: BOLA y contenedor sin privilegios de root | Guiado, de a una pregunta | Guiado, de a una pregunta | Confirmó que el primer caso (BOLA) lo vivió pero no lo resolvió él mismo, y el segundo (root) nunca se trabajó. Tras la explicación, distinguió sin ayuda que un contenedor non-root no previene BOLA, solo limita el daño — con ejemplo propio (feature flag de Flipt) | **Fase 9 completa.** Ninguno pendiente de este tema |
+
 ## Diagnóstico general de IA pendiente
 
 Con la fusión DevOps + IA del roadmap (2026-10-07) se agregaron los temas
