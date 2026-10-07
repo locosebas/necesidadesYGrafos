@@ -34,6 +34,20 @@ que se trabaje en este repo — no hace falta que las repita cada sesión.
   funciona. El usuario reporta que a veces entiende el mecanismo perfectamente
   cuando le dicen el nombre, pero no logra recordar el nombre por sí mismo;
   el objetivo es interiorizar el nombre, no solo el concepto.
+- **Nunca ofrecer cerrar la sesión ni preguntar "¿seguimos o paramos acá?".**
+  Si el usuario quiere parar, simplemente deja de responder — no hace falta
+  que se lo preguntemos nosotros cada vez. Seguir proponiendo el siguiente
+  paso/tema sin agregar la opción de cerrar.
+- **Repaso estricto de listas enumeradas** (pilares de un framework, áreas de
+  un examen, componentes de una arquitectura, etc.): cuando una lista
+  enumerada ya se vio y el usuario pide "memorizarla de verdad", pedirle que
+  la recite **completa, de memoria, sin ninguna pista** (ni la cantidad
+  exacta de ítems si eso ya es una pista, ni el orden, ni sinónimos que
+  insinúen la respuesta) — **nunca** dar feedback/corrección antes de que
+  el usuario entregue su intento completo. Recién después de la respuesta
+  completa, calificar estrictamente: qué acertó, qué le faltó, qué le
+  sobró/inventó. El objetivo es que la brecha real quede visible, no
+  suavizarla con pistas en la pregunta.
 
 ## Presentar el progreso como lista numerada y calificada
 
