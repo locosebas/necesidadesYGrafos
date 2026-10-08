@@ -51,6 +51,10 @@ El primer correo adjuntó la **rúbrica interna de la mesa evaluadora** de otro 
 Observabilidad, escenario "PlusPay"); el segundo ("Corrección caso") la reemplazó por el caso de uso
 real. Parece un envío por error.
 
+## Brecha técnica
+
+Ver [brecha-tecnica.md](brecha-tecnica.md): qué de lo estudiado sirve, qué falta y plan hasta el 12 de octubre.
+
 ## Prueba técnica (resumen)
 
 Presentación de máx. 10 diapositivas + 20 min de exposición + 10 min de preguntas, sobre 4 ejes:
