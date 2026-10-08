@@ -50,6 +50,10 @@ devops-senior/
 │   ├── 22-datos-salud-hl7-fhir/                # dominio salud: HL7/FHIR, Medplum, HAPI FHIR, OIE
 │   ├── 23-platform-engineering/                # IDP, golden paths, Backstage, multi-tenancy, DORA
 │   └── 24-gitlab-admin-service-accounts/       # GitLab self-managed, tokens, migración a Service Accounts (entrevista)
+├── formulas-de-cero/      # recetas "¿cómo armarías X de cero?" para entrevistas
+│                           # (K8s, red interna, Terraform empresa, CI/CD, observabilidad…)
+├── pendientes-de-estudio.md  # lo que piden las vacantes y quiero estudiar
+├── glosario-ia-ofertas.md    # siglas de IA que aparecen en las ofertas
 ├── certificaciones/       # qué certificar, en qué orden, y por qué (DevOps + IA, Azure + AWS + GCP)
 │   # Istio, ArgoCD, Keycloak, OPA, AlloyDB, OpenTelemetry, ESO, Atlas, Valkey y Flipt
 │   # están dentro de los temas 03, 04, 06, 07, 10 y 11 (ver tabla en el roadmap)
