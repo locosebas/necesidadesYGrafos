@@ -188,6 +188,8 @@ adelante:
 
 | 2026-10-07 | Repaso estricto #5 — Principios de IA Responsable (6 pilares) | Recitación completa sin pistas | Recitación completa sin pistas | No arriesgó ningún intento ("No, no recuerdo"). Re-explicados desde cero (Fairness, Reliability & Safety, Privacy & Security, Inclusiveness, Transparency, Accountability) | **0/6 — segunda falla del mismo recall** (el 2026-10-04 tampoco los recordaba de memoria, aunque ese día sí los aplicó bien una vez definidos). Prioridad real para el próximo repaso |
 
+| 2026-10-05/08 | GitLab Admin / migración a Service Accounts (tema 24, por entrevista) — lecciones 1-24 de 25 | Fundamentos → escenario de entrevista | Guiado, de a una pregunta, con analogías | Promedio de lecciones **7.7/10**; repasos mixtos 5.5/10. Mejores respuestas: piloto por bajo impacto y reversibilidad (10/10), Reporter + `read_registry` (10/10), logs `audit_json.log`/`api_json.log` (10/10) | Niveles de Service Account ("AI y GO"), escribir los 3 pasos de la API por separado, plan de 5 fases sin ayuda, diagnóstico de arquitectura (Gitaly), las Service Accounts NO consumen licencia. Pendientes: lección 25, examen de 50 preguntas (`temas/24-gitlab-admin-service-accounts/examen.md`) y respuesta personal de "herramientas que usas además de GitLab" |
+
 ## Diagnóstico general de IA pendiente
 
 Con la fusión DevOps + IA del roadmap (2026-10-07) se agregaron los temas
