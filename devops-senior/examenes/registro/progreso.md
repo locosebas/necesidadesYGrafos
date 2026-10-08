@@ -192,28 +192,28 @@ se termina de cerrar en la Fase 6 (Key Vault/Secrets Manager).
 
 ## ↳ Interrupción: Prueba técnica Davivienda — SRE y observabilidad (8–12 oct. 2026)
 
-Ver `../../temas/24-davivienda-sre-observabilidad/roadmap-express.md` (detalle y meta por ítem) y
-`banco-preguntas.md` (preguntas). Niveles al arrancar:
+Ver `../../temas/25-davivienda-sre-observabilidad/roadmap-express.md` (detalle y meta por ítem) y
+`banco-preguntas.md` (preguntas), en la rama `davivienda-sre-prueba-tecnica` (no en `main`). Niveles al arrancar:
 
 | # | Tema | Nivel | Última vez puesto a prueba |
 |---|---|---|---|
-| 55 | SLI/SLO/SLA, Golden Signals, RED/USE | ⬜ No visto | — |
-| 56 | Error Budget y matemáticas de disponibilidad | ⬜ No visto | — |
-| 57 | Alertas por burn rate (multi-window, multi-burn-rate) | ⬜ No visto | — |
-| 58 | Error Budget Policy, Quality Gate en CI/CD, progressive delivery (Argo Rollouts/Flagger) | ⬜ No visto | — |
-| 59 | OpenTelemetry Collector por dentro (receivers/processors/exporters/connectors) | ⬜ No visto | — |
-| 60 | Collector agente vs. gateway, dos capas, multi-cloud | ⬜ No visto | — |
-| 61 | Head-based vs. tail-based sampling | ⬜ No visto | — |
-| 62 | Propagación de contexto (W3C `traceparent`, B3, span links en Kafka/MQ) | 🟡 Intermedio | Base de Kafka (#49), sin la parte de trazas |
-| 63 | FinOps de telemetría (cardinalidad, Log-to-Metrics, retención) | ⬜ No visto | — |
-| 64 | Enmascaramiento de PII en el Collector (SFC, Ley 1581, PCI DSS) | ⬜ No visto | — |
-| 65 | Semantic Conventions, exemplars, service graph | ⬜ No visto | — |
-| 66 | AIOps, correlación vs. causalidad, MCP aplicado a observabilidad | 🟡 Intermedio | MCP por el CCA-F (#18) |
-| 67 | (Opcional) Teoría de grafos para RCA | ⬜ No visto | — |
-| 68 | Incident Command, mitigación, post-mortem blameless | ⬜ No visto | — |
-| 69 | Toil, on-call, Runbook as Code, chaos engineering | ⬜ No visto | — |
-| 70 | Temas aledaños: idempotencia, backoff + jitter, RTO/RPO, percentiles, Ley de Little | ⬜ No visto | — |
-| 71 | Modelo C4 y presentación | ⬜ No visto | — |
+| 64 | SLI/SLO/SLA, Golden Signals, RED/USE | ⬜ No visto | — |
+| 65 | Error Budget y matemáticas de disponibilidad | ⬜ No visto | — |
+| 66 | Alertas por burn rate (multi-window, multi-burn-rate) | ⬜ No visto | — |
+| 67 | Error Budget Policy, Quality Gate en CI/CD, progressive delivery (Argo Rollouts/Flagger) | ⬜ No visto | — |
+| 68 | OpenTelemetry Collector por dentro (receivers/processors/exporters/connectors) | ⬜ No visto | — |
+| 69 | Collector agente vs. gateway, dos capas, multi-cloud | ⬜ No visto | — |
+| 70 | Head-based vs. tail-based sampling | ⬜ No visto | — |
+| 71 | Propagación de contexto (W3C `traceparent`, B3, span links en Kafka/MQ) | 🟡 Intermedio | Base de Kafka (#49), sin la parte de trazas |
+| 72 | FinOps de telemetría (cardinalidad, Log-to-Metrics, retención) | ⬜ No visto | — |
+| 73 | Enmascaramiento de PII en el Collector (SFC, Ley 1581, PCI DSS) | ⬜ No visto | — |
+| 74 | Semantic Conventions, exemplars, service graph | ⬜ No visto | — |
+| 75 | AIOps, correlación vs. causalidad, MCP aplicado a observabilidad | 🟡 Intermedio | MCP por el CCA-F (#18) |
+| 76 | (Opcional) Teoría de grafos para RCA | ⬜ No visto | — |
+| 77 | Incident Command, mitigación, post-mortem blameless | ⬜ No visto | — |
+| 78 | Toil, on-call, Runbook as Code, chaos engineering | ⬜ No visto | — |
+| 79 | Temas aledaños: idempotencia, backoff + jitter, RTO/RPO, percentiles, Ley de Little | ⬜ No visto | — |
+| 80 | Modelo C4 y presentación | ⬜ No visto | — |
 
 ## Fase 10 — Certificación y entrevista final
 

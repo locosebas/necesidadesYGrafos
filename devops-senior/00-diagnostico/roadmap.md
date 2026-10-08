@@ -103,11 +103,12 @@ numeradas, sin ocupar un número de fase propio.
   (preguntas encadenadas de las 5 áreas sin avisar el tema) antes de
   considerar rendir el examen real.
 
-## Prioridad inmediata (8–12 oct. 2026): prueba técnica Davivienda — tema 24
+## Prioridad inmediata (8–12 oct. 2026): prueba técnica Davivienda — tema 25
 
 Proceso de selección real (Especialista Senior SRE, Davivienda / Grupo Bolívar), con entrega el **lunes
 12 de octubre de 2026**. Mientras dure, **pausa el orden de las fases** de abajo, igual que la pista
-del CCA-F. Todo el detalle está en `temas/24-davivienda-sre-observabilidad/`:
+del CCA-F. Todo el detalle está en `temas/25-davivienda-sre-observabilidad/`, que vive **solo en la rama
+`davivienda-sre-prueba-tecnica`** (no en `main`):
 
 - `roadmap-express.md`: mini roadmap por días con nivel actual y meta de cada ítem.
 - `banco-preguntas.md`: preguntas por ítem (de a una, con respuesta plegada).
@@ -163,7 +164,7 @@ actualiza cada vez que avanza una sesión de estudio (ver
 | 5 | IA | 19 — Serving de modelos y GPUs | ⬜ |
 | 5 | Ops | 12 — Arquitectura y costos multi-cloud | 🟡 Well-Architected Framework (6 pilares), FinOps; repaso estricto de los 6 pilares falló (2/6) — 🔁 pendiente de reintento |
 | 5 | Ops | 23 — Platform engineering | ✅ |
-| ⚡ | Ops | 24 — SRE y observabilidad (prueba Davivienda, prioridad inmediata) | ⬜ — ver "Prioridad inmediata" arriba |
+| ⚡ | Ops | 25 — SRE y observabilidad (prueba Davivienda, prioridad inmediata) | ⬜ — ver "Prioridad inmediata" arriba |
 | 6 | Dominio | 22 — Salud: HL7/FHIR (solo si apuntás a healthtech) | ⬜ |
 | 6 | — | Certificaciones + simulacros de entrevista (DevOps, IA y mixtos) | ⬜ — metas confirmadas: **AWS Certified AI Practitioner** + **CCA-F** (ver arriba y `certificaciones/README.md`) |
 
