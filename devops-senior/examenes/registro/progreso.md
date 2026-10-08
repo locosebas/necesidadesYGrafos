@@ -40,6 +40,7 @@ de la tabla de arriba entre todos los temas de la fase (⬜/🔴 = 0%).
 | ↳ | *Interrupción: Claude Certified Architect (CCA-F)* | 100% | 72% | 🟡 Falta repaso mixto; recall de la lista de 5 áreas falló 0/5 |
 | 3 | CI/CD y GitOps | 100% | 46% | ✅ Cubierta, GitLab CI por autoestudio sin verificar |
 | 4 | Identidad | 100% | 68% | ✅ Cubierta |
+| ↳ | *Interrupción: entrevista GitLab Admin / Service Accounts (tema 24)* | 100% | 52% | 🟡 Lecciones 1-24 hechas; faltan lección 25, recall del plan y examen de 50 preguntas |
 | ↳ | *Interrupción: Ruta IA/MLOps (fundamentos)* | 100% | 72% | 🟡 Nivel técnico sin empezar |
 | 5 | Networking avanzado y seguridad | 100% | 73% | ✅ Cubierta |
 | 6 | Datos y secretos | 100% | 76% | ✅ Cubierta |
@@ -192,6 +193,25 @@ se termina de cerrar en la Fase 6 (Key Vault/Secrets Manager).
 ## Fase 10 — Certificación y entrevista final
 
 Sin empezar — depende de cerrar las fases anteriores primero.
+
+## Interrupción — GitLab Admin / migración a Service Accounts (tema 24, entrevista)
+
+Lecciones de `../../temas/24-gitlab-admin-service-accounts/lecciones.md`
+(nota por lección ahí mismo). Promedio de las lecciones 1-24: **7.7/10**;
+repasos que mezclan varias lecciones: **5.5/10** (sabe las piezas, le cuesta
+conectarlas sin ayuda).
+
+| # | Tema | Nivel | Última vez puesto a prueba |
+|---|---|---|---|
+| 55 | Identidades para automatización (PAT personal, bot manual, Group/Project Access Token, `CI_JOB_TOKEN`, Service Account) y R-P-L-A | 🟡 Intermedio | 2026-10-05, buena regla propia ("Service Account para lo externo a GitLab, `CI_JOB_TOKEN` para lo interno"); repaso mixto 6/10 (asumió que un script corre en CI sin preguntar dónde corre) |
+| 56 | Service Accounts — nivel instancia vs. grupo ("AI y GO": Admin → Instancia, Grupo → Owner) | 🟡 Intermedio | 2026-10-05, falló dos veces (3/10 y 5/10: creía que el Admin no puede crear las de grupo); en el repaso respondió bien sin ayuda que el Admin de self-managed puede crear ambas |
+| 57 | API: roles numéricos (10/20/30/40/50), scopes, membresía, los 3 pasos (Contratar → Abrir puertas → Entregar llave) | 🟡 Intermedio | 2026-10-05, roles y scopes 10/10 (Reporter + `read_registry`); al escribir la URL mezcló las 3 llamadas en una y usó `/groups/77` para un proyecto |
+| 58 | Expiración de tokens (GitLab 16.0) y rotación automática (`/rotate`, Vault, alertas propias) | 🟡 Intermedio | 2026-10-05/08, propuso bien la rotación automática; olvidó el riesgo de vencimiento masivo el mismo día y que la Service Account no lee correos |
+| 59 | Plan de migración en 5 fases (Inventario → Diseño → Piloto → Olas → Gobierno) | 🟡 Intermedio | 2026-10-08, piloto 10/10 y periodo de gracia 9/10 por separado, pero el plan completo dio 5/10 (propuso una Service Account por segmento, olvidó el piloto) y el segundo intento fue mirando la tabla. 🔁 Pendiente: recall sin ayuda |
+| 60 | Administración self-managed: `gitlab.rb` + `gitlab-ctl reconfigure`, backups y `gitlab-secrets.json`, logs (`api_json.log`, `audit_json.log`) | 🟢 Sólido | 2026-10-08, 9/10, 8/10 y 10/10 sin ayuda |
+| 61 | Arquitectura de GitLab (NGINX, Workhorse, Puma, Sidekiq, Gitaly, PostgreSQL, Redis) y diagnóstico por denominador común | 🟡 Intermedio | 2026-10-08, dudó entre Workhorse y Gitaly (5/10); se enseñó la técnica de descartar lo que sí funciona |
+| 62 | Upgrades (paradas obligatorias, background migrations), LDAP/SAML/SCIM, tokens de runners (`glrt-`) | 🟢 Sólido | 2026-10-08, 8/10 en los tres; buena frase propia: "migración controlada en vez de migración de emergencia" |
+| 63 | Migración entre instancias con Direct Transfer (Service Accounts y tokens no migran) | 🔴 Novato | Enseñado el 2026-10-08, pregunta de la lección 25 sin responder |
 
 ---
 

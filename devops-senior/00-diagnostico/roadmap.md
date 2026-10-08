@@ -120,7 +120,8 @@ actualiza cada vez que avanza una sesión de estudio (ver
 | 1 | Ops | 10 — Kubernetes avanzado | ✅ completo, incluido troubleshooting (`CrashLoopBackOff`/`OOMKilled`/`ImagePullBackOff`, nivel 🔵 Senior) |
 | 1 | Ops | 02 — Contenedores serverless | 🟡 tocado vía la curva de cómputo (VM→K8s→serverless→FaaS→PaaS), sin examen dedicado |
 | 1 | IA | 14 — Fundamentos de IA, ML y LLMs | ✅ entrenamiento/inferencia, pre-entrenamiento/fine-tuning, RAG/agentic RAG, embeddings, visión por computador, NLP, IA Responsable |
-| 2 | Ops | 03 — CI/CD multi-cloud | ✅ panorama (push vs. pull, ArgoCD, OIDC); 🔁 configuración práctica de ArgoCD pendiente; GitLab CI por autoestudio propio, sin verificar profundidad |
+| 2 | Ops | 03 — CI/CD multi-cloud | ✅ panorama (push vs. pull, ArgoCD, OIDC); 🔁 configuración práctica de ArgoCD pendiente; GitLab CI por autoestudio propio, sin verificar profundidad (administración de GitLab y tokens → tema 24) |
+| 2 | Ops | 24 — GitLab Admin / Platform Engineer: migración a Service Accounts (⚡ prioridad por entrevista) | 🟡 lecciones 1-24 de 25 hechas (promedio 7.7/10, 2026-10-05/08); 🔁 lección 25 (Direct Transfer), recall del plan de 5 fases sin ayuda y examen de 50 preguntas pendientes |
 | 2 | Ops | 08 — Python / FastAPI + Docker | ✅ hardening: BOLA y contenedor sin privilegios de root |
 | 2 | IA | 15 — Desarrollo de apps con LLMs | ⬜ |
 | 3 | Ops | 04 — Identidad e IAM | ✅ Managed Identity/IAM Role/Service Account, Keycloak, federación OIDC K8s↔AWS IAM (IRSA), RBAC scope/herencia |
@@ -205,6 +206,7 @@ En paralelo, el vocabulario de IA que vas a usar en todas las fases siguientes.
 
 - **Ops**
   5. `temas/03-cicd-multicloud` — ✅ GitHub Actions + OIDC federado; GitOps con ArgoCD (🔁 configuración práctica pendiente); GitLab CI por autoestudio propio, sin verificar
+  5b. `temas/24-gitlab-admin-service-accounts` — ⚡ **prioridad por entrevista** (GitLab Administrator / Platform Engineer, Service Account Migration): 🟡 lecciones 1-24 de 25 hechas; pendientes lección 25, recall del plan de 5 fases y examen de 50 preguntas
   6. `temas/08-python-fastapi-docker` — ✅ hardening: BOLA (Broken Object Level Authorization) y contenedores sin privilegios de root
 - **IA**
   7. `temas/15-desarrollo-apps-llm` — ⬜ APIs de LLMs, structured output, tool use, streaming

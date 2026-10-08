@@ -48,7 +48,8 @@ devops-senior/
 │   │   # ── Herramientas de ofertas startup ──
 │   ├── 21-event-streaming-workflows/           # Redpanda/Kafka, Temporal (Event Hubs, MSK, Pub/Sub)
 │   ├── 22-datos-salud-hl7-fhir/                # dominio salud: HL7/FHIR, Medplum, HAPI FHIR, OIE
-│   └── 23-platform-engineering/                # IDP, golden paths, Backstage, multi-tenancy, DORA
+│   ├── 23-platform-engineering/                # IDP, golden paths, Backstage, multi-tenancy, DORA
+│   └── 24-gitlab-admin-service-accounts/       # GitLab self-managed, tokens, migración a Service Accounts (entrevista)
 ├── certificaciones/       # qué certificar, en qué orden, y por qué (DevOps + IA, Azure + AWS + GCP)
 │   # Istio, ArgoCD, Keycloak, OPA, AlloyDB, OpenTelemetry, ESO, Atlas, Valkey y Flipt
 │   # están dentro de los temas 03, 04, 06, 07, 10 y 11 (ver tabla en el roadmap)
