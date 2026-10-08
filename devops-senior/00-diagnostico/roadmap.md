@@ -103,6 +103,31 @@ numeradas, sin ocupar un número de fase propio.
   (preguntas encadenadas de las 5 áreas sin avisar el tema) antes de
   considerar rendir el examen real.
 
+## Prioridad inmediata (8–12 oct. 2026): prueba técnica Davivienda — tema 24
+
+Proceso de selección real (Especialista Senior SRE, Davivienda / Grupo Bolívar), con entrega el **lunes
+12 de octubre de 2026**. Mientras dure, **pausa el orden de las fases** de abajo, igual que la pista
+del CCA-F. Todo el detalle está en `temas/24-davivienda-sre-observabilidad/`:
+
+- `roadmap-express.md`: mini roadmap por días con nivel actual y meta de cada ítem.
+- `banco-preguntas.md`: preguntas por ítem (de a una, con respuesta plegada).
+- `brecha-tecnica.md`: cruce contra `examenes/registro/progreso.md`.
+- `grafos-troubleshooting.md` *(opcional)*: teoría de grafos para RCA (Root Cause Analysis) con IA.
+
+| Día | Bloque | Temas | Estado |
+|---|---|---|---|
+| Jue 8 | A — SRE | SLI/SLO/SLA, Golden Signals, Error Budget, burn rate, Quality Gate, progressive delivery, DORA | ⬜ |
+| Vie 9 | B — OpenTelemetry | Collector por dentro, agente vs. gateway, head vs. tail sampling, `traceparent`, FinOps de telemetría, PII | ⬜ |
+| Sáb 10 | C — IA para operaciones | Semantic Conventions, service graph, AIOps, MCP aplicado a observabilidad, grafos (opcional) | ⬜ |
+| Sáb 10 | D — Incidentes | Incident Command, mitigación, post-mortem blameless, toil, chaos engineering | ⬜ |
+| Dom 11 | E — Temas aledaños | Idempotencia, backoff + jitter, RTO/RPO, percentiles, Ley de Little, seguridad, regulación | ⬜ |
+| Dom 11–Lun 12 | F — Entregable | C4, 10 diapositivas, ensayo de 20 min + simulacro de preguntas | ⬜ |
+
+**Qué deja al plan general:** cubre un hueco real del roadmap, **SRE como disciplina** (SLOs, Error
+Budgets, incidentes, toil), que no existía en ningún tema, y profundiza el tema 07 (Observabilidad) del
+lado de construir la telemetría, no solo consumirla. Al terminar, los ítems pasan a
+`examenes/registro/progreso.md` y el tema 07 se actualiza en el tablero.
+
 ## Tablero de avance (mirá acá cómo vas)
 
 Estados: ⬜ sin empezar · 🟡 parcial/tocado, sin examen a fondo · ✅ completo
@@ -137,6 +162,7 @@ actualiza cada vez que avanza una sesión de estudio (ver
 | 5 | IA | 19 — Serving de modelos y GPUs | ⬜ |
 | 5 | Ops | 12 — Arquitectura y costos multi-cloud | 🟡 Well-Architected Framework (6 pilares), FinOps; repaso estricto de los 6 pilares falló (2/6) — 🔁 pendiente de reintento |
 | 5 | Ops | 23 — Platform engineering | ✅ |
+| ⚡ | Ops | 24 — SRE y observabilidad (prueba Davivienda, prioridad inmediata) | ⬜ — ver "Prioridad inmediata" arriba |
 | 6 | Dominio | 22 — Salud: HL7/FHIR (solo si apuntás a healthtech) | ⬜ |
 | 6 | — | Certificaciones + simulacros de entrevista (DevOps, IA y mixtos) | ⬜ — metas confirmadas: **AWS Certified AI Practitioner** + **CCA-F** (ver arriba y `certificaciones/README.md`) |
 

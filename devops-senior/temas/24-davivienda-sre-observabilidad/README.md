@@ -53,7 +53,10 @@ real. Parece un envío por error.
 
 ## Brecha técnica
 
-Ver [brecha-tecnica.md](brecha-tecnica.md): qué de lo estudiado sirve, qué falta y plan hasta el 12 de octubre.
+- [brecha-tecnica.md](brecha-tecnica.md): qué de lo estudiado sirve y qué falta.
+- [roadmap-express.md](roadmap-express.md): mini roadmap del 8 al 12 de octubre, con nivel y meta por ítem.
+- [banco-preguntas.md](banco-preguntas.md): preguntas por ítem, incluida la ronda de la mesa evaluadora.
+- [grafos-troubleshooting.md](grafos-troubleshooting.md) *(opcional)*: teoría de grafos para RCA con IA.
 
 ## Prueba técnica (resumen)
 

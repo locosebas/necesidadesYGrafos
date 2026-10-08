@@ -189,6 +189,31 @@ se termina de cerrar en la Fase 6 (Key Vault/Secrets Manager).
 | 53 | Python/FastAPI/Docker — hardening: BOLA (OWASP API #1, autorización a nivel de objeto) y contenedor sin privilegios de root | 🟢 Sólido | 2026-10-07, distinguió sin ayuda que un contenedor non-root no previene BOLA (error de lógica de app), solo limita el daño si el atacante escala más allá — con ejemplo propio (modificar un feature flag) |
 | 54 | Arquitectura completa propia (diagrama frontend+backend construido en sesión) | 🟡 Intermedio | Construida junto con vos, no evaluada de forma independiente |
 
+## ↳ Interrupción: Prueba técnica Davivienda — SRE y observabilidad (8–12 oct. 2026)
+
+Ver `../../temas/24-davivienda-sre-observabilidad/roadmap-express.md` (detalle y meta por ítem) y
+`banco-preguntas.md` (preguntas). Niveles al arrancar:
+
+| # | Tema | Nivel | Última vez puesto a prueba |
+|---|---|---|---|
+| 55 | SLI/SLO/SLA, Golden Signals, RED/USE | ⬜ No visto | — |
+| 56 | Error Budget y matemáticas de disponibilidad | ⬜ No visto | — |
+| 57 | Alertas por burn rate (multi-window, multi-burn-rate) | ⬜ No visto | — |
+| 58 | Error Budget Policy, Quality Gate en CI/CD, progressive delivery (Argo Rollouts/Flagger) | ⬜ No visto | — |
+| 59 | OpenTelemetry Collector por dentro (receivers/processors/exporters/connectors) | ⬜ No visto | — |
+| 60 | Collector agente vs. gateway, dos capas, multi-cloud | ⬜ No visto | — |
+| 61 | Head-based vs. tail-based sampling | ⬜ No visto | — |
+| 62 | Propagación de contexto (W3C `traceparent`, B3, span links en Kafka/MQ) | 🟡 Intermedio | Base de Kafka (#49), sin la parte de trazas |
+| 63 | FinOps de telemetría (cardinalidad, Log-to-Metrics, retención) | ⬜ No visto | — |
+| 64 | Enmascaramiento de PII en el Collector (SFC, Ley 1581, PCI DSS) | ⬜ No visto | — |
+| 65 | Semantic Conventions, exemplars, service graph | ⬜ No visto | — |
+| 66 | AIOps, correlación vs. causalidad, MCP aplicado a observabilidad | 🟡 Intermedio | MCP por el CCA-F (#18) |
+| 67 | (Opcional) Teoría de grafos para RCA | ⬜ No visto | — |
+| 68 | Incident Command, mitigación, post-mortem blameless | ⬜ No visto | — |
+| 69 | Toil, on-call, Runbook as Code, chaos engineering | ⬜ No visto | — |
+| 70 | Temas aledaños: idempotencia, backoff + jitter, RTO/RPO, percentiles, Ley de Little | ⬜ No visto | — |
+| 71 | Modelo C4 y presentación | ⬜ No visto | — |
+
 ## Fase 10 — Certificación y entrevista final
 
 Sin empezar — depende de cerrar las fases anteriores primero.

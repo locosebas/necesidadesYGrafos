@@ -50,7 +50,4 @@ Escala: ⬜ no visto · 🔴 novato · 🟡 intermedio · 🟢 sólido · 🔵 s
 
 ## Plan hasta el lunes 12 de octubre
 
-1. **Jueves 8:** 14, 15, 16 + reintento de DORA (13).
-2. **Viernes 9:** 17, 18 (+ 23 si el cargo es Tech Lead) y números de FinOps.
-3. **Sábado 10:** 19, 20, 21.
-4. **Domingo 11 – lunes 12:** 10 diapositivas con C4 (22), ensayo de 20 min y simulacro de preguntas.
+Ver [roadmap-express.md](roadmap-express.md) (plan por días) y [banco-preguntas.md](banco-preguntas.md).
