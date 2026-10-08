@@ -185,7 +185,7 @@ se termina de cerrar en la Fase 6 (Key Vault/Secrets Manager).
 | # | Tema | Nivel | Última vez puesto a prueba |
 |---|---|---|---|
 | 51 | Platform Engineering — IDP, golden path, Backstage, Team Topologies/carga cognitiva, multi-tenancy en K8s (Namespace/RBAC/NetworkPolicy/ResourceQuota) | 🟢 Sólido | 2026-10-07, buena síntesis propia (sobreventa de recursos con plan de contingencia, no enseñado explícitamente); corrigió solo un lapsus puntual (pensó que los Pods NO se ven entre sí por defecto — se re-confirmó que la red es plana/abierta) |
-| 51b | Métricas DORA (4 métricas: Deployment Frequency, Lead Time for Changes, Change Failure Rate, Time to Restore Service) | 🔴 Novato | 2026-10-07, repaso estricto dio **0/4** — no recordaba ni siquiera que el tema era DORA. Re-explicado desde cero el mismo día; separado como sub-tema propio por el tamaño real de la brecha; pendiente de reintento |
+| 51b | Métricas DORA (4 métricas: Deployment Frequency, Lead Time for Changes, Change Failure Rate, Time to Restore Service) | 🔴 Novato | 2026-10-07, repaso estricto dio **0/4** — no recordaba ni siquiera que el tema era DORA. Re-explicado desde cero el mismo día; separado como sub-tema propio por el tamaño real de la brecha; pendiente de reintento. **Repaso estricto 2026-10-08: 0/4 otra vez** (dijo "reliability" —la 5ª métrica, no de las 4— y "stability" —nombre de la categoría—); mnemotecnia "DeLiCaTe" |
 | 52 | Arquitectura/costos multi-cloud (Well-Architected, FinOps) | 🟡 Intermedio | 2026-10-07, FinOps (visibilidad de costos cruzando equipos, negociación de descuentos por volumen) respondido bien sin ayuda. **Lista de los 6 pilares de Well-Architected — repaso estricto #1 (2026-10-07): 2/6 correctos, 1 parcial, 1 inventado ("Simplicity"), 3 ausentes.** **Repaso estricto #2 (2026-10-07, mismo día): 3/6 correctos (Reliability, Security, Sustainability), 1 parcial ("cost eficiente" por Cost Optimization), 0 inventados, 2 ausentes (Operational Excellence, Performance Efficiency) — mejora real, sigue sin ser 6/6, reintentar más adelante** |
 | 53 | Python/FastAPI/Docker — hardening: BOLA (OWASP API #1, autorización a nivel de objeto) y contenedor sin privilegios de root | 🟢 Sólido | 2026-10-07, distinguió sin ayuda que un contenedor non-root no previene BOLA (error de lógica de app), solo limita el daño si el atacante escala más allá — con ejemplo propio (modificar un feature flag) |
 | 54 | Arquitectura completa propia (diagrama frontend+backend construido en sesión) | 🟡 Intermedio | Construida junto con vos, no evaluada de forma independiente |
@@ -197,10 +197,10 @@ Ver `../../temas/25-davivienda-sre-observabilidad/roadmap-express.md` (detalle y
 
 | # | Tema | Nivel | Última vez puesto a prueba |
 |---|---|---|---|
-| 64 | SLI/SLO/SLA, Golden Signals, RED/USE | ⬜ No visto | — |
-| 65 | Error Budget y matemáticas de disponibilidad | ⬜ No visto | — |
-| 66 | Alertas por burn rate (multi-window, multi-burn-rate) | ⬜ No visto | — |
-| 67 | Error Budget Policy, Quality Gate en CI/CD, progressive delivery (Argo Rollouts/Flagger) | ⬜ No visto | — |
+| 64 | SLI/SLO/SLA, Golden Signals, RED/USE | 🟡 Intermedio | 2026-10-08: buena intuición de cliente (7/10); SLI/SLO/SLA bien clasificados tras la explicación (10/10, el nombre no salió solo); Golden Signals 5/10 (solo "latencia" con nombre técnico; mnemotecnia "LaTES"); RED vs. USE 7/10 (eligió bien el método, no dijo la letra); "¿por qué no 100%?" 6/10 |
+| 65 | Error Budget y matemáticas de disponibilidad | 🟡 Intermedio | 2026-10-08: los nueves en minutos 9/10; presupuesto restante 6/10 (buena idea propia: comparar el tiempo de rollback con el presupuesto que queda; invirtió SLO/SLA e inventó "SLO plus"); serie bien con método pero lo llamó "Bayes", paralelo incorrecto (5/10) |
+| 66 | Alertas por burn rate (multi-window, multi-burn-rate) | 🟡 Intermedio | 2026-10-08: cálculo de burn rate con ayuda de la sugerencia automática del chat (no cuenta); comparación de alertas 7/10 (excelente cálculo de la fuga lenta, 8:51 a. m.; concluyó mal que el pico disparaba la alerta de burn rate) |
+| 67 | Error Budget Policy, Quality Gate en CI/CD, progressive delivery (Argo Rollouts/Flagger) | 🔴 Novato | 2026-10-08: entiende canary/blue-green y el radio de explosión (5/10), pero no la terminología ni el gate previo; explicado completo (antes/durante/después) |
 | 68 | OpenTelemetry Collector por dentro (receivers/processors/exporters/connectors) | ⬜ No visto | — |
 | 69 | Collector agente vs. gateway, dos capas, multi-cloud | ⬜ No visto | — |
 | 70 | Head-based vs. tail-based sampling | ⬜ No visto | — |

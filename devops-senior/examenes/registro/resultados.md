@@ -190,6 +190,8 @@ adelante:
 
 | 2026-10-05/08 | GitLab Admin / migración a Service Accounts (tema 24, por entrevista) — lecciones 1-24 de 25 | Fundamentos → escenario de entrevista | Guiado, de a una pregunta, con analogías | Promedio de lecciones **7.7/10**; repasos mixtos 5.5/10. Mejores respuestas: piloto por bajo impacto y reversibilidad (10/10), Reporter + `read_registry` (10/10), logs `audit_json.log`/`api_json.log` (10/10) | Niveles de Service Account ("AI y GO"), escribir los 3 pasos de la API por separado, plan de 5 fases sin ayuda, diagnóstico de arquitectura (Gitaly), las Service Accounts NO consumen licencia. Pendientes: lección 25, examen de 50 preguntas (`temas/24-gitlab-admin-service-accounts/examen.md`) y respuesta personal de "herramientas que usas además de GitLab" |
 
+| 2026-10-08 | Prueba Davivienda (tema 25) — Bloque A: SLI/SLO/SLA, Golden Signals, RED/USE, Error Budget, burn rate, Quality Gate | Guiado, de a una pregunta | Guiado, de a una pregunta, con escenarios distintos al banco de preguntas | Promedio ~6.5/10 en 11 preguntas. Mejores: los nueves en minutos (9/10), fuga lenta con burn rate (cálculo propio a las 8:51 a. m.), idea propia de comparar tiempo de rollback con presupuesto restante | Nombres de Golden Signals ("LaTES"), disponibilidad en paralelo (multiplicar fallas, no disponibilidades), SLA más flojo que el SLO (lo invirtió), terminología de progressive delivery. **DORA: repaso estricto #2 0/4** (mnemotecnia "DeLiCaTe"). Pendientes para el repaso: A2.4, A4.1, A4.3, A4.4 y A3.1 (respondida con ayuda de la sugerencia automática) |
+
 ## Diagnóstico general de IA pendiente
 
 Con la fusión DevOps + IA del roadmap (2026-10-07) se agregaron los temas
