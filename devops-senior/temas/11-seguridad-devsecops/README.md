@@ -27,7 +27,8 @@ principio (shift-left), no parchearla después.
 
 Herramientas open-source, agnósticas de nube (usalas igual en las tres):
 **Trivy** (imágenes), **Checkov** / **tfsec** (IaC: Terraform, CloudFormation,
-Bicep), **gitleaks** (secrets en el repo).
+Bicep), **gitleaks** (secrets en el repo), **Open Policy Agent (OPA)**
+(policy-as-code genérico, ver abajo).
 
 ## Subtemas
 
@@ -37,17 +38,35 @@ Bicep), **gitleaks** (secrets en el repo).
 4. Secrets scanning en el propio repo (gitleaks, GitHub secret scanning)
 5. OWASP Top 10: https://owasp.org/www-project-top-ten/
 
-## Herramienta que piden las ofertas (startup): OPA (policy as code)
+**Estado (2026-10-05, ✅ cubierto):** shift-left security y **Trivy**
+(escaneo de imágenes/CVEs) — funcionamiento bien entendido, pero el
+**nombre** "Trivy" sigue siendo un hueco de memoria puntual (prioridad alta
+en el próximo repaso espaciado) — ver `../../examenes/registro/`.
+
+## Policy as Code: Open Policy Agent (OPA) — ✅ cubierto 2026-10-05
 
 **OPA (Open Policy Agent)** es un motor de políticas de propósito general
-(CNCF): las reglas se escriben en el lenguaje **Rego** y se evalúan donde
-haga falta. Es **policy as code**: las reglas de seguridad/compliance viven
-en Git, se testean y se versionan como cualquier código.
+(CNCF): un motor genérico para escribir **reglas (policies) como código**,
+en el lenguaje propio **Rego**, y evaluarlas contra cualquier JSON de
+entrada — no es específico de una nube ni de Kubernetes. Es **policy as
+code**: las reglas de seguridad/compliance viven en Git, se testean y se
+versionan como cualquier código.
 
 Dónde se usa **OPA**:
-- **Kubernetes**: **OPA Gatekeeper** (admission controller) rechaza recursos que no cumplen (por ejemplo, contenedores corriendo como root, imágenes de registries no aprobados, falta de `resources.limits`).
-- **CI**: **Conftest** evalúa Terraform, manifiestos de Kubernetes o Dockerfiles en el pipeline, antes del deploy (*shift-left*).
-- **Apps / APIs**: autorización fina (por ejemplo, una API FastAPI le pregunta a **OPA** si el usuario puede hacer una acción).
+- **Kubernetes**: **OPA Gatekeeper** (admission controller, que empaqueta
+  OPA) rechaza recursos que no cumplen una regla (por ejemplo, contenedores
+  corriendo como root, imágenes de registries no aprobados, falta de
+  `resources.limits`, `:latest` como tag de imagen) antes de que lleguen al
+  clúster.
+- **CI**: **Conftest** evalúa Terraform, manifiestos de Kubernetes o
+  Dockerfiles en el pipeline, antes del deploy (*shift-left*) — alternativa
+  o complemento a Checkov/tfsec.
+- **Apps / APIs**: autorización fina (por ejemplo, una API FastAPI le
+  pregunta a **OPA** si el usuario puede hacer una acción), reemplazando
+  lógica de permisos hardcodeada por policies versionadas en Git.
+- Relación con el tema 04 (identidad): OPA no reemplaza RBAC/IAM — decide
+  reglas de negocio adicionales *después* de que la identidad ya fue
+  autenticada y autorizada a nivel de plataforma.
 
 | Concepto | Agnóstico | Azure | AWS | GCP |
 |---|---|---|---|---|
@@ -65,4 +84,5 @@ Terraform del lab del tema 01), que falle el build si encuentra hallazgos críti
 
 ## Autoevaluación
 
-Pedime: *"Dame un examen de seguridad/DevSecOps nivel senior"*.
+Pedime: *"Dame un examen de seguridad/DevSecOps nivel senior"*
+o *"Dame un examen de OPA/policy-as-code"*.

@@ -22,6 +22,10 @@ podés compararlos directamente.
 - AWS Secrets Manager: https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html
 - GCP Secret Manager: https://cloud.google.com/secret-manager/docs
 
+**Estado (2026-10-05, ✅ cubierto):** síntesis completa de "app a BD sin
+exponer secretos" — Managed Identity/IAM Role (tema 04) → Key Vault/Secrets
+Manager → Private Endpoint/PrivateLink (tema 05), sin ayuda.
+
 ## Bases de datos NoSQL gestionadas
 
 ### Objetivos
@@ -44,6 +48,30 @@ podés compararlos directamente.
 - Cosmos DB: https://learn.microsoft.com/azure/cosmos-db/introduction
 - DynamoDB: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html
 - Firestore: https://cloud.google.com/firestore/docs
+
+**Estado (2026-10-05, ✅ cubierto):** niveles de consistencia (fuerte vs.
+eventual) respondido sin ayuda — cierra el hueco marcado desde el
+diagnóstico inicial (2026-09-08).
+
+## Bases de datos relacionales gestionadas — ✅ cubierto 2026-10-05
+
+### Objetivos
+- Diferenciar una base **relacional gestionada compatible con Postgres/MySQL**
+  de una NoSQL (arriba): sigue siendo SQL, pero la nube gestiona parches,
+  backups, alta disponibilidad y réplicas de lectura.
+
+### Equivalencias
+
+| Concepto | Azure | AWS | GCP |
+|---|---|---|---|
+| Relacional gestionada (Postgres/MySQL) | Azure Database for PostgreSQL/MySQL | **RDS** (Postgres/MySQL/otros motores) | **Cloud SQL** |
+| Relacional de alto rendimiento (compatible Postgres) | — | **Aurora** (Postgres/MySQL compatible) | **AlloyDB** (Postgres compatible) |
+
+**AlloyDB** es la apuesta de GCP para cargas relacionales exigentes sin
+migrar a NoSQL: mismo lenguaje (SQL/Postgres), separación de
+cómputo/almacenamiento, y un motor columnar en memoria para analítica sobre
+los mismos datos transaccionales (HTAP) — el equivalente conceptual de
+Aurora en AWS.
 
 ## Herramientas que piden las ofertas (startup)
 
@@ -78,4 +106,5 @@ se estima/factura el throughput en cada una.
 
 ## Autoevaluación
 
-Pedime: *"Dame un examen de secretos y bases NoSQL multi-cloud nivel senior"*.
+Pedime: *"Dame un examen de secretos y bases NoSQL multi-cloud nivel senior"*
+o *"Dame un examen de bases relacionales gestionadas (RDS/Cloud SQL/AlloyDB)"*.

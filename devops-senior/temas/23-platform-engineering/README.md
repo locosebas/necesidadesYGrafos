@@ -6,6 +6,11 @@ forma de trabajar. Este tema junta todo lo anterior (IaC, CI/CD, Kubernetes,
 GitOps, observabilidad, seguridad) bajo la pregunta: *¿cómo hago que diez
 equipos desplieguen solos, seguros y sin pedirme nada?*
 
+**Estado (2026-10-07, ✅ cubierto):** IDP, golden path, Backstage, Team
+Topologies y carga cognitiva (intrínseca/extrínseca/productiva, cómo se
+evalúa), multi-tenancy en Kubernetes (Namespace+RBAC+NetworkPolicy+
+ResourceQuota), y métricas DORA — ver `../../examenes/registro/`.
+
 ## Objetivos
 
 - Explicar qué es una **IDP (Internal Developer Platform)** y la idea de
@@ -18,6 +23,27 @@ equipos desplieguen solos, seguros y sin pedirme nada?*
   network policies, un cluster compartido vs. clusters por equipo.
 - Medir la plataforma: **métricas DORA** (deployment frequency, lead time,
   change failure rate, time to restore) y satisfacción de los desarrolladores.
+
+## Arquitectura de referencia (ejemplo real: posting de Vule Human Talent)
+
+```
+Developer Platform (self-service)
+├── Capa de cómputo: Kubernetes (GKE)                    → temas 02, 10
+├── IaC: Terraform                                       → tema 01
+├── CD: GitOps (ArgoCD) + CI (GitLab CI/GitHub Actions)  → tema 03
+├── Auth & Identity: Keycloak + IAM nativo de la nube    → tema 04
+├── Red y seguridad de red: Service Mesh (Istio)         → tema 10
+├── Policy as code: OPA/Gatekeeper                       → tema 11
+├── Datos: AlloyDB + Cosmos/DynamoDB + Key Vault/Secrets → tema 06
+├── Observabilidad: OpenTelemetry → Grafana/cloud-native → tema 07
+└── Async/orquestación: Redpanda (eventos) + Temporal    → temas 09, 21
+```
+
+Un "Senior Platform Engineer 0→1" es quien puede decidir el **orden de
+construcción** de este diagrama, justificar cada elección (por qué Istio y
+no solo Ingress, por qué GitOps y no solo pipelines push), y estimar el
+costo/complejidad operativa que cada capa suma: identidad antes que CD,
+observabilidad desde el día 1, no al final.
 
 ## Herramientas y equivalencias
 

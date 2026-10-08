@@ -32,11 +32,27 @@ serverless (AgroTec) así que Step Functions puede resultarte más natural.
 4. Cuándo NO usar un orquestador (over-engineering para 2 pasos simples con una cola)
 5. Comparación de costos y modelo de facturación (por transición de estado vs. por tiempo de ejecución)
 
+## Alternativa cloud-agnostic: Temporal
+
+**Temporal** es un motor de orquestación de workflows **open-source y
+self-hosteable** (o su versión managed, Temporal Cloud) — mismo problema que
+Durable Functions/Step Functions/Workflows (workflows con estado, reintentos,
+esperas largas), pero pensado para no atarte a una sola nube:
+
+- Mismo modelo mental que Durable Functions: **Workflow** (equivalente a la
+  *orchestrator function*, determinístico, con *replay*) + **Activity**
+  (equivalente a la *activity function*, hace el I/O real).
+- Se escribe en código normal (Go, Java, Python, TypeScript, .NET) en vez de
+  JSON/YAML declarativo, a diferencia de Step Functions/Workflows.
+- Por qué aparece en vacantes: plataformas que se construyen "desde cero"
+  (0→1) y no quieren depender de un orquestador propietario de una sola nube.
+
 ## Recursos
 
 - Durable Functions: https://learn.microsoft.com/azure/azure-functions/durable/durable-functions-overview
 - AWS Step Functions: https://docs.aws.amazon.com/step-functions/latest/dg/welcome.html
 - GCP Workflows: https://cloud.google.com/workflows/docs
+- Temporal: https://docs.temporal.io/
 
 ## Lab sugerido
 
@@ -46,4 +62,5 @@ Compará el modelo imperativo vs. declarativo.
 
 ## Autoevaluación
 
-Pedime: *"Dame un examen de orquestación serverless (Durable Functions/Step Functions) nivel senior"*.
+Pedime: *"Dame un examen de orquestación serverless (Durable Functions/Step Functions) nivel senior"*
+o *"Dame un examen de Temporal"*.

@@ -75,3 +75,46 @@ intermedio", "explicame RAG" o "explicame Private Endpoints" y seguimos desde ah
 > material interno de MercadoLibre (preguntas de entrevista del equipo Scopes Govern).
 > Este repositorio es privado por decisión explícita del dueño. Si en algún momento
 > este repo pasa a ser público, esa carpeta debe eliminarse del historial de git antes.
+
+## Objetivo actualizado (2026-09-14): arquitecto de plataforma
+
+El objetivo ya no es solo cerrar brechas para una vacante puntual, sino poder
+**diseñar y construir una self-service developer platform completa desde
+cero (0→1)**, como la descrita en el posting de Vule Human Talent. Esto
+reordenó el roadmap (ver `00-diagnostico/roadmap.md`): Kubernetes se estudia
+primero por capas — arquitectura del clúster antes que troubleshooting (ver
+`temas/10-kubernetes-avanzado/README.md`, ahora un índice de 5 archivos) — y
+se agregó `temas/16-platform-engineering/` como tema de cierre que conecta
+todos los demás en un diagrama de arquitectura de referencia.
+
+## Temas 14-23: agregados después del roadmap "core" original
+
+Los temas 1-13 son el roadmap "core" original, pensado solo para DevOps (ver
+`00-diagnostico/roadmap.md`). A partir de ahí se agregaron dos tandas:
+
+**Bloque IA (temas 14-20)**: agregado el 2026-10-07 para fusionar DevOps + IA
+en un solo camino (ver "Objetivo actualizado" en el roadmap) — fundamentos de
+IA/ML/LLMs, desarrollo de apps con LLMs, RAG/bases vectoriales, agentes de
+IA/MCP, MLOps/LLMOps, serving de modelos con GPU, y seguridad/gobernanza de IA.
+
+**Herramientas de ofertas de startups (temas 21-23, antes numerados 14-16)**:
+agregadas a partir de dos postings de LinkedIn — uno de una startup de salud
+en USA (Vule Human Talent, Senior DevOps/Platform Engineer, GKE + Terraform +
+ArgoCD + Istio + GitLab CI + Keycloak + OPA + AlloyDB + OpenTelemetry, y como
+plus Redpanda/Temporal/HL7-FHIR/Medplum/HAPI, sept. 2026) y otro healthtech
+más reciente (2026-10-07, agregó ESO, Atlas, Valkey, Flipt). Herramientas de
+esos postings que ya estaban cubiertas por temas existentes se sumaron ahí en
+vez de crear un tema nuevo:
+
+| Herramienta del posting | Dónde quedó |
+|---|---|
+| Kubernetes, GKE, Istio | `10-kubernetes-avanzado` (ya cubierto) |
+| Terraform | `01-iac-multicloud` (ya cubierto) |
+| ArgoCD, GitLab CI, Flipt | `03-cicd-multicloud` |
+| Keycloak | `04-identidad-iam` |
+| OPA | `11-seguridad-devsecops` |
+| AlloyDB, ESO, Atlas, Valkey | `06-datos-secretos` |
+| OpenTelemetry | `07-observabilidad-multicloud` (ya cubierto) |
+| Temporal, Redpanda | `21-event-streaming-workflows` (tema nuevo, antes `14-streaming-eventos`) |
+| HL7/FHIR, Medplum, HAPI FHIR | `22-datos-salud-hl7-fhir` (tema nuevo, dominio, antes `15-interoperabilidad-salud`) |
+| Platform engineering (IDP, golden paths) | `23-platform-engineering` (antes `16-platform-engineering`) |
