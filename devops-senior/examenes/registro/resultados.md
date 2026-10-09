@@ -192,6 +192,8 @@ adelante:
 
 | 2026-10-08 | Prueba Davivienda (tema 25) — Bloque A: SLI/SLO/SLA, Golden Signals, RED/USE, Error Budget, burn rate, Quality Gate | Guiado, de a una pregunta | Guiado, de a una pregunta, con escenarios distintos al banco de preguntas | Promedio ~6.5/10 en 11 preguntas. Mejores: los nueves en minutos (9/10), fuga lenta con burn rate (cálculo propio a las 8:51 a. m.), idea propia de comparar tiempo de rollback con presupuesto restante | Nombres de Golden Signals ("LaTES"), disponibilidad en paralelo (multiplicar fallas, no disponibilidades), SLA más flojo que el SLO (lo invirtió), terminología de progressive delivery. **DORA: repaso estricto #2 0/4** (mnemotecnia "DeLiCaTe"). Pendientes para el repaso: A2.4, A4.1, A4.3, A4.4 y A3.1 (respondida con ayuda de la sugerencia automática) |
 
+| 2026-10-09 | Prueba Davivienda (tema 25) — Bloque B: OpenTelemetry Collector, agente vs. gateway, head/tail sampling, propagación de contexto, FinOps de telemetría, PII | Guiado, de a una pregunta | Guiado, de a una pregunta, con escenarios propios | Promedio ~4.4/10 en 14 preguntas (todo el bloque era tema nuevo). Mejores: PII en el gateway (7/10), traza/span y p99 (8/10), gateway por perímetro regulado (idea propia) | Faltaban conceptos base que se enseñaron en la sesión: span, percentil, AS400, IBM MQ, `traceparent`/B3. Errores clave: `memory_limiter` no va primero, connector vs. processor, tail sampling con round-robin, cardinalidad, recortar retención (red flag). Pendientes para el repaso: OTLP y puertos (4317/4318), auditoría vs. trazas descartadas, nombres AS400/MQ/OpenTelemetry Operator |
+
 ## Diagnóstico general de IA pendiente
 
 Con la fusión DevOps + IA del roadmap (2026-10-07) se agregaron los temas
