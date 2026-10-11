@@ -194,6 +194,8 @@ adelante:
 
 | 2026-10-09 | Prueba Davivienda (tema 25) — Bloque B: OpenTelemetry Collector, agente vs. gateway, head/tail sampling, propagación de contexto, FinOps de telemetría, PII | Guiado, de a una pregunta | Guiado, de a una pregunta, con escenarios propios | Promedio ~4.4/10 en 14 preguntas (todo el bloque era tema nuevo). Mejores: PII en el gateway (7/10), traza/span y p99 (8/10), gateway por perímetro regulado (idea propia) | Faltaban conceptos base que se enseñaron en la sesión: span, percentil, AS400, IBM MQ, `traceparent`/B3. Errores clave: `memory_limiter` no va primero, connector vs. processor, tail sampling con round-robin, cardinalidad, recortar retención (red flag). Pendientes para el repaso: OTLP y puertos (4317/4318), auditoría vs. trazas descartadas, nombres AS400/MQ/OpenTelemetry Operator |
 
+| 2026-10-10/11 | Prueba Davivienda (tema 25) — Repaso relámpago del Bloque B + Bloque C: telemetría AI-Ready, exemplars, service graph, causa raíz con grafos, MCP, prompt injection, BFS/DFS | Repaso de nombres sin pistas + guiado de a una pregunta | Mnemotecnias (cocina del Collector, juez, mesero, recepcionista, carta con sobre) y chuleta de nombres | Repaso B: nombres flojos (traceparent, explosión de cardinalidad, dos capas no salieron; tras la historia de la cocina recordó 3/5 processors y las 3 etapas). Bloque C promedio ~5.6/10 en 8 preguntas; mejor: causa raíz con dos ramas (8/10) | Los nombres siguen siendo el punto débil; se creó `temas/25-davivienda-sre-observabilidad/chuleta-nombres.md` (rama de la prueba). Pendientes: SpanKind, exemplars, `servicegraph`, BFS/DFS, humano en el bucle |
+
 ## Diagnóstico general de IA pendiente
 
 Con la fusión DevOps + IA del roadmap (2026-10-07) se agregaron los temas
