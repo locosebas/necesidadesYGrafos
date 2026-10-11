@@ -55,3 +55,11 @@ Leer 5 minutos antes de cada sesión. Cada nombre con su imagen para recordarlo.
 |---|---|---|
 | **Semantic Conventions** | *Semántica* = **significado** | Mismos nombres de atributos en todo el banco |
 | **Resource attributes** | La cédula del servicio | `service.name`, `service.version`, `deployment.environment.name`, equipo |
+| **Métricas / trazas / logs** | **Qué** pasa / **dónde** / **por qué** | Las tres señales; no compiten, se encadenan |
+| **Exemplars** | Un **ejemplar** de muestra, como el de una revista | Punto en la métrica con un `trace_id`: clic del pico a la traza |
+| `servicegraph` | El mesero que **dibuja el mapa** | Connector: arma aristas desde parejas CLIENT→SERVER (y nodos virtuales para DB/AS400) |
+| **Regla de causa raíz** | El trancón termina donde la calle está libre | El nodo anómalo **más profundo** cuyas dependencias están sanas. El que más grita es víctima |
+| **Dos causas a la vez** | Sospecha de lo compartido | Buscar una dependencia oculta (mismo nodo, red, Kafka, certificado) |
+| **BFS / DFS** | **B**road: piedra en el lago / **D**eep: laberinto | BFS por niveles → radio de explosión (grafo invertido). DFS al fondo → causa raíz |
+| **Servidor MCP de observabilidad** | El embudo | `obtener_grafo`, `consultar_slo`, `buscar_trazas`, `buscar_logs(trace_id)`, **`cambios_recientes`** |
+| **Indirect Prompt Injection** | La orden escondida en los datos (OWASP LLM01) | Defensas: mínimo privilegio, **humano en el bucle**, datos marcados como no confiables, hooks + auditoría |
