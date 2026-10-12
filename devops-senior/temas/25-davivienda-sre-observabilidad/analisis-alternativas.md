@@ -4,6 +4,10 @@
 > se escogió, las alternativas, el trade-off (qué ganas y qué pierdes) y una recomendación.
 > La columna **Tu decisión** queda vacía a propósito: se llena en sesión, **de a una decisión por vez**.
 >
+> **Regla: nombrar siempre las herramientas.** Decir el nombre concreto (Sloth, Mimir, PagerDuty, Backstage...)
+> suma puntos ante la mesa: demuestra experiencia real y hace la propuesta viable. La neutralidad se muestra
+> diciendo "por ejemplo" y "OpenTelemetry nos deja cambiarla", **no** dejando la caja sin nombre.
+>
 > Criterio general de la recomendación: el caso premia **viabilidad y pragmatismo**, y la mesa incluye
 > DevSecOps (soberanía del dato) y Arquitectura (neutralidad frente al proveedor). Por eso pesa más lo
 > estándar y abierto que lo "más potente".
@@ -104,11 +108,11 @@ es hablar en **valores relativos** ("el SaaS cuesta 3–5× más por GB que el a
 ### D5. Herramienta para definir y calcular los SLOs
 | | |
 |---|---|
-| Escogido | Ninguna nombrada ("la fuente de SLOs") |
+| Escogido | **Sloth** (SLO como código en Git que genera las reglas de Prometheus de SLI, Error Budget y burn rate), con la especificación **OpenSLO** como formato portable. *(El borrador v1 no nombraba ninguna: era un error.)* |
 | Alternativas | **Sloth** o **Pyrra** (generan reglas de Prometheus desde un YAML) · **OpenSLO** (especificación abierta) · Google **SLO Generator** · SaaS: **Nobl9**, SLOs de Datadog / Dynatrace / Grafana Cloud |
 | Trade-off | Sloth/Pyrra: abiertos, "SLO como código" en Git, pero hay que operarlos. SaaS: listo rápido, pero amarra al proveedor y cuesta |
 | Costo | Sloth / Pyrra / OpenSLO: licencia ≈0; operación ~0,1–0,2 FTE (≈ USD 600–1.200/mes) mientras se adopta. SaaS de SLOs: **Nobl9** es licencia empresarial (del orden de decenas de miles de USD al año, $$); los SLOs de Datadog / Dynatrace / Grafana Cloud vienen incluidos si ya pagas esa plataforma (≈0 marginal), pero refuerzan el amarre al proveedor |
-| Recomendación | Nombrar "SLO como código (Sloth u OpenSLO) en Git", coherente con el IDP y con GitOps |
+| Recomendación | **Nombrarla en la diapositiva 4**: "el SLO vive como código en Git con Sloth (formato OpenSLO); Sloth genera las reglas de Prometheus y el Quality Gate consulta esas métricas". Coherente con GitOps y con el IDP. Alternativa a mencionar: Pyrra (misma idea, con interfaz web) |
 | Tu decisión | |
 
 ### D6. Plataforma de CI/CD para el gate
@@ -323,11 +327,11 @@ el despliegue."*
 ### D15. Backends de almacenamiento
 | | |
 |---|---|
-| Escogido | Ninguno nombrado ("backends de observabilidad") |
+| Escogido | Stack de Grafana: **Mimir** (métricas), **Tempo** (trazas), **Loki** (logs) y **Grafana** (visualización), autogestionado. *(El borrador v1 no lo nombraba.)* |
 | Alternativas | Abiertos/autogestionados: Prometheus + **Mimir** o **Thanos** o VictoriaMetrics (métricas), **Tempo** o Jaeger (trazas), **Loki**, Elasticsearch u OpenSearch (logs), ClickHouse (SigNoz) · Administrados de nube: Amazon Managed Prometheus, Google Cloud Managed Service for Prometheus, CloudWatch, Cloud Logging · SaaS: Datadog, Dynatrace, New Relic, Grafana Cloud, Elastic Cloud |
 | Trade-off | Autogestionado: barato en licencias y el dato no sale, pero cuesta operación (personas). SaaS: rápido y potente, pero caro por volumen y el dato sale del banco. Nativo de cada nube: dos mundos distintos en multi-cloud |
 | Costo | La decisión de mayor impacto económico de toda la propuesta. **SaaS** (Datadog, Dynatrace, New Relic, Grafana Cloud): con la línea base ≈ **USD 100.000/mes ($$$$)**; rápido y sin operación. **Autogestionado** (Mimir / Tempo / Loki sobre almacenamiento de objetos): el almacenamiento es barato (~USD 0,02/GB/mes), cómputo $$ a $$$, más **2–4 FTE** de plataforma (≈ USD 12.000–24.000/mes). Suele quedar en **30–50% del costo del SaaS** a este volumen, pero solo si hay equipo. **Nativo de cada nube** (CloudWatch, Cloud Logging, Managed Prometheus): precio parecido al SaaS por GB (~USD 0,50/GB de logs), y dos consolas distintas. Regla práctica: a poco volumen gana el SaaS; a volumen de banco gana el autogestionado |
-| Recomendación | **No casarse** en la presentación: "OTel nos deja cambiar de backend sin reinstrumentar"; el ejemplo de referencia puede ser el stack de Grafana (Mimir, Tempo, Loki). Si la mesa dice qué usan, adaptarse |
+| Recomendación | **Nombrarlo**: "por ejemplo, Mimir, Tempo y Loki", y agregar la frase de neutralidad: "OpenTelemetry nos deja cambiar de backend sin reinstrumentar". Si la mesa dice qué usan (Datadog, Dynatrace...), adaptarse sin problema |
 | Tu decisión | |
 
 ### D16. Log-to-Metrics
@@ -367,11 +371,11 @@ el despliegue."*
 ### D19. Modelo de IA y dónde corre
 | | |
 |---|---|
-| Escogido | No nombrado ("modelo en una red o región aprobada") |
+| Escogido | **Amazon Bedrock** (en AWS) o **Google Vertex AI** (en GCP), dentro de la cuenta del banco. *(El borrador v1 no lo nombraba.)* |
 | Alternativas | Modelo vía nube del banco (Amazon Bedrock, Google Vertex AI) · modelo abierto autoalojado · IA del proveedor de observabilidad (Dynatrace Davis, Datadog Bits AI / Watchdog) · plataformas AIOps (BigPanda, Moogsoft) |
 | Trade-off | Bedrock/Vertex: el dato queda en la cuenta del banco, buen balance. Autoalojado: máxima soberanía, más costo y menos capacidad. IA del proveedor: lista ya, pero caja negra y amarrada. Plataformas AIOps: fuertes en correlación de alertas, débiles en causalidad |
 | Costo | **Bedrock / Vertex AI**: pago por token. Una investigación de RCA (Root Cause Analysis) consume ~50.000–200.000 tokens ⇒ **~USD 0,30–3 por incidente** con un modelo de gama media: incluso 1.000 investigaciones al mes son $ a $$. **Modelo abierto autoalojado**: GPU encendida 24/7; un modelo grande (~70B parámetros) necesita 2–4 GPU de gama alta ⇒ **USD 5.000–20.000/mes ($$ a $$$)** + personas, aunque se use poco. **IA del proveedor de observabilidad**: suele venir en planes superiores o con cargos por uso ($$). **Plataformas AIOps** (BigPanda, Moogsoft): licencia empresarial ($$ a $$$). Comparación clave: el costo por token es despreciable frente a un minuto caído del pago QR |
-| Recomendación | Agnóstico gracias a MCP; ejemplo: Bedrock o Vertex dentro de la cuenta del banco |
+| Recomendación | **Nombrarlos**: "Amazon Bedrock o Vertex AI dentro de la cuenta del banco", y agregar "gracias a MCP, el modelo se puede cambiar" |
 | Tu decisión | |
 
 ### D20. Fuente del grafo de topología
@@ -401,11 +405,11 @@ el despliegue."*
 ### D22. Herramienta de gestión de incidentes y on-call
 | | |
 |---|---|
-| Escogido | No nombrada |
+| Escogido | **PagerDuty** para on-call y escalamiento + **ServiceNow** como sistema de registro (ITSM). *(El borrador v1 no las nombraba.)* |
 | Alternativas | PagerDuty · incident.io · FireHydrant · Grafana IRM · ServiceNow (probable en un banco) · Opsgenie (Atlassian anunció su fin de venta; verificar fechas antes de mencionarlo) |
 | Trade-off | Lo que importa es el proceso; la herramienta es secundaria. ServiceNow suele ser el sistema de registro en banca; las otras son mejores para el flujo en vivo |
 | Costo | **PagerDuty**: ~USD 20–40+ por usuario al mes según el plan; 50 personas en on-call ≈ **USD 1.000–2.000/mes ($$)**. **incident.io / FireHydrant**: rango parecido. **Grafana IRM**: incluido en algunos planes de Grafana Cloud. **ServiceNow**: licencia cara (del orden de USD 100 por agente al mes), pero en un banco **ya está pagada**: el costo marginal es ≈0. Argumento económico: reutilizar el ITSM (IT Service Management) del banco y solo pagar la herramienta de on-call si hace falta |
-| Recomendación | No nombrar herramienta en la diapositiva; si preguntan: "integrado con el ITSM (IT Service Management) del banco, probablemente ServiceNow" |
+| Recomendación | **Nombrarlas en la diapositiva 9**: "PagerDuty para despertar al on-call y escalar; el incidente queda registrado en el ITSM (IT Service Management) del banco, por ejemplo ServiceNow". El proceso sigue siendo lo principal, pero el nombre suma |
 | Tu decisión | |
 
 ### D23. Estructura de roles del incidente
@@ -431,11 +435,11 @@ el despliegue."*
 ### D25. IDP (Internal Developer Platform)
 | | |
 |---|---|
-| Escogido | No nombrado |
+| Escogido | **Backstage** (CNCF). *(El borrador v1 no lo nombraba.)* |
 | Alternativas | **Backstage** (abierto, de Spotify / CNCF) · Port · Cortex · ServiceNow · portal propio |
 | Trade-off | Backstage es el estándar abierto, pero exige un equipo que lo mantenga. Port/Cortex son más rápidos de adoptar, pero son SaaS |
 | Costo | **Backstage**: licencia ≈0, pero exige un equipo de plataforma de **2–4 FTE** (≈ USD 12.000–24.000/mes) para mantenerlo y escribir plugins. **Port / Cortex**: SaaS por desarrollador (del orden de USD 30–70 por desarrollador al mes; 500 desarrolladores ≈ $$ a $$$). **ServiceNow** (si ya existe): costo marginal bajo. Para la mesa: el IDP (Internal Developer Platform) no es parte del costo de esta propuesta; se reutiliza lo que ya tenga el banco |
-| Recomendación | "IDP (por ejemplo, Backstage)" o adaptarse a lo que ya tenga el banco |
+| Recomendación | **Nombrarlo en la diapositiva 10**: "IDP con Backstage: plantillas que crean el SLO en Sloth, los dashboards y las alertas". Si el banco ya tiene otro portal, adaptarse |
 | Tu decisión | |
 
 ### D26. Motor de políticas

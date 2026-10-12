@@ -67,7 +67,7 @@ servidor MCP de observabilidad. Lo que les voy a mostrar es ejecutable, no solo 
 - Actor "Comercio" → recibe la confirmación.
 - Sistema externo "Core bancario AS400" ← vía IBM MQ.
 - Sistema externo "Sistema de pagos inmediatos / otros bancos" (Bre-B).
-- Sistema "Plataforma de observabilidad" (backends y SaaS) ← recibe telemetría.
+- Sistema "Plataforma de observabilidad" (Mimir, Tempo, Loki y Grafana) ← recibe telemetría.
 - Actores internos "Tribus de desarrollo" (despliegan por CI/CD) e "Incident Commander / on-call".
 Debajo, una franja con cuatro etiquetas: reto 1 → Eje 1, reto 2 → Eje 2, reto 3 → Eje 3, reto 4 → Eje 4.
 
@@ -147,8 +147,8 @@ tiene autoridad, y la tiene porque negocio la firmó."
 **Título:** El pipeline frena solo: antes, durante y después del despliegue.
 
 **Contenido:**
-- **Antes:** el job de GitHub Actions / GitLab CI consulta el Error Budget y el burn rate; si la
-  política dice "congelado", termina en `exit 1`.
+- **Antes:** el job de GitHub Actions / GitLab CI consulta el Error Budget y el burn rate (SLO como
+  código con **Sloth** / OpenSLO → reglas de Prometheus); si la política dice "congelado", termina en `exit 1`.
 - **Durante:** canary con Argo Rollouts (5% → 25% → 50% → 100%) y `AnalysisTemplate` contra Prometheus;
   si empeora, rollback automático.
 - **Después:** verificación de 30 min del burn rate y registro del evento de cambio.
@@ -156,7 +156,7 @@ tiene autoridad, y la tiene porque negocio la firmó."
 - Indicador de éxito: Change Failure Rate < 15%.
 
 **Diagrama:** flujo del pipeline de izquierda a derecha: Commit → Build y pruebas → **Gate 1: ¿hay
-Error Budget?** (consulta a la API de SLOs; rojo = alto) → Despliegue canary 5% → **Gate 2: análisis
+Error Budget?** (consulta a Prometheus las métricas de Error Budget que genera Sloth; rojo = alto) → Despliegue canary 5% → **Gate 2: análisis
 automático** (Prometheus: tasa de error y p99 del canary vs. versión estable; malo = rollback) → 25% →
 50% → 100% → **Gate 3: verificación posterior** → evento "cambio desplegado" enviado al catálogo de
 cambios (que luego consultará el servidor MCP). Una flecha punteada de excepción: "hotfix de
@@ -166,7 +166,7 @@ confiabilidad con aprobación manual y auditoría".
 "El reto uno dice que el CI/CD no detiene ni revierte. Fíjense que son dos verbos distintos y por eso
 el Quality Gate tiene tres momentos.
 Antes: el pipeline, en GitHub Actions o GitLab CI, llega al paso de producción y le pregunta a la
-fuente de SLOs cuánto Error Budget queda y a qué burn rate se está gastando. El burn rate es la
+fuente de SLOs —el SLO está escrito como código en Git con Sloth, que genera las reglas de Prometheus— cuánto Error Budget queda y a qué burn rate se está gastando. El burn rate es la
 velocidad de consumo: un burn rate de 14,4 se come el presupuesto del mes en unos dos días. Si la Error
 Budget Policy dice 'congelado', el paso termina con error y el despliegue no corre. Nadie tiene que
 acordarse: es autoejecutable. La única excepción es un hotfix de confiabilidad, con aprobación manual y
@@ -211,7 +211,7 @@ dentro. En cada uno: pods de microservicios con SDK/auto-instrumentación → **
 (`memory_limiter` → `filter` → `redaction` → `tail_sampling` → `batch`, y el connector `spanmetrics`
 antes del muestreo). Un tercer bloque, "Datacenter": adaptador IBM MQ instrumentado ↔ AS400, con un
 sobre que dice "traceparent en el header". Las salidas de ambos gateways van por OTLP con mTLS a
-"Backends de observabilidad" (métricas, trazas, logs) y a un pipeline separado "Auditoría regulatoria
+"Backends de observabilidad" (Mimir para métricas, Tempo para trazas, Loki para logs) y a un pipeline separado "Auditoría regulatoria
 (sin muestreo, inmutable)". Una línea roja punteada marca "frontera de la red del banco: ninguna PII
 la cruza".
 
@@ -336,8 +336,8 @@ como datos, nunca como instrucciones. La IA propone; el humano decide."
 1. *¿Darle a una IA acceso a la telemetría de producción de un banco no es un riesgo?* — Sí, y se
    controla: servidor MCP de solo lectura con mínimo privilegio, telemetría ya enmascarada en el
    Collector, defensa contra Indirect Prompt Injection (un log puede traer texto de un atacante, por
-   ejemplo en la descripción de una transferencia), auditoría de cada llamada, modelo en una red o
-   región aprobada y humano en el bucle para cualquier acción.
+   ejemplo en la descripción de una transferencia), auditoría de cada llamada, modelo dentro de la cuenta del banco
+   (Amazon Bedrock o Vertex AI) y humano en el bucle para cualquier acción.
 2. *¿Eso no es lo mismo que prender las alertas inteligentes de la herramienta?* — No. Eso es
    detección de anomalías aislada. Lo que propongo es una capa de contexto estandarizada y neutral:
    cualquier modelo puede usarla, y el razonamiento queda trazable herramienta por herramienta.
@@ -399,7 +399,8 @@ base de la IA causal y de la auto-remediación futura, siempre con humano en el 
 
 **Contenido:**
 - Roles: Incident Commander (coordina, no toca teclado) · Operations Lead · Communications Lead · Scribe.
-- Minuto 0–5: declarar SEV1, abrir el canal, asignar roles, medir el impacto con el SLO y el burn rate.
+- Minuto 0–5: PagerDuty despierta al on-call; declarar SEV1, abrir el canal, asignar roles, medir el impacto
+  con el SLO y el burn rate; el incidente queda registrado en ServiceNow.
 - Minuto 5–15: preguntar **qué cambió** (grafo + `cambios_recientes` vía MCP).
 - **Mitigar antes de diagnosticar:** rollback, apagar el feature flag, failover a la otra nube, load
   shedding, circuit breaker.
@@ -414,7 +415,7 @@ programación del post-mortem. Encima, cuatro carriles: IC, Ops Lead, Comms Lead
 "Ahora juntemos todo en el peor momento: 12:30 de un día de quincena y el pago QR falla en un 30%.
 Primero, la alerta. No llega por CPU: llega porque el burn rate pasó de 14,4 veces en la ventana de una
 hora. Ya sabemos que es grave porque está atada al SLO.
-Como Incident Commander, en los primeros cinco minutos declaro SEV1, abro el canal y asigno roles: un
+La alerta de burn rate llega por PagerDuty al on-call. Como Incident Commander, en los primeros cinco minutos declaro SEV1, abro el canal y asigno roles: un
 Operations Lead que ejecuta los cambios técnicos, un Communications Lead que habla con negocio y con los
 canales, y un Scribe que lleva la línea de tiempo. La regla de oro del Incident Commander: no toco el
 teclado. Si me pongo a depurar, nadie coordina.
@@ -449,8 +450,8 @@ las hipótesis. Eso es lo que baja el Time to Restore."
   factores contribuyentes, acciones con dueño y fecha (prevenir · detectar · mitigar).
 - Las acciones vuelven al Eje 1: SLOs, alertas y Quality Gate más finos.
 - Team Topologies: Plataforma como habilitador; "you build it, you run it": cada tribu atiende su SLO.
-- IDP de autoservicio: SLO como código, dashboards y alertas por plantilla; toil < 50%, Runbook as Code,
-  Game Days.
+- IDP de autoservicio con Backstage: SLO como código (Sloth), dashboards y alertas por plantilla; toil < 50%,
+  Runbook as Code, Game Days.
 - Hoja de ruta: 30 días SLO + burn rate · 60 días Quality Gate + gateway con PII · 90 días tail
   sampling medido + MCP de solo lectura.
 
@@ -470,7 +471,7 @@ análisis automático, y esa es una acción que vuelve al eje uno. Así se cierr
 Y para que esto escale a más de un servicio, la cultura. Mi equipo de plataforma es un habilitador, en
 el sentido de Team Topologies, no un policía. Cada tribu opera lo que construye, 'you build it, you run
 it', y atiende sus propios SLOs; a nosotros nos alertan solo si falla la plataforma de telemetría. Para
-que eso no sea una carga, todo va al IDP (Internal Developer Platform) como autoservicio: el SLO como
+que eso no sea una carga, todo va al IDP (Internal Developer Platform) en Backstage como autoservicio: el SLO como
 código, los dashboards y las alertas salen de plantillas. Eliminamos toil: menos del 50% del tiempo en
 trabajo manual, runbooks ejecutables y Game Days de caos controlado.
 Empezamos pequeño: en 30 días, SLO del pago QR y alertas de burn rate; en 60, Quality Gate y gateway
