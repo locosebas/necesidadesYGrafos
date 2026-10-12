@@ -96,3 +96,17 @@ Leer 5 minutos antes de cada sesión. Cada nombre con su imagen para recordarlo.
 | **SFC / SIC** | Policía de los bancos / policía de los datos | SFC: ciberseguridad, nube, terceros |
 | **ISO 27001 / SOC 2 / PCI DSS** | Certificados del proveedor / tarjetas | Exigir al SaaS; tarjeta: primeros 6 y últimos 4 |
 | **Well-Architected (6 pilares)** | "**Seguro, Confiable, Rápido, Barato, Operable y Verde**" | Security, Reliability, Performance Efficiency, Cost Optimization, Operational Excellence, Sustainability |
+
+## Repaso final (12 oct.)
+
+| Nombre | Imagen | Qué es |
+|---|---|---|
+| **Error Budget Policy** | La **política de gastos de la casa** cuando se acaba la plata del mes | Reglas internas, firmadas con negocio, por umbral de presupuesto (no es el SLA) |
+| **ArgoCD vs. Argo Rollouts** | **Qué** versión vs. **cómo** se reemplaza | ArgoCD = GitOps; Argo Rollouts = canary por etapas con `AnalysisTemplate` y rollback |
+| **Flagger** | El **árbitro de línea** que levanta la bandera | Canary con análisis y rollback (con Istio/NGINX) |
+| **Ventana móvil de 28 días** | Ventana que **se desliza**, no hoja que se arranca | Sin "reset" el día 1; 28 = 4 semanas exactas |
+| **OTLP: 4317 / 4318** | Alfabeto: **g**RPC (17) antes que **h**TTP (18) | Puertos del protocolo nativo de OpenTelemetry |
+| **Auditoría vs. telemetría** | Evidencia legal ≠ herramienta de operación | Pipeline de auditoría completo, nunca muestreado, inmutable (**WORM**: S3 Object Lock), retención legal |
+| **Roles del incidente** | El **barco en tormenta**: capitán, jefe de máquinas, radio operador, bitácora | **Incident** Commander, Operations Lead, Communications Lead, **Scribe** (2 especiales + 2 Leads) |
+| **5 porqués** | Una **cadena** vs. una **red** (grafo de factores) | Lineal y termina en una persona; complementar con factores contribuyentes y "¿qué lo hizo parecer razonable?" |
+| **Modelo C4** | **País → ciudad → barrio → casa** (Google Maps) | **C**ontext, **C**ontainer (cualquier cosa desplegable, no Docker), **C**omponent, **C**ode. En la presentación: Context + Container |
