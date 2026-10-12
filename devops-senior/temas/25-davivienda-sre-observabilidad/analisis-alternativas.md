@@ -149,30 +149,34 @@ trabajo de las tribus ni las vigilamos paso a paso.
 3. **Puntos de extensión**: la tribu agrega lo que quiera **además** de los mínimos (pruebas de integración,
    de contrato, de carga, umbrales de cobertura más altos). La calidad extra es responsabilidad y decisión
    de cada tribu; nosotros damos el piso, no el techo.
-4. **Si quitan un mínimo, el pipeline no despliega.** Mecanismos, de menos a más fuerte:
-   - **Rulesets de GitHub con workflows obligatorios**: la organización exige que el workflow de la plataforma
-     pase antes de fusionar a la rama principal; la tribu no lo puede quitar desde su repositorio.
-   - **Deployment protection rules** del environment `production`: una app de Plataforma aprueba o rechaza
-     cada despliegue (por ejemplo, consulta el Error Budget).
-   - **OIDC (OpenID Connect) atado a la plantilla**: la política de confianza de AWS y GCP solo entrega
-     credenciales de despliegue si el token trae el claim `job_workflow_ref` del reusable workflow oficial.
-     Si la tribu copia, modifica o borra la plantilla, **no obtiene credenciales: el despliegue no arranca**.
-     Es el control más fuerte y no depende de que nadie revise YAMLs.
-   - **Admission controller en el clúster** (OPA Gatekeeper o Kyverno) como última red: rechaza imágenes sin
-     firma o sin SBOM aunque alguien despliegue por fuera del pipeline.
+4. **El gate principal es la deployment protection rule** del environment `production`: una GitHub App de
+   Plataforma recibe cada despliegue, consulta el Error Budget y los mínimos de la plantilla, y lo aprueba o
+   lo rechaza. Es mejor que un paso en el YAML porque **vive en el environment, no en el workflow**: aunque la
+   tribu borre pasos, el job que va a producción queda en pausa hasta que Plataforma lo aprueba. Tiene **dos
+   huecos que se cierran así**:
+   - *Hueco 1: el job no declara `environment: production`* (entonces la regla nunca se activa). Se cierra con
+     **OIDC (OpenID Connect)**: AWS y GCP solo entregan credenciales de producción a tokens cuyo `sub` diga
+     `environment:production` (y, más estricto, cuyo `job_workflow_ref` sea la plantilla oficial). Sin
+     environment no hay credenciales; con environment, la regla siempre corre.
+   - *Hueco 2: quien administra el repositorio puede editar o quitar la regla.* Se cierra definiendo los
+     environments y sus reglas **como código** (Terraform con el provider de GitHub) gestionado por Plataforma;
+     las tribus no son administradoras del repositorio.
+   - **Complementos:** rulesets de GitHub con workflows obligatorios (no se fusiona sin pasar la plantilla) y
+     un admission controller (OPA Gatekeeper o Kyverno) como última red para imágenes sin firma desplegadas
+     por fuera del pipeline.
 5. **Gobierno de las plantillas como producto**: versionado semántico, ventana de migración cuando cambia
    una versión mayor, proceso de **excepción** documentado (con dueño y fecha de vencimiento) y
    contribuciones de las tribus por *inner source* (pull requests a las plantillas).
 
 | | |
 |---|---|
-| Escogido | **Plantillas por stack como reusable workflows** con mínimos obligatorios + puntos de extensión; imposición con rulesets, deployment protection rules y **OIDC atado a `job_workflow_ref`**; admission controller como red final |
+| Escogido | **Plantillas por stack como reusable workflows** con mínimos obligatorios + puntos de extensión; **gate principal: deployment protection rule** del environment `production` (GitHub App de Plataforma), blindada con OIDC (`environment:production` / `job_workflow_ref`) y environments como código en Terraform; rulesets y admission controller como complementos |
 | Alternativas | Un paso suelto en el YAML de cada tribu (se borra fácil) · pipelines 100% centrales sin extensión (Plataforma se vuelve cuello de botella y "policía") · cada tribu libre con solo auditoría posterior (no hay gate real) · gate solo en el CD (Argo CD sync windows / pre-sync hooks) o solo en el clúster |
 | Trade-off | Plantillas con mínimos: consistencia y seguridad sin quitar autonomía, pero Plataforma tiene que mantener N plantillas como producto. 100% central: control total, pero lento y genera resistencia. Libre: rápido, pero no cumple el reto 1 del caso ("el CI/CD no detiene") |
 | Costo | Licencias ≈0 sobre GitHub Enterprise. El costo real es de personas: mantener ~5 plantillas ≈ 0,5–1 FTE (≈ USD 3.000–6.000/mes). Admission controller: unos pods por clúster ($). Lo compensa: cada tribu deja de mantener su propio pipeline de seguridad (decenas de tribus × horas) y se evita un SEV1 por despliegue sin gate |
 | Pregunta para la mesa | **"¿Hoy quién es dueño de los pipelines: cada tribu o un equipo central? ¿Ya existen plantillas corporativas?"** Hacerla en la exposición o en los 10 minutos de preguntas: muestra que el diseño depende de la organización, no solo de la herramienta |
-| Recomendación | Presentar el modelo de plantillas con mínimos y extensión, y la frase: *"Como equipo habilitador damos el piso, no el techo: la plantilla trae los mínimos de calidad, seguridad y confiabilidad, y si alguien los quita el pipeline no obtiene credenciales para desplegar. Lo que cada tribu agregue encima es su decisión."* |
-| Tu decisión | **Control en Plataforma con plantillas por lenguaje; mínimos obligatorios que, si se quitan, impiden desplegar; espacio para que cada tribu agregue más pruebas; preguntar a la mesa quién controla hoy los pipelines** |
+| Recomendación | Presentar el modelo de plantillas con mínimos y extensión, y la frase: *"Como equipo habilitador damos el piso, no el techo: la plantilla trae los mínimos de calidad, seguridad y confiabilidad, y el despliegue a producción lo aprueba una deployment protection rule de Plataforma, que la tribu no puede saltarse. Lo que cada tribu agregue encima es su decisión."* |
+| Tu decisión | **Control en Plataforma con plantillas por lenguaje; mínimos obligatorios que, si se quitan, impiden desplegar; espacio para que cada tribu agregue más pruebas; preguntar a la mesa quién controla hoy los pipelines. Gate principal: deployment protection rule** |
 
 ### D8. Herramienta de progressive delivery (canary)
 | | |

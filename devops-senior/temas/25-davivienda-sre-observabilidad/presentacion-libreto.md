@@ -150,8 +150,8 @@ tiene autoridad, y la tiene porque negocio la firmó."
 - **Antes:** un reusable workflow de GitHub Actions (runners dentro del banco con ARC, credenciales por OIDC) consulta el Error Budget y el burn rate (SLO como
   código con **Sloth** / OpenSLO → reglas de Prometheus); si la política dice "congelado", termina en `exit 1`.
 - **Quién controla:** Plataforma publica plantillas por lenguaje con mínimos obligatorios (pruebas,
-  seguridad, gate de Error Budget); cada tribu agrega lo que quiera encima. Si quita un mínimo, OIDC no le
-  entrega credenciales y el despliegue no arranca.
+  seguridad, gate de Error Budget); cada tribu agrega lo que quiera encima. El paso a producción lo aprueba
+  una **deployment protection rule** de Plataforma; sin el environment `production`, OIDC no entrega credenciales.
 - **Durante:** canary con Argo Rollouts (5% → 25% → 50% → 100%) y `AnalysisTemplate` contra Prometheus;
   si empeora, rollback automático.
 - **Después:** verificación de 30 min del burn rate y registro del evento de cambio.
@@ -174,8 +174,10 @@ velocidad de consumo: un burn rate de 14,4 se come el presupuesto del mes en uno
 Budget Policy dice 'congelado', el paso termina con error y el despliegue no corre. Nadie tiene que
 acordarse: es autoejecutable. ¿Y si una tribu borra ese paso? No puede: el paso vive en la plantilla de
 Plataforma, una por lenguaje, con los mínimos de calidad, seguridad y confiabilidad. Cada tribu agrega
-las pruebas que quiera encima —damos el piso, no el techo—, pero si quita un mínimo, AWS y GCP no le
-entregan credenciales por OIDC y el despliegue no arranca. La única excepción es un hotfix de confiabilidad, con aprobación manual y
+las pruebas que quiera encima —damos el piso, no el techo—, el paso a producción no depende de su YAML:
+lo aprueba una deployment protection rule del environment de producción, una app de Plataforma que
+consulta el Error Budget y los mínimos. Y si alguien intenta desplegar sin ese environment, AWS y GCP
+no le entregan credenciales por OIDC: el despliegue no arranca. La única excepción es un hotfix de confiabilidad, con aprobación manual y
 auditoría.
 Durante: si el gate deja pasar, no desplegamos al 100%. Argo Rollouts manda la versión nueva al 5% del
 tráfico y compara, contra Prometheus, la tasa de error y el p99 del canary frente a la versión estable.
