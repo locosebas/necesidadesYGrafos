@@ -41,7 +41,7 @@ es hablar en **valores relativos** ("el SaaS cuesta 3–5× más por GB que el a
 | Concepto | Precio aproximado |
 |---|---|
 | Ingesta de logs en SaaS (Grafana Cloud, CloudWatch, Cloud Logging) | ~USD 0,50/GB |
-| Logs en Datadog | ~USD 0,10/GB ingerido + ~USD 1,70 por millón de eventos indexados (15 días) |
+| Logs en Datadog | Dos cobros: ~USD 0,10/GB **ingerido** (todo lo que envías) + ~USD 1,70 por millón de eventos **indexados** (solo lo que quieres poder buscar, con 15 días de retención). A volumen alto, la indexación es la mayor parte de la factura |
 | APM (Application Performance Monitoring) de Datadog | ~USD 31–40 por host al mes |
 | Métricas en Grafana Cloud | ~USD 6–8 por cada 1.000 series activas al mes |
 | Almacenamiento de objetos (S3 / GCS) | ~USD 0,02/GB al mes (clases frías: 4–20× menos) |
@@ -220,7 +220,7 @@ es hablar en **valores relativos** ("el SaaS cuesta 3–5× más por GB que el a
 | Escogido | Connector `count` en el Collector |
 | Alternativas | Que la app emita métricas directamente (lo ideal a largo plazo) · métricas derivadas de logs en el proveedor (pagas la ingesta igual) · reglas de grabación en Loki |
 | Trade-off | En el Collector: ahorro inmediato sin tocar código. En la app: más limpio, pero exige cambios en cientos de repositorios |
-| Costo | Connector `count`: ≈0 (CPU del Collector). Ahorro: una línea de log informativa que solo se contaba puede costar ~USD 0,50/GB; convertirla en una métrica cuesta unas pocas series (centavos). Si el 20–30% de los logs son de ese tipo, con la línea base (logs = USD 45.000/mes) son **USD 9.000–13.000/mes**. Métricas derivadas en el proveedor: pagas la ingesta completa igual, el ahorro es casi nulo |
+| Costo | Connector `count`: ≈0 (CPU del Collector). Ahorro: una línea de log informativa que solo se contaba puede costar ~USD 0,50/GB; convertirla en una métrica cuesta unas pocas series (centavos). Si el 20–30% de los logs son de ese tipo, con la línea base (logs = USD 45.000/mes) son **USD 9.000–13.000/mes**. Métricas derivadas en el proveedor: depende de cómo cobra. En Datadog **sí ahorra** si después no indexas esos logs (pagas la ingesta barata, ~USD 0,10/GB, y te evitas la indexación, que es lo caro), pero el dato igual sale del banco y cada métrica generada se cobra como métrica personalizada. En proveedores que cobran solo por GB ingerido (~USD 0,50/GB), el ahorro es casi nulo |
 | Recomendación | Collector ahora; la app como meta del SDK/plantilla corporativa |
 | Tu decisión | |
 
