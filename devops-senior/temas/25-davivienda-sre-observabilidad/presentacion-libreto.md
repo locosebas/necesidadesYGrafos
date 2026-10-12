@@ -149,6 +149,9 @@ tiene autoridad, y la tiene porque negocio la firmó."
 **Contenido:**
 - **Antes:** un reusable workflow de GitHub Actions (runners dentro del banco con ARC, credenciales por OIDC) consulta el Error Budget y el burn rate (SLO como
   código con **Sloth** / OpenSLO → reglas de Prometheus); si la política dice "congelado", termina en `exit 1`.
+- **Quién controla:** Plataforma publica plantillas por lenguaje con mínimos obligatorios (pruebas,
+  seguridad, gate de Error Budget); cada tribu agrega lo que quiera encima. Si quita un mínimo, OIDC no le
+  entrega credenciales y el despliegue no arranca.
 - **Durante:** canary con Argo Rollouts (5% → 25% → 50% → 100%) y `AnalysisTemplate` contra Prometheus;
   si empeora, rollback automático.
 - **Después:** verificación de 30 min del burn rate y registro del evento de cambio.
@@ -169,7 +172,10 @@ Antes: el pipeline de GitHub Actions —un reusable workflow que mantiene Plataf
 fuente de SLOs —el SLO está escrito como código en Git con Sloth, que genera las reglas de Prometheus— cuánto Error Budget queda y a qué burn rate se está gastando. El burn rate es la
 velocidad de consumo: un burn rate de 14,4 se come el presupuesto del mes en unos dos días. Si la Error
 Budget Policy dice 'congelado', el paso termina con error y el despliegue no corre. Nadie tiene que
-acordarse: es autoejecutable. La única excepción es un hotfix de confiabilidad, con aprobación manual y
+acordarse: es autoejecutable. ¿Y si una tribu borra ese paso? No puede: el paso vive en la plantilla de
+Plataforma, una por lenguaje, con los mínimos de calidad, seguridad y confiabilidad. Cada tribu agrega
+las pruebas que quiera encima —damos el piso, no el techo—, pero si quita un mínimo, AWS y GCP no le
+entregan credenciales por OIDC y el despliegue no arranca. La única excepción es un hotfix de confiabilidad, con aprobación manual y
 auditoría.
 Durante: si el gate deja pasar, no desplegamos al 100%. Argo Rollouts manda la versión nueva al 5% del
 tráfico y compara, contra Prometheus, la tasa de error y el p99 del canary frente a la versión estable.
@@ -181,6 +187,9 @@ Las alertas siguen el modelo multi-window, multi-burn-rate del SRE Workbook de G
 una hora despierta a alguien, 6 veces en seis horas también, y 1 vez en tres días abre un ticket. Así
 no despertamos a nadie por un pico de dos minutos, pero tampoco se nos escapa una fuga lenta."
 
+**Pregunta para hacerle a la mesa:** *"¿Hoy quién es dueño de los pipelines: cada tribu o un equipo
+central? ¿Ya existen plantillas corporativas?"*
+
 **Preguntas probables:**
 1. *Se acabó el Error Budget, pero negocio exige lanzar una campaña el viernes. ¿Qué haces?* — No es
    un "no" técnico: aplico la Error Budget Policy y escalo con datos. Ofrezco alternativas: feature
@@ -190,6 +199,9 @@ no despertamos a nadie por un pico de dos minutos, pero tampoco se nos escapa un
    por picos que no ponen en riesgo el SLO y no ve las fugas lentas. El burn rate liga la alerta al
    impacto real sobre el presupuesto; la ventana corta además hace que la alerta se apague rápido
    cuando se arregla.
+3. *¿Eso no convierte a Plataforma en un cuello de botella o en policía?* — No: somos habilitadores.
+   Solo imponemos el piso mínimo; las tribus extienden la plantilla sin pedirnos permiso y contribuyen
+   mejoras por pull request (inner source). Las excepciones existen, con dueño y fecha de vencimiento.
 
 ---
 

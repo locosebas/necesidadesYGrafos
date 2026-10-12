@@ -126,15 +126,53 @@ es hablar en **valores relativos** ("el SaaS cuesta 3–5× más por GB que el a
 | Recomendación | **GitHub Actions** en la diapositiva, con la justificación anterior. Y una frase para cubrir el otro caso: *"Si el código del banco está en GitLab, el diseño es el mismo: el gate es un contenedor que consulta Prometheus y se impone con environments protegidos y aprobaciones de despliegue de GitLab CI. La lógica es portable; la plataforma la decide dónde vive el código"* |
 | Tu decisión | |
 
-### D7. Cómo se implementa el gate previo
+### D7. Quién controla los pipelines y cómo se impone el gate
+
+> *(El borrador v1 lo reducía a "un paso que termina en `exit 1`". La pregunta de fondo no es técnica:
+> es **quién es dueño de los pipelines**.)*
+
+**Panorama.** Un gate que una tribu puede borrar de su YAML no es un gate. Antes de escoger mecanismo hay
+que responder: **¿quién controla el pipeline: cada tribu o un equipo central?** Eso es lo primero que hay
+que **preguntarle a la mesa** (ver abajo). Si la decisión es nuestra, el modelo es el de un **equipo de
+plataforma habilitador** (Team Topologies): damos el **camino pavimentado** (*golden path*), no hacemos el
+trabajo de las tribus ni las vigilamos paso a paso.
+
+**El modelo propuesto: plantillas con mínimos obligatorios y espacio para crecer**
+
+1. **Plataforma es dueña de las plantillas**, una por stack tecnológico (Java/Maven, Node.js, Python, .NET,
+   Go...), porque cada lenguaje tiene sus propias herramientas de build, pruebas y análisis. Se publican como
+   **reusable workflows** de GitHub Actions, versionadas (`@v2`) y con changelog.
+2. **Mínimos obligatorios (no negociables)** en cada plantilla: build, pruebas unitarias, SAST (Static
+   Application Security Testing, análisis estático de seguridad), SCA (Software Composition Analysis, análisis
+   de dependencias), escaneo de secretos, escaneo de la imagen, SBOM (Software Bill of Materials, inventario
+   de componentes) y firma de la imagen, **gate de Error Budget** y despliegue con Argo Rollouts.
+3. **Puntos de extensión**: la tribu agrega lo que quiera **además** de los mínimos (pruebas de integración,
+   de contrato, de carga, umbrales de cobertura más altos). La calidad extra es responsabilidad y decisión
+   de cada tribu; nosotros damos el piso, no el techo.
+4. **Si quitan un mínimo, el pipeline no despliega.** Mecanismos, de menos a más fuerte:
+   - **Rulesets de GitHub con workflows obligatorios**: la organización exige que el workflow de la plataforma
+     pase antes de fusionar a la rama principal; la tribu no lo puede quitar desde su repositorio.
+   - **Deployment protection rules** del environment `production`: una app de Plataforma aprueba o rechaza
+     cada despliegue (por ejemplo, consulta el Error Budget).
+   - **OIDC (OpenID Connect) atado a la plantilla**: la política de confianza de AWS y GCP solo entrega
+     credenciales de despliegue si el token trae el claim `job_workflow_ref` del reusable workflow oficial.
+     Si la tribu copia, modifica o borra la plantilla, **no obtiene credenciales: el despliegue no arranca**.
+     Es el control más fuerte y no depende de que nadie revise YAMLs.
+   - **Admission controller en el clúster** (OPA Gatekeeper o Kyverno) como última red: rechaza imágenes sin
+     firma o sin SBOM aunque alguien despliegue por fuera del pipeline.
+5. **Gobierno de las plantillas como producto**: versionado semántico, ventana de migración cuando cambia
+   una versión mayor, proceso de **excepción** documentado (con dueño y fecha de vencimiento) y
+   contribuciones de las tribus por *inner source* (pull requests a las plantillas).
+
 | | |
 |---|---|
-| Escogido | Un paso del pipeline que consulta la API y termina en `exit 1` |
-| Alternativas | **Deployment protection rule** del environment de GitHub (app externa que aprueba o rechaza) · admission controller en el clúster (OPA Gatekeeper / Kyverno) que rechaza el despliegue · gate en ArgoCD (sync window / pre-sync hook) |
-| Trade-off | El paso en el pipeline es simple pero un equipo lo puede borrar de su YAML. La protection rule o el admission controller lo hacen **obligatorio y centralizado**, pero son más complejos |
-| Costo | Paso en el pipeline: ≈0. Deployment protection rule: ≈0 si el plan de GitHub lo incluye (GitHub Enterprise), más una app pequeña que la responda ($). OPA Gatekeeper / Kyverno: licencia ≈0, unos pods por clúster ($) y ~0,1 FTE para mantener las políticas. Todas son baratas comparadas con **un** incidente SEV1 evitado |
-| Recomendación | Mostrar el paso simple, y mencionar que en el banco se impone de forma central (protection rule o política en el clúster) para que nadie se lo salte |
-| Tu decisión | |
+| Escogido | **Plantillas por stack como reusable workflows** con mínimos obligatorios + puntos de extensión; imposición con rulesets, deployment protection rules y **OIDC atado a `job_workflow_ref`**; admission controller como red final |
+| Alternativas | Un paso suelto en el YAML de cada tribu (se borra fácil) · pipelines 100% centrales sin extensión (Plataforma se vuelve cuello de botella y "policía") · cada tribu libre con solo auditoría posterior (no hay gate real) · gate solo en el CD (Argo CD sync windows / pre-sync hooks) o solo en el clúster |
+| Trade-off | Plantillas con mínimos: consistencia y seguridad sin quitar autonomía, pero Plataforma tiene que mantener N plantillas como producto. 100% central: control total, pero lento y genera resistencia. Libre: rápido, pero no cumple el reto 1 del caso ("el CI/CD no detiene") |
+| Costo | Licencias ≈0 sobre GitHub Enterprise. El costo real es de personas: mantener ~5 plantillas ≈ 0,5–1 FTE (≈ USD 3.000–6.000/mes). Admission controller: unos pods por clúster ($). Lo compensa: cada tribu deja de mantener su propio pipeline de seguridad (decenas de tribus × horas) y se evita un SEV1 por despliegue sin gate |
+| Pregunta para la mesa | **"¿Hoy quién es dueño de los pipelines: cada tribu o un equipo central? ¿Ya existen plantillas corporativas?"** Hacerla en la exposición o en los 10 minutos de preguntas: muestra que el diseño depende de la organización, no solo de la herramienta |
+| Recomendación | Presentar el modelo de plantillas con mínimos y extensión, y la frase: *"Como equipo habilitador damos el piso, no el techo: la plantilla trae los mínimos de calidad, seguridad y confiabilidad, y si alguien los quita el pipeline no obtiene credenciales para desplegar. Lo que cada tribu agregue encima es su decisión."* |
+| Tu decisión | **Control en Plataforma con plantillas por lenguaje; mínimos obligatorios que, si se quitan, impiden desplegar; espacio para que cada tribu agregue más pruebas; preguntar a la mesa quién controla hoy los pipelines** |
 
 ### D8. Herramienta de progressive delivery (canary)
 | | |
