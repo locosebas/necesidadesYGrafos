@@ -63,3 +63,36 @@ Leer 5 minutos antes de cada sesión. Cada nombre con su imagen para recordarlo.
 | **BFS / DFS** | **B**road: piedra en el lago / **D**eep: laberinto | BFS por niveles → radio de explosión (grafo invertido). DFS al fondo → causa raíz |
 | **Servidor MCP de observabilidad** | El embudo | `obtener_grafo`, `consultar_slo`, `buscar_trazas`, `buscar_logs(trace_id)`, **`cambios_recientes`** |
 | **Indirect Prompt Injection** | La orden escondida en los datos (OWASP LLM01) | Defensas: mínimo privilegio, **humano en el bucle**, datos marcados como no confiables, hooks + auditoría |
+
+## Bloque D — Incidentes y cultura
+
+| Nombre | Imagen | Qué es |
+|---|---|---|
+| **Roles del incidente** | "El **comandante** manda, el **operador** opera, el **comunicador** informa, el **escriba** anota" | Incident Commander (no toca teclado), Operations Lead, Communications Lead, Scribe (+ SMEs) |
+| **Mitigar antes de diagnosticar** | El jefe de bomberos no coge la manguera | Primero detener el sangrado (rollback, flag, failover); el porqué después |
+| **Circuit Breaker** | El **taco** del tablero eléctrico | Cerrado → abierto (fallback) → semi-abierto (prueba). Evita fallas en cascada |
+| **Load Shedding / Bulkhead** | **Deslastre de carga** (racionamiento) / **mamparos** del barco | Cortar lo no crítico (saldos) para salvar lo crítico (pagos) / aislar recursos |
+| **Graceful degradation** | Tu "bypass" de la tubería | Servicio de menor calidad en vez de parar. El fallback de antifraude lo decide **Riesgo** |
+| **Post-mortem blameless** | Se cuenta **qué** pasó, no **quién** | Impacto, línea de tiempo (MTTD/MTTR), causa raíz, factores contribuyentes, acciones prevenir/detectar/mitigar |
+| **Timeouts largos** | Más timeout ≠ más capacidad | Un timeout largo agota hilos y propaga la falla en cascada (Ley de Little) |
+| **Toil** | **T**areas **O**perativas **I**dénticas y **L**ineales | Manual, repetitivo, automatizable. Meta Google: **< 50%** del tiempo |
+| **"You build it, you run it"** | Cada Tribu cuida a sus hijos | Las Tribus atienden sus SLOs; observabilidad solo si falla la plataforma |
+| **Chaos Engineering** | Un **mono** suelto desconectando cables (**Chaos Monkey**) | Inyectar fallas controladas; se practica en **Game Days** (el partido amistoso) |
+| **Carga vs. caos** | Mucho tráfico vs. cosas rotas | Load testing (k6, JMeter) mide capacidad; Chaos (LitmusChaos, Chaos Mesh, AWS FIS) mide resiliencia |
+
+## Bloque E — Temas aledaños
+
+| Nombre | Imagen | Qué es |
+|---|---|---|
+| **Idempotency Key** | Una clave por cada intención de pago | El reintento devuelve el mismo resultado sin cobrar dos veces |
+| **Retry Storm / Thundering Herd** | La **estampida** de búfalos | Todos reintentan a la vez y vuelven a tumbar el servicio |
+| **Exponential Backoff + Jitter** | La salida escalonada del estadio | Esperas crecientes (1, 2, 4, 8 s) con azar para no sincronizarse |
+| **RTO / RPO** | Videojuego: cuánto tarda en **cargar** / qué tan vieja es la **partida guardada** | **T**iempo de recuperación / **P**unto de datos perdidos. Pagos: RPO ≈ 0 |
+| **Estrategias DR** | De barato a caro | Backup & Restore → Pilot Light → Warm Standby → Activo-activo |
+| **Percentiles** | Nunca se promedian (ni ponderados) | Usar **Histogram** (cajones que se suman); **Summary** no se agrega |
+| **Ley de Little** | La fila del banco | **L = λ × W**: si la latencia ×4, la concurrencia ×4 con el mismo tráfico |
+| **Seguridad de la plataforma** | Tres capas | Datos sin PII; pipeline con mTLS, receivers autenticados, secretos en Key Vault; acceso con SSO, RBAC, auditoría (Zero Trust) |
+| **Ley 1581 de 2012** | "1581: tu dato es tuyo" (Habeas Data) | Datos personales en Colombia; la vigila la **SIC** |
+| **SFC / SIC** | Policía de los bancos / policía de los datos | SFC: ciberseguridad, nube, terceros |
+| **ISO 27001 / SOC 2 / PCI DSS** | Certificados del proveedor / tarjetas | Exigir al SaaS; tarjeta: primeros 6 y últimos 4 |
+| **Well-Architected (6 pilares)** | "**Seguro, Confiable, Rápido, Barato, Operable y Verde**" | Security, Reliability, Performance Efficiency, Cost Optimization, Operational Excellence, Sustainability |
