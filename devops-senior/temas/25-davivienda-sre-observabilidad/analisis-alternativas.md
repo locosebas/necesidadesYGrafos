@@ -118,11 +118,12 @@ es hablar en **valores relativos** ("el SaaS cuesta 3–5× más por GB que el a
 ### D6. Plataforma de CI/CD para el gate
 | | |
 |---|---|
-| Escogido | "GitHub Actions o GitLab CI" (las dos del enunciado) |
+| Escogido | **GitHub Actions** *(el borrador v1 nombraba las dos sin escoger)* |
 | Alternativas | Escoger una sola · Jenkins · Azure DevOps · gate en el CD (ArgoCD) en vez del CI |
-| Trade-off | Nombrar ambas muestra neutralidad; escoger una permite mostrar un ejemplo concreto. Tu nivel en GitLab CI es 🔴 |
+| Trade-off | **El CI vive donde vive el código**: GitHub Actions solo corre sobre repositorios de GitHub y GitLab CI sobre repositorios de GitLab (espejar el repositorio a otra plataforma solo para el CI agrega fricción y otro punto de falla). Por eso la elección real la decide dónde está el código del banco, no el gusto. Nombrar ambas parece neutral pero suena indeciso; escoger una permite mostrar un ejemplo concreto y defendible. Tu nivel en GitLab CI es 🔴 |
 | Costo | GitHub Actions / GitLab CI: si el banco ya tiene licencia, el gate es ≈0 marginal (segundos de runner por despliegue). Cambiar de plataforma de CI/CD solo por el gate sería $$$ en migración y personas; nunca lo propongas. Jenkins: licencia ≈0 pero alto costo de operación (servidores, plugins, parches) |
-| Recomendación | Ejemplo concreto en GitHub Actions (tu fuerte) + "lo mismo aplica a GitLab CI con environments protegidos" |
+| Por qué GitHub Actions | 1) **Environments con deployment protection rules**: el gate se vuelve obligatorio a nivel de plataforma, no un paso que una tribu pueda borrar del YAML (D7). 2) **Reusable workflows** (flujos reutilizables) mantenidos por Plataforma: todas las tribus llaman el mismo gate central, una sola versión que gobernar. 3) **OIDC (OpenID Connect) hacia AWS y GCP**: el pipeline obtiene credenciales temporales en las dos nubes sin guardar llaves de larga duración (DevSecOps lo valora mucho). 4) **Runners autoalojados dentro de la red del banco con ARC (Actions Runner Controller) en Kubernetes**: el gate necesita consultar el Prometheus interno, que no está expuesto a internet; además la ejecución no sale del banco. 5) Es tu herramienta más fuerte: podrás responder en profundidad las preguntas de la mesa |
+| Recomendación | **GitHub Actions** en la diapositiva, con la justificación anterior. Y una frase para cubrir el otro caso: *"Si el código del banco está en GitLab, el diseño es el mismo: el gate es un contenedor que consulta Prometheus y se impone con environments protegidos y aprobaciones de despliegue de GitLab CI. La lógica es portable; la plataforma la decide dónde vive el código"* |
 | Tu decisión | |
 
 ### D7. Cómo se implementa el gate previo

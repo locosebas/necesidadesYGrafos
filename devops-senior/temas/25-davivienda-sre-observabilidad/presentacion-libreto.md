@@ -147,7 +147,7 @@ tiene autoridad, y la tiene porque negocio la firmó."
 **Título:** El pipeline frena solo: antes, durante y después del despliegue.
 
 **Contenido:**
-- **Antes:** el job de GitHub Actions / GitLab CI consulta el Error Budget y el burn rate (SLO como
+- **Antes:** un reusable workflow de GitHub Actions (runners dentro del banco con ARC, credenciales por OIDC) consulta el Error Budget y el burn rate (SLO como
   código con **Sloth** / OpenSLO → reglas de Prometheus); si la política dice "congelado", termina en `exit 1`.
 - **Durante:** canary con Argo Rollouts (5% → 25% → 50% → 100%) y `AnalysisTemplate` contra Prometheus;
   si empeora, rollback automático.
@@ -165,7 +165,7 @@ confiabilidad con aprobación manual y auditoría".
 **Guion:**
 "El reto uno dice que el CI/CD no detiene ni revierte. Fíjense que son dos verbos distintos y por eso
 el Quality Gate tiene tres momentos.
-Antes: el pipeline, en GitHub Actions o GitLab CI, llega al paso de producción y le pregunta a la
+Antes: el pipeline de GitHub Actions —un reusable workflow que mantiene Plataforma, así todas las tribus usan el mismo gate— llega al paso de producción y le pregunta a la
 fuente de SLOs —el SLO está escrito como código en Git con Sloth, que genera las reglas de Prometheus— cuánto Error Budget queda y a qué burn rate se está gastando. El burn rate es la
 velocidad de consumo: un burn rate de 14,4 se come el presupuesto del mes en unos dos días. Si la Error
 Budget Policy dice 'congelado', el paso termina con error y el despliegue no corre. Nadie tiene que
