@@ -98,7 +98,7 @@ es hablar en **valores relativos** ("el SaaS cuesta 3–5× más por GB que el a
 | Alternativas | Política binaria (queda presupuesto / no queda) · umbrales por burn rate en vez de presupuesto restante · congelar solo con presupuesto agotado (0%) |
 | Trade-off | Tres zonas dan gradualidad pero son más difíciles de negociar con negocio. Binaria es simple pero brusca |
 | Costo | ≈0 en herramientas. El costo real es de **oportunidad**: un congelamiento demora funcionalidades de negocio. Por eso las tres zonas son una conversación de plata con negocio: cada zona más estricta cambia velocidad por menos riesgo de minutos caídos |
-| Recomendación | Tres zonas, presentadas como **propuesta para negociar con negocio**, no como verdad |
+| Recomendación | Tres zonas, presentadas como **propuesta para negociar con negocio**, no como verdad. Cada zona también define **qué estrategia de despliegue** se permite (ver D8-bis) |
 | Tu decisión | |
 
 ### D5. Herramienta para definir y calcular los SLOs
@@ -138,7 +138,7 @@ es hablar en **valores relativos** ("el SaaS cuesta 3–5× más por GB que el a
 | Alternativas | **Flagger** (con Istio / Linkerd / NGINX) · **Spinnaker** con Kayenta · canary manual con el service mesh · **feature flags** (OpenFeature, Unleash, LaunchDarkly) en vez de o además del canary |
 | Trade-off | Argo Rollouts encaja si ya usan ArgoCD (GitOps). Flagger encaja si ya tienen Istio. Spinnaker es potente pero pesado. Feature flags separan desplegar de liberar, pero no protegen de un binario roto |
 | Costo | Argo Rollouts / Flagger: licencia ≈0, costo de cómputo menor ($). El canary sí cuesta algo de capacidad extra durante el despliegue (pods de la versión nueva conviviendo con los de la vieja, ~5–25% más por minutos). Spinnaker: licencia ≈0 pero pesado de operar (varios microservicios propios, ~0,5 FTE, $$ en personas). Feature flags: **OpenFeature + Unleash / flagd** autogestionado ≈0–$; **LaunchDarkly** es SaaS por conexiones de servicio / usuarios, del orden de $$ para un banco |
-| Recomendación | Argo Rollouts + feature flags para lo funcional (OpenFeature para no amarrarse a un proveedor). Pasos y duración: decir que dependen del tráfico (con poco tráfico, 5% no da muestras suficientes) |
+| Recomendación | Ver la comparación completa de estrategias y el árbol de decisión en **D8-bis**. Argo Rollouts + feature flags para lo funcional (OpenFeature para no amarrarse a un proveedor). Pasos y duración: decir que dependen del tráfico (con poco tráfico, 5% no da muestras suficientes) |
 | Tu decisión | |
 
 ### D9. Umbrales de alertas por burn rate
@@ -149,6 +149,121 @@ es hablar en **valores relativos** ("el SaaS cuesta 3–5× más por GB que el a
 | Trade-off | Los del Workbook son el estándar reconocido y la mesa de SRE los va a reconocer; con SLO de 99,9% y poco tráfico nocturno pueden ser ruidosos |
 | Costo | ≈0: son reglas de Prometheus. Costo indirecto: alertas ruidosas en la noche = horas de on-call y desgaste del equipo. Alertas por anomalía con ML (Machine Learning): suelen venir en planes SaaS caros ($$ a $$$) y son menos explicables |
 | Recomendación | Mantener los del Workbook; mencionar que se calibran |
+| Tu decisión | |
+
+### D8-bis. Estrategias de despliegue: comparación y árbol de decisión
+
+> El libreto solo habla de canary. La mesa (SRE, DevSecOps, Operaciones) puede preguntar "¿por qué canary y
+> no blue/green?" o "¿y si el servicio tiene poco tráfico?". Aquí está el panorama completo.
+
+**Panorama.** Toda estrategia de despliegue responde tres preguntas: **¿hay caída (downtime)?**, **¿a cuántos
+clientes expongo la versión nueva si sale mala (radio de explosión)?** y **¿qué tan rápido vuelvo atrás
+(rollback)?**. Ninguna gana en las tres sin pagar algo: infraestructura duplicada, complejidad o tiempo.
+
+#### Las 8 estrategias
+
+1. **Recreate (recrear).** Se apaga toda la versión vieja (v1) y se prende la nueva (v2). Hay downtime. Es la
+   estrategia `Recreate` de un Deployment de Kubernetes. Uso: procesos batch, ambientes de desarrollo o
+   aplicaciones donde **dos versiones no pueden convivir** (por ejemplo, un esquema de base de datos incompatible).
+2. **Rolling update (actualización gradual).** Kubernetes reemplaza los pods de a poco (`maxSurge`,
+   `maxUnavailable`). Es la estrategia **por defecto** de Kubernetes. Sin downtime, pero el avance **no mira
+   métricas de negocio**: si la v2 es mala, termina en el 100% de los pods igual, salvo que falle el readiness probe.
+   Rollback: `kubectl rollout undo` (minutos).
+3. **Blue/Green (azul/verde).** Dos ambientes completos: blue (v1, en producción) y green (v2, probado en
+   paralelo). Se cambia **todo** el tráfico de una vez (balanceador, DNS o Service). Rollback en **segundos**
+   (devolver el switch). Costo: **2× la infraestructura** durante la ventana. Riesgo: en el switch, el 100% de los
+   clientes ve la v2 de golpe. Netflix lo llama *red/black*.
+4. **Canary (canario).** Un porcentaje pequeño del tráfico (5% → 25% → 50% → 100%) va a la v2; en cada paso un
+   **análisis automático** de métricas (tasa de error, latencia p99, burn rate) decide si avanza o aborta.
+   Radio de explosión acotado (5%) y rollback en segundos. Necesita: **tráfico suficiente** para que el 5% dé
+   muestras estadísticamente útiles, buenas métricas y control fino del tráfico (service mesh o ingress).
+   Herramientas: Argo Rollouts, Flagger, Spinnaker con Kayenta.
+5. **A/B testing (prueba A/B).** Mecánica parecida al canary, pero el tráfico se divide **por atributo del
+   usuario** (segmento, región, header) y el objetivo es un **experimento de negocio** (¿qué versión convierte
+   más?), no la seguridad del despliegue. Suele hacerse con feature flags.
+6. **Shadow / traffic mirroring (sombra / espejo de tráfico, también "dark launch").** Se **copia** el tráfico
+   real a la v2, pero sus respuestas se descartan: el cliente nunca la ve (radio de explosión 0). Permite
+   probar la v2 con carga y datos reales. Costo: ~2× el cómputo del servicio durante la prueba. **Peligro en
+   banca:** efectos colaterales (cobrar dos veces, enviar dos notificaciones) → solo para servicios de **lectura
+   o cálculo** (por ejemplo, el **scoring del antifraude**) o con dependencias simuladas. Herramienta: mirroring
+   de Istio.
+7. **Feature flags (banderas de funcionalidad).** Se despliega el código **apagado** y se enciende por
+   usuarios, porcentaje o región, sin volver a desplegar. **Separa desplegar de liberar.** Rollback = apagar la
+   bandera (segundos). No protege de un binario roto (el código nuevo ya corre) y deja deuda técnica si las
+   banderas no se limpian. Herramientas: OpenFeature (estándar), Unleash, flagd, LaunchDarkly.
+8. **Ring deployment (despliegue por anillos u oleadas).** Se despliega por grupos crecientes: anillo 0
+   (empleados del banco) → anillo 1 (piloto) → una región o nube → todos. En multi-cloud: **primero un clúster
+   de AWS, luego GCP**, nunca los dos a la vez. Se combina con cualquiera de las anteriores dentro de cada
+   anillo. Herramientas: Argo CD ApplicationSets, Kargo.
+
+#### Comparación
+
+| Estrategia | Downtime | Radio de explosión | Rollback | Costo de infraestructura | Complejidad |
+|---|---|---|---|---|---|
+| Recreate | Sí | 100% | Minutos (redesplegar) | 1× (≈0) | Muy baja |
+| Rolling update | No | Crece hasta 100% sin mirar métricas | Minutos | ~1–1,25× durante el despliegue (≈0) | Baja |
+| Blue/Green | No | 100% en el switch | **Segundos** | **2× durante la ventana** ($ a $$ según el servicio) | Media |
+| Canary | No | **Acotado (5%)** | Segundos | ~1× + unos pods (≈0); mesh si no existe: +10–20% de recursos | Media-alta |
+| A/B testing | No | Segmento escogido | Segundos | ≈0 | Media |
+| Shadow | No | **0%** (cliente no lo ve) | No aplica | ~2× cómputo del servicio y carga extra en sus dependencias | Alta |
+| Feature flags | No | Usuarios escogidos | **Segundos sin redesplegar** | ≈0 a $$ (LaunchDarkly) | Media (deuda de banderas) |
+| Anillos | No | Un anillo a la vez | Depende de la estrategia interna | ≈0 (cuesta tiempo) | Media |
+
+**Lo que todas las estrategias sin downtime exigen:** que **dos versiones convivan**. Si el cambio toca la base
+de datos, se usa el patrón **expand/contract** (o *parallel change*): primero se agrega la columna nueva sin
+quitar la vieja (expand), se despliega el código que usa ambas, y solo cuando nadie usa la vieja se borra
+(contract). Sin eso, ni blue/green ni canary permiten volver atrás.
+
+#### Árbol de decisión
+
+```
+¿Pueden convivir v1 y v2 (API y esquema de BD compatibles)?
+├── No ──► Hacerlas compatibles con expand/contract. Si es imposible ──► Recreate en ventana de mantenimiento
+└── Sí
+    ¿El cambio es de lógica de negocio que quiero prender y apagar sin desplegar?
+    ├── Sí ──► Feature flag (además de la estrategia de abajo para el binario)
+    └── (siempre seguir)
+        ¿El servicio es crítico (tiene SLO de cara al cliente, como el pago QR)?
+        ├── No ──► Rolling update + Quality Gate previo
+        └── Sí
+            ¿Es un cambio de alto riesgo y el servicio NO tiene efectos colaterales (solo lee o calcula)?
+            ├── Sí ──► Shadow primero (validar con tráfico real), luego canary
+            └── No
+                ¿Hay tráfico suficiente para que el 5% dé muestras útiles en minutos?
+                ├── Sí ──► Canary con análisis automático (Argo Rollouts / Flagger)
+                └── No ──► Blue/Green con smoke tests (pruebas de humo) y rollback instantáneo,
+                           o canary con pasos más largos y tráfico sintético
+            ¿Varios clústeres, regiones o nubes? ──► Encima de todo: anillos (AWS primero, luego GCP)
+```
+
+#### Conexión con la Error Budget Policy (D4)
+
+La política no solo dice **si** se despliega, sino **cómo**:
+
+| Error Budget restante | Estrategia permitida para servicios críticos |
+|---|---|
+| > 50% | Canary normal (pasos rápidos); rolling update para servicios no críticos |
+| 25–50% | Solo canary con pasos más lentos y análisis más estricto; nada de blue/green "de golpe" |
+| < 25% | Congelado salvo fixes; el fix va por canary acelerado o blue/green (rollback en segundos) |
+
+#### Recomendación para Banco Plus (pago QR)
+
+- **Por defecto:** canary con Argo Rollouts y análisis automático contra Prometheus (es lo del libreto).
+- **Cambios de negocio:** feature flags con OpenFeature, para apagar sin redesplegar.
+- **Cambios grandes del antifraude** (por ejemplo, un modelo nuevo de scoring): **shadow** antes del canary,
+  porque el antifraude calcula y no mueve plata. Encaja perfecto con el incidente de la diapositiva 9
+  (antifraude v2.3.1).
+- **Multi-cloud:** anillos, primero el clúster de AWS y luego el de GCP.
+- **Base de datos:** siempre expand/contract.
+- **Recreate:** nunca para el pago QR.
+
+**Frase para la mesa:** *"No hay una sola estrategia: el árbol depende de si las versiones conviven, de si el
+servicio tiene efectos colaterales y de cuánto tráfico tiene. Para el pago QR uso canary con análisis
+automático; para el antifraude, shadow primero; y la Error Budget Policy decide qué tan agresivo puede ser
+el despliegue."*
+
+| | |
+|---|---|
 | Tu decisión | |
 
 ---
