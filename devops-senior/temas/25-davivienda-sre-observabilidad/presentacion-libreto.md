@@ -17,6 +17,9 @@
 > 4. **Plataforma es un equipo habilitador:** da el piso, no el techo.
 > 5. **No mencionar sistemas que el caso no nombra** (se habla del "core bancario", sin productos).
 
+> **Hilo conductor:** cada diapositiva responde una **pregunta**, y su respuesta abre la pregunta de la siguiente
+> (campo "Puente a la siguiente": dilo al final del guion, como transición).
+
 | # | Diapositiva | Eje | Tiempo |
 |---|---|---|---|
 | 1 | Portada y la historia | — | 1,5 min |
@@ -35,6 +38,10 @@
 ## Diapositiva 1 — Portada y la historia (1,5 min)
 
 **Título:** Del SLO al post-mortem: confiabilidad medible para el pago QR de Banco Plus.
+
+**Pregunta:** ¿Por qué el pago QR de Banco Plus no es confiable hoy?
+**Ejes:** todos
+**Puente a la siguiente:** Si el problema es uno solo, ¿dónde lo vemos en Banco Plus?
 
 **Contenido:**
 - Una sola historia, no cuatro proyectos: cada eje alimenta al siguiente.
@@ -99,6 +106,10 @@ ejecutable, no solo teórico."
 ## Diapositiva 2 — Contexto: Banco Plus en un diagrama C4 Context (1,5 min)
 
 **Título:** El problema: cuatro síntomas, una sola causa.
+
+**Pregunta:** ¿Dónde duele hoy, en la arquitectura de Banco Plus?
+**Ejes:** todos
+**Puente a la siguiente:** Para arreglarlo, primero hay que acordar: ¿qué es “estar bien” para el cliente?
 
 **Contenido:**
 - Pago QR y transferencias en tiempo real sobre microservicios en Kubernetes, en AWS y GCP.
@@ -186,6 +197,10 @@ por último, las personas. Y parto de lo que el banco ya tiene: no vengo a cambi
 
 **Título:** Qué es "estar bien" para el cliente que paga con QR.
 
+**Pregunta:** ¿Qué es “estar bien” para el cliente que paga con QR?
+**Ejes:** 1
+**Puente a la siguiente:** Ya sabemos qué es estar bien. ¿Cómo evitamos que un despliegue lo rompa?
+
 **Contenido:**
 - SLI (Service Level Indicator) de disponibilidad: pagos aceptados sin error de sistema ÷ pagos válidos.
   SLO de partida 99,9% en 30 días móviles (Error Budget de 43,2 min al mes), **calibrado con datos de la Fase 0**.
@@ -270,6 +285,10 @@ tiene autoridad, y la tiene porque negocio la firmó."
 ## Diapositiva 4 — Eje 1: Quality Gate autoejecutable en CI/CD (2,5 min)
 
 **Título:** El pipeline frena solo: antes, durante y después del despliegue.
+
+**Pregunta:** ¿Cómo evitamos que un despliegue rompa lo que el cliente necesita?
+**Ejes:** 1
+**Puente a la siguiente:** El gate frena y revierte, pero necesita datos. ¿De dónde salen esos datos?
 
 **Contenido:**
 - **Quién controla:** Plataforma publica plantillas por lenguaje (reusable workflows de GitHub Actions) con
@@ -379,6 +398,10 @@ service mesh?"*
 ## Diapositiva 5 — Eje 2: arquitectura OpenTelemetry multi-cloud (C4 Container) (2,5 min)
 
 **Título:** Un solo camino para toda la telemetría, en AWS, GCP y el datacenter.
+
+**Pregunta:** ¿De dónde salen los datos que alimentan el gate, el SLO y el diagnóstico?
+**Ejes:** 2 · usa 1
+**Puente a la siguiente:** Ya tenemos los datos. ¿Cómo los tenemos todos sin pagar de más?
 
 **Contenido:**
 - OTel Collector **agente** (DaemonSet) por nodo: metadatos de Kubernetes, logs locales, filtrado barato.
@@ -492,6 +515,10 @@ salida. Así la traza ya no se corta donde más duele."
 
 **Título:** Pagar por señal, no por ruido: la meta del −30% sin perder un solo error.
 
+**Pregunta:** ¿Cómo vemos todo lo importante sin pagar de más?
+**Ejes:** 2
+**Puente a la siguiente:** Datos limpios y baratos. ¿Cómo hacemos que una IA los entienda?
+
 **Contenido:**
 - Tail-based sampling: 100% de errores, 100% de los pagos más lentos que el umbral del SLO de latencia, y
   un porcentaje pequeño de los exitosos, que se ajusta midiendo.
@@ -562,6 +589,10 @@ regulatoria va por otro pipeline, sin muestreo y con retención legal."
 ## Diapositiva 7 — Eje 3: telemetría AI-Ready con Semantic Conventions y MCP (2 min)
 
 **Título:** Primero datos que la IA entienda; después, la IA.
+
+**Pregunta:** ¿Cómo hacemos que una IA entienda nuestros datos?
+**Ejes:** 3 · usa 2
+**Puente a la siguiente:** La IA ya puede leer los datos. ¿Cómo encuentra dónde nace la falla?
 
 **Contenido:**
 - Semantic Conventions de OpenTelemetry + resource attributes obligatorios: `service.name`,
@@ -669,6 +700,10 @@ observabilidad con IA incluida?"*
 
 **Título:** De decenas de dashboards a pocas hipótesis: el grafo encuentra dónde nace la falla.
 
+**Pregunta:** ¿Cómo encuentra la IA dónde nace la falla?
+**Ejes:** 3 · usa 2
+**Puente a la siguiente:** Todo listo. Pero igual algo va a fallar: ¿qué hacemos en plena crisis?
+
 **Contenido:**
 - El grafo de dependencias lo arma OpenTelemetry: connector `servicegraph` (nodos = servicios, aristas =
   llamadas con tasa, errores y latencia). Nuestra herramienta MCP `obtener_grafo` se lo entrega a la IA.
@@ -754,6 +789,10 @@ auto-remediación futura, siempre con humano en el bucle."
 
 **Título:** 12:30 de un día de quincena: el pago QR empieza a fallar.
 
+**Pregunta:** ¿Qué hacemos cuando, aun así, el pago falla en hora pico?
+**Ejes:** 4 · usa 1, 2, 3
+**Puente a la siguiente:** El servicio volvió. ¿Cómo evitamos que vuelva a pasar?
+
 **Contenido:**
 - Roles, entre más simple mejor: **Incident Commander** (coordina, decide y comunica; no toca teclado) +
   **responsable técnico** (el dueño del servicio: diagnostica y ejecuta). En un SEV1 de un banco, el IC delega
@@ -836,6 +875,10 @@ la hipótesis lista. Eso es lo que baja el Time to Restore."
 ## Diapositiva 10 — Eje 4: post-mortem blameless, cultura y hoja de ruta (2 min)
 
 **Título:** Aprender del incidente y cerrar el ciclo: de la crisis a mejores SLOs.
+
+**Pregunta:** ¿Cómo aprendemos para que no vuelva a pasar?
+**Ejes:** 4 · cierra en 1
+**Puente a la siguiente:** Las acciones vuelven al SLO: el ciclo empieza de nuevo, cada vez mejor.
 
 **Contenido:**
 - Post-mortem blameless en ≤ 5 días hábiles: impacto (clientes, minutos, Error Budget gastado), línea de

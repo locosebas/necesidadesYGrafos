@@ -41,17 +41,27 @@ for parte in re.split(r"(?m)^## Diapositiva ", md)[1:]:
     eje = re.sub(r"\s*\(.*?min\)\s*$", "", resto)
     tiempo = re.search(r"\(([\d,]+ min)\)", cab).group(1)
     titulo = re.search(r"\*\*Título:\*\* (.+)", parte).group(1)
+    pregunta = re.search(r"\*\*Pregunta:\*\* (.+)", parte).group(1)
+    ejes = re.search(r"\*\*Ejes:\*\* (.+)", parte).group(1)
+    puente = re.search(r"\*\*Puente a la siguiente:\*\* (.+)", parte).group(1)
+    principal = ejes.split("·")[0]
+    usa = ejes.split("·")[1] if "·" in ejes else ""
+    pills = "".join(
+        f'<span class="eje-p {"on" if ("todos" in ejes or str(k) in principal) else "usa" if str(k) in usa else ""}">Eje {k} · {n}</span>'
+        for k, n in [(1, "SLOs y Quality Gate"), (2, "Telemetría y FinOps"), (3, "IA y MCP"), (4, "Incidentes y cultura")])
     contenido = re.search(r"\*\*Contenido:\*\*\n(.*?)\n\n", parte, re.S).group(1)
     diagrama = re.search(r"```mermaid\n(.*?)```", parte, re.S)
     guion = re.search(r"\*\*Guion:\*\*\n(.*?)\n\n\*\*", parte, re.S).group(1)
     slides.append(f"""
 <section class="slide">
-  <header><span class="eje">{num} · {inline(eje)}</span><span class="t">{tiempo}</span></header>
-  <h1>{inline(titulo)}</h1>
+  <header><span class="ejes">{pills}</span><span class="t">{num}/10 · {tiempo}</span></header>
+  <h1>{inline(pregunta)}</h1>
+  <h2>{inline(titulo)}</h2>
   <div class="cuerpo">
     <ul>{bullets(contenido)}</ul>
     {f'<div class="diag"><pre class="mermaid">{html.escape(diagrama.group(1))}</pre></div>' if diagrama else ''}
   </div>
+  <footer class="puente">→ {inline(puente)}</footer>
   <aside class="notas">{inline(guion.strip().strip('"')).replace(chr(10), '<br>')}</aside>
 </section>""")
 
@@ -66,7 +76,13 @@ body {{ margin:0; background:#e9edf2; font-family:system-ui,Segoe UI,Roboto,sans
 .slide {{ display:none; width:100vw; height:100vh; padding:3vh 4vw 2vh; background:var(--fondo); flex-direction:column; }}
 .slide.activa {{ display:flex; }}
 header {{ display:flex; justify-content:space-between; color:var(--gris); font-size:1.6vh; text-transform:uppercase; letter-spacing:.05em; border-bottom:3px solid var(--azul); padding-bottom:.8vh; }}
-h1 {{ color:var(--oscuro); font-size:3.6vh; margin:1.6vh 0; }}
+h1 {{ color:var(--oscuro); font-size:3.8vh; margin:1.4vh 0 .4vh; }}
+h2 {{ color:var(--azul); font-size:2.3vh; font-weight:600; margin:0 0 1.4vh; }}
+.ejes {{ display:flex; gap:.5vw; flex-wrap:wrap; text-transform:none; letter-spacing:0; }}
+.eje-p {{ padding:.3vh .7vw; border-radius:999px; border:1px solid #c9d2dc; color:#8a94a0; }}
+.eje-p.on {{ background:var(--azul); border-color:var(--azul); color:#fff; font-weight:600; }}
+.eje-p.usa {{ background:#dbe8f6; border-color:#9cc0e6; color:var(--oscuro); }}
+.puente {{ margin-top:1vh; padding:.8vh 1vw; background:#eef4fb; border-left:4px solid var(--azul); color:var(--oscuro); font-size:2vh; font-style:italic; }}
 .cuerpo {{ display:flex; gap:2vw; flex:1; min-height:0; }}
 ul {{ flex:0 0 30%; margin:0; padding-left:1.2em; font-size:2vh; line-height:1.45; overflow:auto; }}
 li {{ margin-bottom:1vh; }}
