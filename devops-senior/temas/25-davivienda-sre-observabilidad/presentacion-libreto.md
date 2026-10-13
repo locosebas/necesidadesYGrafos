@@ -65,7 +65,8 @@ servidor MCP de observabilidad. Lo que les voy a mostrar es ejecutable, no solo 
    Gate no sabe cuándo frenar, el sampling no sabe qué traza es importante y el Incident Commander no
    sabe qué tan grave es el incidente. Las herramientas se reemplazan; la definición de "estar bien" no.
 2. *Esto suena a dos años de programa. ¿Qué entregas en 90 días?* — Se responde con la hoja de ruta de
-   la diapositiva 10: un servicio (pago QR), tres entregas medibles a 30, 60 y 90 días.
+   la diapositiva 10: un servicio (pago QR), una fase 0 de caracterización de lo que ya existe y tres entregas
+   medibles a 30, 60 y 90 días.
 
 ---
 
@@ -781,11 +782,12 @@ las hipótesis. Eso es lo que baja el Time to Restore."
 - Team Topologies: Plataforma como habilitador; "you build it, you run it": cada tribu atiende su SLO.
 - IDP de autoservicio con Backstage: SLO como código (Sloth), dashboards y alertas por plantilla; toil < 50%,
   Runbook as Code, Game Days.
-- Hoja de ruta: 30 días SLO + burn rate · 60 días Quality Gate + gateway con PII · 90 días tail
-  sampling medido + MCP de solo lectura.
+- Hoja de ruta: **Fase 0 (2–4 semanas) caracterización de lo que ya existe** (herramientas, línea base de costo
+  y de confiabilidad, incidentes) · 30 días SLO + burn rate · 60 días Quality Gate + gateway con PII · 90 días
+  tail sampling medido + MCP de solo lectura.
 
 **Diagrama:** a la izquierda, el ciclo de la diapositiva 1 cerrándose (flecha de "post-mortem" a
-"SLO"). A la derecha, una línea de tiempo 30/60/90 días con tres hitos y, debajo, los indicadores de
+"SLO"). A la derecha, una línea de tiempo con la Fase 0 de caracterización y tres hitos a 30/60/90 días y, debajo, los indicadores de
 éxito: Change Failure Rate < 15% · Time to Restore < 1 h · meta de costo de telemetría −30% (medida contra la línea base) · toil < 50%.
 
 ```mermaid
@@ -803,10 +805,11 @@ flowchart LR
 
     subgraph ruta["Hoja de ruta: empezar con un servicio (pago QR)"]
         direction TB
-        d30["<b>30 días</b><br/>SLO del pago QR<br/>+ alertas de burn rate"]
+        d0["<b>Fase 0 (2–4 semanas)</b><br/>caracterizar lo que existe:<br/>herramientas, línea base de costo<br/>y confiabilidad, incidentes"]
+        d30["<b>30 días</b><br/>SLO del pago QR (calibrado)<br/>+ alertas de burn rate"]
         d60["<b>60 días</b><br/>Quality Gate<br/>+ gateway con enmascaramiento de PII"]
         d90["<b>90 días</b><br/>tail sampling con ahorro medido<br/>+ servidor MCP de solo lectura"]
-        d30 --> d60 --> d90
+        d0 --> d30 --> d60 --> d90
     end
 
     kpi["<b>Indicadores de éxito</b><br/>Change Failure Rate < 15%<br/>Time to Restore < 1 h<br/>Costo de telemetría: meta −30%<br/>Toil < 50%"]
@@ -821,7 +824,7 @@ flowchart LR
     classDef hito fill:#08427b,stroke:#052e56,color:#ffffff
     classDef meta fill:#f4f4f4,stroke:#2e7d32,color:#1b1b1b,stroke-width:2px
     class slo,gate,otel,ic,pm eje
-    class d30,d60,d90 hito
+    class d0,d30,d60,d90 hito
     class kpi,cultura meta
     linkStyle 4 stroke:#2e7d32,stroke-width:4px
 ```
@@ -841,7 +844,8 @@ it', y atiende sus propios SLOs; a nosotros nos alertan solo si falla la platafo
 que eso no sea una carga, todo va al IDP (Internal Developer Platform) en Backstage como autoservicio: el SLO como
 código, los dashboards y las alertas salen de plantillas. Eliminamos toil: menos del 50% del tiempo en
 trabajo manual, runbooks ejecutables y Game Days de caos controlado.
-Empezamos pequeño: en 30 días, SLO del pago QR y alertas de burn rate; en 60, Quality Gate y gateway
+Empezamos pequeño y sin improvisar: las primeras semanas caracterizamos lo que ya existe, las herramientas,
+la línea base de costo y de confiabilidad y los incidentes recientes. Luego, en 30 días, SLO del pago QR y alertas de burn rate; en 60, Quality Gate y gateway
 con enmascaramiento de PII; en 90, tail sampling con el ahorro medido y el primer servidor MCP de solo
 lectura. Lo medimos con Change Failure Rate, Time to Restore, costo y toil. Muchas gracias."
 

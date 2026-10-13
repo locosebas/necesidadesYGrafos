@@ -614,15 +614,35 @@ en las propias aplicaciones.
 
 ## Decisiones de narrativa (no son de herramientas)
 
-### D27. Orden de la hoja de ruta
+### D27. Orden de la hoja de ruta: primero caracterizar lo que existe
+
+> *(El borrador v1 arrancaba directo con el SLO a 30 días, como si se partiera de cero. El caso habla de una
+> plataforma que ya funciona y ya tiene herramientas: no se puede empezar "a la loca".)*
+
+**Fase 0 — Caracterización de lo que ya existe (primeras 2–4 semanas, antes del día 30).** Qué se levanta:
+
+1. **Inventario de herramientas y contratos:** CI/CD y quién controla los pipelines (D6, D7), Argo CD / Flux /
+   service mesh (D8), backends y proveedor de observabilidad (D15), modelo o IA ya contratada (D19), on-call e
+   ITSM (D22), motor de políticas (D26), IDP (D25).
+2. **Línea base de telemetría y costo:** GB/día por señal y por servicio, mayores emisores, cardinalidad, factura
+   actual. Es el estudio previo que exige D17 antes de dar cualquier cifra de ahorro.
+3. **Línea base de confiabilidad:** histogramas reales de latencia y tasa de error del pago QR (para calibrar el
+   SLO de D1 y D3) y métricas DORA actuales (Change Failure Rate, Time to Restore, frecuencia de despliegue).
+4. **Historia de incidentes:** post-mortems de los últimos 6–12 meses: qué falló, cuánto tardó, causas repetidas.
+5. **Flujos de PII y restricciones regulatorias:** qué datos personales viajan hoy en logs y trazas.
+6. **Organización:** tribus, dueños de cada servicio, turnos de on-call.
+
+**Clave para la presentación:** todas las "preguntas para la mesa" del análisis (D7, D8, D15, D19, D22, D26)
+**son el backlog de la Fase 0**. Si la mesa no las responde, la Fase 0 las responde.
+
 | | |
 |---|---|
-| Escogido | 30 días SLO + burn rate · 60 días Quality Gate + gateway con PII · 90 días tail sampling + MCP |
-| Alternativas | Empezar por FinOps (el ahorro paga el resto) · empezar por el gateway con PII (requisito regulatorio primero) |
-| Trade-off | Empezar por el SLO es lo más coherente con la historia; empezar por el ahorro es lo que más le gusta a un CFO (Chief Financial Officer) |
-| Costo | Hoja de ruta en plata: 30 días (SLO + burn rate) ≈0 en licencias, ~1 FTE. 60 días (Quality Gate + gateway con PII): unos nodos para el gateway ($) + ~1–2 FTE. 90 días (tail sampling + MCP): $ a $$ en cómputo y tokens, y aquí **empieza el ahorro**, medido contra la línea base del estudio previo. Empezar por FinOps traería el ahorro 1–2 meses antes, pero sin SLOs no sabes qué datos son seguros de descartar |
-| Recomendación | Mantener, pero decir que el ahorro del tail sampling financia las fases siguientes |
-| Tu decisión | |
+| Escogido | **Fase 0 (2–4 semanas): caracterización** · 30 días: SLO del pago QR (calibrado con datos reales) + burn rate · 60 días: Quality Gate + gateway con PII · 90 días: tail sampling con ahorro medido contra la línea base + servidor MCP de solo lectura |
+| Alternativas | Arrancar directo con el SLO (borrador v1) · empezar por FinOps (el ahorro paga el resto) · empezar por el gateway con PII (requisito regulatorio primero) |
+| Trade-off | La Fase 0 retrasa 2–4 semanas la primera entrega visible, pero evita imponer herramientas que ya existen, inventar cifras y fijar SLOs arbitrarios. Arrancar sin ella es más rápido y más riesgoso |
+| Costo | Fase 0: 1–2 personas durante 2–4 semanas, sin licencias. Luego: 30 días ≈0 en licencias; 60 días unos nodos para el gateway ($); 90 días $ a $$ en cómputo y tokens, y ahí **empieza el ahorro**, medido contra la línea base de la Fase 0 |
+| Recomendación | Frase para la mesa: *"No arranco a la loca: las primeras semanas son de caracterización. Inventario de lo que ya tienen, línea base de costo y de confiabilidad, e historia de incidentes. Con eso, el SLO se calibra con datos reales y la cifra de ahorro se compromete con fundamento."* |
+| Tu decisión | **Agregar una etapa de caracterización de lo que ya existe antes de las entregas; no empezar a la loca** |
 
 ### D28. Un solo servicio piloto
 | | |

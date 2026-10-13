@@ -215,3 +215,14 @@ herramientas mientras por debajo se pasa de la telemetría heredada a OpenTeleme
    leer, pero solo cubre Kubernetes.
 2. *"Rego es difícil para las tribus."* → Las tribus no escriben políticas: las escribe Plataforma y las publica
    como parte de las plantillas (D7). Las tribus solo ven el mensaje de rechazo, que debe decir qué arreglar.
+
+## D27 — Hoja de ruta con Fase 0 de caracterización
+
+**Tu decisión:** antes de las entregas, una etapa de caracterización de lo que ya existe.
+
+1. *"¿No es perder un mes?"* → Es ganarlo: evita comprar o instalar lo que ya existe, fijar SLOs que nacen rotos y
+   prometer un ahorro inventado. Y no es un mes en blanco: al final de la Fase 0 hay entregables (inventario,
+   línea base de costo, línea base de SLI y DORA, mapa de PII).
+2. *"Aquí ya sabemos lo que tenemos."* → Perfecto, entonces la Fase 0 se acorta: se validan los datos y se arranca.
+   Las preguntas que hice durante la presentación son justamente esa Fase 0.
+3. *"¿Qué entregas a los 30 días?"* → El SLO del pago QR calibrado con datos reales y las alertas de burn rate.
