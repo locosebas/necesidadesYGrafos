@@ -587,15 +587,28 @@ negocia: el Incident Commander no es quien arregla**. Si el IC se pone a depurar
 | Recomendación | **Nombrarlo en la diapositiva 10**: "IDP con Backstage: plantillas que crean el SLO en Sloth, los dashboards y las alertas". Si el banco ya tiene otro portal, adaptarse |
 | Tu decisión | |
 
-### D26. Motor de políticas
+### D26. Motor de políticas → preguntar primero; si no existe, sugerir OPA
+
+> *(El borrador v1 escogía OPA sin más. Un banco seguramente ya tiene un motor de políticas: no nos cerramos a
+> uno.)*
+
+**Qué es:** un motor de políticas evalúa reglas escritas como código ("ninguna imagen sin firma llega a
+producción", "todo pod declara límites de CPU") y responde permitir o rechazar. **OPA (Open Policy Agent)** es el
+motor abierto más usado: proyecto graduado de la CNCF (Cloud Native Computing Foundation), licencia Apache 2.0,
+y sus políticas se escriben en el lenguaje **Rego**. Sirve en varios puntos: en Kubernetes con **OPA Gatekeeper**
+(admission controller), en el pipeline con **Conftest** (valida YAML, Terraform y planes antes de desplegar) y
+en las propias aplicaciones.
+
+**Pregunta para la mesa:** *"¿Qué motor de políticas usan hoy en Kubernetes y en el pipeline?"*
+
 | | |
 |---|---|
-| Escogido | OPA |
-| Alternativas | **Kyverno** (políticas en YAML, más simple en Kubernetes) · OPA Gatekeeper |
-| Trade-off | OPA es general (sirve fuera de Kubernetes, incluso en el CI); Kyverno es más fácil de leer para los equipos |
-| Costo | OPA y Kyverno: licencia ≈0, unos pods por clúster ($). Diferencia económica real: el tiempo de las personas escribiendo y leyendo políticas (Rego de OPA es más difícil de aprender que el YAML de Kyverno). Existen versiones empresariales con soporte (Styra para OPA, Nirmata para Kyverno), $$ |
-| Recomendación | OPA (lo conoces en 🟢) |
-| Tu decisión | |
+| Escogido | **Usar el que ya exista en el banco.** Si no hay ninguno, sugerir **OPA (Open Policy Agent)** como opción abierta: Gatekeeper en los clústeres y Conftest en el pipeline |
+| Alternativas | **Kyverno** (abierto, políticas en YAML, solo Kubernetes) · políticas nativas de la nube (AWS Organizations SCP, Azure Policy, GCP Organization Policy) · versiones comerciales (Styra para OPA, Nirmata para Kyverno) |
+| Trade-off | OPA: general (Kubernetes, pipeline, aplicaciones, Terraform), pero Rego cuesta aprenderlo. Kyverno: más fácil de leer para las tribus, pero solo cubre Kubernetes. Cambiar el motor que ya existe: costo de migrar políticas sin ganancia clara |
+| Costo | OPA y Kyverno: licencia ≈0, unos pods por clúster ($). El costo real son las horas de escribir y mantener políticas. Soporte comercial (Styra, Nirmata): $$ |
+| Recomendación | Preguntar primero; si no existe, OPA, con la frase: *"no me caso con el motor; si no tienen uno, OPA, porque con un solo lenguaje cubro el clúster, el pipeline y Terraform"* |
+| Tu decisión | **No cerrarse a uno: seguramente ya existe en la compañía, hay que preguntarlo. Si no, sugerir OPA (Open Policy Agent) como opción open source** |
 
 ---
 

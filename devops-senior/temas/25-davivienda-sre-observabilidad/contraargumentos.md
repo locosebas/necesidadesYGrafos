@@ -205,3 +205,13 @@ herramientas mientras por debajo se pasa de la telemetría heredada a OpenTeleme
    siempre pasa (negocio, comercios, Superintendencia Financiera).
 4. *"¿Y si solo hay una persona de guardia?"* → Esa persona es IC y escala de inmediato al dueño del servicio para
    que sea el responsable técnico. Coordinar y arreglar a la vez es la causa más común de incidentes largos.
+
+## D26 — Motor de políticas
+
+**Tu decisión:** no cerrarse a uno; preguntar cuál existe; si no hay, sugerir OPA (Open Policy Agent).
+
+1. *"¿Por qué OPA y no Kyverno?"* → Si ya tienen Kyverno, se usa Kyverno. Si no hay nada, OPA porque un solo
+   lenguaje (Rego) cubre el clúster (Gatekeeper), el pipeline (Conftest) y Terraform. Kyverno es más fácil de
+   leer, pero solo cubre Kubernetes.
+2. *"Rego es difícil para las tribus."* → Las tribus no escriben políticas: las escribe Plataforma y las publica
+   como parte de las plantillas (D7). Las tribus solo ven el mensaje de rechazo, que debe decir qué arreglar.

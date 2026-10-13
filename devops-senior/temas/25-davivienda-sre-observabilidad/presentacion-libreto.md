@@ -440,7 +440,8 @@ traza ya no se corta donde más duele."
    degradar en vez de caerse, buffer en los agentes y meta-monitoreo: el Collector expone sus métricas
    de datos aceptados, rechazados y encolados en un stack mínimo independiente.
 2. *¿Cómo garantizas que ningún equipo despliegue un Collector sin el redaction?* — Defensa en
-   profundidad: el gateway es el único con credenciales de salida, una política OPA bloquea
+   profundidad: el gateway es el único con credenciales de salida, una política del motor de políticas del banco (por
+   ejemplo OPA, Open Policy Agent) bloquea
    configuraciones sin el processor `redaction`, y la imagen se construye con OCB (OpenTelemetry
    Collector Builder) solo con los componentes aprobados y escaneada con Trivy.
 
