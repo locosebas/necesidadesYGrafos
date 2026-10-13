@@ -2,7 +2,7 @@
 
 Uso: python3 generar-presentacion.py
 Por diapositiva toma el título, el contenido, el primer diagrama Mermaid y el guion (notas del orador).
-Teclas: ← → (o clic) cambian de diapositiva · N muestra/oculta el guion · F pantalla completa.
+Teclas: ← → cambian de diapositiva · N guion · D (o clic en el diagrama) diagrama a pantalla completa · F pantalla completa.
 Para PDF: imprimir desde el navegador (una diapositiva por página).
 """
 import html
@@ -68,11 +68,14 @@ body {{ margin:0; background:#e9edf2; font-family:system-ui,Segoe UI,Roboto,sans
 header {{ display:flex; justify-content:space-between; color:var(--gris); font-size:1.6vh; text-transform:uppercase; letter-spacing:.05em; border-bottom:3px solid var(--azul); padding-bottom:.8vh; }}
 h1 {{ color:var(--oscuro); font-size:3.6vh; margin:1.6vh 0; }}
 .cuerpo {{ display:flex; gap:2vw; flex:1; min-height:0; }}
-ul {{ flex:0 0 38%; margin:0; padding-left:1.2em; font-size:2vh; line-height:1.45; overflow:auto; }}
+ul {{ flex:0 0 30%; margin:0; padding-left:1.2em; font-size:2vh; line-height:1.45; overflow:auto; }}
 li {{ margin-bottom:1vh; }}
 code {{ background:#eef2f7; padding:0 .25em; border-radius:3px; font-size:.9em; }}
-.diag {{ flex:1; min-width:0; display:flex; align-items:center; justify-content:center; overflow:hidden; }}
-.diag svg {{ max-width:100%; max-height:68vh; height:auto; }}
+.diag {{ flex:1; min-width:0; min-height:0; height:100%; display:flex; overflow:hidden; cursor:zoom-in; }}
+.diag pre {{ margin:0; flex:1; display:flex; }}
+.diag svg {{ width:100%; height:100%; }}
+body.zoom .cuerpo ul {{ display:none; }}
+body.zoom .diag {{ cursor:zoom-out; }}
 .cuerpo:not(:has(.diag)) ul {{ flex:1; font-size:2.4vh; }}
 .notas {{ display:none; margin-top:1vh; max-height:24vh; overflow:auto; background:#fff8e1; border-left:4px solid #c17900; padding:1vh 1vw; font-size:1.7vh; line-height:1.4; }}
 body.ver-notas .notas {{ display:block; }}
@@ -91,7 +94,8 @@ nav button {{ border:0; background:var(--azul); color:#fff; border-radius:4px; p
 <button id="nt" title="Guion (N)">Guion</button></nav>
 <script type="module">
 import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
-mermaid.initialize({{ startOnLoad:false, theme:"default", securityLevel:"loose" }});
+mermaid.initialize({{ startOnLoad:false, theme:"default", securityLevel:"loose", themeVariables:{{ fontSize:"18px" }},
+  flowchart:{{ useMaxWidth:false }}, gantt:{{ useMaxWidth:false, fontSize:16 }} }});
 const s=[...document.querySelectorAll(".slide")]; let i=0;
 const ir=n=>{{ i=Math.max(0,Math.min(s.length-1,n)); s.forEach((x,k)=>x.classList.toggle("activa",k===i));
   document.getElementById("cont").textContent=`${{i+1}} / ${{s.length}}`; location.hash=i+1; }};
@@ -101,11 +105,15 @@ document.getElementById("nt").onclick=()=>document.body.classList.toggle("ver-no
 addEventListener("keydown",e=>{{
   if(["ArrowRight","PageDown"," "].includes(e.key)) ir(i+1);
   if(["ArrowLeft","PageUp"].includes(e.key)) ir(i-1);
+  if(e.key==="d"||e.key==="D") document.body.classList.toggle("zoom");
   if(e.key==="n"||e.key==="N") document.body.classList.toggle("ver-notas");
   if(e.key==="f"||e.key==="F") document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();
 }});
 s.forEach(x=>x.classList.add("activa"));
 await mermaid.run({{ querySelector:".mermaid" }});
+document.querySelectorAll(".diag svg").forEach(v=>{{ v.removeAttribute("style"); v.setAttribute("width","100%");
+  v.setAttribute("height","100%"); v.setAttribute("preserveAspectRatio","xMidYMid meet"); }});
+document.querySelectorAll(".diag").forEach(d=>d.onclick=()=>document.body.classList.toggle("zoom"));
 ir((parseInt(location.hash.slice(1))||1)-1);
 </script>
 </body></html>"""
