@@ -80,3 +80,27 @@ una seguridad extra con el processor `redaction` en el gateway.
    de los backends buscando patrones; si aparece algo, es un incidente de seguridad.
 7. *"¿No le cuesta rendimiento al gateway?"* → Algo de CPU por las expresiones regulares; es despreciable frente
    al costo de una sanción por la Ley 1581.
+
+## D15 — Backends de almacenamiento
+
+**Tu decisión:** es una decisión general de la organización; si nos dejan sugerir, el stack de Grafana (Mimir,
+Tempo, Loki y Grafana).
+
+**Contraargumentos y respuestas:**
+1. **Licencia AGPL (ojo, el más importante para un banco).** Mimir, Tempo, Loki y Grafana son **AGPLv3** desde
+   2021. Para uso interno sin modificar el código no obliga a nada, pero muchas áreas jurídicas de banca revisan
+   el AGPL con lupa. Respuesta: *"Lo usamos sin modificarlo e internamente; si el área jurídica lo prefiere, existe
+   Grafana Enterprise (licencia comercial y soporte) o Grafana Cloud"*. Mejor decirlo tú antes de que te lo digan.
+2. *"Ya tenemos Datadog / Dynatrace."* → Perfecto: OpenTelemetry nos deja exportar a ambos a la vez y migrar por
+   partes (o no migrar). No se propone cambiar el backend en la presentación; se propone que el Collector nos dé
+   esa libertad.
+3. *"Autogestionar Mimir y Loki es mucho trabajo."* → Cierto: cuesta 2–4 FTE. A volumen de banco, ese costo es
+   menor que la factura SaaS (~30–50% del SaaS). A poco volumen, el SaaS gana; por eso es una decisión de escala.
+4. *"Loki no busca texto libre tan bien como Elasticsearch."* → Correcto: Loki solo indexa etiquetas, por eso es
+   barato; las búsquedas sin filtrar por etiqueta son más lentas. Con trace_id en cada log (que ya proponemos), se
+   llega al log exacto desde la traza sin búsquedas de texto libre.
+5. *"¿Y la alta cardinalidad?"* → En Loki, las etiquetas deben ser pocas (servicio, ambiente, nivel); el trace_id
+   va en el contenido, no como etiqueta. En Mimir, límites de series por tenant para que una tribu no dispare la
+   factura de todos.
+6. *"¿Una instancia o dos en multi-cloud?"* → Una por nube (sin pagar egress entre nubes) y Grafana consulta
+   ambas como fuentes de datos.
