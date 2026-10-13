@@ -1,10 +1,34 @@
-# Libreto de la presentación — Banco Plus (borrador v1)
+# Libreto de la presentación — Banco Plus (versión 2)
 
-> Borrador para ajustar a tu voz. Diez diapositivas, veinte minutos. Cada diapositiva tiene título,
-> contenido, diagrama (descrito en palabras y dibujado en Mermaid, para pasarlo a las diapositivas),
-> guion y preguntas probables de la mesa.
-> **No hay cifras de ahorro propias**: no conocemos las métricas de Banco Plus. El −30% es la meta del caso;
-> la cifra real sale de un estudio previo de la línea base. Solo se citan números públicos con fuente.
+> Diez diapositivas, veinte minutos. Cada diapositiva tiene título, contenido, diagrama (descrito en
+> palabras y dibujado en Mermaid, para pasarlo a las diapositivas), guion y preguntas probables de la mesa.
+>
+> **La versión 2 aplica la revisión del [análisis de alternativas](analisis-alternativas.md)** (las razones y
+> los contraargumentos están en [contraargumentos.md](contraargumentos.md)). Cinco reglas atraviesan todo el
+> libreto:
+>
+> 1. **Ningún número inventado.** Las metas y umbrales (latencia, zonas del Error Budget, ahorro, indicadores
+>    DORA) se calibran con datos en la **Fase 0**. Solo se dicen en voz alta la meta que pone el caso (−30%),
+>    valores estándar con fuente (las alertas del SRE Workbook de Google) y casos públicos citados.
+> 2. **Lo que el banco seguramente ya tiene no se escoge, se integra** (backend de observabilidad, on-call,
+>    ITSM, motor de políticas, IDP): se nombra como ejemplo.
+> 3. **Lo que sí proponemos se nombra** (GitHub Actions, Argo Rollouts o Flagger, OpenTelemetry Collector,
+>    Sloth, el servidor MCP propio).
+> 4. **Plataforma es un equipo habilitador:** da el piso, no el techo.
+> 5. **No mencionar sistemas que el caso no nombra** (se habla del "core bancario", sin productos).
+
+| # | Diapositiva | Eje | Tiempo |
+|---|---|---|---|
+| 1 | Portada y la historia | — | 1,5 min |
+| 2 | Contexto (C4 Context) | — | 1,5 min |
+| 3 | SLIs, SLOs y Error Budget Policy | 1 | 2 min |
+| 4 | Quality Gate autoejecutable | 1 | 2,5 min |
+| 5 | Arquitectura OpenTelemetry (C4 Container) | 2 | 2,5 min |
+| 6 | Smart Sampling y FinOps | 2 | 2 min |
+| 7 | Telemetría AI-Ready y MCP | 3 | 2 min |
+| 8 | Grafo de topología e IA causal | 3 | 2 min |
+| 9 | Incident Commander en hora pico | 4 | 2 min |
+| 10 | Post-mortem, cultura y hoja de ruta | 4 | 2 min |
 
 ---
 
@@ -16,8 +40,8 @@
 - Una sola historia, no cuatro proyectos: cada eje alimenta al siguiente.
 - El cliente define qué es "funcionar": SLO (Service Level Objective) del pago QR.
 - El pipeline protege el SLO; la telemetría lo explica; la IA acelera el diagnóstico; las personas aprenden.
-- Éxito medido con DORA (DevOps Research and Assessment): Change Failure Rate < 15% y Time to Restore < 1 h.
-- Telemetría: meta del caso −30% de costo, sin perder ninguna traza de error.
+- Éxito medido con DORA (DevOps Research and Assessment): Change Failure Rate y Time to Restore, contra la
+  línea base de la Fase 0. Telemetría: la meta del caso, −30% de costo, sin perder ninguna traza de error.
 
 **Diagrama:** un ciclo de cuatro pasos. Uno, SLO del pago QR con su Error Budget. Dos, Quality Gate en
 CI/CD que frena despliegues malos. Tres, OpenTelemetry Collector y MCP, que dan datos limpios, baratos y
@@ -30,7 +54,7 @@ flowchart LR
     gate["② Quality Gate en CI/CD<br/>frena los despliegues malos<br/><i>protege el SLO</i>"]
     otel["③ OpenTelemetry Collector + MCP<br/>datos limpios, baratos y sin PII<br/>para la IA causal<br/><i>explica el SLO</i>"]
     ic["④ Incident Commander<br/>+ post-mortem blameless<br/><i>las personas aprenden</i>"]
-    exito["Éxito medido con DORA<br/>Change Failure Rate < 15%<br/>Time to Restore < 1 h<br/>Telemetría: meta −30% de costo"]
+    exito["Éxito medido con DORA<br/>Change Failure Rate · Time to Restore<br/>contra la línea base de la Fase 0<br/>Telemetría: meta del caso −30%"]
 
     slo --> gate --> otel --> ic
     ic -- "acciones → SLOs y alertas mejores" --> slo
@@ -55,17 +79,19 @@ el OpenTelemetry Collector entrega datos limpios, sin PII (Personally Identifiab
 muestreados con inteligencia y más baratos; sobre esos datos, con Semantic Conventions y MCP (Model
 Context Protocol), la IA propone la causa raíz. Cuarto, el Incident Commander usa todo eso en la crisis,
 y el post-mortem blameless devuelve acciones que mejoran los SLOs. Ahí se cierra el ciclo.
-¿Cómo sabremos que funcionó? Con métricas DORA: Change Failure Rate por debajo del 15%, Time to Restore
-por debajo de una hora, y la meta de −30% en el costo de telemetría, medida contra una línea base real. En mi experiencia anterior, en una plataforma
-de comercio electrónico de alto volumen, implementé rollback automático por alertas durante canary y un
-servidor MCP de observabilidad. Lo que les voy a mostrar es ejecutable, no solo teórico."
+¿Cómo sabremos que funcionó? Con métricas DORA, Change Failure Rate y Time to Restore, medidas contra la
+línea base que levantamos al principio, y con la meta del caso: −30% en el costo de telemetría. Un
+aviso: no les voy a dar números inventados. Lo que no conozco de Banco Plus lo mido primero. En mi
+experiencia anterior, en una plataforma de comercio electrónico de alto volumen, implementé rollback
+automático por alertas durante canary y un servidor MCP de observabilidad. Lo que les voy a mostrar es
+ejecutable, no solo teórico."
 
 **Preguntas probables:**
 1. *¿Por qué empezar por los SLOs y no por las herramientas?* — Sin SLO no hay criterio: el Quality
    Gate no sabe cuándo frenar, el sampling no sabe qué traza es importante y el Incident Commander no
    sabe qué tan grave es el incidente. Las herramientas se reemplazan; la definición de "estar bien" no.
-2. *Esto suena a dos años de programa. ¿Qué entregas en 90 días?* — Se responde con la hoja de ruta de
-   la diapositiva 10: un servicio (pago QR), una fase 0 de caracterización de lo que ya existe y tres entregas
+2. *Esto suena a dos años de programa. ¿Qué entregas en 90 días?* — La hoja de ruta de la diapositiva 10:
+   un servicio piloto (pago QR), una Fase 0 de caracterización de lo que ya existe y tres entregas
    medibles a 30, 60 y 90 días.
 
 ---
@@ -87,7 +113,7 @@ servidor MCP de observabilidad. Lo que les voy a mostrar es ejecutable, no solo 
 - Actor "Comercio" → recibe la confirmación.
 - Sistema externo "Core bancario".
 - Sistema externo "Sistema de pagos inmediatos / otros bancos" (Bre-B).
-- Sistema "Plataforma de observabilidad" (Mimir, Tempo, Loki y Grafana) ← recibe telemetría.
+- Sistema "Plataforma de observabilidad actual del banco" ← recibe telemetría.
 - Actores internos "Tribus de desarrollo" (despliegan por CI/CD) e "Incident Commander / on-call".
 Debajo, una franja con cuatro etiquetas: reto 1 → Eje 1, reto 2 → Eje 2, reto 3 (MTTR) → Eje 3 + Eje 4,
 reto 4 (AIOps) → Eje 3.
@@ -103,7 +129,7 @@ flowchart TB
 
     core["Core bancario<br/>[Sistema externo]"]
     breb["Bre-B: pagos inmediatos<br/>y otros bancos<br/>[Sistema externo]"]
-    obs["Plataforma de observabilidad<br/>[Sistema]<br/>Mimir, Tempo, Loki y Grafana"]
+    obs["Plataforma de observabilidad<br/>actual del banco<br/>[Sistema]"]
 
     cliente -- "paga con QR" --> plataforma
     plataforma -- "confirma el pago" --> comercio
@@ -135,8 +161,8 @@ flowchart TB
 **Guion:**
 "Este es Banco Plus en un diagrama C4 de nivel Context: qué sistema construimos y con quién habla. El
 cliente paga con QR desde la app; el pago recorre microservicios en Kubernetes, repartidos entre AWS y
-GCP; para mover la plata se habla con el core bancario, y con el sistema de pagos
-inmediatos y otros bancos.
+GCP; para mover la plata se habla con el core bancario, y con el sistema de pagos inmediatos y otros
+bancos.
 Los cuatro retos del caso se ven aquí. Uno: las tribus despliegan por CI/CD sin freno, y eso en DORA se
 llama un Change Failure Rate alto. Dos: cada componente emite telemetría a su manera y la mandamos toda,
 sin filtro, a la plataforma de observabilidad; pagamos por volumen, no por valor. Tres: cuando algo
@@ -144,41 +170,42 @@ falla, la traza se corta justo en la frontera con el core, y cada equipo nombra 
 así que el MTTR es largo. Cuatro: queremos IA, pero la IA no puede razonar sobre datos desordenados.
 La causa común es que no tenemos un 'estar bien' medible ni datos estandarizados. Los cuatro ejes que
 siguen atacan esa causa en orden: primero la definición, después los datos, después la inteligencia y,
-por último, las personas."
+por último, las personas. Y parto de lo que el banco ya tiene: no vengo a cambiarles las herramientas."
 
 **Preguntas probables:**
 1. *El caso habla de CBU. ¿Lo tuviste en cuenta?* — "CBU es un término argentino; en Colombia el
    equivalente de pagos inmediatos es Bre-B, del Banco de la República. El diseño aplica igual: es una
-   dependencia externa más en el grafo, con su propio SLI de latencia."
+   dependencia externa más en el grafo, con su propio SLI."
 2. *¿Por qué no incluyes el nivel Component del C4?* — "Para una mesa de decisión bastan Context y
    Container; el detalle de componentes lo dibuja cada tribu en su repositorio, como arquitectura como
    código."
 
 ---
 
-## Diapositiva 3 — Eje 1: SLIs, SLOs y Error Budget del pago QR (2 min)
+## Diapositiva 3 — Eje 1: SLIs, SLOs y Error Budget Policy del pago QR (2 min)
 
 **Título:** Qué es "estar bien" para el cliente que paga con QR.
 
 **Contenido:**
-- SLI de disponibilidad: pagos aceptados sin error de sistema ÷ pagos válidos. SLO 99,9% en 30 días
-  móviles = Error Budget de 43,2 min/mes.
-- SLI de latencia: proporción de pagos confirmados por debajo de un umbral de latencia, medido en el API
-  Gateway (percentil, nunca promedio). **El umbral y el porcentaje no se inventan**: se calibran en la Fase 0
-  con la curva de abandono del cliente, los timeouts del flujo y el histograma real, y se reevalúan cada trimestre.
+- SLI (Service Level Indicator) de disponibilidad: pagos aceptados sin error de sistema ÷ pagos válidos.
+  SLO de partida 99,9% en 30 días móviles (Error Budget de 43,2 min al mes), **calibrado con datos de la Fase 0**.
+- SLI de latencia: proporción de pagos confirmados por debajo de un umbral, medido en el API Gateway
+  (percentil, nunca promedio). **El umbral no se inventa:** sale de la curva de abandono del cliente, los
+  timeouts del flujo y el histograma real; se reevalúa cada trimestre.
 - Corrección: cero cobros dobles (idempotency key). Saturación como alerta temprana, no como SLO.
 - Golden Signals (Latency, Traffic, Errors, Saturation) medidas donde las vive el cliente.
-- Error Budget Policy de **conservación**, firmada con negocio: siempre la estrategia que menos presupuesto gasta
-  (canary por defecto) · en riesgo: solo canary lento · crítico: congelado salvo arreglos de confiabilidad. Los
-  umbrales de cada zona se negocian con negocio con datos de la Fase 0.
+- **Error Budget Policy de conservación**, firmada con negocio: siempre la estrategia de despliegue que menos
+  presupuesto gasta (canary por defecto) · en riesgo: solo canary lento · crítico: congelado salvo arreglos de
+  confiabilidad. Los umbrales de cada zona se negocian con negocio con datos.
 
-**Diagrama:** una barra horizontal del Error Budget mensual (43,2 min) con tres zonas de color, sin porcentajes: verde
+**Diagrama:** una barra horizontal del Error Budget con tres zonas de color, sin porcentajes: verde
 ("sano: canary por defecto"), amarillo ("en riesgo: solo canary lento"), rojo ("crítico: congelado salvo
-fixes"). Nota al pie: "umbrales a negociar con negocio". Al lado, un recuadro: "Dependencias en serie: 3 × 99,9% = 99,7%".
+fixes"). Nota al pie: "umbrales a negociar con negocio". Al lado, un recuadro: "Dependencias en serie:
+0,999³ ≈ 99,7%".
 
 ```mermaid
 flowchart LR
-    subgraph eb["Error Budget mensual: 43,2 min (SLO 99,9% en 30 días móviles)"]
+    subgraph eb["Error Budget del pago QR (SLO de partida 99,9% en 30 días móviles, se calibra en la Fase 0)"]
         direction LR
         verde["🟢 Sano<br/><b>Canary por defecto</b><br/>(la estrategia que menos gasta)"]
         amarillo["🟡 En riesgo<br/><b>Solo canary lento</b><br/>y análisis estricto"]
@@ -191,7 +218,7 @@ flowchart LR
         s1["Servicio A<br/>99,9%"] --> s2["Servicio B<br/>99,9%"] --> s3["Servicio C<br/>99,9%"] --> total["0,999³ ≈ <b>99,7%</b>"]
     end
 
-    politica["Error Budget Policy<br/>firmada con negocio"] -.-> eb
+    politica["Error Budget Policy de conservación<br/>firmada con negocio<br/>(umbrales negociados con datos)"] -.-> eb
     eb ~~~ serie
 
     classDef ok fill:#2e7d32,stroke:#1b5e20,color:#ffffff
@@ -206,16 +233,17 @@ flowchart LR
 
 **Guion:**
 "Empiezo por el cliente, no por el servidor. Al cliente que paga con QR le importan tres cosas: que el
-pago salga, que salga rápido y que no le cobren dos veces. Eso se traduce en SLIs (Service Level
-Indicators).
+pago salga, que salga rápido y que no le cobren dos veces. Eso se traduce en SLIs, Service Level
+Indicators.
 El primer SLI es disponibilidad: pagos aceptados sin error de sistema sobre pagos válidos. Ojo con
-'válidos': un saldo insuficiente no es culpa nuestra y no cuenta. El SLO es 99,9% en una ventana móvil
-de 30 días. Eso nos da un Error Budget de 43,2 minutos al mes.
+'válidos': un saldo insuficiente no es culpa nuestra y no cuenta. Como punto de partida propongo un SLO
+de 99,9% en una ventana móvil de 30 días, que da un Error Budget de 43,2 minutos al mes; ese número se
+calibra con los datos reales de la Fase 0.
 El segundo SLI es latencia: la proporción de pagos confirmados por debajo de un umbral, medida en el API
 Gateway, que es lo más cerca del cliente que tenemos. No les voy a dar el número del umbral, porque
 sería inventarlo: sale de cruzar en qué punto el cliente abandona o reintenta el pago, los timeouts del
-flujo y el histograma real de cuatro semanas. Y se reevalúa cada trimestre. Siempre en percentil, nunca en promedio, porque
-el promedio esconde al cliente que esperó 10 segundos.
+flujo y el histograma real de cuatro semanas, y se reevalúa cada trimestre. Siempre en percentil, nunca
+en promedio, porque el promedio esconde al cliente que esperó demasiado.
 Las Golden Signals (latencia, tráfico, errores y saturación) cubren el resto: la saturación la usamos
 como alerta temprana, no como SLO, porque el cliente no ve la CPU.
 Y lo más importante de esta diapositiva no es el número: es la Error Budget Policy. Es un acuerdo
@@ -229,11 +257,13 @@ tiene autoridad, y la tiene porque negocio la firmó."
 **Preguntas probables:**
 1. *¿Por qué no 100% si el pago es crítico?* — Es inalcanzable (el cliente depende de su red, su
    celular y otros bancos), congela la innovación porque cero presupuesto es cero despliegues, y cada
-   nueve adicional cuesta exponencialmente más. El SLO correcto es donde el cliente deja de notar la
-   diferencia.
+   nueve adicional exige redundancia en todas las dependencias. El SLO correcto es donde el cliente deja
+   de notar la diferencia, y eso se mide.
 2. *El pago QR depende de tres servicios con 99,9% cada uno. ¿Llegas a 99,9%?* — No: en serie se
    multiplican, 0,999³ ≈ 99,7%. Por eso las dependencias críticas necesitan un SLO más exigente o
-   redundancia; dos réplicas independientes de 99% en paralelo dan 99,99%.
+   redundancia: dos réplicas independientes de 99% en paralelo dan 99,99%.
+3. *¿Cuál es tu SLO de latencia?* — "El SLI está definido; el umbral sale de la curva de abandono del
+   cliente y del timeout del flujo, en la Fase 0. Un número inventado hoy o nace roto o no protege nada."
 
 ---
 
@@ -242,46 +272,45 @@ tiene autoridad, y la tiene porque negocio la firmó."
 **Título:** El pipeline frena solo: antes, durante y después del despliegue.
 
 **Contenido:**
-- **Antes:** un reusable workflow de GitHub Actions (runners dentro del banco con ARC, credenciales por OIDC) consulta el Error Budget y el burn rate (SLO como
-  código con **Sloth** / OpenSLO → reglas de Prometheus); si la política dice "congelado", termina en `exit 1`.
-- **Quién controla:** Plataforma publica plantillas por lenguaje con mínimos obligatorios (pruebas,
-  seguridad, gate de Error Budget); cada tribu agrega lo que quiera encima. El paso a producción lo aprueba
-  una **deployment protection rule** de Plataforma; sin el environment `production`, OIDC no entrega credenciales.
-- **Durante:** canary (5% → 25% → 50% → 100%) con Argo Rollouts o, si ya tienen service mesh, Flagger;
-  análisis automático contra Prometheus;
-  si empeora, rollback automático.
-- **Después:** verificación de 30 min del burn rate y registro del evento de cambio.
-- Alertas multi-window, multi-burn-rate: 14,4× en 1 h → page · 6× en 6 h → page · 1× en 3 días → ticket.
-- Indicador de éxito: Change Failure Rate < 15%.
+- **Quién controla:** Plataforma publica plantillas por lenguaje (reusable workflows de GitHub Actions) con
+  mínimos obligatorios: pruebas, seguridad y gate de Error Budget. Cada tribu agrega lo que quiera encima.
+- **Antes:** el paso a producción lo aprueba una **deployment protection rule** de Plataforma, que consulta el
+  Error Budget y el burn rate (SLO como código con Sloth / OpenSLO → reglas de Prometheus). Sin el environment
+  `production`, OIDC (OpenID Connect) no entrega credenciales en AWS ni en GCP.
+- **Durante:** canary con análisis automático contra Prometheus, con **Argo Rollouts** o, si ya tienen un
+  service mesh, **Flagger**; si empeora, rollback automático.
+- **Después:** verificación posterior del burn rate y registro del evento de cambio.
+- Alertas multi-window, multi-burn-rate del SRE Workbook de Google: 14,4× en 1 h → page · 6× en 6 h → page ·
+  1× en 3 días → ticket.
 
-**Diagrama:** flujo del pipeline de izquierda a derecha: Commit → Build y pruebas → **Gate 1: ¿hay
-Error Budget?** (consulta a Prometheus las métricas de Error Budget que genera Sloth; rojo = alto) → Despliegue canary 5% → **Gate 2: análisis
-automático** (Prometheus: tasa de error y p99 del canary vs. versión estable; malo = rollback) → 25% →
-50% → 100% → **Gate 3: verificación posterior** → evento "cambio desplegado" enviado al catálogo de
-cambios (que luego consultará el servidor MCP). Una flecha punteada de excepción: "hotfix de
-confiabilidad con aprobación manual y auditoría".
+**Diagrama:** flujo del pipeline de izquierda a derecha: Commit → Build, pruebas y seguridad (plantilla) →
+**Gate 1: deployment protection rule** (¿hay Error Budget?) → Canary con un porcentaje pequeño → **Gate 2:
+análisis automático** (tasa de error y p99 del canary vs. versión estable; malo = rollback) → pasos crecientes
+hasta el 100% → **Gate 3: verificación posterior** → evento "cambio desplegado" enviado al registro de
+cambios (que luego consultará el servidor MCP). Una flecha punteada de excepción: "hotfix de confiabilidad
+con aprobación manual y auditoría".
 
 ```mermaid
 flowchart LR
     subgraph antes["ANTES: plantilla de Plataforma por lenguaje"]
         direction TB
         commit["Commit"] --> build["Build, pruebas y seguridad<br/>(mínimos obligatorios<br/>+ lo que agregue la tribu)"]
-        build --> g1{"<b>Gate 1</b><br/>¿Hay Error Budget?<br/>deployment protection rule<br/>consulta Prometheus<br/>(reglas generadas por Sloth)"}
+        build --> g1{"<b>Gate 1</b><br/>deployment protection rule<br/>¿hay Error Budget?<br/>(Prometheus + reglas de Sloth)"}
     end
 
     subgraph durante["DURANTE: canary con Argo Rollouts o Flagger"]
         direction TB
-        c5["Canary 5%"] --> g2{"<b>Gate 2</b><br/>Análisis automático<br/>tasa de error y p99<br/>canary vs. estable"}
-        g2 -- "sano" --> c25["25%"] --> c50["50%"] --> c100["100%"]
+        c5["Canary: porcentaje pequeño"] --> g2{"<b>Gate 2</b><br/>Análisis automático<br/>tasa de error y p99<br/>canary vs. estable"}
+        g2 -- "sano" --> pasos["Pasos crecientes"] --> c100["100%"]
     end
 
     subgraph despues["DESPUÉS"]
         direction TB
-        g3{"<b>Gate 3</b><br/>Verificación posterior<br/>30 min de burn rate"} --> evento["Evento 'cambio desplegado'<br/>→ catálogo de cambios<br/>(lo consulta el servidor MCP)"]
+        g3{"<b>Gate 3</b><br/>Verificación posterior<br/>del burn rate"} --> evento["Evento 'cambio desplegado'<br/>→ registro de cambios<br/>(lo consulta el servidor MCP)"]
     end
 
     g1 -- "hay presupuesto<br/>OIDC entrega credenciales" --> c5
-    g1 -- "congelado: exit 1" --> alto["⛔ Despliegue detenido"]
+    g1 -- "congelado" --> alto["⛔ Despliegue detenido"]
     g2 -- "empeora" --> rb["↩️ Rollback automático"]
     c100 --> g3
     hotfix["Hotfix de confiabilidad<br/>aprobación manual + auditoría"] -. "excepción" .-> c5
@@ -294,7 +323,7 @@ flowchart LR
     class hotfix,evento nota
 ```
 
-Alertas que acompañan al pipeline (multi-window, multi-burn-rate):
+Alertas que acompañan al pipeline (multi-window, multi-burn-rate, valores del SRE Workbook de Google):
 
 ```mermaid
 flowchart LR
@@ -304,43 +333,44 @@ flowchart LR
 ```
 
 **Guion:**
-"El reto uno dice que el CI/CD no detiene ni revierte. Fíjense que son dos verbos distintos y por eso
-el Quality Gate tiene tres momentos.
-Antes: el pipeline de GitHub Actions —un reusable workflow que mantiene Plataforma, así todas las tribus usan el mismo gate— llega al paso de producción y le pregunta a la
-fuente de SLOs —el SLO está escrito como código en Git con Sloth, que genera las reglas de Prometheus— cuánto Error Budget queda y a qué burn rate se está gastando. El burn rate es la
-velocidad de consumo: un burn rate de 14,4 se come el presupuesto del mes en unos dos días. Si la Error
-Budget Policy dice 'congelado', el paso termina con error y el despliegue no corre. Nadie tiene que
-acordarse: es autoejecutable. ¿Y si una tribu borra ese paso? No puede: el paso vive en la plantilla de
-Plataforma, una por lenguaje, con los mínimos de calidad, seguridad y confiabilidad. Cada tribu agrega
-las pruebas que quiera encima —damos el piso, no el techo—, el paso a producción no depende de su YAML:
-lo aprueba una deployment protection rule del environment de producción, una app de Plataforma que
-consulta el Error Budget y los mínimos. Y si alguien intenta desplegar sin ese environment, AWS y GCP
-no le entregan credenciales por OIDC: el despliegue no arranca. La única excepción es un hotfix de confiabilidad, con aprobación manual y
-auditoría.
+"El reto uno dice que el CI/CD no detiene ni revierte. Fíjense que son dos verbos distintos, y por eso
+el Quality Gate tiene tres momentos. Pero antes, una pregunta de fondo: ¿quién controla los pipelines?
+Mi propuesta es que Plataforma, como equipo habilitador, publique plantillas por lenguaje en GitHub
+Actions con los mínimos de calidad, seguridad y confiabilidad. Cada tribu agrega las pruebas que quiera
+encima: damos el piso, no el techo.
+Antes: el paso a producción no depende del YAML de la tribu. Lo aprueba una deployment protection rule
+del environment de producción, una aplicación de Plataforma que pregunta cuánto Error Budget queda y a
+qué burn rate se está gastando. El SLO vive como código en Git, con Sloth, que genera las reglas de
+Prometheus. Si la política dice 'congelado', el despliegue no corre; y si alguien intenta desplegar sin
+ese environment, AWS y GCP no le entregan credenciales por OIDC. Nadie tiene que acordarse: es
+autoejecutable. La única excepción es un hotfix de confiabilidad, con aprobación manual y auditoría.
 Durante: si el gate deja pasar, no desplegamos al 100%. No impongo herramientas: si ya usan Argo CD,
-Argo Rollouts; si ya tienen un service mesh, Flagger lo automatiza. Cualquiera de las dos manda la versión nueva al 5% del
-tráfico y compara, contra Prometheus, la tasa de error y el p99 del canary frente a la versión estable.
-Si empeora, revierte solo, antes de que el 95% de los clientes lo note. Esto lo implementé en mi
-experiencia anterior y es lo que más baja el Change Failure Rate.
-Después: 30 minutos de verificación y un evento de 'cambio desplegado' que queda registrado; en el
-eje tres verán por qué ese registro es oro para la IA.
+Argo Rollouts; si ya tienen un service mesh, Flagger lo automatiza. Cualquiera de las dos manda la versión
+nueva a un porcentaje pequeño del tráfico y compara, contra Prometheus, la tasa de error y el p99 del
+canary frente a la versión estable. Si empeora, revierte sola, antes de que la mayoría de los clientes
+lo note. Esto lo implementé en mi experiencia anterior y es lo que más baja el Change Failure Rate.
+Después: verificación posterior y un evento de 'cambio desplegado' que queda registrado; en el eje tres
+verán por qué ese registro es oro para la IA.
 Las alertas siguen el modelo multi-window, multi-burn-rate del SRE Workbook de Google: 14,4 veces en
 una hora despierta a alguien, 6 veces en seis horas también, y 1 vez en tres días abre un ticket. Así
 no despertamos a nadie por un pico de dos minutos, pero tampoco se nos escapa una fuga lenta."
 
 **Pregunta para hacerle a la mesa:** *"¿Hoy quién es dueño de los pipelines: cada tribu o un equipo
-central? ¿Ya existen plantillas corporativas?"*
+central? ¿Ya existen plantillas corporativas? ¿Y con qué despliegan en Kubernetes: Argo CD, Flux, tienen
+service mesh?"*
 
 **Preguntas probables:**
 1. *Se acabó el Error Budget, pero negocio exige lanzar una campaña el viernes. ¿Qué haces?* — No es
    un "no" técnico: aplico la Error Budget Policy y escalo con datos. Ofrezco alternativas: feature
    flag a un porcentaje pequeño, ventana de bajo tráfico, canary con rollback automático o aceptación
    formal del riesgo por escrito. Convierto la discusión en una decisión de riesgo explícita.
-2. *¿Por qué burn rate y no "alertar si el error pasa del 1%"?* — Un umbral fijo despierta a alguien
-   por picos que no ponen en riesgo el SLO y no ve las fugas lentas. El burn rate liga la alerta al
-   impacto real sobre el presupuesto; la ventana corta además hace que la alerta se apague rápido
-   cuando se arregla.
-3. *¿Eso no convierte a Plataforma en un cuello de botella o en policía?* — No: somos habilitadores.
+2. *Soy administrador del repositorio: le quito la regla al environment.* — Los environments y sus reglas
+   se definen como código (Terraform) y los gestiona Plataforma; las tribus no son administradoras. Y un
+   admission controller en el clúster rechaza imágenes sin firma aunque alguien despliegue a mano.
+3. *¿Por qué canary y no Blue/Green?* — Canary ahorra Error Budget en exposición: solo una fracción ve la
+   versión mala. Blue/Green ahorra en tiempo, pero en el switch el 100% de los clientes la ve; lo dejo para
+   servicios cuyo tráfico no se puede dividir.
+4. *¿Eso no convierte a Plataforma en un cuello de botella o en policía?* — No: somos habilitadores.
    Solo imponemos el piso mínimo; las tribus extienden la plantilla sin pedirnos permiso y contribuyen
    mejoras por pull request (inner source). Las excepciones existen, con dueño y fecha de vencimiento.
 
@@ -353,21 +383,21 @@ central? ¿Ya existen plantillas corporativas?"*
 **Contenido:**
 - OTel Collector **agente** (DaemonSet) por nodo: metadatos de Kubernetes, logs locales, filtrado barato.
 - OTel Collector **gateway de dos capas** por nube: capa 1 con `loadbalancing` por traceID, capa 2 con
-  `tail_sampling`.
-- PII: cada aplicación la enmascara (plantilla de logging); **seguridad extra** de Plataforma con el processor
-  `redaction` en el gateway, **dentro de la red del banco**, antes de exportar (SFC, Ley 1581).
-- `traceparent` W3C (o B3 en legado) en los headers de las llamadas y mensajes hacia el core; span links en lo asíncrono.
+  `tail_sampling`. Imagen construida con OCB (OpenTelemetry Collector Builder): solo componentes aprobados.
+- PII: **cada aplicación la enmascara** (plantilla de logging); **seguridad extra** de Plataforma con el
+  processor `redaction` en el gateway, en modo lista permitida, **dentro de la red del banco** (SFC, Ley 1581).
+- `traceparent` W3C en las llamadas y mensajes hacia el core; span links en lo asíncrono.
 - OpenTelemetry Operator: auto-instrumentación por anotación, sin cambiar el código de las tribus.
+- Exporta al backend de observabilidad que ya tenga el banco (por ejemplo, Mimir, Tempo y Loki).
 
 **Diagrama (C4 nivel 2, Container):** dos bloques grandes, "AWS (EKS)" y "GCP (GKE)", iguales por
 dentro. En cada uno: pods de microservicios con SDK/auto-instrumentación → **OTel Collector agente**
-(DaemonSet, un rombo por nodo) → **Gateway capa 1** (`loadbalancing` por traceID) → **Gateway capa 2**
-(`memory_limiter` → `filter` → `redaction` → `tail_sampling` → `batch`, y el connector `spanmetrics`
-antes del muestreo). Un tercer bloque, "Datacenter": conector del core instrumentado ↔ core bancario, con un
-sobre que dice "traceparent en el header". Las salidas de ambos gateways van por OTLP con mTLS a
-"Backends de observabilidad" (Mimir para métricas, Tempo para trazas, Loki para logs) y a un pipeline separado "Auditoría regulatoria
-(sin muestreo, inmutable)". Una línea roja punteada marca "frontera de la red del banco: ninguna PII
-la cruza".
+(DaemonSet) → **Gateway capa 1** (`loadbalancing` por traceID) → **Gateway capa 2** (`memory_limiter` →
+`filter` → `redaction` → `tail_sampling` → `batch`, y los connectors `spanmetrics` y `servicegraph` antes del
+muestreo). Un tercer bloque, "Datacenter": conector del core instrumentado ↔ core bancario, con un sobre
+que dice "traceparent en el header". Las salidas de ambos gateways van por OTLP con mTLS al "Backend de
+observabilidad del banco" y a un pipeline separado "Auditoría regulatoria (sin muestreo, inmutable)". Una
+línea roja punteada marca "frontera de la red del banco: ninguna PII la cruza".
 
 ```mermaid
 flowchart LR
@@ -375,13 +405,13 @@ flowchart LR
         direction LR
         subgraph aws["AWS (EKS)"]
             direction TB
-            appA["Pods de microservicios<br/>SDK o auto-instrumentación<br/>(OpenTelemetry Operator)"]
+            appA["Pods de microservicios<br/>enmascaran su PII (plantilla)<br/>SDK o auto-instrumentación<br/>(OpenTelemetry Operator)"]
             agA["OTel Collector <b>agente</b><br/>DaemonSet, uno por nodo<br/>metadatos de Kubernetes<br/>bota health checks"]
             gw1A["Gateway <b>capa 1</b><br/>exporter loadbalancing<br/>por traceID"]
-            subgraph gw2A["Gateway capa 2"]
+            subgraph gw2A["Gateway capa 2 (imagen OCB)"]
                 direction TB
-                procA["memory_limiter → filter<br/>→ redaction (PII)"]
-                smA["connector spanmetrics<br/>ve el 100% de los spans"]
+                procA["memory_limiter → filter<br/>→ redaction (seguridad extra de PII)"]
+                smA["connectors spanmetrics<br/>y servicegraph<br/>ven el 100% de los spans"]
                 tsA["tail_sampling → batch"]
                 procA --> smA
                 procA --> tsA
@@ -402,10 +432,10 @@ flowchart LR
         audit["Auditoría regulatoria<br/>pipeline aparte<br/>sin muestreo, inmutable"]
     end
 
-    backends["Backends de observabilidad<br/>Mimir (métricas)<br/>Tempo (trazas)<br/>Loki (logs)"]
+    backends["Backend de observabilidad<br/>que ya tenga el banco<br/>(por ejemplo, Mimir, Tempo y Loki)"]
 
-    appA -- "mensaje con traceparent" --> conector
-    conector -. "spans del adaptador" .-> gw1A
+    appA -- "llamada con traceparent" --> conector
+    conector -. "spans del conector" .-> gw1A
     smA -- "OTLP + mTLS" --> backends
     tsA -- "OTLP + mTLS" --> backends
     gw2G -- "OTLP + mTLS" --> backends
@@ -422,7 +452,8 @@ flowchart LR
 
 **Guion:**
 "Este es el diagrama C4 de nivel Container de la telemetría. La idea es un solo camino estándar, igual
-en AWS, en GCP y en el datacenter, con OpenTelemetry, que es neutral frente al proveedor.
+en AWS, en GCP y en el datacenter, con OpenTelemetry, que es lo que pide el caso y es neutral frente al
+proveedor: no les pido cambiar su backend de observabilidad, el Collector exporta al que ya tengan.
 En cada nodo de Kubernetes corre un OTel Collector en modo agente, como DaemonSet: recibe la
 telemetría local, le pega los metadatos de Kubernetes y bota lo obvio, como los health checks. Las
 tribus no tienen que cambiar su código: el OpenTelemetry Operator inyecta la auto-instrumentación con
@@ -431,46 +462,51 @@ Luego viene el OTel Collector en modo gateway, que es donde vive la inteligencia
 ¿Por qué dos? Porque para decidir qué traza guardar hay que ver la traza completa, y si los spans de un
 mismo pago caen en réplicas distintas, ninguna la ve entera. La capa uno usa el exporter loadbalancing
 y enruta por traceID: todos los spans de un pago llegan a la misma réplica. La capa dos hace el
-muestreo, que les explico en la siguiente diapositiva.
+muestreo, que les explico en la siguiente diapositiva. La imagen del Collector la construimos con OCB,
+solo con los componentes aprobados: menos superficie de ataque.
 Dos cosas para DevSecOps. Primera: la PII la enmascara cada aplicación, con la librería de logging de la
 plantilla; pero no confiamos en una sola capa, así que Plataforma pone una seguridad extra aquí, con el
-processor redaction en el gateway, dentro de la red del banco. La cédula y el número de tarjeta se tachan antes de salir; si lo hiciéramos
-en la consola del proveedor, el dato ya habría viajado, y eso incumple la Ley 1581 y las instrucciones
-de la Superintendencia Financiera. Segunda: todo viaja por OTLP con mTLS.
+processor redaction en el gateway, en modo lista permitida: todo atributo que no esté aprobado se borra.
+Todo eso pasa dentro de la red del banco; si lo hiciéramos en la consola del proveedor, el dato ya
+habría viajado, y eso incumple la Ley 1581 y las instrucciones de la Superintendencia Financiera.
+Segunda: todo viaja por OTLP con mTLS.
 Y la frontera con el core: el header traceparent del estándar W3C viaja dentro de las llamadas y los
-mensajes hacia el core. Si el core no se puede instrumentar, instrumentamos el conector de entrada y salida. Así la
-traza ya no se corta donde más duele."
+mensajes hacia el core. Si el core no se puede instrumentar, instrumentamos el conector de entrada y
+salida. Así la traza ya no se corta donde más duele."
 
 **Preguntas probables:**
 1. *¿Qué pasa si el gateway se cae en plena crisis?* — Varias réplicas con HPA (Horizontal Pod
    Autoscaler), `sending_queue` con almacenamiento persistente y reintentos, `memory_limiter` para
    degradar en vez de caerse, buffer en los agentes y meta-monitoreo: el Collector expone sus métricas
    de datos aceptados, rechazados y encolados en un stack mínimo independiente.
-2. *¿Cómo garantizas que ningún equipo despliegue un Collector sin el redaction?* — Defensa en
-   profundidad: el gateway es el único con credenciales de salida, una política del motor de políticas del banco (por
-   ejemplo OPA, Open Policy Agent) bloquea
-   configuraciones sin el processor `redaction`, y la imagen se construye con OCB (OpenTelemetry
-   Collector Builder) solo con los componentes aprobados y escaneada con Trivy.
+2. *Si cada aplicación ya enmascara, ¿para qué el gateway?* — Defensa en profundidad: basta un
+   desarrollador que loguee la petición completa para que una cédula se escape. El gateway es la red final
+   y el único punto auditable. Donde haga falta correlacionar, se usa hash en vez de borrar.
+3. *¿Cómo garantizas que nadie despliegue un Collector sin el redaction?* — El gateway es el único con
+   credenciales de salida, y el motor de políticas del banco (por ejemplo, OPA, Open Policy Agent) bloquea
+   configuraciones sin el processor `redaction`.
 
 ---
 
-## Diapositiva 6 — Eje 2: Smart Sampling y FinOps (−30%) (2 min)
+## Diapositiva 6 — Eje 2: Smart Sampling y FinOps (2 min)
 
 **Título:** Pagar por señal, no por ruido: la meta del −30% sin perder un solo error.
 
 **Contenido:**
-- Tail-based sampling: 100% de errores, 100% de los pagos más lentos que el umbral del SLO de latencia, 5% de los exitosos (`decision_wait` 10 s).
+- Tail-based sampling: 100% de errores, 100% de los pagos más lentos que el umbral del SLO de latencia, y
+  un porcentaje pequeño de los exitosos, que se ajusta midiendo.
 - `spanmetrics` **antes** del muestreo: métricas RED exactas al 100% aunque se descarten trazas.
 - Log-to-Metrics (connector `count`) + `filter` de DEBUG en producción.
 - Control de cardinalidad: ningún ID único como etiqueta de métrica. Showback de costo por tribu.
 - Auditoría regulatoria por un pipeline aparte: nunca se muestrea.
+- **La cifra de ahorro no se promete:** sale del estudio de línea base de la Fase 0.
 
 **Diagrama:** de izquierda a derecha, tres pasos: **1. Estudio de línea base** (GB/día por señal y por
-servicio, mayores emisores, cardinalidad, factura actual) → **2. Palancas** (tres cajas: trazas → tail sampling;
-logs → Log-to-Metrics y filtro de DEBUG; métricas → control de cardinalidad) → **3. Medir antes y después**
-contra la meta del −30% y mostrar el costo por tribu (showback). Al pie, una franja de "Referencias públicas":
-"Capital One: −70% de volumen de trazas con OpenTelemetry · Pismo (pagos): −80% de costo de observabilidad con
-tail sampling".
+servicio, mayores emisores, cardinalidad, factura actual) → **2. Palancas** (tres cajas: trazas → tail
+sampling; logs → Log-to-Metrics y filtro de DEBUG; métricas → control de cardinalidad) → **3. Medir antes y
+después** contra la meta del −30% y mostrar el costo por tribu (showback). Al pie, una franja de
+"Referencias públicas": "Capital One: ~70% menos volumen de trazas con OpenTelemetry · Pismo (pagos): ~80%
+menos costo de observabilidad con tail sampling".
 
 ```mermaid
 flowchart LR
@@ -483,7 +519,7 @@ flowchart LR
     medir["<b>3. Medir antes y después</b><br/>meta del caso: −30%<br/>showback por tribu"]
     estudio --> palancas --> medir
     spanm["spanmetrics antes del muestreo:<br/>métricas RED exactas al 100%"] -.-> trazas
-    refs["Referencias públicas: Capital One −70% volumen de trazas ·<br/>Pismo −80% costo de observabilidad"] -.-> medir
+    refs["Referencias públicas: Capital One ~70% menos volumen de trazas ·<br/>Pismo ~80% menos costo de observabilidad"] -.-> medir
 ```
 
 **Guion:**
@@ -492,28 +528,31 @@ guardar menos de todo.
 La palanca principal es el tail-based sampling. El head-based sampling decide al inicio de la traza,
 con un porcentaje fijo: es barato, pero puede botar justo el pago que iba a fallar. El tail-based
 sampling decide al final, cuando ya vio la traza completa: guarda el 100% de los errores, el 100% de los
-pagos más lentos que el umbral del SLO de latencia y solo el 5% de los exitosos y repetitivos.
-La pregunta obvia es: si boto el 95% de las trazas exitosas, ¿no quedan mal las métricas? No, porque el
-connector spanmetrics calcula las métricas de tasa, errores y duración antes del muestreo. Las métricas
+pagos más lentos que el umbral del SLO de latencia, y solo un porcentaje pequeño de los exitosos y
+repetitivos, que ajustamos midiendo.
+La pregunta obvia es: si boto la mayoría de las trazas exitosas, ¿no quedan mal las métricas? No, porque
+el connector spanmetrics calcula las métricas de tasa, errores y duración antes del muestreo. Las métricas
 son exactas al 100%; solo muestreamos el detalle.
-Segunda palanca, los logs, que suelen ser la mitad de la factura: miles de líneas de 'pago exitoso' se
-vuelven un contador con Log-to-Metrics, y los logs de DEBUG no llegan a producción.
+Segunda palanca, los logs: miles de líneas de 'pago exitoso' se vuelven un contador con Log-to-Metrics,
+y los logs de DEBUG no llegan a producción.
 Tercera, la cardinalidad: un número de usuario como etiqueta de métrica crea una serie nueva por
 cliente. Los IDs van en trazas y logs, nunca en métricas.
-¿Cuánto ahorra todo esto en Banco Plus? No les voy a dar una cifra sin conocer sus datos. Lo primero es un
-estudio de la línea base: GB por día por señal y por servicio, y la factura actual. Lo que sí sé es que la meta
-es alcanzable: Capital One redujo cerca del 70% del volumen de trazas con OpenTelemetry, y Pismo, una
-plataforma de pagos, cerca del 80% de su costo de observabilidad con tail sampling. Y a cada tribu le
-mostramos su costo, el showback de FinOps, porque lo que no se ve no se
-optimiza.
+¿Cuánto ahorra todo esto en Banco Plus? No les voy a dar una cifra sin conocer sus datos. Lo primero es
+un estudio de la línea base: GB por día por señal y por servicio, y la factura actual. Lo que sí sé es que
+la meta es alcanzable: Capital One redujo cerca del 70% del volumen de trazas con OpenTelemetry, y Pismo,
+una plataforma de pagos, cerca del 80% de su costo de observabilidad con tail sampling. Y a cada tribu
+le mostramos su costo, el showback de FinOps, porque lo que no se ve no se optimiza.
 Una aclaración para Operaciones y Riesgo: la telemetría no es el registro de auditoría. La evidencia
 regulatoria va por otro pipeline, sin muestreo y con retención legal."
 
 **Preguntas probables:**
-1. *¿Y si un regulador pide una transacción cuya traza se descartó?* — La traza nunca fue la evidencia:
+1. *Entonces, ¿cuánto nos vamos a ahorrar?* — "Comprometer un número sin sus datos sería irresponsable.
+   Con el estudio de línea base les doy la cifra real; los casos públicos muestran que el −30% es
+   alcanzable."
+2. *¿Y si un regulador pide una transacción cuya traza se descartó?* — La traza nunca fue la evidencia:
    los logs de auditoría y transaccionales van por un pipeline separado, sin muestreo, inmutable y con
    retención legal. El muestreo aplica solo a la observabilidad operativa.
-2. *¿Por qué no simplemente bajar la retención a la mitad?* — Porque recorta a ciegas: se pierde
+3. *¿Por qué no simplemente bajar la retención a la mitad?* — Porque recorta a ciegas: se pierde
    historia útil para capacidad y post-mortems y no ataca el origen del volumen. Primero se reduce lo
    que entra (muestreo, Log-to-Metrics, cardinalidad); la retención se escalona por niveles (caliente
    corta, fría barata en almacenamiento de objetos) según el uso real.
@@ -528,22 +567,25 @@ regulatoria va por otro pipeline, sin muestreo y con retención legal."
 - Semantic Conventions de OpenTelemetry + resource attributes obligatorios: `service.name`,
   `service.version`, `deployment.environment.name`, equipo dueño, `business.journey=pago_qr`.
 - Exemplars y `trace_id` en los logs: de la métrica a la traza y al log en un clic.
-- Servidor MCP de observabilidad (solo lectura): `consultar_slo`, `obtener_grafo`, `buscar_trazas`,
-  `buscar_logs(trace_id)`, `cambios_recientes`.
-- El agente **navega** con herramientas en vez de leer todos los logs: menos costo, menos alucinación.
-- Guardarraíles: datos ya sin PII, humano en el bucle, defensa contra Indirect Prompt Injection, auditoría.
+- **Servidor MCP propio, de solo lectura:** `consultar_slo`, `obtener_grafo`, `buscar_trazas`,
+  `buscar_logs(trace_id)`, `cambios_recientes`. Se combina con el servidor MCP del backend si ya existe.
+- **Puente del desorden al orden:** las herramientas MCP tienen el mismo contrato aunque por debajo consulten
+  la telemetría vieja o la nueva (patrón *strangler fig*). La IA sirve desde el día uno.
+- **Agente de RCA automático:** lo dispara la alerta de burn rate, corre dentro del banco y consume el modelo
+  (por ejemplo, Claude o Gemini) por Amazon Bedrock o Vertex AI. Guardarraíles: datos ya sin PII, solo
+  lectura, auditoría, defensa contra Indirect Prompt Injection, humano en el bucle.
 
-**Diagrama:** un embudo de arriba hacia abajo: "Grafo de servicios" → "Métricas / SLOs" → "Trazas" →
-"Logs", que es el orden en que el agente consulta. A la izquierda, el "Agente de RCA (cliente MCP)"; en
-el medio, el "Servidor MCP de observabilidad" con sus cinco herramientas; a la derecha, los backends y
-el registro de cambios del Quality Gate. Debajo, el "Incident Commander" con un candado: "aprueba
-cualquier acción".
+**Diagrama:** a la izquierda, la alerta de burn rate que dispara al "Agente de RCA (cliente MCP)", con el
+modelo consumido por Bedrock o Vertex AI; en el medio, el "Servidor MCP de observabilidad" con sus cinco
+herramientas; a la derecha, los datos (telemetría nueva con Semantic Conventions y, mientras se migra, la
+telemetría heredada) y el registro de cambios del Quality Gate. Abajo, el "Incident Commander" con un
+candado: "aprueba cualquier acción". Un segundo diagrama muestra el embudo en el que navega el agente.
 
 ```mermaid
 flowchart LR
-    agente["🤖 Agente de RCA<br/>(cliente MCP)<br/>modelo en Amazon Bedrock<br/>o Vertex AI"]
+    alerta["📟 Alerta de burn rate"] -- "webhook" --> agente["🤖 Agente de RCA<br/>(cliente MCP, dentro del banco)<br/>modelo vía Amazon Bedrock<br/>o Vertex AI"]
 
-    subgraph mcp["Servidor MCP de observabilidad: solo lectura, cada llamada auditada"]
+    subgraph mcp["Servidor MCP propio: solo lectura, cada llamada auditada"]
         direction TB
         t1["1. obtener_grafo"]
         t2["2. consultar_slo"]
@@ -553,29 +595,27 @@ flowchart LR
         t1 --> t2 --> t3 --> t4
     end
 
-    subgraph datos["Datos ya sin PII, con Semantic Conventions y resource attributes"]
+    subgraph datos["Datos ya sin PII"]
         direction TB
-        grafo["Grafo de servicios<br/>(connector servicegraph)"]
-        met["Métricas y SLOs<br/>(Mimir, con exemplars)"]
-        tr["Trazas<br/>(Tempo)"]
-        lg["Logs con trace_id<br/>(Loki)"]
+        nuevo["Telemetría nueva<br/>OpenTelemetry + Semantic Conventions<br/>(grafo, métricas, trazas, logs)"]
+        viejo["Telemetría heredada<br/>(adaptadores temporales<br/>mientras se migra)"]
         cambios["Registro de cambios<br/>del Quality Gate"]
-        grafo --> met --> tr --> lg
     end
 
     agente --> mcp
-    t1 --> grafo
-    t2 --> met
-    t3 --> tr
-    t4 --> lg
+    t1 --> nuevo
+    t2 --> nuevo
+    t3 --> nuevo
+    t4 --> nuevo
+    t4 -.-> viejo
     t5 --> cambios
-    agente -- "2–3 hipótesis rankeadas<br/>con evidencia" --> ic["🔒 Incident Commander<br/>aprueba cualquier acción"]
+    agente -- "hipótesis rankeadas<br/>con evidencia" --> ic["🔒 Incident Commander<br/>aprueba cualquier acción"]
 
     classDef tool fill:#1168bd,stroke:#0b4884,color:#ffffff
     classDef dato fill:#8a8a8a,stroke:#6b6b6b,color:#ffffff
     classDef humano fill:#08427b,stroke:#052e56,color:#ffffff
     class t1,t2,t3,t4,t5 tool
-    class grafo,met,tr,lg,cambios dato
+    class nuevo,viejo,cambios dato
     class ic humano
 ```
 
@@ -593,49 +633,57 @@ los datos.
 Eso lo resuelven las Semantic Conventions de OpenTelemetry: todo el banco llama igual a lo mismo. Además
 definimos resource attributes obligatorios, la cédula de cada servicio: nombre, versión, ambiente,
 equipo dueño y el business journey, por ejemplo pago QR. Con eso podemos preguntar algo que hoy es
-imposible: cuánto le duele al pago QR, de punta a punta, lo que pasa en un servicio.
-Con exemplars, cada pico en una métrica guarda el ID de una traza de ejemplo, y los logs llevan el
-mismo trace_id. De la métrica salto a la traza y de la traza al log en un clic.
+imposible: cuánto le duele al pago QR, de punta a punta, lo que pasa en un servicio. Con exemplars, cada
+pico en una métrica guarda el ID de una traza de ejemplo, y los logs llevan el mismo trace_id.
 Encima de esos datos va MCP, Model Context Protocol, el estándar para que un agente de IA use
-herramientas. Construimos un servidor MCP de observabilidad de solo lectura con cinco herramientas:
-consultar el SLO, obtener el grafo, buscar trazas, buscar logs por trace_id y cambios recientes. Esa
-última es la más valiosa, porque la mayoría de los incidentes los causa un cambio, y el Quality Gate
-ya los está registrando. En mi experiencia anterior construí un servidor MCP de este tipo, y la
-diferencia es enorme: el agente navega como un ingeniero en vez de tragarse todos los logs.
+herramientas. Construimos un servidor MCP propio, de solo lectura, con cinco herramientas: consultar el
+SLO, obtener el grafo, buscar trazas, buscar logs por trace_id y cambios recientes. Esa última es la más
+valiosa, porque muchos incidentes los causa un cambio, y el Quality Gate ya los está registrando.
+¿Por qué propio? Porque es un puente: sus herramientas responden igual aunque por debajo consulten la
+telemetría vieja o la nueva. La IA sirve desde el primer día, sin esperar a que todo esté migrado.
+¿Y quién lo usa? Un agente de RCA que se dispara solo con la alerta, corre dentro del banco y consume el
+modelo, por ejemplo Claude o Gemini, por Amazon Bedrock o Vertex AI, en la cuenta que el banco ya tiene.
+Cuando el on-call abre el portátil, la hipótesis ya está en el canal del incidente.
 Y los guardarraíles: datos ya sin PII, solo lectura, cada llamada auditada, y el agente trata los logs
 como datos, nunca como instrucciones. La IA propone; el humano decide."
+
+**Pregunta para hacerle a la mesa:** *"¿Ya tienen contratado algún modelo de IA o una plataforma de
+observabilidad con IA incluida?"*
 
 **Preguntas probables:**
 1. *¿Darle a una IA acceso a la telemetría de producción de un banco no es un riesgo?* — Sí, y se
    controla: servidor MCP de solo lectura con mínimo privilegio, telemetría ya enmascarada en el
    Collector, defensa contra Indirect Prompt Injection (un log puede traer texto de un atacante, por
-   ejemplo en la descripción de una transferencia), auditoría de cada llamada, modelo dentro de la cuenta del banco
-   (Amazon Bedrock o Vertex AI) y humano en el bucle para cualquier acción.
-2. *¿Eso no es lo mismo que prender las alertas inteligentes de la herramienta?* — No. Eso es
-   detección de anomalías aislada. Lo que propongo es una capa de contexto estandarizada y neutral:
-   cualquier modelo puede usarla, y el razonamiento queda trazable herramienta por herramienta.
+   ejemplo en la descripción de una transferencia), auditoría de cada llamada, modelo dentro de la cuenta
+   del banco y humano en el bucle para cualquier acción.
+2. *¿Por qué Bedrock y no la API directa de un proveedor de IA?* — Bedrock y Vertex AI son el canal, no el
+   modelo: el banco ya tiene contrato, red privada, permisos y auditoría con su nube, y paga por uso, sin
+   GPU ni licencias. Gracias a MCP, cambiar de modelo no cambia nada más.
+3. *¿Eso no es lo mismo que prender las alertas inteligentes de la herramienta?* — No. Eso es detección de
+   anomalías aislada. Lo que propongo es una capa de contexto estandarizada y neutral: cualquier modelo
+   puede usarla, y el razonamiento queda trazable herramienta por herramienta.
 
 ---
 
 ## Diapositiva 8 — Eje 3, fase 2: grafo de topología e IA causal (2 min)
 
-**Título:** De 200 dashboards a 3 hipótesis: el grafo encuentra dónde nace la falla.
+**Título:** De decenas de dashboards a pocas hipótesis: el grafo encuentra dónde nace la falla.
 
 **Contenido:**
-- El grafo de dependencias sale gratis de las trazas: connector `servicegraph` (nodos = servicios,
-  aristas = llamadas con tasa, errores y p99).
+- El grafo de dependencias lo arma OpenTelemetry: connector `servicegraph` (nodos = servicios, aristas =
+  llamadas con tasa, errores y latencia). Nuestra herramienta MCP `obtener_grafo` se lo entrega a la IA.
 - Regla de causa raíz: el nodo anómalo **más profundo** cuyas dependencias están sanas. El que más
   grita suele ser víctima.
 - **DFS** (Depth-First Search) desde el síntoma hacia abajo → causa raíz candidata.
 - **BFS** (Breadth-First Search) sobre el grafo invertido → radio de explosión (a quién afecta).
-- Cruce con `cambios_recientes` → 2–3 hipótesis rankeadas con evidencia; el humano decide.
+- Cruce con `cambios_recientes` → hipótesis rankeadas con evidencia; el humano decide.
 
 **Diagrama:** un grafo de 8 nodos: App QR → API pagos → {Antifraude, Saldos, Notificaciones};
-Antifraude → Base de datos de reglas; Saldos → Conector del core → Core bancario. Nodos en rojo: App QR, API pagos,
-Antifraude. Nodos en verde: Base de datos de reglas, Saldos, Notificaciones, Conector del core y Core bancario. Una
-flecha gruesa (DFS) baja de App QR a Antifraude, que queda resaltado: "anómalo y con dependencias sanas
-→ candidato". Etiqueta al lado: "v2.3.1 desplegada hace 12 min". Un recuadro (BFS sobre el grafo
-invertido) desde Antifraude marca el radio de explosión.
+Antifraude → Base de datos de reglas; Saldos → Conector del core → Core bancario. Nodos en rojo: App QR,
+API pagos, Antifraude. Nodos en verde: Base de datos de reglas, Saldos, Notificaciones, Conector del core y
+Core bancario. Una flecha gruesa (DFS) baja de App QR a Antifraude, que queda resaltado: "anómalo y con
+dependencias sanas → candidato". Etiqueta al lado: "v2.3.1 desplegada hace 12 min". Un recuadro (BFS sobre
+el grafo invertido) desde Antifraude marca el radio de explosión.
 
 ```mermaid
 flowchart TB
@@ -674,8 +722,9 @@ flowchart TB
 **Guion:**
 "Esta es la fase dos del eje tres. No es lo primero que se construye: necesita los datos estandarizados
 de la fase uno.
-Con trazas estandarizadas, el connector servicegraph nos da gratis un grafo vivo: cada servicio es un
-nodo y cada llamada es una arista con su tasa, sus errores y su latencia. Nadie lo dibuja a mano.
+Con trazas estandarizadas, OpenTelemetry nos da un grafo vivo con el connector servicegraph: cada
+servicio es un nodo y cada llamada es una arista con su tasa, sus errores y su latencia. Nadie lo dibuja a
+mano, y nuestra herramienta MCP obtener_grafo se lo entrega a la IA.
 Sobre ese grafo aplicamos una regla simple: la causa raíz es el nodo anómalo más profundo cuyas
 dependencias están sanas. Es como un trancón: termina donde la calle vuelve a estar libre. En este
 ejemplo alertan la app, la API de pagos y antifraude. La API de pagos es la que más grita, pero es
@@ -683,11 +732,10 @@ víctima. Recorremos el grafo hacia abajo con DFS, búsqueda en profundidad, y l
 anómalo y sus dependencias están sanas. El servidor MCP cruza ese nodo con cambios recientes: versión
 2.3.1, desplegada hace 12 minutos. Esa es la hipótesis número uno, con evidencia.
 En paralelo, BFS, búsqueda en anchura, sobre el grafo invertido nos dice el radio de explosión: qué
-servicios y qué journeys de negocio están afectados, que es justo lo que necesita el Communications
-Lead.
-El resultado: en vez de revisar 200 dashboards, el Incident Commander recibe dos o tres hipótesis
-rankeadas. Esto es computacionalmente barato, recorrer el grafo es lineal en nodos y aristas, y es la
-base de la IA causal y de la auto-remediación futura, siempre con humano en el bucle."
+servicios y qué journeys de negocio están afectados, que es justo lo que necesita quien comunica.
+El resultado: en vez de revisar decenas de dashboards, el Incident Commander recibe pocas hipótesis
+rankeadas. Recorrer el grafo es barato, lineal en nodos y aristas, y es la base de la IA causal y de la
+auto-remediación futura, siempre con humano en el bucle."
 
 **Preguntas probables:**
 1. *Diez servicios alertan a la vez. ¿Cómo sabe la IA cuál es la causa y no un síntoma?* — Correlación
@@ -695,30 +743,33 @@ base de la IA causal y de la auto-remediación futura, siempre con humano en el 
    el nodo anómalo cuyas dependencias están sanas; se confirma con el orden temporal y los cambios
    recientes.
 2. *¿Y si hay dos nodos anómalos en ramas distintas?* — Sospecho de una dependencia oculta compartida
-   que no está en el grafo: el mismo nodo de Kubernetes, la red, el clúster de Kafka o un certificado.
+   que no está en el grafo: el mismo nodo de Kubernetes, la red, el bus de mensajes o un certificado.
    Esa brecha se vuelve una acción del post-mortem: instrumentar lo que faltaba.
+3. *Si se muestrean las trazas, ¿el grafo queda incompleto?* — No: el `servicegraph` corre antes del tail
+   sampling, igual que `spanmetrics`, y ve el 100% de los spans.
 
 ---
 
 ## Diapositiva 9 — Eje 4: el Incident Commander en hora pico (2 min)
 
-**Título:** 12:30 de un día de quincena: el pago QR falla en un 30%.
+**Título:** 12:30 de un día de quincena: el pago QR empieza a fallar.
 
 **Contenido:**
-- Roles, entre más simple mejor: Incident Commander (coordina y comunica, no toca teclado) + responsable
-  técnico (diagnostica y ejecuta). En este SEV1, el IC delega comunicaciones; la línea de tiempo la llevan las
-  herramientas, no una persona.
-- Minuto 0–5: la herramienta de on-call del banco despierta al on-call; declarar SEV1, abrir el canal, asignar
-  roles, medir el impacto con el SLO y el burn rate; el incidente queda registrado en el ITSM del banco.
-- Minuto 5–15: preguntar **qué cambió** (grafo + `cambios_recientes` vía MCP).
+- Roles, entre más simple mejor: **Incident Commander** (coordina, decide y comunica; no toca teclado) +
+  **responsable técnico** (el dueño del servicio: diagnostica y ejecuta). En un SEV1 de un banco, el IC delega
+  comunicaciones. La línea de tiempo la registran las herramientas, no una persona.
+- Minuto 0–5: la herramienta de on-call del banco despierta al on-call; declarar SEV1, abrir el canal,
+  asignar roles, medir el impacto con el SLO y el burn rate; el incidente queda en el ITSM del banco.
+- Minuto 5–15: preguntar **qué cambió**: la hipótesis del agente de RCA ya está en el canal.
 - **Mitigar antes de diagnosticar:** rollback, apagar el feature flag, failover a la otra nube, load
   shedding, circuit breaker.
-- Comunicar cada 15–30 min con hechos; confirmar la recuperación con el SLI, no con "parece que ya".
+- Comunicar con hechos y con frecuencia fija; confirmar la recuperación con el SLI, no con "parece que ya".
 
-**Diagrama:** una línea de tiempo horizontal de 0 a 60 minutos. Hitos: 0' alerta de burn rate 14,4× →
-2' SEV1 declarado → 5' roles asignados → 8' hipótesis del grafo vía MCP → 10' rollback de Antifraude
-v2.3.1 (decisión del IC) → 15' primer comunicado → 20' SLI recuperado → 60' monitoreo estable y
-programación del post-mortem. Encima, tres carriles: IC, responsable técnico y comunicaciones (este último solo porque es SEV1).
+**Diagrama:** una línea de tiempo horizontal de 0 a 60 minutos. Hitos: 0' alerta de burn rate 14,4× (el
+agente de RCA arranca solo) → 2' SEV1 declarado → 5' roles asignados → 8' hipótesis del agente revisada →
+10' rollback de Antifraude v2.3.1 (decisión del IC) → 15' primer comunicado → 20' SLI recuperado → 60'
+monitoreo estable y programación del post-mortem. Encima, tres carriles: IC, responsable técnico y
+comunicaciones (este último porque es SEV1).
 
 ```mermaid
 gantt
@@ -727,53 +778,58 @@ gantt
     axisFormat %H:%M
 
     section Incident Commander
-    0' alerta de burn rate 14,4× al on-call   :crit, milestone, m0, 12:30, 0m
+    0' alerta de burn rate 14,4× al on-call      :crit, milestone, m0, 12:30, 0m
     2' declara SEV1 y abre el canal              :milestone, m1, 12:32, 0m
     5' asigna roles                              :milestone, m2, 12:35, 0m
     10' decide rollback de Antifraude v2.3.1     :crit, milestone, m3, 12:40, 0m
     60' programa el post-mortem                  :milestone, m4, 13:30, 0m
 
     section Responsable técnico
-    Pregunta qué cambió (grafo + MCP)            :ops1, 12:35, 3m
-    8' hipótesis lista                           :milestone, m5, 12:38, 0m
+    Revisa la hipótesis del agente de RCA        :ops1, 12:35, 3m
+    8' hipótesis confirmada                      :milestone, m5, 12:38, 0m
     Ejecuta el rollback                          :crit, ops2, 12:40, 10m
     20' SLI recuperado                           :milestone, m6, 12:50, 0m
     Monitoreo hasta que esté estable             :ops3, 12:50, 40m
 
-    section Comunicaciones (solo en SEV1)
+    section Comunicaciones (SEV1)
     15' primer comunicado                        :milestone, m7, 12:45, 0m
-    Comunicados cada 15 a 30 min con hechos      :com1, 12:45, 45m
-
+    Comunicados con hechos, frecuencia fija      :com1, 12:45, 45m
 ```
 
 **Guion:**
-"Ahora juntemos todo en el peor momento: 12:30 de un día de quincena y el pago QR falla en un 30%.
+"Ahora juntemos todo en el peor momento: 12:30 de un día de quincena y el pago QR empieza a fallar.
 Primero, la alerta. No llega por CPU: llega porque el burn rate pasó de 14,4 veces en la ventana de una
-hora. Ya sabemos que es grave porque está atada al SLO.
-La alerta de burn rate llega al on-call por la herramienta de guardia del banco. Como Incident Commander, en los primeros cinco minutos declaro SEV1, abro el canal y asigno roles, los
-mínimos: un responsable técnico, el dueño del servicio, que diagnostica y ejecuta; y como es un SEV1 en un
-banco, alguien de comunicaciones para negocio y el reporte a la Superintendencia. La línea de tiempo no
-necesita una persona: el canal y las herramientas la registran solas. La regla de oro del Incident Commander: no toco el
-teclado. Si me pongo a depurar, nadie coordina.
-Luego hago la pregunta más rentable de cualquier incidente: ¿qué cambió? El grafo y el servidor MCP me
-dan en minutos la hipótesis: antifraude, versión 2.3.1, desplegada hace 12 minutos.
+hora. Ya sabemos que es grave porque está atada al SLO. Y en ese mismo instante, el agente de RCA arranca
+solo.
+La alerta llega al on-call por la herramienta de guardia del banco. Como Incident Commander, en los
+primeros cinco minutos declaro SEV1, abro el canal y asigno roles, los mínimos: un responsable técnico, el
+dueño del servicio, que diagnostica y ejecuta; y como es un SEV1 en un banco, alguien de comunicaciones
+para negocio y el reporte a la Superintendencia. La línea de tiempo no necesita una persona: el canal y
+las herramientas la registran solas. La regla de oro del Incident Commander: no toco el teclado. Si me
+pongo a depurar, nadie coordina.
+Luego hago la pregunta más rentable de cualquier incidente: ¿qué cambió? La respuesta ya está en el
+canal: el agente encontró en el grafo que antifraude, versión 2.3.1, se desplegó hace 12 minutos.
 Y aquí está la decisión clave: mitigar antes de diagnosticar. No necesito entender el bug para hacer
 rollback. Si no hubiera un cambio claro, el menú es: apagar el feature flag, hacer failover a la otra
 nube, load shedding para sacrificar las consultas de saldo y salvar los pagos, o un circuit breaker
 hacia la dependencia que falla.
-El Communications Lead publica cada 15 o 30 minutos, con hechos y sin especular. Y doy por cerrado el
-incidente cuando el SLI lo confirma, no cuando 'parece que ya'. Ahí programo el post-mortem.
+Comunicaciones publica con frecuencia fija, con hechos y sin especular. Y doy por cerrado el incidente
+cuando el SLI lo confirma, no cuando 'parece que ya'. Ahí programo el post-mortem.
 Todo lo que construimos en los ejes uno, dos y tres sirve aquí: la alerta del SLO, los datos limpios y
-las hipótesis. Eso es lo que baja el Time to Restore."
+la hipótesis lista. Eso es lo que baja el Time to Restore."
 
 **Preguntas probables:**
 1. *¿Y si el rollback no resuelve?* — Pasa al siguiente ítem del menú de mitigación (failover a la otra
-   nube, load shedding, circuit breaker) mientras el Ops Lead diagnostica, y se escala a los dueños de
-   las dependencias que el radio de explosión señala. El IC fija un tiempo límite por hipótesis para no
-   quedarse atascado en una.
+   nube, load shedding, circuit breaker) mientras el responsable técnico diagnostica, y se escala a los
+   dueños de las dependencias que el radio de explosión señala. El IC fija un tiempo límite por hipótesis
+   para no quedarse atascado en una.
 2. *¿Quién puede declarar un SEV1?* — Cualquiera, sin pedir permiso. Declarar de más y bajar la
    severidad después es barato; declarar tarde es caro. Las severidades se definen por impacto en el
    cliente y el SLO, no por la causa técnica.
+3. *El estándar tiene más roles: Comms Lead, Scribe...* — Son roles, no personas: el modelo escala con la
+   severidad. La única regla fija es que el IC no arregla.
+4. *¿Qué herramienta de incidentes usarías?* — "La que ya tengan. Lo importante es que reciba la alerta por
+   webhook, escale por severidad, cree el ticket en el ITSM y deje que el agente publique su hipótesis."
 
 ---
 
@@ -782,25 +838,26 @@ las hipótesis. Eso es lo que baja el Time to Restore."
 **Título:** Aprender del incidente y cerrar el ciclo: de la crisis a mejores SLOs.
 
 **Contenido:**
-- Post-mortem blameless en ≤ 5 días: impacto (clientes, minutos, Error Budget gastado), línea de tiempo,
-  factores contribuyentes, acciones con dueño y fecha (prevenir · detectar · mitigar).
+- Post-mortem blameless en ≤ 5 días hábiles: impacto (clientes, minutos, Error Budget gastado), línea de
+  tiempo, factores contribuyentes, acciones con dueño y fecha (prevenir · detectar · mitigar).
 - Las acciones vuelven al Eje 1: SLOs, alertas y Quality Gate más finos.
 - Team Topologies: Plataforma como habilitador; "you build it, you run it": cada tribu atiende su SLO.
-- IDP de autoservicio con Backstage: SLO como código (Sloth), dashboards y alertas por plantilla; toil < 50%,
-  Runbook as Code, Game Days.
-- Hoja de ruta: **Fase 0 (2–4 semanas) caracterización de lo que ya existe** (herramientas, línea base de costo
-  y de confiabilidad, incidentes) · 30 días SLO + burn rate · 60 días Quality Gate + gateway con PII · 90 días
-  tail sampling medido + MCP de solo lectura.
+- Autoservicio en el IDP del banco (por ejemplo, Backstage): SLO como código, dashboards y alertas por
+  plantilla; toil por debajo del 50% (guía del libro de SRE de Google), Runbook as Code, Game Days.
+- Hoja de ruta con un servicio piloto (pago QR): **Fase 0 (2–4 semanas) caracterización de lo que ya
+  existe** · 30 días SLO calibrado + burn rate · 60 días Quality Gate + gateway con PII · 90 días tail
+  sampling medido + servidor MCP de solo lectura.
 
-**Diagrama:** a la izquierda, el ciclo de la diapositiva 1 cerrándose (flecha de "post-mortem" a
-"SLO"). A la derecha, una línea de tiempo con la Fase 0 de caracterización y tres hitos a 30/60/90 días y, debajo, los indicadores de
-éxito: Change Failure Rate < 15% · Time to Restore < 1 h · meta de costo de telemetría −30% (medida contra la línea base) · toil < 50%.
+**Diagrama:** a la izquierda, el ciclo de la diapositiva 1 cerrándose (flecha de "post-mortem" a "SLO").
+A la derecha, una línea de tiempo con la Fase 0 y tres hitos a 30/60/90 días y, debajo, los indicadores de
+éxito: Change Failure Rate y Time to Restore contra la línea base · meta de costo de telemetría −30% ·
+toil por debajo del 50%.
 
 ```mermaid
 flowchart LR
     subgraph ciclo["El ciclo se cierra"]
         direction TB
-        pm["Post-mortem blameless<br/>en ≤ 5 días<br/>acciones con dueño y fecha:<br/>prevenir · detectar · mitigar"]
+        pm["Post-mortem blameless<br/>en ≤ 5 días hábiles<br/>acciones con dueño y fecha:<br/>prevenir · detectar · mitigar"]
         slo["① SLO + Error Budget"]
         gate["② Quality Gate"]
         otel["③ OpenTelemetry + MCP"]
@@ -809,7 +866,7 @@ flowchart LR
         pm == "ej.: canary de Antifraude<br/>sin análisis automático<br/>→ vuelve al Eje 1" ==> slo
     end
 
-    subgraph ruta["Hoja de ruta: empezar con un servicio (pago QR)"]
+    subgraph ruta["Hoja de ruta: empezar con un servicio piloto (pago QR)"]
         direction TB
         d0["<b>Fase 0 (2–4 semanas)</b><br/>caracterizar lo que existe:<br/>herramientas, línea base de costo<br/>y confiabilidad, incidentes"]
         d30["<b>30 días</b><br/>SLO del pago QR (calibrado)<br/>+ alertas de burn rate"]
@@ -818,9 +875,9 @@ flowchart LR
         d0 --> d30 --> d60 --> d90
     end
 
-    kpi["<b>Indicadores de éxito</b><br/>Change Failure Rate < 15%<br/>Time to Restore < 1 h<br/>Costo de telemetría: meta −30%<br/>Toil < 50%"]
+    kpi["<b>Indicadores de éxito</b><br/>Change Failure Rate y Time to Restore<br/>contra la línea base de la Fase 0<br/>Costo de telemetría: meta −30%<br/>Toil por debajo del 50%"]
 
-    cultura["Cultura: Team Topologies<br/>Plataforma = habilitador<br/>you build it, you run it<br/>IDP en Backstage como autoservicio"]
+    cultura["Cultura: Team Topologies<br/>Plataforma = habilitador<br/>you build it, you run it<br/>autoservicio en el IDP del banco"]
 
     ciclo ~~~ ruta
     d90 --> kpi
@@ -837,8 +894,8 @@ flowchart LR
 
 **Guion:**
 "El incidente no termina cuando vuelve el servicio: termina cuando aprendimos de él.
-En menos de cinco días hacemos el post-mortem blameless, sin culpa. Asumimos que las personas actuaron
-razonablemente con la información que tenían, y arreglamos el sistema que permitió el error. Si
+En menos de cinco días hábiles hacemos el post-mortem blameless, sin culpa. Asumimos que las personas
+actuaron razonablemente con la información que tenían, y arreglamos el sistema que permitió el error. Si
 castigamos a la persona, la próxima vez nos esconden información, y sin información no hay aprendizaje.
 El documento tiene impacto (clientes, minutos y Error Budget gastado), línea de tiempo, factores
 contribuyentes en plural, porque los sistemas complejos casi nunca fallan por una sola cosa, y acciones
@@ -846,20 +903,42 @@ con dueño y fecha: prevenir, detectar y mitigar. En nuestro ejemplo: el canary 
 análisis automático, y esa es una acción que vuelve al eje uno. Así se cierra el ciclo.
 Y para que esto escale a más de un servicio, la cultura. Mi equipo de plataforma es un habilitador, en
 el sentido de Team Topologies, no un policía. Cada tribu opera lo que construye, 'you build it, you run
-it', y atiende sus propios SLOs; a nosotros nos alertan solo si falla la plataforma de telemetría. Para
-que eso no sea una carga, todo va al IDP (Internal Developer Platform) en Backstage como autoservicio: el SLO como
-código, los dashboards y las alertas salen de plantillas. Eliminamos toil: menos del 50% del tiempo en
-trabajo manual, runbooks ejecutables y Game Days de caos controlado.
-Empezamos pequeño y sin improvisar: las primeras semanas caracterizamos lo que ya existe, las herramientas,
-la línea base de costo y de confiabilidad y los incidentes recientes. Luego, en 30 días, SLO del pago QR y alertas de burn rate; en 60, Quality Gate y gateway
-con enmascaramiento de PII; en 90, tail sampling con el ahorro medido y el primer servidor MCP de solo
-lectura. Lo medimos con Change Failure Rate, Time to Restore, costo y toil. Muchas gracias."
+it', y atiende sus propios SLOs. Para que eso no sea una carga, todo va como autoservicio al IDP
+(Internal Developer Platform) que tenga el banco, por ejemplo Backstage: el SLO como código, los
+dashboards y las alertas salen de plantillas. Y cuidamos el toil: la guía de Google es mantener el
+trabajo manual por debajo del 50% del tiempo, con runbooks ejecutables y Game Days de caos controlado.
+Empezamos pequeño y sin improvisar: un solo servicio piloto, el pago QR. Las primeras semanas
+caracterizamos lo que ya existe: las herramientas, la línea base de costo y de confiabilidad y los
+incidentes recientes. Luego, en 30 días, el SLO del pago QR calibrado y las alertas de burn rate; en 60,
+el Quality Gate y el gateway con enmascaramiento de PII; en 90, el tail sampling con el ahorro medido y
+el primer servidor MCP de solo lectura. Lo medimos con Change Failure Rate y Time to Restore contra esa
+línea base, con el costo y con el toil. Muchas gracias."
 
 **Preguntas probables:**
-1. *¿Los 5 porqués no bastan?* — Son útiles pero lineales: llevan a una sola causa y sesgan hacia el
+1. *¿La Fase 0 no es perder un mes?* — Es ganarlo: evita comprar o instalar lo que ya existe, fijar SLOs que
+   nacen rotos y prometer un ahorro inventado. Y tiene entregables: inventario, línea base de costo, línea
+   base de SLI y DORA, mapa de PII. Las preguntas que les hice durante la presentación son esa Fase 0.
+2. *¿Cuándo escalan a otros servicios?* — Cuando el piloto cumple: SLO estable y calibrado, gate sin
+   falsos bloqueos, ahorro medido y al menos un incidente o Game Day atendido con el flujo nuevo. Se escala
+   con las plantillas y el IDP, no a mano.
+3. *¿Los 5 porqués no bastan?* — Son útiles pero lineales: llevan a una sola causa y sesgan hacia el
    último humano de la cadena. Los sistemas complejos fallan por varios factores contribuyentes; se
    complementan con preguntas como "¿qué hizo que esta decisión pareciera razonable en el momento?".
-2. *Los equipos tradicionales no quieren instrumentar ni operar. ¿Los obligas?* — No: sin mandato.
-   Hago pair-programming y talleres para co-crear las plantillas, muestro el valor con el pago QR como
-   piloto y uso Error Budgets compartidos para alinear velocidad con estabilidad. Si instrumentar es una
-   anotación y el dashboard sale solo, la adopción deja de ser una discusión.
+4. *Los equipos tradicionales no quieren instrumentar ni operar. ¿Los obligas?* — No: sin mandato.
+   Co-creo las plantillas con ellos, muestro el valor con el pago QR como piloto y uso Error Budgets
+   compartidos para alinear velocidad con estabilidad. Si instrumentar es una anotación y el dashboard
+   sale solo, la adopción deja de ser una discusión.
+
+---
+
+## Anexo — Preguntas para hacerle a la mesa (backlog de la Fase 0)
+
+Se hacen durante la exposición o en los 10 minutos de preguntas. Muestran que el diseño parte de la
+organización, no de la herramienta. Lo que la mesa no responda, lo responde la Fase 0.
+
+1. ¿Quién es dueño hoy de los pipelines: cada tribu o un equipo central? ¿Existen plantillas corporativas? (D7)
+2. ¿Con qué despliegan en Kubernetes (Argo CD, Flux, Helm) y tienen service mesh? (D8)
+3. ¿Qué backend de observabilidad usan hoy y qué tienen contratado? (D15)
+4. ¿Tienen contratado algún modelo de IA o una plataforma de observabilidad con IA incluida? (D19)
+5. ¿Qué herramienta de on-call e ITSM usan? (D22)
+6. ¿Qué motor de políticas usan en Kubernetes y en el pipeline? (D26)
