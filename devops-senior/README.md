@@ -53,6 +53,7 @@ devops-senior/
 ├── certificaciones/       # qué certificar, en qué orden, y por qué (DevOps + IA, Azure + AWS + GCP)
 │   # Istio, ArgoCD, Keycloak, OPA, AlloyDB, OpenTelemetry, ESO, Atlas, Valkey y Flipt
 │   # están dentro de los temas 03, 04, 06, 07, 10 y 11 (ver tabla en el roadmap)
+├── formularios/            # respuestas preparadas para formularios de aplicación (ej. Blossom)
 ├── examenes/               # cómo pedir exámenes y dónde queda el registro de resultados
 │   ├── README.md
 │   └── registro/
