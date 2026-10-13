@@ -1,13 +1,15 @@
 """Genera presentacion.html a partir de presentacion-libreto.md.
 
 Uso: python3 generar-presentacion.py
-Por diapositiva toma el título, el contenido, el primer diagrama Mermaid y el guion (notas del orador).
+Por diapositiva toma el título, el contenido, el diagrama SVG de diagramas.py y el guion (notas del orador).
 Teclas: ← → cambian de diapositiva · N guion · D (o clic en el diagrama) diagrama a pantalla completa · F pantalla completa.
 Para PDF: imprimir desde el navegador (una diapositiva por página).
 """
 import html
 import re
 from pathlib import Path
+
+from diagramas import DIAGRAMAS
 
 AQUI = Path(__file__).parent
 md = (AQUI / "presentacion-libreto.md").read_text(encoding="utf-8")
@@ -50,7 +52,6 @@ for parte in re.split(r"(?m)^## Diapositiva ", md)[1:]:
         f'<span class="eje-p {"on" if ("todos" in ejes or str(k) in principal) else "usa" if str(k) in usa else ""}">Eje {k} · {n}</span>'
         for k, n in [(1, "SLOs y Quality Gate"), (2, "Telemetría y FinOps"), (3, "IA y MCP"), (4, "Incidentes y cultura")])
     contenido = re.search(r"\*\*Contenido:\*\*\n(.*?)\n\n", parte, re.S).group(1)
-    diagrama = re.search(r"```mermaid\n(.*?)```", parte, re.S)
     guion = re.search(r"\*\*Guion:\*\*\n(.*?)\n\n\*\*", parte, re.S).group(1)
     slides.append(f"""
 <section class="slide">
@@ -59,7 +60,7 @@ for parte in re.split(r"(?m)^## Diapositiva ", md)[1:]:
   <h2>{inline(titulo)}</h2>
   <div class="cuerpo">
     <ul>{bullets(contenido)}</ul>
-    {f'<div class="diag"><pre class="mermaid">{html.escape(diagrama.group(1))}</pre></div>' if diagrama else ''}
+    <div class="diag">{DIAGRAMAS[int(num)]}</div>
   </div>
   <footer class="puente">→ {inline(puente)}</footer>
   <aside class="notas">{inline(guion.strip().strip('"')).replace(chr(10), '<br>')}</aside>
@@ -108,10 +109,7 @@ nav button {{ border:0; background:var(--azul); color:#fff; border-radius:4px; p
 {''.join(slides)}
 <nav><button id="ant" aria-label="Anterior">◀</button><span id="cont"></span><button id="sig" aria-label="Siguiente">▶</button>
 <button id="nt" title="Guion (N)">Guion</button></nav>
-<script type="module">
-import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
-mermaid.initialize({{ startOnLoad:false, theme:"default", securityLevel:"loose", themeVariables:{{ fontSize:"18px" }},
-  flowchart:{{ useMaxWidth:false }}, gantt:{{ useMaxWidth:false, fontSize:16 }} }});
+<script>
 const s=[...document.querySelectorAll(".slide")]; let i=0;
 const ir=n=>{{ i=Math.max(0,Math.min(s.length-1,n)); s.forEach((x,k)=>x.classList.toggle("activa",k===i));
   document.getElementById("cont").textContent=`${{i+1}} / ${{s.length}}`; location.hash=i+1; }};
@@ -125,10 +123,6 @@ addEventListener("keydown",e=>{{
   if(e.key==="n"||e.key==="N") document.body.classList.toggle("ver-notas");
   if(e.key==="f"||e.key==="F") document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();
 }});
-s.forEach(x=>x.classList.add("activa"));
-await mermaid.run({{ querySelector:".mermaid" }});
-document.querySelectorAll(".diag svg").forEach(v=>{{ v.removeAttribute("style"); v.setAttribute("width","100%");
-  v.setAttribute("height","100%"); v.setAttribute("preserveAspectRatio","xMidYMid meet"); }});
 document.querySelectorAll(".diag").forEach(d=>d.onclick=()=>document.body.classList.toggle("zoom"));
 ir((parseInt(location.hash.slice(1))||1)-1);
 </script>
