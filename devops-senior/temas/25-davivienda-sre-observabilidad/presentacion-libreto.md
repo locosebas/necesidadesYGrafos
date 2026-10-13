@@ -76,7 +76,7 @@ servidor MCP de observabilidad. Lo que les voy a mostrar es ejecutable, no solo 
 
 **Contenido:**
 - Pago QR y transferencias en tiempo real sobre microservicios en Kubernetes, en AWS y GCP.
-- El core bancario (AS400) se alcanza por IBM MQ: la traza hoy se corta ahí.
+- El core bancario está fuera de Kubernetes: la traza hoy se corta en esa frontera.
 - Despliegues sin freno → Change Failure Rate alto.
 - Telemetría sin estándar → factura alta y MTTR largo.
 - Los 4 ejes atacan la causa común: falta de un "estar bien" medible y de datos estandarizados.
@@ -101,14 +101,14 @@ flowchart TB
 
     plataforma["<b>Plataforma de pagos de Banco Plus</b><br/>[Sistema de software]<br/>Microservicios en Kubernetes<br/>AWS (EKS) + GCP (GKE)"]
 
-    core["Core bancario AS400<br/>[Sistema externo]"]
+    core["Core bancario<br/>[Sistema externo]"]
     breb["Bre-B: pagos inmediatos<br/>y otros bancos<br/>[Sistema externo]"]
     obs["Plataforma de observabilidad<br/>[Sistema]<br/>Mimir, Tempo, Loki y Grafana"]
 
     cliente -- "paga con QR" --> plataforma
     plataforma -- "confirma el pago" --> comercio
     tribus -- "despliegan por CI/CD<br/>(reto 1: sin freno)" --> plataforma
-    plataforma -- "mensajes por IBM MQ<br/>(reto 3: la traza se corta aquí)" --> core
+    plataforma -- "mueve la plata<br/>(reto 3: la traza se corta aquí)" --> core
     plataforma -- "transferencia inmediata" --> breb
     plataforma -- "envía telemetría sin estándar<br/>(reto 2: paga por volumen)" --> obs
     oncall -- "diagnostica incidentes<br/>(reto 3: MTTR largo)" --> obs
@@ -135,12 +135,12 @@ flowchart TB
 **Guion:**
 "Este es Banco Plus en un diagrama C4 de nivel Context: qué sistema construimos y con quién habla. El
 cliente paga con QR desde la app; el pago recorre microservicios en Kubernetes, repartidos entre AWS y
-GCP; para mover la plata se habla con el core bancario en AS400 por IBM MQ, y con el sistema de pagos
+GCP; para mover la plata se habla con el core bancario, y con el sistema de pagos
 inmediatos y otros bancos.
 Los cuatro retos del caso se ven aquí. Uno: las tribus despliegan por CI/CD sin freno, y eso en DORA se
 llama un Change Failure Rate alto. Dos: cada componente emite telemetría a su manera y la mandamos toda,
 sin filtro, a la plataforma de observabilidad; pagamos por volumen, no por valor. Tres: cuando algo
-falla, la traza se corta justo en la frontera con MQ y el AS400, y cada equipo nombra los datos distinto,
+falla, la traza se corta justo en la frontera con el core, y cada equipo nombra los datos distinto,
 así que el MTTR es largo. Cuatro: queremos IA, pero la IA no puede razonar sobre datos desordenados.
 La causa común es que no tenemos un 'estar bien' medible ni datos estandarizados. Los cuatro ejes que
 siguen atacan esa causa en orden: primero la definición, después los datos, después la inteligencia y,
@@ -350,14 +350,14 @@ central? ¿Ya existen plantillas corporativas?"*
   `tail_sampling`.
 - PII: cada aplicación la enmascara (plantilla de logging); **seguridad extra** de Plataforma con el processor
   `redaction` en el gateway, **dentro de la red del banco**, antes de exportar (SFC, Ley 1581).
-- `traceparent` W3C (o B3 en legado) en los headers de IBM MQ hacia el AS400; span links en lo asíncrono.
+- `traceparent` W3C (o B3 en legado) en los headers de las llamadas y mensajes hacia el core; span links en lo asíncrono.
 - OpenTelemetry Operator: auto-instrumentación por anotación, sin cambiar el código de las tribus.
 
 **Diagrama (C4 nivel 2, Container):** dos bloques grandes, "AWS (EKS)" y "GCP (GKE)", iguales por
 dentro. En cada uno: pods de microservicios con SDK/auto-instrumentación → **OTel Collector agente**
 (DaemonSet, un rombo por nodo) → **Gateway capa 1** (`loadbalancing` por traceID) → **Gateway capa 2**
 (`memory_limiter` → `filter` → `redaction` → `tail_sampling` → `batch`, y el connector `spanmetrics`
-antes del muestreo). Un tercer bloque, "Datacenter": adaptador IBM MQ instrumentado ↔ AS400, con un
+antes del muestreo). Un tercer bloque, "Datacenter": conector del core instrumentado ↔ core bancario, con un
 sobre que dice "traceparent en el header". Las salidas de ambos gateways van por OTLP con mTLS a
 "Backends de observabilidad" (Mimir para métricas, Tempo para trazas, Loki para logs) y a un pipeline separado "Auditoría regulatoria
 (sin muestreo, inmutable)". Una línea roja punteada marca "frontera de la red del banco: ninguna PII
@@ -390,7 +390,7 @@ flowchart LR
 
         subgraph dc["Datacenter"]
             direction TB
-            mq["Adaptador IBM MQ<br/>instrumentado"] -- "✉️ traceparent W3C<br/>en el header" --> as400["Core AS400"]
+            mq["Conector del core<br/>instrumentado"] -- "✉️ traceparent W3C<br/>en el header" --> as400["Core bancario"]
         end
 
         audit["Auditoría regulatoria<br/>pipeline aparte<br/>sin muestreo, inmutable"]
@@ -431,8 +431,8 @@ plantilla; pero no confiamos en una sola capa, así que Plataforma pone una segu
 processor redaction en el gateway, dentro de la red del banco. La cédula y el número de tarjeta se tachan antes de salir; si lo hiciéramos
 en la consola del proveedor, el dato ya habría viajado, y eso incumple la Ley 1581 y las instrucciones
 de la Superintendencia Financiera. Segunda: todo viaja por OTLP con mTLS.
-Y la frontera con el core: el header traceparent del estándar W3C viaja dentro de los mensajes de IBM
-MQ. Si el AS400 no se puede instrumentar, instrumentamos el adaptador MQ de entrada y salida. Así la
+Y la frontera con el core: el header traceparent del estándar W3C viaja dentro de las llamadas y los
+mensajes hacia el core. Si el core no se puede instrumentar, instrumentamos el conector de entrada y salida. Así la
 traza ya no se corta donde más duele."
 
 **Preguntas probables:**
@@ -625,8 +625,8 @@ como datos, nunca como instrucciones. La IA propone; el humano decide."
 - Cruce con `cambios_recientes` → 2–3 hipótesis rankeadas con evidencia; el humano decide.
 
 **Diagrama:** un grafo de 8 nodos: App QR → API pagos → {Antifraude, Saldos, Notificaciones};
-Antifraude → Base de datos de reglas; Saldos → Adaptador MQ → AS400. Nodos en rojo: App QR, API pagos,
-Antifraude. Nodos en verde: Base de datos de reglas, Saldos, Notificaciones, Adaptador MQ y AS400. Una
+Antifraude → Base de datos de reglas; Saldos → Conector del core → Core bancario. Nodos en rojo: App QR, API pagos,
+Antifraude. Nodos en verde: Base de datos de reglas, Saldos, Notificaciones, Conector del core y Core bancario. Una
 flecha gruesa (DFS) baja de App QR a Antifraude, que queda resaltado: "anómalo y con dependencias sanas
 → candidato". Etiqueta al lado: "v2.3.1 desplegada hace 12 min". Un recuadro (BFS sobre el grafo
 invertido) desde Antifraude marca el radio de explosión.
@@ -642,8 +642,8 @@ flowchart TB
     saldos["Saldos<br/>🟢 sano"]
     notif["Notificaciones<br/>🟢 sano"]
     db["Base de datos de reglas<br/>🟢 sana"]
-    mq["Adaptador MQ<br/>🟢 sano"]
-    as400["AS400<br/>🟢 sano"]
+    mq["Conector del core<br/>🟢 sano"]
+    as400["Core bancario<br/>🟢 sano"]
     cambio["cambios_recientes:<br/>Antifraude v2.3.1<br/>desplegada hace 12 min"]
 
     app == "DFS" ==> api

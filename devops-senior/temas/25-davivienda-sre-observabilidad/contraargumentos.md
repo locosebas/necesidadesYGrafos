@@ -235,6 +235,17 @@ piloto es decisión propia.
 1. *"¿Por qué no varios servicios a la vez?"* → Porque el piloto da evidencia con poco riesgo y poco costo; con
    varios a la vez se multiplica el esfuerzo sin multiplicar el aprendizaje.
 2. *"¿Por qué el pago QR y no las transferencias?"* → Es el ejemplo del caso, el más visible para el cliente y el
-   que cruza más piezas (app, antifraude, core AS400, otros bancos): si funciona ahí, funciona en el resto.
+   que cruza más piezas (app, antifraude, core bancario, otros bancos): si funciona ahí, funciona en el resto.
 3. *"¿Cuándo escalan?"* → Con criterios: SLO estable, gate sin falsos bloqueos, ahorro medido y un incidente o
    Game Day atendido con el flujo nuevo. Después se escala con plantillas e IDP.
+
+## D30 — Ejemplo del incidente
+
+**Tu decisión:** tema menor; se mantiene el despliegue malo (Antifraude v2.3.1). Se quitaron AS400 e IBM MQ de
+todos los documentos de la presentación: el caso no los menciona; ahora se habla solo de "el core bancario".
+
+1. *"¿Y si el core bancario es legado y no se puede instrumentar?"* → Se instrumenta el conector de entrada y
+   salida hacia el core y se propaga el `traceparent` en las llamadas y mensajes; así la traza no se corta.
+2. *"¿Y si la causa no es un despliegue sino una saturación?"* → El rollback no la arregla: se mitiga con load
+   shedding (descartar carga de forma controlada) y circuit breaker (cortar las llamadas a la dependencia que
+   falla), y se escala la capacidad después.
