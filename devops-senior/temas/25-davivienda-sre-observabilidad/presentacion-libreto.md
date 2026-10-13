@@ -18,7 +18,7 @@
 > 5. **No mencionar sistemas que el caso no nombra** (se habla del "core bancario", sin productos).
 
 > **Hilo conductor:** cada diapositiva responde una **pregunta**, y su respuesta abre la pregunta de la siguiente
-> (campo "Puente a la siguiente": dilo al final del guion, como transición).
+> (campo "Puente a la siguiente"). Cada guion **abre respondiendo su pregunta y cierra con el puente**.
 
 | # | Diapositiva | Eje | Tiempo |
 |---|---|---|---|
@@ -74,24 +74,19 @@ flowchart LR
 ```
 
 **Guion:**
-"Buenos días. Hoy les traigo una sola historia: cómo hacer que el pago con QR de Banco Plus sea
-confiable de forma medible. Los cuatro retos del caso (despliegues que degradan producción, una factura
-de telemetría que crece sin dar visibilidad, un MTTR (Mean Time To Restore) largo y la ambición de
-AIOps) no son cuatro problemas: son síntomas de uno solo. No tenemos una definición compartida de qué
-es 'estar bien' ni datos estandarizados para saber cuándo dejamos de estarlo.
-Por eso la propuesta es un ciclo. Primero, el SLO del pago QR define qué es estar bien, desde el
-cliente y no desde la CPU. Segundo, ese SLO y su Error Budget se convierten en un Quality Gate en el
-CI/CD (Continuous Integration / Continuous Delivery) que frena solo los despliegues peligrosos. Tercero,
-el OpenTelemetry Collector entrega datos limpios, sin PII (Personally Identifiable Information),
-muestreados con inteligencia y más baratos; sobre esos datos, con Semantic Conventions y MCP (Model
-Context Protocol), la IA propone la causa raíz. Cuarto, el Incident Commander usa todo eso en la crisis,
-y el post-mortem blameless devuelve acciones que mejoran los SLOs. Ahí se cierra el ciclo.
-¿Cómo sabremos que funcionó? Con métricas DORA, Change Failure Rate y Time to Restore, medidas contra la
-línea base que levantamos al principio, y con la meta del caso: −30% en el costo de telemetría. Un
-aviso: no les voy a dar números inventados. Lo que no conozco de Banco Plus lo mido primero. En mi
-experiencia anterior, en una plataforma de comercio electrónico de alto volumen, implementé rollback
-automático por alertas durante canary y un servidor MCP de observabilidad. Lo que les voy a mostrar es
-ejecutable, no solo teórico."
+"Buenos días. Hoy les traigo una sola historia, y empieza con una pregunta: ¿por qué el pago QR de Banco
+Plus no es confiable hoy? Los cuatro retos del caso (despliegues que degradan producción, una factura de
+telemetría que crece sin dar visibilidad, un MTTR (Mean Time To Restore) largo y la ambición de AIOps) no son
+cuatro problemas: son síntomas de uno solo. No tenemos una definición compartida de qué es 'estar bien', ni
+datos estandarizados para saber cuándo dejamos de estarlo.
+Por eso la propuesta es un ciclo: el SLO define qué es estar bien; el Quality Gate lo protege; OpenTelemetry
+y MCP lo explican y le dan a la IA datos limpios; y el Incident Commander y el post-mortem convierten cada
+crisis en un SLO mejor.
+Lo mediremos con DORA, Change Failure Rate y Time to Restore, contra una línea base real, y con la meta del
+caso: −30% en el costo de telemetría. Un aviso: no les voy a dar números inventados; lo que no conozco de
+Banco Plus, lo mido primero. En mi experiencia anterior implementé rollback automático durante canary y un
+servidor MCP de observabilidad: esto es ejecutable.
+Si el problema es uno solo, ¿dónde lo vemos en Banco Plus?"
 
 **Preguntas probables:**
 1. *¿Por qué empezar por los SLOs y no por las herramientas?* — Sin SLO no hay criterio: el Quality
@@ -170,18 +165,15 @@ flowchart TB
 ```
 
 **Guion:**
-"Este es Banco Plus en un diagrama C4 de nivel Context: qué sistema construimos y con quién habla. El
-cliente paga con QR desde la app; el pago recorre microservicios en Kubernetes, repartidos entre AWS y
-GCP; para mover la plata se habla con el core bancario, y con el sistema de pagos inmediatos y otros
-bancos.
-Los cuatro retos del caso se ven aquí. Uno: las tribus despliegan por CI/CD sin freno, y eso en DORA se
-llama un Change Failure Rate alto. Dos: cada componente emite telemetría a su manera y la mandamos toda,
-sin filtro, a la plataforma de observabilidad; pagamos por volumen, no por valor. Tres: cuando algo
-falla, la traza se corta justo en la frontera con el core, y cada equipo nombra los datos distinto,
-así que el MTTR es largo. Cuatro: queremos IA, pero la IA no puede razonar sobre datos desordenados.
-La causa común es que no tenemos un 'estar bien' medible ni datos estandarizados. Los cuatro ejes que
-siguen atacan esa causa en orden: primero la definición, después los datos, después la inteligencia y,
-por último, las personas. Y parto de lo que el banco ya tiene: no vengo a cambiarles las herramientas."
+"Lo vemos aquí, en un diagrama C4 de nivel Context. El cliente paga con QR desde la app; el pago recorre
+microservicios en Kubernetes, en AWS y GCP, y habla con el core bancario y con Bre-B y otros bancos.
+Los cuatro síntomas se ven en el diagrama. Uno: las tribus despliegan sin freno; en DORA eso es un Change
+Failure Rate alto. Dos: cada componente manda su telemetría sin filtro, y pagamos por volumen, no por valor.
+Tres: cuando algo falla, la traza se corta en la frontera con el core y cada equipo nombra los datos
+distinto; por eso el MTTR es largo. Cuatro: queremos IA, pero una IA no razona sobre datos desordenados.
+Los cuatro ejes atacan la causa en orden: primero la definición, después los datos, después la inteligencia
+y, al final, las personas. Y parto de lo que el banco ya tiene: no vengo a cambiarles las herramientas.
+Para arreglarlo, primero hay que acordar: ¿qué es 'estar bien' para el cliente?"
 
 **Preguntas probables:**
 1. *El caso habla de CBU. ¿Lo tuviste en cuenta?* — "CBU es un término argentino; en Colombia el
@@ -247,27 +239,22 @@ flowchart LR
 ```
 
 **Guion:**
-"Empiezo por el cliente, no por el servidor. Al cliente que paga con QR le importan tres cosas: que el
-pago salga, que salga rápido y que no le cobren dos veces. Eso se traduce en SLIs, Service Level
-Indicators.
-El primer SLI es disponibilidad: pagos aceptados sin error de sistema sobre pagos válidos. Ojo con
-'válidos': un saldo insuficiente no es culpa nuestra y no cuenta. Como punto de partida propongo un SLO
-de 99,9% en una ventana móvil de 30 días, que da un Error Budget de 43,2 minutos al mes; ese número se
-calibra con los datos reales de la Fase 0.
-El segundo SLI es latencia: la proporción de pagos confirmados por debajo de un umbral, medida en el API
-Gateway, que es lo más cerca del cliente que tenemos. No les voy a dar el número del umbral, porque
-sería inventarlo: sale de cruzar en qué punto el cliente abandona o reintenta el pago, los timeouts del
-flujo y el histograma real de cuatro semanas, y se reevalúa cada trimestre. Siempre en percentil, nunca
-en promedio, porque el promedio esconde al cliente que esperó demasiado.
-Las Golden Signals (latencia, tráfico, errores y saturación) cubren el resto: la saturación la usamos
-como alerta temprana, no como SLO, porque el cliente no ve la CPU.
-Y lo más importante de esta diapositiva no es el número: es la Error Budget Policy. Es un acuerdo
-firmado con negocio para conservar el presupuesto: siempre desplegamos con la estrategia que menos Error
-Budget gasta, que por defecto es canary con análisis automático. Si el presupuesto entra en riesgo, solo
-canary, más lento y más estricto; si queda crítico, se congela todo menos los arreglos de confiabilidad.
-Los umbrales de cada zona no los invento: los negociamos con negocio con datos reales. Sin esa política,
-el Error Budget es un número en un dashboard. Con la política, el Quality Gate que les muestro ahora
-tiene autoridad, y la tiene porque negocio la firmó."
+"Eje uno. Al cliente que paga con QR le importan tres cosas: que el pago salga, que salga rápido y que no le
+cobren dos veces. Eso se traduce en SLIs, Service Level Indicators.
+Disponibilidad: pagos aceptados sin error de sistema sobre pagos válidos; un saldo insuficiente no es culpa
+nuestra y no cuenta. Como punto de partida propongo un SLO de 99,9% en 30 días móviles, unos 43 minutos de
+Error Budget al mes, que se calibra con datos reales.
+Latencia: la proporción de pagos confirmados por debajo de un umbral, medida en el API Gateway, siempre en
+percentil. El umbral no lo invento: sale de dónde el cliente abandona o reintenta, de los timeouts del flujo
+y del histograma real.
+Y corrección: cero cobros dobles, con idempotency key. La saturación la uso como alerta temprana, no como
+SLO, porque el cliente no ve la CPU.
+Pero lo más importante no es el número: es la Error Budget Policy, firmada con negocio, y es de
+conservación. Siempre desplegamos con la estrategia que menos presupuesto gasta, que por defecto es canary.
+Si el presupuesto entra en riesgo, solo canary lento y estricto; si queda crítico, se congela todo menos los
+arreglos de confiabilidad. Los umbrales de cada zona los negociamos con negocio, con datos. Sin política, el
+Error Budget es un número en un dashboard; con política, tiene autoridad.
+Ya sabemos qué es estar bien. ¿Cómo evitamos que un despliegue lo rompa?"
 
 **Preguntas probables:**
 1. *¿Por qué no 100% si el pago es crítico?* — Es inalcanzable (el cliente depende de su red, su
@@ -352,27 +339,24 @@ flowchart LR
 ```
 
 **Guion:**
-"El reto uno dice que el CI/CD no detiene ni revierte. Fíjense que son dos verbos distintos, y por eso
-el Quality Gate tiene tres momentos. Pero antes, una pregunta de fondo: ¿quién controla los pipelines?
-Mi propuesta es que Plataforma, como equipo habilitador, publique plantillas por lenguaje en GitHub
-Actions con los mínimos de calidad, seguridad y confiabilidad. Cada tribu agrega las pruebas que quiera
-encima: damos el piso, no el techo.
-Antes: el paso a producción no depende del YAML de la tribu. Lo aprueba una deployment protection rule
-del environment de producción, una aplicación de Plataforma que pregunta cuánto Error Budget queda y a
-qué burn rate se está gastando. El SLO vive como código en Git, con Sloth, que genera las reglas de
-Prometheus. Si la política dice 'congelado', el despliegue no corre; y si alguien intenta desplegar sin
-ese environment, AWS y GCP no le entregan credenciales por OIDC. Nadie tiene que acordarse: es
-autoejecutable. La única excepción es un hotfix de confiabilidad, con aprobación manual y auditoría.
-Durante: si el gate deja pasar, no desplegamos al 100%. No impongo herramientas: si ya usan Argo CD,
-Argo Rollouts; si ya tienen un service mesh, Flagger lo automatiza. Cualquiera de las dos manda la versión
-nueva a un porcentaje pequeño del tráfico y compara, contra Prometheus, la tasa de error y el p99 del
-canary frente a la versión estable. Si empeora, revierte sola, antes de que la mayoría de los clientes
-lo note. Esto lo implementé en mi experiencia anterior y es lo que más baja el Change Failure Rate.
-Después: verificación posterior y un evento de 'cambio desplegado' que queda registrado; en el eje tres
-verán por qué ese registro es oro para la IA.
-Las alertas siguen el modelo multi-window, multi-burn-rate del SRE Workbook de Google: 14,4 veces en
-una hora despierta a alguien, 6 veces en seis horas también, y 1 vez en tres días abre un ticket. Así
-no despertamos a nadie por un pico de dos minutos, pero tampoco se nos escapa una fuga lenta."
+"Con un Quality Gate autoejecutable. El reto uno dice que el CI/CD no detiene ni revierte: son dos verbos, y
+por eso el gate tiene tres momentos. Pero primero, ¿quién controla los pipelines? Mi propuesta: Plataforma,
+como equipo habilitador, publica plantillas por lenguaje en GitHub Actions con los mínimos de calidad,
+seguridad y confiabilidad, y cada tribu agrega lo que quiera encima. Damos el piso, no el techo.
+Antes: el paso a producción no depende del YAML de la tribu. Lo aprueba una deployment protection rule de
+Plataforma, que pregunta cuánto Error Budget queda y a qué velocidad se gasta. El SLO vive como código con
+Sloth, que genera las reglas de Prometheus. Si la política dice congelado, no se despliega; y sin ese
+environment, AWS y GCP no entregan credenciales por OIDC. Nadie tiene que acordarse.
+Durante: no desplegamos al 100%. No impongo herramientas: si ya usan Argo CD, Argo Rollouts; si tienen un
+service mesh, Flagger. La versión nueva recibe un porcentaje pequeño del tráfico y un análisis automático la
+compara con la estable en Prometheus; si empeora, revierte sola. Esto lo implementé en mi experiencia
+anterior.
+Después: una verificación posterior y un evento de 'cambio desplegado' que queda registrado. Guárdenlo,
+porque en el eje tres es oro para la IA.
+Y las alertas siguen el SRE Workbook de Google, multi-window, multi-burn-rate: un consumo de 14,4 veces en
+una hora despierta a alguien; uno de una vez en tres días abre un ticket. Ni despertamos a nadie por un pico
+de dos minutos, ni se nos escapa una fuga lenta.
+El gate frena y revierte, pero necesita datos. ¿De dónde salen esos datos?"
 
 **Pregunta para hacerle a la mesa:** *"¿Hoy quién es dueño de los pipelines: cada tribu o un equipo
 central? ¿Ya existen plantillas corporativas? ¿Y con qué despliegan en Kubernetes: Argo CD, Flux, tienen
@@ -474,28 +458,24 @@ flowchart LR
 ```
 
 **Guion:**
-"Este es el diagrama C4 de nivel Container de la telemetría. La idea es un solo camino estándar, igual
-en AWS, en GCP y en el datacenter, con OpenTelemetry, que es lo que pide el caso y es neutral frente al
-proveedor: no les pido cambiar su backend de observabilidad, el Collector exporta al que ya tengan.
-En cada nodo de Kubernetes corre un OTel Collector en modo agente, como DaemonSet: recibe la
-telemetría local, le pega los metadatos de Kubernetes y bota lo obvio, como los health checks. Las
-tribus no tienen que cambiar su código: el OpenTelemetry Operator inyecta la auto-instrumentación con
-una anotación en el pod.
-Luego viene el OTel Collector en modo gateway, que es donde vive la inteligencia, y tiene dos capas.
-¿Por qué dos? Porque para decidir qué traza guardar hay que ver la traza completa, y si los spans de un
-mismo pago caen en réplicas distintas, ninguna la ve entera. La capa uno usa el exporter loadbalancing
-y enruta por traceID: todos los spans de un pago llegan a la misma réplica. La capa dos hace el
-muestreo, que les explico en la siguiente diapositiva. La imagen del Collector la construimos con OCB,
-solo con los componentes aprobados: menos superficie de ataque.
-Dos cosas para DevSecOps. Primera: la PII la enmascara cada aplicación, con la librería de logging de la
-plantilla; pero no confiamos en una sola capa, así que Plataforma pone una seguridad extra aquí, con el
-processor redaction en el gateway, en modo lista permitida: todo atributo que no esté aprobado se borra.
-Todo eso pasa dentro de la red del banco; si lo hiciéramos en la consola del proveedor, el dato ya
-habría viajado, y eso incumple la Ley 1581 y las instrucciones de la Superintendencia Financiera.
-Segunda: todo viaja por OTLP con mTLS.
-Y la frontera con el core: el header traceparent del estándar W3C viaja dentro de las llamadas y los
-mensajes hacia el core. Si el core no se puede instrumentar, instrumentamos el conector de entrada y
-salida. Así la traza ya no se corta donde más duele."
+"Eje dos. Salen de un solo camino estándar de telemetría, igual en AWS, en GCP y en el datacenter:
+OpenTelemetry, como pide el caso. No les pido cambiar su backend de observabilidad: el Collector exporta al
+que ya tengan.
+En cada nodo corre un OTel Collector agente, como DaemonSet: le pega a la telemetría los metadatos de
+Kubernetes y bota lo obvio, como los health checks. Las tribus no cambian su código: el OpenTelemetry
+Operator inyecta la instrumentación con una anotación.
+Luego, el gateway, con dos capas. Para decidir qué traza guardar hay que verla completa, y si los spans de
+un pago caen en réplicas distintas, ninguna la ve entera. La capa uno enruta por traceID, para que todos los
+spans de un pago lleguen a la misma réplica; la capa dos hace el muestreo, que les muestro en un momento. La
+imagen la construimos con OCB, solo con componentes aprobados.
+Para DevSecOps, dos cosas. La PII la enmascara cada aplicación con la plantilla de logging, pero no
+confiamos en una sola capa: Plataforma pone una seguridad extra con el processor redaction en el gateway, en
+modo lista permitida, dentro de la red del banco. Si lo hiciéramos en la consola del proveedor, el dato ya
+habría salido, y eso choca con la Ley 1581 y con la Superintendencia Financiera. Y todo viaja por OTLP con
+mTLS.
+Por último, la frontera con el core: el header traceparent viaja en las llamadas y mensajes; si el core no
+se puede instrumentar, instrumentamos el conector. Así la traza ya no se corta donde más duele.
+Ya tenemos los datos. ¿Cómo los tenemos todos sin pagar de más?"
 
 **Preguntas probables:**
 1. *¿Qué pasa si el gateway se cae en plena crisis?* — Varias réplicas con HPA (Horizontal Pod
@@ -550,27 +530,21 @@ flowchart LR
 ```
 
 **Guion:**
-"El caso pide −30% sin perder trazas de errores. Esa restricción descarta la salida fácil, que sería
-guardar menos de todo.
-La palanca principal es el tail-based sampling. El head-based sampling decide al inicio de la traza,
-con un porcentaje fijo: es barato, pero puede botar justo el pago que iba a fallar. El tail-based
-sampling decide al final, cuando ya vio la traza completa: guarda el 100% de los errores, el 100% de los
-pagos más lentos que el umbral del SLO de latencia, y solo un porcentaje pequeño de los exitosos y
-repetitivos, que ajustamos midiendo.
-La pregunta obvia es: si boto la mayoría de las trazas exitosas, ¿no quedan mal las métricas? No, porque
-el connector spanmetrics calcula las métricas de tasa, errores y duración antes del muestreo. Las métricas
-son exactas al 100%; solo muestreamos el detalle.
-Segunda palanca, los logs: miles de líneas de 'pago exitoso' se vuelven un contador con Log-to-Metrics,
-y los logs de DEBUG no llegan a producción.
-Tercera, la cardinalidad: un número de usuario como etiqueta de métrica crea una serie nueva por
-cliente. Los IDs van en trazas y logs, nunca en métricas.
-¿Cuánto ahorra todo esto en Banco Plus? No les voy a dar una cifra sin conocer sus datos. Lo primero es
-un estudio de la línea base: GB por día por señal y por servicio, y la factura actual. Lo que sí sé es que
-la meta es alcanzable: Capital One redujo cerca del 70% del volumen de trazas con OpenTelemetry, y Pismo,
-una plataforma de pagos, cerca del 80% de su costo de observabilidad con tail sampling. Y a cada tribu
-le mostramos su costo, el showback de FinOps, porque lo que no se ve no se optimiza.
-Una aclaración para Operaciones y Riesgo: la telemetría no es el registro de auditoría. La evidencia
-regulatoria va por otro pipeline, sin muestreo y con retención legal."
+"Pagando por señal, no por ruido. El caso pide −30% sin perder trazas de errores, y eso descarta la salida
+fácil de guardar menos de todo.
+La palanca principal es el tail-based sampling. El head-based decide al inicio, al azar, y puede botar justo
+el pago que iba a fallar. El tail-based decide al final, con la traza completa: guarda todos los errores,
+todos los pagos más lentos que el umbral del SLO y solo un porcentaje pequeño de los exitosos. ¿Y las
+métricas? Siguen exactas, porque el connector spanmetrics las calcula antes del muestreo.
+Segunda palanca, los logs: miles de líneas de 'pago exitoso' se vuelven un contador con Log-to-Metrics, y el
+DEBUG no llega a producción. Tercera, la cardinalidad: ningún ID de cliente como etiqueta de métrica.
+¿Cuánto ahorra esto en Banco Plus? No les voy a dar una cifra sin sus datos: primero, un estudio de la línea
+base. Lo que sí sé es que la meta es alcanzable: Capital One redujo cerca del 70% del volumen de trazas con
+OpenTelemetry, y Pismo, una plataforma de pagos, cerca del 80% de su costo de observabilidad con tail
+sampling. Y a cada tribu le mostramos su costo, porque lo que no se ve no se optimiza.
+Una aclaración para Riesgo: la telemetría no es el registro de auditoría; la evidencia regulatoria va por
+otro pipeline, sin muestreo.
+Datos limpios y baratos. ¿Cómo hacemos que una IA los entienda?"
 
 **Preguntas probables:**
 1. *Entonces, ¿cuánto nos vamos a ahorrar?* — "Comprometer un número sin sus datos sería irresponsable.
@@ -658,25 +632,21 @@ flowchart TB
 ```
 
 **Guion:**
-"El reto cuatro pide preparar la infraestructura para IA causal. La palabra clave es preparar: una IA
-no puede razonar sobre datos donde un equipo dice status, otro http_code y otro resp. Primero se ordenan
-los datos.
-Eso lo resuelven las Semantic Conventions de OpenTelemetry: todo el banco llama igual a lo mismo. Además
-definimos resource attributes obligatorios, la cédula de cada servicio: nombre, versión, ambiente,
-equipo dueño y el business journey, por ejemplo pago QR. Con eso podemos preguntar algo que hoy es
-imposible: cuánto le duele al pago QR, de punta a punta, lo que pasa en un servicio. Con exemplars, cada
-pico en una métrica guarda el ID de una traza de ejemplo, y los logs llevan el mismo trace_id.
-Encima de esos datos va MCP, Model Context Protocol, el estándar para que un agente de IA use
-herramientas. Construimos un servidor MCP propio, de solo lectura, con cinco herramientas: consultar el
-SLO, obtener el grafo, buscar trazas, buscar logs por trace_id y cambios recientes. Esa última es la más
-valiosa, porque muchos incidentes los causa un cambio, y el Quality Gate ya los está registrando.
-¿Por qué propio? Porque es un puente: sus herramientas responden igual aunque por debajo consulten la
-telemetría vieja o la nueva. La IA sirve desde el primer día, sin esperar a que todo esté migrado.
-¿Y quién lo usa? Un agente de RCA que se dispara solo con la alerta, corre dentro del banco y consume el
-modelo, por ejemplo Claude o Gemini, por Amazon Bedrock o Vertex AI, en la cuenta que el banco ya tiene.
-Cuando el on-call abre el portátil, la hipótesis ya está en el canal del incidente.
-Y los guardarraíles: datos ya sin PII, solo lectura, cada llamada auditada, y el agente trata los logs
-como datos, nunca como instrucciones. La IA propone; el humano decide."
+"Eje tres. Primero se ordenan los datos: una IA no razona donde un equipo dice status, otro http_code y otro
+resp. Las Semantic Conventions de OpenTelemetry hacen que todo el banco llame igual a lo mismo, y los
+resource attributes son la cédula de cada servicio: nombre, versión, equipo dueño y el journey de negocio,
+como pago QR. Con exemplars y trace_id en los logs, se salta de la métrica a la traza y al log.
+Encima va MCP, Model Context Protocol, el estándar para que un agente de IA use herramientas. Construimos un
+servidor MCP propio, de solo lectura, con cinco herramientas: SLO, grafo, trazas, logs y cambios recientes;
+esa última es la más valiosa, y la alimenta el Quality Gate. ¿Por qué propio? Porque es un puente: responde
+igual sobre la telemetría vieja o la nueva, así la IA sirve desde el primer día, sin esperar la migración
+completa.
+¿Quién lo usa? Un agente de RCA que se dispara solo con la alerta, corre dentro del banco y usa un modelo,
+por ejemplo Claude o Gemini, por Amazon Bedrock o Vertex AI, en la nube que el banco ya tiene. Cuando el
+on-call abre el portátil, la hipótesis ya está en el canal.
+Guardarraíles: datos sin PII, solo lectura, auditoría, y los logs se tratan como datos, nunca como
+instrucciones. La IA propone; el humano decide.
+La IA ya puede leer los datos. ¿Cómo encuentra dónde nace la falla?"
 
 **Pregunta para hacerle a la mesa:** *"¿Ya tienen contratado algún modelo de IA o una plataforma de
 observabilidad con IA incluida?"*
@@ -755,22 +725,20 @@ flowchart TB
 ```
 
 **Guion:**
-"Esta es la fase dos del eje tres. No es lo primero que se construye: necesita los datos estandarizados
-de la fase uno.
-Con trazas estandarizadas, OpenTelemetry nos da un grafo vivo con el connector servicegraph: cada
-servicio es un nodo y cada llamada es una arista con su tasa, sus errores y su latencia. Nadie lo dibuja a
-mano, y nuestra herramienta MCP obtener_grafo se lo entrega a la IA.
-Sobre ese grafo aplicamos una regla simple: la causa raíz es el nodo anómalo más profundo cuyas
-dependencias están sanas. Es como un trancón: termina donde la calle vuelve a estar libre. En este
-ejemplo alertan la app, la API de pagos y antifraude. La API de pagos es la que más grita, pero es
-víctima. Recorremos el grafo hacia abajo con DFS, búsqueda en profundidad, y llegamos a antifraude: está
-anómalo y sus dependencias están sanas. El servidor MCP cruza ese nodo con cambios recientes: versión
-2.3.1, desplegada hace 12 minutos. Esa es la hipótesis número uno, con evidencia.
-En paralelo, BFS, búsqueda en anchura, sobre el grafo invertido nos dice el radio de explosión: qué
-servicios y qué journeys de negocio están afectados, que es justo lo que necesita quien comunica.
-El resultado: en vez de revisar decenas de dashboards, el Incident Commander recibe pocas hipótesis
-rankeadas. Recorrer el grafo es barato, lineal en nodos y aristas, y es la base de la IA causal y de la
-auto-remediación futura, siempre con humano en el bucle."
+"Con el grafo de dependencias. OpenTelemetry lo arma solo con el connector servicegraph: cada servicio es un
+nodo y cada llamada una arista con su tasa, errores y latencia; nuestra herramienta obtener_grafo se lo
+entrega a la IA.
+Sobre ese grafo, una regla simple: la causa raíz es el nodo anómalo más profundo cuyas dependencias están
+sanas. Es como un trancón: termina donde la calle vuelve a estar libre.
+En el ejemplo alertan la app, la API de pagos y antifraude. La API de pagos es la que más grita, pero es
+víctima. Bajamos por el grafo con DFS, búsqueda en profundidad, y llegamos a antifraude: anómalo, con sus
+dependencias sanas. El servidor MCP lo cruza con los cambios recientes: versión 2.3.1, desplegada hace 12
+minutos. Hipótesis número uno, con evidencia.
+En paralelo, BFS, búsqueda en anchura, sobre el grafo invertido, da el radio de explosión: qué servicios y
+qué journeys están afectados, justo lo que necesita quien comunica.
+Resultado: en vez de revisar decenas de dashboards, el Incident Commander recibe pocas hipótesis rankeadas.
+Es barato de calcular, y es la base de la IA causal, siempre con humano en el bucle.
+Todo listo. Pero igual algo va a fallar: ¿qué hacemos en plena crisis?"
 
 **Preguntas probables:**
 1. *Diez servicios alertan a la vez. ¿Cómo sabe la IA cuál es la causa y no un síntoma?* — Correlación
@@ -836,26 +804,22 @@ gantt
 ```
 
 **Guion:**
-"Ahora juntemos todo en el peor momento: 12:30 de un día de quincena y el pago QR empieza a fallar.
-Primero, la alerta. No llega por CPU: llega porque el burn rate pasó de 14,4 veces en la ventana de una
-hora. Ya sabemos que es grave porque está atada al SLO. Y en ese mismo instante, el agente de RCA arranca
-solo.
-La alerta llega al on-call por la herramienta de guardia del banco. Como Incident Commander, en los
-primeros cinco minutos declaro SEV1, abro el canal y asigno roles, los mínimos: un responsable técnico, el
-dueño del servicio, que diagnostica y ejecuta; y como es un SEV1 en un banco, alguien de comunicaciones
-para negocio y el reporte a la Superintendencia. La línea de tiempo no necesita una persona: el canal y
-las herramientas la registran solas. La regla de oro del Incident Commander: no toco el teclado. Si me
-pongo a depurar, nadie coordina.
-Luego hago la pregunta más rentable de cualquier incidente: ¿qué cambió? La respuesta ya está en el
-canal: el agente encontró en el grafo que antifraude, versión 2.3.1, se desplegó hace 12 minutos.
-Y aquí está la decisión clave: mitigar antes de diagnosticar. No necesito entender el bug para hacer
-rollback. Si no hubiera un cambio claro, el menú es: apagar el feature flag, hacer failover a la otra
-nube, load shedding para sacrificar las consultas de saldo y salvar los pagos, o un circuit breaker
-hacia la dependencia que falla.
-Comunicaciones publica con frecuencia fija, con hechos y sin especular. Y doy por cerrado el incidente
-cuando el SLI lo confirma, no cuando 'parece que ya'. Ahí programo el post-mortem.
-Todo lo que construimos en los ejes uno, dos y tres sirve aquí: la alerta del SLO, los datos limpios y
-la hipótesis lista. Eso es lo que baja el Time to Restore."
+"Eje cuatro. Doce y media de un día de quincena, y el pago QR empieza a fallar. La alerta no llega por CPU:
+llega porque el burn rate pasó de 14,4 en una hora, así que ya sabemos que es grave. En ese mismo instante,
+el agente de RCA arranca solo.
+Como Incident Commander, en cinco minutos declaro SEV1, abro el canal y asigno los roles mínimos: un
+responsable técnico, el dueño del servicio, que diagnostica y ejecuta; y, como es un SEV1 en un banco,
+alguien de comunicaciones para negocio y la Superintendencia. La línea de tiempo la registran las
+herramientas. Mi regla de oro: no toco el teclado; si me pongo a depurar, nadie coordina.
+Pregunto lo más rentable: ¿qué cambió? La respuesta ya está en el canal: antifraude 2.3.1, hace 12 minutos.
+Y la decisión clave: mitigar antes de diagnosticar. No necesito entender el bug para hacer rollback. Sin un
+cambio claro, el menú es apagar el feature flag, failover a la otra nube, load shedding para salvar los
+pagos sacrificando consultas, o un circuit breaker.
+Comunicaciones publica con hechos y frecuencia fija. Y cierro cuando el SLI lo confirma, no cuando 'parece
+que ya'.
+Todo lo de los ejes uno, dos y tres sirve aquí: la alerta del SLO, los datos limpios y la hipótesis lista.
+Eso baja el Time to Restore.
+El servicio volvió. ¿Cómo evitamos que vuelva a pasar?"
 
 **Preguntas probables:**
 1. *¿Y si el rollback no resuelve?* — Pasa al siguiente ítem del menú de mitigación (failover a la otra
@@ -936,26 +900,21 @@ flowchart LR
 ```
 
 **Guion:**
-"El incidente no termina cuando vuelve el servicio: termina cuando aprendimos de él.
-En menos de cinco días hábiles hacemos el post-mortem blameless, sin culpa. Asumimos que las personas
-actuaron razonablemente con la información que tenían, y arreglamos el sistema que permitió el error. Si
-castigamos a la persona, la próxima vez nos esconden información, y sin información no hay aprendizaje.
-El documento tiene impacto (clientes, minutos y Error Budget gastado), línea de tiempo, factores
-contribuyentes en plural, porque los sistemas complejos casi nunca fallan por una sola cosa, y acciones
-con dueño y fecha: prevenir, detectar y mitigar. En nuestro ejemplo: el canary de antifraude no tenía
-análisis automático, y esa es una acción que vuelve al eje uno. Así se cierra el ciclo.
-Y para que esto escale a más de un servicio, la cultura. Mi equipo de plataforma es un habilitador, en
-el sentido de Team Topologies, no un policía. Cada tribu opera lo que construye, 'you build it, you run
-it', y atiende sus propios SLOs. Para que eso no sea una carga, todo va como autoservicio al IDP
-(Internal Developer Platform) que tenga el banco, por ejemplo Backstage: el SLO como código, los
-dashboards y las alertas salen de plantillas. Y cuidamos el toil: la guía de Google es mantener el
-trabajo manual por debajo del 50% del tiempo, con runbooks ejecutables y Game Days de caos controlado.
-Empezamos pequeño y sin improvisar: un solo servicio piloto, el pago QR. Las primeras semanas
-caracterizamos lo que ya existe: las herramientas, la línea base de costo y de confiabilidad y los
-incidentes recientes. Luego, en 30 días, el SLO del pago QR calibrado y las alertas de burn rate; en 60,
-el Quality Gate y el gateway con enmascaramiento de PII; en 90, el tail sampling con el ahorro medido y
-el primer servidor MCP de solo lectura. Lo medimos con Change Failure Rate y Time to Restore contra esa
-línea base, con el costo y con el toil. Muchas gracias."
+"Aprendiendo del incidente. En menos de cinco días hábiles hacemos el post-mortem blameless, sin culpa:
+asumimos que las personas actuaron razonablemente con lo que sabían, y arreglamos el sistema. Si
+castigamos, la próxima vez nos esconden información.
+El documento trae impacto, con el Error Budget gastado; línea de tiempo; factores contribuyentes, en plural;
+y acciones con dueño y fecha para prevenir, detectar y mitigar. En el ejemplo: el canary de antifraude no
+tenía análisis automático. Esa acción vuelve al eje uno.
+Para escalar, cultura: Plataforma es habilitador, no policía; cada tribu opera lo que construye y atiende
+su SLO, con autoservicio en el IDP del banco, por ejemplo Backstage, y el toil por debajo del 50%, como
+recomienda Google.
+Y empezamos pequeño, con un piloto: el pago QR. Primero, dos a cuatro semanas caracterizando lo que ya
+existe: herramientas, línea base de costo y de confiabilidad, incidentes. Luego, a 30 días, el SLO calibrado
+y las alertas; a 60, el Quality Gate y el gateway con PII; a 90, el tail sampling con ahorro medido y el
+servidor MCP.
+Así se cierra el ciclo: las acciones del post-mortem vuelven al SLO, y cada vuelta lo hace mejor. Muchas
+gracias."
 
 **Preguntas probables:**
 1. *¿La Fase 0 no es perder un mes?* — Es ganarlo: evita comprar o instalar lo que ya existe, fijar SLOs que
