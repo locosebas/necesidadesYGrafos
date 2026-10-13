@@ -1,7 +1,8 @@
 # Libreto de la presentación — Banco Plus (borrador v1)
 
 > Borrador para ajustar a tu voz. Diez diapositivas, veinte minutos. Cada diapositiva tiene título,
-> contenido, diagrama (descrito en palabras), guion y preguntas probables de la mesa.
+> contenido, diagrama (descrito en palabras y dibujado en Mermaid, para pasarlo a las diapositivas),
+> guion y preguntas probables de la mesa.
 > Los números de costo son estimados sobre una línea base ilustrativa: en la mesa se dicen como
 > "estimado, a validar contra la línea base de GB/día".
 
@@ -22,6 +23,24 @@
 CI/CD que frena despliegues malos. Tres, OpenTelemetry Collector y MCP, que dan datos limpios, baratos y
 sin PII para la IA causal. Cuatro, Incident Commander y post-mortem blameless. Una flecha vuelve del
 paso cuatro al paso uno: "acciones → SLOs y alertas mejores".
+
+```mermaid
+flowchart LR
+    slo["① SLO del pago QR<br/>+ Error Budget<br/><i>qué es estar bien</i>"]
+    gate["② Quality Gate en CI/CD<br/>frena los despliegues malos<br/><i>protege el SLO</i>"]
+    otel["③ OpenTelemetry Collector + MCP<br/>datos limpios, baratos y sin PII<br/>para la IA causal<br/><i>explica el SLO</i>"]
+    ic["④ Incident Commander<br/>+ post-mortem blameless<br/><i>las personas aprenden</i>"]
+    exito["Éxito medido con DORA<br/>Change Failure Rate < 15%<br/>Time to Restore < 1 h<br/>Telemetría −30% de costo"]
+
+    slo --> gate --> otel --> ic
+    ic -- "acciones → SLOs y alertas mejores" --> slo
+    ic -.-> exito
+
+    classDef eje fill:#1168bd,stroke:#0b4884,color:#ffffff
+    classDef meta fill:#f4f4f4,stroke:#2e7d32,color:#1b1b1b,stroke-width:2px
+    class slo,gate,otel,ic eje
+    class exito meta
+```
 
 **Guion:**
 "Buenos días. Hoy les traigo una sola historia: cómo hacer que el pago con QR de Banco Plus sea
@@ -69,7 +88,48 @@ servidor MCP de observabilidad. Lo que les voy a mostrar es ejecutable, no solo 
 - Sistema externo "Sistema de pagos inmediatos / otros bancos" (Bre-B).
 - Sistema "Plataforma de observabilidad" (Mimir, Tempo, Loki y Grafana) ← recibe telemetría.
 - Actores internos "Tribus de desarrollo" (despliegan por CI/CD) e "Incident Commander / on-call".
-Debajo, una franja con cuatro etiquetas: reto 1 → Eje 1, reto 2 → Eje 2, reto 3 → Eje 3, reto 4 → Eje 4.
+Debajo, una franja con cuatro etiquetas: reto 1 → Eje 1, reto 2 → Eje 2, reto 3 (MTTR) → Eje 3 + Eje 4,
+reto 4 (AIOps) → Eje 3.
+
+```mermaid
+flowchart TB
+    cliente["👤 Cliente en la app móvil<br/>[Persona]"]
+    comercio["👤 Comercio<br/>[Persona]"]
+    tribus["👥 Tribus de desarrollo<br/>[Persona]"]
+    oncall["👥 Incident Commander / on-call<br/>[Persona]"]
+
+    plataforma["<b>Plataforma de pagos de Banco Plus</b><br/>[Sistema de software]<br/>Microservicios en Kubernetes<br/>AWS (EKS) + GCP (GKE)"]
+
+    core["Core bancario AS400<br/>[Sistema externo]"]
+    breb["Bre-B: pagos inmediatos<br/>y otros bancos<br/>[Sistema externo]"]
+    obs["Plataforma de observabilidad<br/>[Sistema]<br/>Mimir, Tempo, Loki y Grafana"]
+
+    cliente -- "paga con QR" --> plataforma
+    plataforma -- "confirma el pago" --> comercio
+    tribus -- "despliegan por CI/CD<br/>(reto 1: sin freno)" --> plataforma
+    plataforma -- "mensajes por IBM MQ<br/>(reto 3: la traza se corta aquí)" --> core
+    plataforma -- "transferencia inmediata" --> breb
+    plataforma -- "envía telemetría sin estándar<br/>(reto 2: paga por volumen)" --> obs
+    oncall -- "diagnostica incidentes<br/>(reto 3: MTTR largo)" --> obs
+
+    subgraph franja["Cuatro síntomas, una sola causa: falta un 'estar bien' medible y datos estandarizados"]
+        direction LR
+        r1["Reto 1: despliegues sin freno<br/>→ Eje 1: SLO + Quality Gate"]
+        r2["Reto 2: costo de telemetría<br/>→ Eje 2: OpenTelemetry + FinOps"]
+        r3["Reto 3: MTTR largo<br/>→ Eje 3: hipótesis vía MCP<br/>+ Eje 4: Incident Command"]
+        r4["Reto 4: AIOps<br/>→ Eje 3: datos AI-Ready + MCP"]
+        r1 ~~~ r2 ~~~ r3 ~~~ r4
+    end
+    obs ~~~ franja
+
+    classDef persona fill:#08427b,stroke:#052e56,color:#ffffff
+    classDef sistema fill:#1168bd,stroke:#0b4884,color:#ffffff
+    classDef externo fill:#8a8a8a,stroke:#6b6b6b,color:#ffffff
+    class cliente,comercio,tribus,oncall persona
+    class plataforma,obs sistema
+    class core,breb externo
+    linkStyle 3 stroke:#d32f2f,stroke-width:2px,stroke-dasharray:5 5
+```
 
 **Guion:**
 "Este es Banco Plus en un diagrama C4 de nivel Context: qué sistema construimos y con quién habla. El
@@ -112,6 +172,34 @@ por último, las personas."
 **Diagrama:** una barra horizontal del Error Budget mensual (43,2 min) con tres zonas de color: verde
 (más del 50% restante, "despliegue normal"), amarillo (25–50%, "solo canary"), rojo (menos del 25%,
 "congelado salvo fixes"). Al lado, un recuadro: "Dependencias en serie: 3 × 99,9% = 99,7%".
+
+```mermaid
+flowchart LR
+    subgraph eb["Error Budget mensual: 43,2 min (SLO 99,9% en 30 días móviles)"]
+        direction LR
+        verde["🟢 Más del 50% restante<br/>más de 21,6 min<br/><b>Despliegue normal</b>"]
+        amarillo["🟡 Entre 25% y 50%<br/>de 10,8 a 21,6 min<br/><b>Solo canary</b>"]
+        rojo["🔴 Menos del 25%<br/>menos de 10,8 min<br/><b>Congelado salvo<br/>arreglos de confiabilidad</b>"]
+        verde -- "se gasta" --> amarillo -- "se gasta" --> rojo
+    end
+
+    subgraph serie["Dependencias en serie"]
+        direction LR
+        s1["Servicio A<br/>99,9%"] --> s2["Servicio B<br/>99,9%"] --> s3["Servicio C<br/>99,9%"] --> total["0,999³ ≈ <b>99,7%</b>"]
+    end
+
+    politica["Error Budget Policy<br/>firmada con negocio"] -.-> eb
+    eb ~~~ serie
+
+    classDef ok fill:#2e7d32,stroke:#1b5e20,color:#ffffff
+    classDef warn fill:#f9a825,stroke:#c17900,color:#1b1b1b
+    classDef bad fill:#c62828,stroke:#8e0000,color:#ffffff
+    classDef nota fill:#f4f4f4,stroke:#6b6b6b,color:#1b1b1b
+    class verde ok
+    class amarillo warn
+    class rojo bad
+    class s1,s2,s3,total,politica nota
+```
 
 **Guion:**
 "Empiezo por el cliente, no por el servidor. Al cliente que paga con QR le importan tres cosas: que el
@@ -165,6 +253,48 @@ automático** (Prometheus: tasa de error y p99 del canary vs. versión estable; 
 50% → 100% → **Gate 3: verificación posterior** → evento "cambio desplegado" enviado al catálogo de
 cambios (que luego consultará el servidor MCP). Una flecha punteada de excepción: "hotfix de
 confiabilidad con aprobación manual y auditoría".
+
+```mermaid
+flowchart LR
+    subgraph antes["ANTES: plantilla de Plataforma por lenguaje"]
+        direction TB
+        commit["Commit"] --> build["Build, pruebas y seguridad<br/>(mínimos obligatorios<br/>+ lo que agregue la tribu)"]
+        build --> g1{"<b>Gate 1</b><br/>¿Hay Error Budget?<br/>deployment protection rule<br/>consulta Prometheus<br/>(reglas generadas por Sloth)"}
+    end
+
+    subgraph durante["DURANTE: canary con Argo Rollouts o Flagger"]
+        direction TB
+        c5["Canary 5%"] --> g2{"<b>Gate 2</b><br/>Análisis automático<br/>tasa de error y p99<br/>canary vs. estable"}
+        g2 -- "sano" --> c25["25%"] --> c50["50%"] --> c100["100%"]
+    end
+
+    subgraph despues["DESPUÉS"]
+        direction TB
+        g3{"<b>Gate 3</b><br/>Verificación posterior<br/>30 min de burn rate"} --> evento["Evento 'cambio desplegado'<br/>→ catálogo de cambios<br/>(lo consulta el servidor MCP)"]
+    end
+
+    g1 -- "hay presupuesto<br/>OIDC entrega credenciales" --> c5
+    g1 -- "congelado: exit 1" --> alto["⛔ Despliegue detenido"]
+    g2 -- "empeora" --> rb["↩️ Rollback automático"]
+    c100 --> g3
+    hotfix["Hotfix de confiabilidad<br/>aprobación manual + auditoría"] -. "excepción" .-> c5
+
+    classDef gate fill:#1168bd,stroke:#0b4884,color:#ffffff
+    classDef bad fill:#c62828,stroke:#8e0000,color:#ffffff
+    classDef nota fill:#f4f4f4,stroke:#6b6b6b,color:#1b1b1b
+    class g1,g2,g3 gate
+    class alto,rb bad
+    class hotfix,evento nota
+```
+
+Alertas que acompañan al pipeline (multi-window, multi-burn-rate):
+
+```mermaid
+flowchart LR
+    br["Burn rate del<br/>Error Budget"] --> a1["14,4× en 1 h<br/>(2% del presupuesto)"] --> p1["📟 Page"]
+    br --> a2["6× en 6 h<br/>(5% del presupuesto)"] --> p2["📟 Page"]
+    br --> a3["1× en 3 días<br/>(10% del presupuesto)"] --> t3["🎫 Ticket"]
+```
 
 **Guion:**
 "El reto uno dice que el CI/CD no detiene ni revierte. Fíjense que son dos verbos distintos y por eso
@@ -231,6 +361,57 @@ sobre que dice "traceparent en el header". Las salidas de ambos gateways van por
 (sin muestreo, inmutable)". Una línea roja punteada marca "frontera de la red del banco: ninguna PII
 la cruza".
 
+```mermaid
+flowchart LR
+    subgraph banco["🔒 Red del banco: ninguna PII cruza esta frontera"]
+        direction LR
+        subgraph aws["AWS (EKS)"]
+            direction TB
+            appA["Pods de microservicios<br/>SDK o auto-instrumentación<br/>(OpenTelemetry Operator)"]
+            agA["OTel Collector <b>agente</b><br/>DaemonSet, uno por nodo<br/>metadatos de Kubernetes<br/>bota health checks"]
+            gw1A["Gateway <b>capa 1</b><br/>exporter loadbalancing<br/>por traceID"]
+            subgraph gw2A["Gateway capa 2"]
+                direction TB
+                procA["memory_limiter → filter<br/>→ redaction (PII)"]
+                smA["connector spanmetrics<br/>ve el 100% de los spans"]
+                tsA["tail_sampling → batch"]
+                procA --> smA
+                procA --> tsA
+            end
+            appA --> agA --> gw1A --> procA
+        end
+
+        subgraph gcp["GCP (GKE): igual por dentro"]
+            direction TB
+            appG["Pods de microservicios"] --> agG["OTel Collector agente"] --> gw1G["Gateway capa 1<br/>loadbalancing"] --> gw2G["Gateway capa 2<br/>redaction + spanmetrics<br/>+ tail_sampling"]
+        end
+
+        subgraph dc["Datacenter"]
+            direction TB
+            mq["Adaptador IBM MQ<br/>instrumentado"] -- "✉️ traceparent W3C<br/>en el header" --> as400["Core AS400"]
+        end
+
+        audit["Auditoría regulatoria<br/>pipeline aparte<br/>sin muestreo, inmutable"]
+    end
+
+    backends["Backends de observabilidad<br/>Mimir (métricas)<br/>Tempo (trazas)<br/>Loki (logs)"]
+
+    appA -- "mensaje con traceparent" --> mq
+    mq -. "spans del adaptador" .-> gw1A
+    smA -- "OTLP + mTLS" --> backends
+    tsA -- "OTLP + mTLS" --> backends
+    gw2G -- "OTLP + mTLS" --> backends
+    appA -. "logs transaccionales" .-> audit
+
+    classDef col fill:#1168bd,stroke:#0b4884,color:#ffffff
+    classDef ext fill:#8a8a8a,stroke:#6b6b6b,color:#ffffff
+    classDef reg fill:#f4f4f4,stroke:#6b6b6b,color:#1b1b1b
+    class agA,gw1A,procA,smA,tsA,agG,gw1G,gw2G col
+    class backends,as400 ext
+    class audit reg
+    style banco stroke:#d32f2f,stroke-width:2px,stroke-dasharray:6 4
+```
+
 **Guion:**
 "Este es el diagrama C4 de nivel Container de la telemetría. La idea es un solo camino estándar, igual
 en AWS, en GCP y en el datacenter, con OpenTelemetry, que es neutral frente al proveedor.
@@ -278,6 +459,31 @@ traza ya no se corta donde más duele."
 35, métricas 20): tail sampling −21 · Log-to-Metrics y filtrado −9 · cardinalidad −4 = **66, es decir
 −34%**. Nota al pie: "estimado sobre línea base ilustrativa; se valida midiendo GB/día antes y
 después".
+
+```mermaid
+xychart-beta
+    title "Costo de telemetría (línea base ilustrativa = 100)"
+    x-axis ["Línea base", "Tail sampling −21", "Log-to-Metrics y filtro −9", "Cardinalidad −4", "Resultado"]
+    y-axis "Costo relativo" 0 --> 100
+    bar [100, 79, 70, 66, 66]
+    line [100, 79, 70, 66, 66]
+```
+
+Composición de la línea base y qué palanca ataca cada parte:
+
+```mermaid
+flowchart LR
+    logs["Logs: 45"] -- "Log-to-Metrics (connector count)<br/>+ filter de DEBUG" --> r1["−9"]
+    trazas["Trazas: 35"] -- "tail_sampling<br/>100% errores, 100% > 2 s, 5% exitosos" --> r2["−21"]
+    metricas["Métricas: 20"] -- "cardinalidad: ningún ID<br/>como etiqueta" --> r3["−4"]
+    r1 --> total["66 = <b>−34%</b><br/>se valida en GB/día<br/>antes y después"]
+    r2 --> total
+    r3 --> total
+    spanm["spanmetrics antes del muestreo:<br/>métricas RED exactas al 100%"] -.-> trazas
+
+    classDef ahorro fill:#2e7d32,stroke:#1b5e20,color:#ffffff
+    class r1,r2,r3,total ahorro
+```
 
 **Guion:**
 "El caso pide −30% sin perder trazas de errores. Esa restricción descarta la salida fácil, que sería
@@ -329,6 +535,53 @@ el medio, el "Servidor MCP de observabilidad" con sus cinco herramientas; a la d
 el registro de cambios del Quality Gate. Debajo, el "Incident Commander" con un candado: "aprueba
 cualquier acción".
 
+```mermaid
+flowchart LR
+    agente["🤖 Agente de RCA<br/>(cliente MCP)<br/>modelo en Amazon Bedrock<br/>o Vertex AI"]
+
+    subgraph mcp["Servidor MCP de observabilidad: solo lectura, cada llamada auditada"]
+        direction TB
+        t1["1. obtener_grafo"]
+        t2["2. consultar_slo"]
+        t3["3. buscar_trazas"]
+        t4["4. buscar_logs(trace_id)"]
+        t5["+ cambios_recientes"]
+        t1 --> t2 --> t3 --> t4
+    end
+
+    subgraph datos["Datos ya sin PII, con Semantic Conventions y resource attributes"]
+        direction TB
+        grafo["Grafo de servicios<br/>(connector servicegraph)"]
+        met["Métricas y SLOs<br/>(Mimir, con exemplars)"]
+        tr["Trazas<br/>(Tempo)"]
+        lg["Logs con trace_id<br/>(Loki)"]
+        cambios["Registro de cambios<br/>del Quality Gate"]
+        grafo --> met --> tr --> lg
+    end
+
+    agente --> mcp
+    t1 --> grafo
+    t2 --> met
+    t3 --> tr
+    t4 --> lg
+    t5 --> cambios
+    agente -- "2–3 hipótesis rankeadas<br/>con evidencia" --> ic["🔒 Incident Commander<br/>aprueba cualquier acción"]
+
+    classDef tool fill:#1168bd,stroke:#0b4884,color:#ffffff
+    classDef dato fill:#8a8a8a,stroke:#6b6b6b,color:#ffffff
+    classDef humano fill:#08427b,stroke:#052e56,color:#ffffff
+    class t1,t2,t3,t4,t5 tool
+    class grafo,met,tr,lg,cambios dato
+    class ic humano
+```
+
+El embudo en el que navega el agente (de lo general a lo específico):
+
+```mermaid
+flowchart TB
+    f1["Grafo de servicios: ¿dónde está el problema?"] --> f2["Métricas y SLOs: ¿cuánto duele?"] --> f3["Trazas: ¿en qué llamada?"] --> f4["Logs: ¿qué error exacto?"]
+```
+
 **Guion:**
 "El reto cuatro pide preparar la infraestructura para IA causal. La palabra clave es preparar: una IA
 no puede razonar sobre datos donde un equipo dice status, otro http_code y otro resp. Primero se ordenan
@@ -373,12 +626,46 @@ como datos, nunca como instrucciones. La IA propone; el humano decide."
 - **BFS** (Breadth-First Search) sobre el grafo invertido → radio de explosión (a quién afecta).
 - Cruce con `cambios_recientes` → 2–3 hipótesis rankeadas con evidencia; el humano decide.
 
-**Diagrama:** un grafo de 7 nodos: App QR → API pagos → {Antifraude, Saldos, Notificaciones};
+**Diagrama:** un grafo de 8 nodos: App QR → API pagos → {Antifraude, Saldos, Notificaciones};
 Antifraude → Base de datos de reglas; Saldos → Adaptador MQ → AS400. Nodos en rojo: App QR, API pagos,
-Antifraude. Nodos en verde: Base de datos de reglas, Saldos, Notificaciones. Una flecha gruesa (DFS)
-baja de App QR a Antifraude, que queda resaltado: "anómalo y con dependencias sanas → candidato".
-Etiqueta al lado: "v2.3.1 desplegada hace 12 min". Ondas concéntricas (BFS) alrededor de Antifraude
-marcan el radio de explosión.
+Antifraude. Nodos en verde: Base de datos de reglas, Saldos, Notificaciones, Adaptador MQ y AS400. Una
+flecha gruesa (DFS) baja de App QR a Antifraude, que queda resaltado: "anómalo y con dependencias sanas
+→ candidato". Etiqueta al lado: "v2.3.1 desplegada hace 12 min". Un recuadro (BFS sobre el grafo
+invertido) desde Antifraude marca el radio de explosión.
+
+```mermaid
+flowchart TB
+    subgraph radio["💥 Radio de explosión: BFS sobre el grafo invertido desde Antifraude → journey pago QR"]
+        app["App QR<br/>🔴 anómalo"]
+        api["API pagos<br/>🔴 anómalo<br/>(el que más grita: víctima)"]
+        anti["<b>Antifraude</b><br/>🔴 anómalo<br/>dependencias sanas<br/>→ <b>causa raíz candidata</b>"]
+    end
+
+    saldos["Saldos<br/>🟢 sano"]
+    notif["Notificaciones<br/>🟢 sano"]
+    db["Base de datos de reglas<br/>🟢 sana"]
+    mq["Adaptador MQ<br/>🟢 sano"]
+    as400["AS400<br/>🟢 sano"]
+    cambio["cambios_recientes:<br/>Antifraude v2.3.1<br/>desplegada hace 12 min"]
+
+    app == "DFS" ==> api
+    api == "DFS" ==> anti
+    api --> saldos
+    api --> notif
+    anti --> db
+    saldos --> mq --> as400
+    cambio -.-> anti
+
+    classDef rojo fill:#c62828,stroke:#8e0000,color:#ffffff
+    classDef causa fill:#c62828,stroke:#ffd600,color:#ffffff,stroke-width:4px
+    classDef verde fill:#2e7d32,stroke:#1b5e20,color:#ffffff
+    classDef nota fill:#fff8e1,stroke:#c17900,color:#1b1b1b
+    class app,api rojo
+    class anti causa
+    class saldos,notif,db,mq,as400 verde
+    class cambio nota
+    linkStyle 0,1 stroke:#ffd600,stroke-width:4px
+```
 
 **Guion:**
 "Esta es la fase dos del eje tres. No es lo primero que se construye: necesita los datos estandarizados
@@ -427,6 +714,34 @@ base de la IA causal y de la auto-remediación futura, siempre con humano en el 
 v2.3.1 (decisión del IC) → 15' primer comunicado → 20' SLI recuperado → 60' monitoreo estable y
 programación del post-mortem. Encima, cuatro carriles: IC, Ops Lead, Comms Lead, Scribe.
 
+```mermaid
+gantt
+    title SEV1 del pago QR, 12:30 de un día de quincena (minuto 0 = 12:30)
+    dateFormat HH:mm
+    axisFormat %H:%M
+
+    section Incident Commander
+    0' alerta de burn rate 14,4× por PagerDuty   :crit, milestone, m0, 12:30, 0m
+    2' declara SEV1 y abre el canal              :milestone, m1, 12:32, 0m
+    5' asigna roles                              :milestone, m2, 12:35, 0m
+    10' decide rollback de Antifraude v2.3.1     :crit, milestone, m3, 12:40, 0m
+    60' programa el post-mortem                  :milestone, m4, 13:30, 0m
+
+    section Operations Lead
+    Pregunta qué cambió (grafo + MCP)            :ops1, 12:35, 3m
+    8' hipótesis lista                           :milestone, m5, 12:38, 0m
+    Ejecuta el rollback                          :crit, ops2, 12:40, 10m
+    20' SLI recuperado                           :milestone, m6, 12:50, 0m
+    Monitoreo hasta que esté estable             :ops3, 12:50, 40m
+
+    section Communications Lead
+    15' primer comunicado                        :milestone, m7, 12:45, 0m
+    Comunicados cada 15 a 30 min con hechos      :com1, 12:45, 45m
+
+    section Scribe
+    Línea de tiempo y registro en ServiceNow     :scr1, 12:32, 58m
+```
+
 **Guion:**
 "Ahora juntemos todo en el peor momento: 12:30 de un día de quincena y el pago QR falla en un 30%.
 Primero, la alerta. No llega por CPU: llega porque el burn rate pasó de 14,4 veces en la ventana de una
@@ -474,6 +789,44 @@ las hipótesis. Eso es lo que baja el Time to Restore."
 **Diagrama:** a la izquierda, el ciclo de la diapositiva 1 cerrándose (flecha de "post-mortem" a
 "SLO"). A la derecha, una línea de tiempo 30/60/90 días con tres hitos y, debajo, los indicadores de
 éxito: Change Failure Rate < 15% · Time to Restore < 1 h · costo de telemetría −30% · toil < 50%.
+
+```mermaid
+flowchart LR
+    subgraph ciclo["El ciclo se cierra"]
+        direction TB
+        pm["Post-mortem blameless<br/>en ≤ 5 días<br/>acciones con dueño y fecha:<br/>prevenir · detectar · mitigar"]
+        slo["① SLO + Error Budget"]
+        gate["② Quality Gate"]
+        otel["③ OpenTelemetry + MCP"]
+        ic["④ Incident Commander"]
+        slo --> gate --> otel --> ic --> pm
+        pm == "ej.: canary de Antifraude<br/>sin análisis automático<br/>→ vuelve al Eje 1" ==> slo
+    end
+
+    subgraph ruta["Hoja de ruta: empezar con un servicio (pago QR)"]
+        direction TB
+        d30["<b>30 días</b><br/>SLO del pago QR<br/>+ alertas de burn rate"]
+        d60["<b>60 días</b><br/>Quality Gate<br/>+ gateway con enmascaramiento de PII"]
+        d90["<b>90 días</b><br/>tail sampling con ahorro medido<br/>+ servidor MCP de solo lectura"]
+        d30 --> d60 --> d90
+    end
+
+    kpi["<b>Indicadores de éxito</b><br/>Change Failure Rate < 15%<br/>Time to Restore < 1 h<br/>Costo de telemetría −30%<br/>Toil < 50%"]
+
+    cultura["Cultura: Team Topologies<br/>Plataforma = habilitador<br/>you build it, you run it<br/>IDP en Backstage como autoservicio"]
+
+    ciclo ~~~ ruta
+    d90 --> kpi
+    cultura -.-> ruta
+
+    classDef eje fill:#1168bd,stroke:#0b4884,color:#ffffff
+    classDef hito fill:#08427b,stroke:#052e56,color:#ffffff
+    classDef meta fill:#f4f4f4,stroke:#2e7d32,color:#1b1b1b,stroke-width:2px
+    class slo,gate,otel,ic,pm eje
+    class d30,d60,d90 hito
+    class kpi,cultura meta
+    linkStyle 4 stroke:#2e7d32,stroke-width:4px
+```
 
 **Guion:**
 "El incidente no termina cuando vuelve el servicio: termina cuando aprendimos de él.
