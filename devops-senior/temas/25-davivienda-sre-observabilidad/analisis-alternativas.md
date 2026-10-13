@@ -178,25 +178,50 @@ trabajo de las tribus ni las vigilamos paso a paso.
 | Recomendación | Presentar el modelo de plantillas con mínimos y extensión, y la frase: *"Como equipo habilitador damos el piso, no el techo: la plantilla trae los mínimos de calidad, seguridad y confiabilidad, y el despliegue a producción lo aprueba una deployment protection rule de Plataforma, que la tribu no puede saltarse. Lo que cada tribu agregue encima es su decisión."* |
 | Tu decisión | **Control en Plataforma con plantillas por lenguaje; mínimos obligatorios que, si se quitan, impiden desplegar; espacio para que cada tribu agregue más pruebas; preguntar a la mesa quién controla hoy los pipelines. Gate principal: deployment protection rule** |
 
-### D8. Herramienta de progressive delivery (canary)
-| | |
-|---|---|
-| Escogido | Argo Rollouts, pasos 5% → 25% → 50% → 100% |
-| Alternativas | **Flagger** (con Istio / Linkerd / NGINX) · **Spinnaker** con Kayenta · canary manual con el service mesh · **feature flags** (OpenFeature, Unleash, LaunchDarkly) en vez de o además del canary |
-| Trade-off | Argo Rollouts encaja si ya usan ArgoCD (GitOps). Flagger encaja si ya tienen Istio. Spinnaker es potente pero pesado. Feature flags separan desplegar de liberar, pero no protegen de un binario roto |
-| Costo | Argo Rollouts / Flagger: licencia ≈0, costo de cómputo menor ($). El canary sí cuesta algo de capacidad extra durante el despliegue (pods de la versión nueva conviviendo con los de la vieja, ~5–25% más por minutos). Spinnaker: licencia ≈0 pero pesado de operar (varios microservicios propios, ~0,5 FTE, $$ en personas). Feature flags: **OpenFeature + Unleash / flagd** autogestionado ≈0–$; **LaunchDarkly** es SaaS por conexiones de servicio / usuarios, del orden de $$ para un banco |
-| Recomendación | Ver la comparación completa de estrategias y el árbol de decisión en **D8-bis**. Argo Rollouts + feature flags para lo funcional (OpenFeature para no amarrarse a un proveedor). Pasos y duración: decir que dependen del tráfico (con poco tráfico, 5% no da muestras suficientes) |
-| Tu decisión | |
+### D8. Herramienta de progressive delivery (canary): dos opciones según el stack del banco
 
-### D9. Umbrales de alertas por burn rate
+> *(El borrador v1 imponía Argo Rollouts. No se puede empujar a instalar herramientas nuevas si el banco no las
+> tiene: se dan **dos opciones** y se escoge según su tecnología actual y el licenciamiento.)*
+
+**Pregunta para la mesa:** *"¿Con qué despliegan hoy en Kubernetes (Argo CD, Flux, Helm desde el pipeline) y
+tienen service mesh (Istio, Linkerd, Cloud Service Mesh)?"*
+
+**Opción A (preferida): Argo Rollouts.** Controlador de Kubernetes que reemplaza el Deployment por un recurso
+`Rollout` con pasos de canary y `AnalysisTemplate` contra Prometheus. **No exige Argo CD**: corre solo; si el
+banco ya usa Argo CD, se integra en la misma interfaz. El tráfico lo divide con lo que ya exista: un service
+mesh (Istio, Linkerd), un ingress / balanceador (AWS ALB, NGINX, Traefik) o Gateway API.
+
+**Opción B: automatizar el service mesh que ya existe, con Flagger.** Si el banco ya tiene Istio o Linkerd (o
+usa Flux), Flagger automatiza los pesos de tráfico del mesh y el análisis de métricas **sin reemplazar sus
+Deployments** (crea los objetos de canary al lado). Menos cambio para las tribus.
+
+**Regla:** nunca instalar un service mesh **solo** para hacer canary (sidecars: +10–20% de recursos y otra pieza
+crítica que operar).
+
+**Árbol corto:** ¿usan Argo CD? → A · ¿usan Flux o tienen un mesh y no quieren tocar los Deployments? → B ·
+¿no tienen ni mesh ni GitOps? → A con el ingress o Gateway API que ya tengan.
+
+**Licenciamiento**
+
+| Herramienta | Licencia | Ojo |
+|---|---|---|
+| Argo Rollouts / Argo CD | Apache 2.0, proyecto graduado de la CNCF | Soporte comercial opcional (Akuity, Codefresh) |
+| Flagger / Flux | Apache 2.0, proyecto graduado de la CNCF | Soporte comercial opcional |
+| Istio | Apache 2.0, graduado de la CNCF | Soporte comercial opcional (Solo.io, Tetrate) |
+| Linkerd | Código Apache 2.0, **pero** desde 2024 Buoyant solo publica versiones *stable* bajo Buoyant Enterprise for Linkerd: **de pago para empresas de más de 50 empleados** en producción (del orden de USD 2.000 por clúster al mes; verificar). Gratis solo las versiones *edge* | Un banco paga |
+| Google Cloud Service Mesh | Servicio administrado (Istio de Google), cobro por endpoint o incluido en GKE Enterprise | Costo recurrente |
+| AWS App Mesh | **Descontinuado** (fin de soporte anunciado para el 30 de septiembre de 2026) | Si lo usan: migrar (Istio o Amazon VPC Lattice), no construir encima |
+| Spinnaker | Apache 2.0, muy pesado de operar | Versiones comerciales (Harness / Armory) |
+| Feature flags | OpenFeature y flagd: Apache 2.0 · Unleash: open core · LaunchDarkly: SaaS de pago | |
+
 | | |
 |---|---|
-| Escogido | 14,4× en 1 h · 6× en 6 h → page · 1× en 3 días → ticket (SRE Workbook) |
-| Alternativas | Una sola ventana · umbrales propios calibrados con datos · alertas por anomalía (ML) |
-| Trade-off | Los del Workbook son el estándar reconocido y la mesa de SRE los va a reconocer; con SLO de 99,9% y poco tráfico nocturno pueden ser ruidosos |
-| Costo | ≈0: son reglas de Prometheus. Costo indirecto: alertas ruidosas en la noche = horas de on-call y desgaste del equipo. Alertas por anomalía con ML (Machine Learning): suelen venir en planes SaaS caros ($$ a $$$) y son menos explicables |
-| Recomendación | Mantener los del Workbook; mencionar que se calibran |
-| Tu decisión | |
+| Escogido | **Dos opciones según el stack**: A) Argo Rollouts (preferida, no exige Argo CD) · B) Flagger sobre el service mesh existente. Pasos 5% → 25% → 50% → 100% |
+| Alternativas | Spinnaker con Kayenta (pesado) · canary manual cambiando pesos del mesh (no es automático) · feature flags (OpenFeature) además del canary |
+| Trade-off | A: más funciones (blue/green y canary, análisis, interfaz), pero cambia el Deployment por un `Rollout` (`workloadRef` permite reutilizar el Deployment existente). B: no toca los Deployments, pero depende de que exista un mesh o ingress compatible |
+| Costo | Licencias ≈0 (Apache 2.0) para Argo Rollouts, Flagger, Argo CD, Flux e Istio. Costo de pago solo si: usan Linkerd *stable* (licencia por clúster), Cloud Service Mesh (por endpoint) o soporte comercial. Canary: ~5–25% de capacidad extra durante minutos. Instalar un mesh solo para esto: +10–20% de recursos, $$ |
+| Recomendación | Presentar ambas: *"Si ya tienen Argo CD, Argo Rollouts; si ya tienen un service mesh, Flagger lo automatiza. No vamos a imponer herramientas nuevas: el diseño (pasos + análisis automático contra Prometheus + rollback) es el mismo"*. Ver D8-bis para las estrategias de despliegue |
+| Tu decisión | **Dos opciones según la tecnología actual del banco: Argo Rollouts (me gusta Argo) o automatizar el service mesh existente; considerar el licenciamiento** |
 
 ### D8-bis. Estrategias de despliegue: comparación y árbol de decisión
 

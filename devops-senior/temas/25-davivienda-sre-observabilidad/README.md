@@ -57,6 +57,7 @@ real. Parece un envío por error.
 - [roadmap-express.md](roadmap-express.md): mini roadmap del 8 al 12 de octubre, con nivel y meta por ítem.
 - [chuleta-nombres.md](chuleta-nombres.md): todos los nombres con su mnemotecnia, para leer antes de cada sesión.
 - [banco-preguntas.md](banco-preguntas.md): preguntas por ítem, incluida la ronda de la mesa evaluadora.
+- [analisis-alternativas.md](analisis-alternativas.md) y [contraargumentos.md](contraargumentos.md): decisiones de la presentación y cómo defenderlas.
 - [grafos-troubleshooting.md](grafos-troubleshooting.md) *(opcional)*: teoría de grafos para RCA con IA.
 
 ## Prueba técnica (resumen)

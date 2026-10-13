@@ -152,7 +152,8 @@ tiene autoridad, y la tiene porque negocio la firmó."
 - **Quién controla:** Plataforma publica plantillas por lenguaje con mínimos obligatorios (pruebas,
   seguridad, gate de Error Budget); cada tribu agrega lo que quiera encima. El paso a producción lo aprueba
   una **deployment protection rule** de Plataforma; sin el environment `production`, OIDC no entrega credenciales.
-- **Durante:** canary con Argo Rollouts (5% → 25% → 50% → 100%) y `AnalysisTemplate` contra Prometheus;
+- **Durante:** canary (5% → 25% → 50% → 100%) con Argo Rollouts o, si ya tienen service mesh, Flagger;
+  análisis automático contra Prometheus;
   si empeora, rollback automático.
 - **Después:** verificación de 30 min del burn rate y registro del evento de cambio.
 - Alertas multi-window, multi-burn-rate: 14,4× en 1 h → page · 6× en 6 h → page · 1× en 3 días → ticket.
@@ -179,7 +180,8 @@ lo aprueba una deployment protection rule del environment de producción, una ap
 consulta el Error Budget y los mínimos. Y si alguien intenta desplegar sin ese environment, AWS y GCP
 no le entregan credenciales por OIDC: el despliegue no arranca. La única excepción es un hotfix de confiabilidad, con aprobación manual y
 auditoría.
-Durante: si el gate deja pasar, no desplegamos al 100%. Argo Rollouts manda la versión nueva al 5% del
+Durante: si el gate deja pasar, no desplegamos al 100%. No impongo herramientas: si ya usan Argo CD,
+Argo Rollouts; si ya tienen un service mesh, Flagger lo automatiza. Cualquiera de las dos manda la versión nueva al 5% del
 tráfico y compara, contra Prometheus, la tasa de error y el p99 del canary frente a la versión estable.
 Si empeora, revierte solo, antes de que el 95% de los clientes lo note. Esto lo implementé en mi
 experiencia anterior y es lo que más baja el Change Failure Rate.
