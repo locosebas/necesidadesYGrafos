@@ -132,3 +132,22 @@ con fuente.
 3. *"¿Y si después del estudio no llega al 30%?"* → Se reporta con datos y se ajustan las palancas (más
    Log-to-Metrics, retención por niveles, límites de cardinalidad por tribu). La meta es del caso; el compromiso
    es medirla con honestidad.
+
+## D18 — Servidor MCP propio como puente entre la telemetría vieja y la nueva
+
+**Tu aporte:** el servidor MCP propio permite migrar fácil del desorden al orden: el agente usa las mismas
+herramientas mientras por debajo se pasa de la telemetría heredada a OpenTelemetry.
+
+**Contraargumentos y respuestas:**
+1. *"Mantener adaptadores para lo viejo es más trabajo."* → Sí, por eso son **temporales**: cada adaptador
+   heredado tiene fecha de retiro en la hoja de ruta. Es más barato que esperar a migrar todo antes de usar IA.
+2. *"Con logs viejos sin `trace_id` ni Semantic Conventions, la IA no va a correlacionar bien."* → Correcto, y es
+   un argumento a favor de migrar: el servidor MCP marca de qué fuente viene cada dato y su calidad, y la
+   precisión del RCA (Root Cause Analysis) en los servicios migrados vs. los viejos se vuelve el indicador que
+   empuja a las tribus a migrar.
+3. *"La capa de abstracción puede esconder la deuda para siempre."* → Por eso se mide: porcentaje de servicios
+   que ya responden con OpenTelemetry, visible en el IDP. La capa ayuda a la transición, no la reemplaza.
+4. *"Darle acceso a la IA a sistemas heredados es un riesgo."* → Mismas reglas que para lo nuevo: solo lectura,
+   mínimo privilegio, enmascaramiento de PII antes de responder y auditoría de cada llamada.
+5. **Nombre del patrón para la mesa:** *strangler fig* (higuera estranguladora): lo nuevo crece alrededor de lo
+   viejo y lo va reemplazando por partes, sin un "big bang".
