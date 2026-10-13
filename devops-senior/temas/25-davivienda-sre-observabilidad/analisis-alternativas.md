@@ -542,15 +542,30 @@ reutilizar lo contratado).
 | Recomendación | En la diapositiva 9 hablar de "la herramienta de on-call del banco" y "el ITSM del banco". Si la mesa pregunta cuál, responder con los requisitos y dar un ejemplo: *"la que ya tengan; por ejemplo PagerDuty para el on-call y ServiceNow para el registro"* |
 | Tu decisión | **No escoger herramienta: ya debe existir contratada. Solo integrarse; la lista queda como referencia** |
 
-### D23. Estructura de roles del incidente
+### D23. Estructura de roles del incidente: entre más simple, mejor
+
+> *(¿Lo pide el caso? Indirectamente: el Eje 4 pide el "plan de acción y liderazgo como Incident Commander", y
+> ser IC implica repartir el trabajo. El borrador v1 traía 4 roles fijos del modelo ICS (Incident Command
+> System); se simplifica.)*
+
+**Principio:** los **roles no son personas**. Una persona puede tener varios roles, con **una sola regla que no se
+negocia: el Incident Commander no es quien arregla**. Si el IC se pone a depurar, nadie coordina.
+
+| Rol | ¿Siempre? | Quién lo cubre en un equipo pequeño |
+|---|---|---|
+| **Incident Commander (IC):** coordina, decide la mitigación, comunica | Sí | El on-call que declara el incidente o el primero en llegar |
+| **Responsable técnico (Ops Lead):** diagnostica y ejecuta (rollback, failover) | Sí | El dueño del servicio afectado (la tribu: "you build it, you run it") |
+| Comunicaciones | Solo si el IC no da abasto | En SEV2/SEV3 lo hace el IC. En SEV1 de un banco (reportes a la SFC, comercios, negocio) se delega a una tercera persona |
+| Registro de la línea de tiempo (Scribe) | **No como persona** | Se **automatiza**: el canal del incidente, la herramienta de on-call y el agente de RCA ya registran todo con hora; el IC solo marca las decisiones |
+
 | | |
 |---|---|
-| Escogido | IC + Ops Lead + Comms Lead + Scribe (modelo ICS) |
-| Alternativas | Más roles (Subject Matter Experts, enlace con negocio, Planning) · menos roles para SEV2/SEV3 (IC + ingeniero) |
-| Trade-off | Cuatro roles es claro para SEV1; para incidentes menores es burocrático |
-| Costo | Costo en **horas de personas por incidente**: un SEV1 de 2 horas con 4 roles + 3 expertos = ~14 horas-persona (≈ USD 500 a costo empresa). Es despreciable frente al minuto caído; el riesgo es aplicar los 4 roles a incidentes menores (SEV3) y gastar horas sin necesidad |
-| Recomendación | Cuatro roles en SEV1 y decir que escala hacia abajo con la severidad |
-| Tu decisión | |
+| Escogido | **Mínimo dos roles: IC + responsable técnico.** Comunicaciones se agrega solo en SEV1 o cuando el IC no da abasto. La línea de tiempo se automatiza (sin Scribe humano) |
+| Alternativas | Cuatro roles fijos del modelo ICS (IC, Ops Lead, Comms Lead, Scribe) · más roles (expertos por dominio, enlace con negocio, Planning) · un solo rol (quien arregla también coordina: **no**) |
+| Trade-off | Simple: funciona con un equipo pequeño y arranca en minutos; el riesgo es que en un SEV1 grande el IC se sature con la comunicación, por eso ese rol se agrega cuando hace falta. Cuatro roles fijos: claro, pero exige más gente y es burocrático en incidentes menores |
+| Costo | Menos horas-persona por incidente. Automatizar la línea de tiempo ≈0 (viene con el canal y las herramientas existentes) |
+| Recomendación | Frase para la mesa: *"Entre más simple, mejor: IC y responsable técnico siempre; comunicaciones solo cuando el IC no da abasto, como en un SEV1 con reporte a la Superintendencia; y la línea de tiempo la llevan las herramientas, no una persona. La única regla fija: el IC no toca el teclado."* |
+| Tu decisión | **Entre más simple, mejor, para poder actuar con un equipo pequeño: IC + responsable técnico; los demás roles solo si hacen falta** |
 
 ### D24. Plazo y método del post-mortem
 | | |

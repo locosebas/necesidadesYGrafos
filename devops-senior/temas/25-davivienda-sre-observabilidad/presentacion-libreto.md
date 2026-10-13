@@ -697,7 +697,9 @@ base de la IA causal y de la auto-remediación futura, siempre con humano en el 
 **Título:** 12:30 de un día de quincena: el pago QR falla en un 30%.
 
 **Contenido:**
-- Roles: Incident Commander (coordina, no toca teclado) · Operations Lead · Communications Lead · Scribe.
+- Roles, entre más simple mejor: Incident Commander (coordina y comunica, no toca teclado) + responsable
+  técnico (diagnostica y ejecuta). En este SEV1, el IC delega comunicaciones; la línea de tiempo la llevan las
+  herramientas, no una persona.
 - Minuto 0–5: la herramienta de on-call del banco despierta al on-call; declarar SEV1, abrir el canal, asignar
   roles, medir el impacto con el SLO y el burn rate; el incidente queda registrado en el ITSM del banco.
 - Minuto 5–15: preguntar **qué cambió** (grafo + `cambios_recientes` vía MCP).
@@ -708,7 +710,7 @@ base de la IA causal y de la auto-remediación futura, siempre con humano en el 
 **Diagrama:** una línea de tiempo horizontal de 0 a 60 minutos. Hitos: 0' alerta de burn rate 14,4× →
 2' SEV1 declarado → 5' roles asignados → 8' hipótesis del grafo vía MCP → 10' rollback de Antifraude
 v2.3.1 (decisión del IC) → 15' primer comunicado → 20' SLI recuperado → 60' monitoreo estable y
-programación del post-mortem. Encima, cuatro carriles: IC, Ops Lead, Comms Lead, Scribe.
+programación del post-mortem. Encima, tres carriles: IC, responsable técnico y comunicaciones (este último solo porque es SEV1).
 
 ```mermaid
 gantt
@@ -723,28 +725,27 @@ gantt
     10' decide rollback de Antifraude v2.3.1     :crit, milestone, m3, 12:40, 0m
     60' programa el post-mortem                  :milestone, m4, 13:30, 0m
 
-    section Operations Lead
+    section Responsable técnico
     Pregunta qué cambió (grafo + MCP)            :ops1, 12:35, 3m
     8' hipótesis lista                           :milestone, m5, 12:38, 0m
     Ejecuta el rollback                          :crit, ops2, 12:40, 10m
     20' SLI recuperado                           :milestone, m6, 12:50, 0m
     Monitoreo hasta que esté estable             :ops3, 12:50, 40m
 
-    section Communications Lead
+    section Comunicaciones (solo en SEV1)
     15' primer comunicado                        :milestone, m7, 12:45, 0m
     Comunicados cada 15 a 30 min con hechos      :com1, 12:45, 45m
 
-    section Scribe
-    Línea de tiempo y registro en el ITSM     :scr1, 12:32, 58m
 ```
 
 **Guion:**
 "Ahora juntemos todo en el peor momento: 12:30 de un día de quincena y el pago QR falla en un 30%.
 Primero, la alerta. No llega por CPU: llega porque el burn rate pasó de 14,4 veces en la ventana de una
 hora. Ya sabemos que es grave porque está atada al SLO.
-La alerta de burn rate llega al on-call por la herramienta de guardia del banco. Como Incident Commander, en los primeros cinco minutos declaro SEV1, abro el canal y asigno roles: un
-Operations Lead que ejecuta los cambios técnicos, un Communications Lead que habla con negocio y con los
-canales, y un Scribe que lleva la línea de tiempo. La regla de oro del Incident Commander: no toco el
+La alerta de burn rate llega al on-call por la herramienta de guardia del banco. Como Incident Commander, en los primeros cinco minutos declaro SEV1, abro el canal y asigno roles, los
+mínimos: un responsable técnico, el dueño del servicio, que diagnostica y ejecuta; y como es un SEV1 en un
+banco, alguien de comunicaciones para negocio y el reporte a la Superintendencia. La línea de tiempo no
+necesita una persona: el canal y las herramientas la registran solas. La regla de oro del Incident Commander: no toco el
 teclado. Si me pongo a depurar, nadie coordina.
 Luego hago la pregunta más rentable de cualquier incidente: ¿qué cambió? El grafo y el servidor MCP me
 dan en minutos la hipótesis: antifraude, versión 2.3.1, desplegada hace 12 minutos.

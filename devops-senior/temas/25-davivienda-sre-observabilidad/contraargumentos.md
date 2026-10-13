@@ -191,3 +191,17 @@ herramientas mientras por debajo se pasa de la telemetría heredada a OpenTeleme
    on-call y ServiceNow para el registro."*
 2. *"¿Y si la que tenemos no tiene API para el agente?"* → El agente publica en el canal de chat del incidente
    (Slack o Teams) y deja el enlace en el ticket; se integra por donde se pueda, sin cambiar de herramienta.
+
+## D23 — Roles del incidente: entre más simple, mejor
+
+**Tu decisión:** mínimo IC + responsable técnico; los demás roles solo si hacen falta.
+
+1. *"El estándar (ICS, PagerDuty, Google) tiene más roles: Comms, Scribe..."* → Son **roles, no personas**. El
+   modelo escala: en un SEV1 grande se agregan; en el día a día, con dos basta. La regla fija es que el IC no
+   arregla.
+2. *"¿Quién lleva la línea de tiempo para el post-mortem?"* → Las herramientas: el canal del incidente, la
+   herramienta de on-call y el agente de RCA registran todo con hora. El IC solo marca las decisiones clave.
+3. *"¿Y si el IC se satura?"* → Esa es justamente la señal para delegar comunicaciones; en un SEV1 de pagos casi
+   siempre pasa (negocio, comercios, Superintendencia Financiera).
+4. *"¿Y si solo hay una persona de guardia?"* → Esa persona es IC y escala de inmediato al dueño del servicio para
+   que sea el responsable técnico. Coordinar y arreglar a la vez es la causa más común de incidentes largos.
