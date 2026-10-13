@@ -85,7 +85,7 @@ servidor MCP de observabilidad. Lo que les voy a mostrar es ejecutable, no solo 
 (microservicios en Kubernetes, AWS + GCP)". Alrededor:
 - Actor "Cliente en la app móvil" → paga con QR.
 - Actor "Comercio" → recibe la confirmación.
-- Sistema externo "Core bancario AS400" ← vía IBM MQ.
+- Sistema externo "Core bancario".
 - Sistema externo "Sistema de pagos inmediatos / otros bancos" (Bre-B).
 - Sistema "Plataforma de observabilidad" (Mimir, Tempo, Loki y Grafana) ← recibe telemetría.
 - Actores internos "Tribus de desarrollo" (despliegan por CI/CD) e "Incident Commander / on-call".
@@ -390,7 +390,7 @@ flowchart LR
 
         subgraph dc["Datacenter"]
             direction TB
-            mq["Conector del core<br/>instrumentado"] -- "✉️ traceparent W3C<br/>en el header" --> as400["Core bancario"]
+            conector["Conector del core<br/>instrumentado"] -- "✉️ traceparent W3C<br/>en el header" --> corebanc["Core bancario"]
         end
 
         audit["Auditoría regulatoria<br/>pipeline aparte<br/>sin muestreo, inmutable"]
@@ -398,8 +398,8 @@ flowchart LR
 
     backends["Backends de observabilidad<br/>Mimir (métricas)<br/>Tempo (trazas)<br/>Loki (logs)"]
 
-    appA -- "mensaje con traceparent" --> mq
-    mq -. "spans del adaptador" .-> gw1A
+    appA -- "mensaje con traceparent" --> conector
+    conector -. "spans del adaptador" .-> gw1A
     smA -- "OTLP + mTLS" --> backends
     tsA -- "OTLP + mTLS" --> backends
     gw2G -- "OTLP + mTLS" --> backends
@@ -409,7 +409,7 @@ flowchart LR
     classDef ext fill:#8a8a8a,stroke:#6b6b6b,color:#ffffff
     classDef reg fill:#f4f4f4,stroke:#6b6b6b,color:#1b1b1b
     class agA,gw1A,procA,smA,tsA,agG,gw1G,gw2G col
-    class backends,as400 ext
+    class backends,corebanc ext
     class audit reg
     style banco stroke:#d32f2f,stroke-width:2px,stroke-dasharray:6 4
 ```
@@ -642,8 +642,8 @@ flowchart TB
     saldos["Saldos<br/>🟢 sano"]
     notif["Notificaciones<br/>🟢 sano"]
     db["Base de datos de reglas<br/>🟢 sana"]
-    mq["Conector del core<br/>🟢 sano"]
-    as400["Core bancario<br/>🟢 sano"]
+    conector["Conector del core<br/>🟢 sano"]
+    corebanc["Core bancario<br/>🟢 sano"]
     cambio["cambios_recientes:<br/>Antifraude v2.3.1<br/>desplegada hace 12 min"]
 
     app == "DFS" ==> api
@@ -651,7 +651,7 @@ flowchart TB
     api --> saldos
     api --> notif
     anti --> db
-    saldos --> mq --> as400
+    saldos --> conector --> corebanc
     cambio -.-> anti
 
     classDef rojo fill:#c62828,stroke:#8e0000,color:#ffffff
@@ -660,7 +660,7 @@ flowchart TB
     classDef nota fill:#fff8e1,stroke:#c17900,color:#1b1b1b
     class app,api rojo
     class anti causa
-    class saldos,notif,db,mq,as400 verde
+    class saldos,notif,db,conector,corebanc verde
     class cambio nota
     linkStyle 0,1 stroke:#ffd600,stroke-width:4px
 ```
