@@ -3,8 +3,8 @@
 > Borrador para ajustar a tu voz. Diez diapositivas, veinte minutos. Cada diapositiva tiene título,
 > contenido, diagrama (descrito en palabras y dibujado en Mermaid, para pasarlo a las diapositivas),
 > guion y preguntas probables de la mesa.
-> Los números de costo son estimados sobre una línea base ilustrativa: en la mesa se dicen como
-> "estimado, a validar contra la línea base de GB/día".
+> **No hay cifras de ahorro propias**: no conocemos las métricas de Banco Plus. El −30% es la meta del caso;
+> la cifra real sale de un estudio previo de la línea base. Solo se citan números públicos con fuente.
 
 ---
 
@@ -17,7 +17,7 @@
 - El cliente define qué es "funcionar": SLO (Service Level Objective) del pago QR.
 - El pipeline protege el SLO; la telemetría lo explica; la IA acelera el diagnóstico; las personas aprenden.
 - Éxito medido con DORA (DevOps Research and Assessment): Change Failure Rate < 15% y Time to Restore < 1 h.
-- Telemetría −30% de costo sin perder ninguna traza de error.
+- Telemetría: meta del caso −30% de costo, sin perder ninguna traza de error.
 
 **Diagrama:** un ciclo de cuatro pasos. Uno, SLO del pago QR con su Error Budget. Dos, Quality Gate en
 CI/CD que frena despliegues malos. Tres, OpenTelemetry Collector y MCP, que dan datos limpios, baratos y
@@ -30,7 +30,7 @@ flowchart LR
     gate["② Quality Gate en CI/CD<br/>frena los despliegues malos<br/><i>protege el SLO</i>"]
     otel["③ OpenTelemetry Collector + MCP<br/>datos limpios, baratos y sin PII<br/>para la IA causal<br/><i>explica el SLO</i>"]
     ic["④ Incident Commander<br/>+ post-mortem blameless<br/><i>las personas aprenden</i>"]
-    exito["Éxito medido con DORA<br/>Change Failure Rate < 15%<br/>Time to Restore < 1 h<br/>Telemetría −30% de costo"]
+    exito["Éxito medido con DORA<br/>Change Failure Rate < 15%<br/>Time to Restore < 1 h<br/>Telemetría: meta −30% de costo"]
 
     slo --> gate --> otel --> ic
     ic -- "acciones → SLOs y alertas mejores" --> slo
@@ -56,7 +56,7 @@ muestreados con inteligencia y más baratos; sobre esos datos, con Semantic Conv
 Context Protocol), la IA propone la causa raíz. Cuarto, el Incident Commander usa todo eso en la crisis,
 y el post-mortem blameless devuelve acciones que mejoran los SLOs. Ahí se cierra el ciclo.
 ¿Cómo sabremos que funcionó? Con métricas DORA: Change Failure Rate por debajo del 15%, Time to Restore
-por debajo de una hora y −30% en el costo de telemetría. En mi experiencia anterior, en una plataforma
+por debajo de una hora, y la meta de −30% en el costo de telemetría, medida contra una línea base real. En mi experiencia anterior, en una plataforma
 de comercio electrónico de alto volumen, implementé rollback automático por alertas durante canary y un
 servidor MCP de observabilidad. Lo que les voy a mostrar es ejecutable, no solo teórico."
 
@@ -448,7 +448,7 @@ traza ya no se corta donde más duele."
 
 ## Diapositiva 6 — Eje 2: Smart Sampling y FinOps (−30%) (2 min)
 
-**Título:** Pagar por señal, no por ruido: −34% estimado sin perder un solo error.
+**Título:** Pagar por señal, no por ruido: la meta del −30% sin perder un solo error.
 
 **Contenido:**
 - Tail-based sampling: 100% de errores, 100% de pagos > 2 s, 5% de los exitosos (`decision_wait` 10 s).
@@ -457,34 +457,25 @@ traza ya no se corta donde más duele."
 - Control de cardinalidad: ningún ID único como etiqueta de métrica. Showback de costo por tribu.
 - Auditoría regulatoria por un pipeline aparte: nunca se muestrea.
 
-**Diagrama:** gráfico de cascada (waterfall) sobre una línea base ilustrativa de 100 (logs 45, trazas
-35, métricas 20): tail sampling −21 · Log-to-Metrics y filtrado −9 · cardinalidad −4 = **66, es decir
-−34%**. Nota al pie: "estimado sobre línea base ilustrativa; se valida midiendo GB/día antes y
-después".
-
-```mermaid
-xychart-beta
-    title "Costo de telemetría (línea base ilustrativa = 100)"
-    x-axis ["Línea base", "Tail sampling −21", "Log-to-Metrics y filtro −9", "Cardinalidad −4", "Resultado"]
-    y-axis "Costo relativo" 0 --> 100
-    bar [100, 79, 70, 66, 66]
-    line [100, 79, 70, 66, 66]
-```
-
-Composición de la línea base y qué palanca ataca cada parte:
+**Diagrama:** de izquierda a derecha, tres pasos: **1. Estudio de línea base** (GB/día por señal y por
+servicio, mayores emisores, cardinalidad, factura actual) → **2. Palancas** (tres cajas: trazas → tail sampling;
+logs → Log-to-Metrics y filtro de DEBUG; métricas → control de cardinalidad) → **3. Medir antes y después**
+contra la meta del −30% y mostrar el costo por tribu (showback). Al pie, una franja de "Referencias públicas":
+"Capital One: −70% de volumen de trazas con OpenTelemetry · Pismo (pagos): −80% de costo de observabilidad con
+tail sampling".
 
 ```mermaid
 flowchart LR
-    logs["Logs: 45"] -- "Log-to-Metrics (connector count)<br/>+ filter de DEBUG" --> r1["−9"]
-    trazas["Trazas: 35"] -- "tail_sampling<br/>100% errores, 100% > 2 s, 5% exitosos" --> r2["−21"]
-    metricas["Métricas: 20"] -- "cardinalidad: ningún ID<br/>como etiqueta" --> r3["−4"]
-    r1 --> total["66 = <b>−34%</b><br/>se valida en GB/día<br/>antes y después"]
-    r2 --> total
-    r3 --> total
+    estudio["<b>1. Estudio de línea base</b><br/>GB/día por señal y servicio<br/>mayores emisores · cardinalidad<br/>factura actual"]
+    subgraph palancas["2. Palancas"]
+        trazas["Trazas → tail_sampling<br/>100% errores, 100% > 2 s,<br/>pocos exitosos"]
+        logs["Logs → Log-to-Metrics<br/>(connector count) + filter de DEBUG"]
+        metricas["Métricas → cardinalidad:<br/>ningún ID como etiqueta"]
+    end
+    medir["<b>3. Medir antes y después</b><br/>meta del caso: −30%<br/>showback por tribu"]
+    estudio --> palancas --> medir
     spanm["spanmetrics antes del muestreo:<br/>métricas RED exactas al 100%"] -.-> trazas
-
-    classDef ahorro fill:#2e7d32,stroke:#1b5e20,color:#ffffff
-    class r1,r2,r3,total ahorro
+    refs["Referencias públicas: Capital One −70% volumen de trazas ·<br/>Pismo −80% costo de observabilidad"] -.-> medir
 ```
 
 **Guion:**
@@ -501,8 +492,11 @@ Segunda palanca, los logs, que suelen ser la mitad de la factura: miles de líne
 vuelven un contador con Log-to-Metrics, y los logs de DEBUG no llegan a producción.
 Tercera, la cardinalidad: un número de usuario como etiqueta de métrica crea una serie nueva por
 cliente. Los IDs van en trazas y logs, nunca en métricas.
-Sumado, sobre una línea base ilustrativa, da −34%. Lo primero que haría es medir la línea base real en
-GB por día y mostrarle a cada tribu su costo, el showback de FinOps, porque lo que no se ve no se
+¿Cuánto ahorra todo esto en Banco Plus? No les voy a dar una cifra sin conocer sus datos. Lo primero es un
+estudio de la línea base: GB por día por señal y por servicio, y la factura actual. Lo que sí sé es que la meta
+es alcanzable: Capital One redujo cerca del 70% del volumen de trazas con OpenTelemetry, y Pismo, una
+plataforma de pagos, cerca del 80% de su costo de observabilidad con tail sampling. Y a cada tribu le
+mostramos su costo, el showback de FinOps, porque lo que no se ve no se
 optimiza.
 Una aclaración para Operaciones y Riesgo: la telemetría no es el registro de auditoría. La evidencia
 regulatoria va por otro pipeline, sin muestreo y con retención legal."
@@ -790,7 +784,7 @@ las hipótesis. Eso es lo que baja el Time to Restore."
 
 **Diagrama:** a la izquierda, el ciclo de la diapositiva 1 cerrándose (flecha de "post-mortem" a
 "SLO"). A la derecha, una línea de tiempo 30/60/90 días con tres hitos y, debajo, los indicadores de
-éxito: Change Failure Rate < 15% · Time to Restore < 1 h · costo de telemetría −30% · toil < 50%.
+éxito: Change Failure Rate < 15% · Time to Restore < 1 h · meta de costo de telemetría −30% (medida contra la línea base) · toil < 50%.
 
 ```mermaid
 flowchart LR
@@ -813,7 +807,7 @@ flowchart LR
         d30 --> d60 --> d90
     end
 
-    kpi["<b>Indicadores de éxito</b><br/>Change Failure Rate < 15%<br/>Time to Restore < 1 h<br/>Costo de telemetría −30%<br/>Toil < 50%"]
+    kpi["<b>Indicadores de éxito</b><br/>Change Failure Rate < 15%<br/>Time to Restore < 1 h<br/>Costo de telemetría: meta −30%<br/>Toil < 50%"]
 
     cultura["Cultura: Team Topologies<br/>Plataforma = habilitador<br/>you build it, you run it<br/>IDP en Backstage como autoservicio"]
 

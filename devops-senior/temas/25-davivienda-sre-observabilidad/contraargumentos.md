@@ -116,3 +116,19 @@ solo los huecos por señal y sugerir Grafana solo desde cero.
    sistemas, reentrenar), salvo que se compre Grafana Enterprise o Grafana Cloud. Y casi siempre **Grafana (la
    interfaz de dashboards) ya está** donde hay Prometheus y Thanos: la discusión real es Mimir vs. Thanos, no
    "Grafana sí o no".
+
+## D17 — Cifra de ahorro (se quitó)
+
+**Tu decisión:** no dar cifras de ahorro inventadas; hace falta un estudio previo de la línea base. Solo números
+con fuente.
+
+**Contraargumentos y respuestas:**
+1. *"Entonces, ¿cuánto nos vamos a ahorrar?"* → *"No les doy una cifra sin sus datos: comprometer un número
+   inventado sería irresponsable. En 2–4 semanas de estudio de la línea base les doy la cifra real. Lo que sí sé
+   es que la meta del −30% es alcanzable, por casos públicos."*
+2. *"¿Qué casos?"* → **Capital One** (banco): ~70% menos volumen de trazas con OpenTelemetry (The New Stack).
+   **Pismo** (plataforma de pagos, hoy de Visa): ~80% menos costo de observabilidad con tail sampling (charla en
+   KubeCon EU 2024, con Grafana Labs). Ojo: son su volumen y su factura, no los de Banco Plus.
+3. *"¿Y si después del estudio no llega al 30%?"* → Se reporta con datos y se ajustan las palancas (más
+   Log-to-Metrics, retención por niveles, límites de cardinalidad por tribu). La meta es del caso; el compromiso
+   es medirla con honestidad.

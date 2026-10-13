@@ -405,5 +405,5 @@ Son útiles pero lineales: llevan a **una** causa, y los sistemas complejos fall
 **F2.1** Cuenta en 60 segundos la historia completa de tu propuesta (SLO → telemetría → IA → incidente).
 <details><summary>Respuesta</summary>
 
-Se evalúa en vivo: debe salir en orden y con al menos un número por eje (por ejemplo, 99,9% → 43,2 min; −30% de costo con tail sampling; MTTR de X a Y).
+Se evalúa en vivo: debe salir en orden y con al menos un número por eje (por ejemplo, 99,9% → 43,2 min; meta −30% de costo, medida contra la línea base; MTTR de X a Y).
 </details>

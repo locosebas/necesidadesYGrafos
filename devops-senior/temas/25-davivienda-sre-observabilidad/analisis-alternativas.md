@@ -31,11 +31,12 @@ es hablar en **valores relativos** ("el SaaS cuesta 3–5× más por GB que el a
 | $$$ | USD 10.000–50.000/mes |
 | $$$$ | > USD 50.000/mes |
 
-**Supuestos de referencia** (ilustrativos, los mismos de la diapositiva 6):
+**Supuestos de referencia:**
 
-- **Factura de observabilidad base: USD 100.000/mes**, repartida como en D17: logs 45 · trazas 35 · métricas 20.
-  Equivale a unos ~3 TB/día de logs y ~2,3 TB/día de trazas a ~USD 0,50/GB ingerido, y ~3 millones de
-  series activas de métricas. Con el −34% de D17, el ahorro sería **~USD 34.000/mes ≈ USD 400.000/año**.
+- **Sin cifra de ahorro propia.** No conocemos las métricas de Banco Plus, así que **no se inventa una línea base
+  ni un porcentaje de ahorro**. El −30% es la **meta que pone el caso**; cuánto se ahorra de verdad sale de un
+  **estudio previo** de la línea base (GB/día por señal y por servicio, mayores emisores, cardinalidad, factura actual).
+  Referencias públicas que muestran que la meta es alcanzable: Capital One redujo ~70% el volumen de datos de trazas con OpenTelemetry (The New Stack); Pismo, plataforma de pagos, redujo ~80% su costo de observabilidad con tail sampling (KubeCon EU 2024). Son casos de otras empresas: muestran que la meta es alcanzable, no prometen la cifra de Banco Plus.
 - **Costo de personas: 1 FTE (Full-Time Equivalent, persona de tiempo completo) de ingeniería senior en
   Colombia ≈ USD 6.000/mes de costo empresa** (≈ COP 24 millones con TRM, Tasa Representativa del Mercado,
   de ~4.000; verificar la del día). El software abierto no tiene licencia, pero sí cuesta personas: esa es
@@ -378,7 +379,7 @@ el despliegue."*
 | Escogido | Tail: 100% errores, 100% > 2 s, 5% del resto, `decision_wait` 10 s |
 | Alternativas | Solo head sampling (barato, pierde errores) · híbrido: head al 20–50% + tail · porcentajes distintos (1%, 10%) · muestreo adaptativo por volumen |
 | Trade-off | Tail puro en todo el tráfico exige memoria en el gateway. El híbrido baja la carga del gateway pero puede botar errores en la cabeza |
-| Costo | Es la decisión que más plata mueve en trazas. Con la línea base (trazas = USD 35.000/mes), quedarse con 100% de errores + lentas + 5% del resto puede bajar el volumen de trazas 70–90% en un sistema sano. Ser conservador en la diapositiva: −30 a −50% del costo de trazas ≈ **USD 10.000–17.000/mes de ahorro**. El costo de la decisión es el cómputo del gateway (D12, $ a $$). Head sampling solo: igual de barato, pero pierde errores (costo en MTTR, Mean Time To Restore) |
+| Costo | Es la decisión que más plata mueve en trazas. Es la palanca de ahorro más grande en trazas. Cuánto ahorra en Banco Plus **no se sabe sin el estudio previo**; referencias públicas: Capital One −70% de volumen de trazas, Pismo −80% de costo de observabilidad. El costo de la decisión es el cómputo del gateway (D12, $ a $$). Head sampling solo: igual de barato, pero pierde errores (costo en MTTR, Mean Time To Restore) |
 | Recomendación | Tail como diseño; si preguntan por memoria, el híbrido como optimización. Los porcentajes se ajustan midiendo |
 | Tu decisión | |
 
@@ -398,7 +399,7 @@ el despliegue."*
 | Escogido | Stack de Grafana: **Mimir** (métricas), **Tempo** (trazas), **Loki** (logs) y **Grafana** (visualización), autogestionado. *(El borrador v1 no lo nombraba.)* |
 | Alternativas | Abiertos/autogestionados: Prometheus + **Mimir** o **Thanos** o VictoriaMetrics (métricas), **Tempo** o Jaeger (trazas), **Loki**, Elasticsearch u OpenSearch (logs), ClickHouse (SigNoz) · Administrados de nube: Amazon Managed Prometheus, Google Cloud Managed Service for Prometheus, CloudWatch, Cloud Logging · SaaS: Datadog, Dynatrace, New Relic, Grafana Cloud, Elastic Cloud |
 | Trade-off | Autogestionado: barato en licencias y el dato no sale, pero cuesta operación (personas). SaaS: rápido y potente, pero caro por volumen y el dato sale del banco. Nativo de cada nube: dos mundos distintos en multi-cloud |
-| Costo | La decisión de mayor impacto económico de toda la propuesta. **SaaS** (Datadog, Dynatrace, New Relic, Grafana Cloud): con la línea base ≈ **USD 100.000/mes ($$$$)**; rápido y sin operación. **Autogestionado** (Mimir / Tempo / Loki sobre almacenamiento de objetos): el almacenamiento es barato (~USD 0,02/GB/mes), cómputo $$ a $$$, más **2–4 FTE** de plataforma (≈ USD 12.000–24.000/mes). Suele quedar en **30–50% del costo del SaaS** a este volumen, pero solo si hay equipo. **Nativo de cada nube** (CloudWatch, Cloud Logging, Managed Prometheus): precio parecido al SaaS por GB (~USD 0,50/GB de logs), y dos consolas distintas. Regla práctica: a poco volumen gana el SaaS; a volumen de banco gana el autogestionado |
+| Costo | La decisión de mayor impacto económico de toda la propuesta. **SaaS** (Datadog, Dynatrace, New Relic, Grafana Cloud): se cobra por volumen, así que a volumen de banco suele ser $$$$; rápido y sin operación. **Autogestionado** (Mimir / Tempo / Loki sobre almacenamiento de objetos): el almacenamiento es barato (~USD 0,02/GB/mes), cómputo $$ a $$$, más **2–4 FTE** de plataforma (≈ USD 12.000–24.000/mes). Más barato en licencias y almacenamiento, pero cuánto más barato depende del volumen real y del costo del equipo: **se calcula en el estudio previo**, no se promete. **Nativo de cada nube** (CloudWatch, Cloud Logging, Managed Prometheus): precio parecido al SaaS por GB (~USD 0,50/GB de logs), y dos consolas distintas. Regla práctica: a poco volumen gana el SaaS; a volumen de banco gana el autogestionado |
 | Recomendación | **Nombrarlo**: "por ejemplo, Mimir, Tempo y Loki", y agregar la frase de neutralidad: "OpenTelemetry nos deja cambiar de backend sin reinstrumentar". Si la mesa dice qué usan (Datadog, Dynatrace...), adaptarse sin problema |
 | Por qué Grafana (si nos dejan sugerir) | 1) **Abierto y sobre almacenamiento de objetos** (S3 / GCS): el dato se guarda barato (~USD 0,02/GB al mes) y **no sale del banco**. 2) **Recibe OTLP nativo**: encaja directo con el Collector. 3) **Mimir es compatible con Prometheus (PromQL)**: Sloth, las alertas de burn rate y el análisis del canary funcionan sin cambios. 4) **Una sola interfaz con correlación** métrica → traza → log (exemplars, *trace to logs*): baja el MTTR y alimenta al servidor MCP (Grafana publica uno). 5) **Multi-tenant**: un tenant por tribu permite *showback/chargeback* de costos (FinOps). 6) Escala horizontal y una instancia por nube, sin tráfico cruzado. 7) Costo: ~30–50% del SaaS a volumen de banco, si hay equipo (2–4 FTE) |
 | Regla de decisión | 1) **Reutilizar lo que ya existe y está contratado u operado** (no imponer proveedor). 2) Verificar que soporte OTLP y lo necesario (PromQL para SLOs y burn rate, trazas, correlación). 3) **Solo llenar los huecos**, señal por señal (por ejemplo, si tienen Prometheus + Thanos pero no trazas, agregar solo Tempo o Jaeger). 4) **Stack de Grafana solo si se arranca desde cero.** Equivalentes por señal: métricas Mimir ≈ Thanos (Apache 2.0) ≈ VictoriaMetrics (Apache 2.0); trazas Tempo ≈ Jaeger (Apache 2.0); logs Loki ≈ OpenSearch (Apache 2.0) ≈ Elasticsearch |
@@ -410,19 +411,24 @@ el despliegue."*
 | Escogido | Connector `count` en el Collector |
 | Alternativas | Que la app emita métricas directamente (lo ideal a largo plazo) · métricas derivadas de logs en el proveedor (pagas la ingesta igual) · reglas de grabación en Loki |
 | Trade-off | En el Collector: ahorro inmediato sin tocar código. En la app: más limpio, pero exige cambios en cientos de repositorios |
-| Costo | Connector `count`: ≈0 (CPU del Collector). Ahorro: una línea de log informativa que solo se contaba puede costar ~USD 0,50/GB; convertirla en una métrica cuesta unas pocas series (centavos). Si el 20–30% de los logs son de ese tipo, con la línea base (logs = USD 45.000/mes) son **USD 9.000–13.000/mes**. Métricas derivadas en el proveedor: depende de cómo cobra. En Datadog **sí ahorra** si después no indexas esos logs (pagas la ingesta barata, ~USD 0,10/GB, y te evitas la indexación, que es lo caro), pero el dato igual sale del banco y cada métrica generada se cobra como métrica personalizada. En proveedores que cobran solo por GB ingerido (~USD 0,50/GB), el ahorro es casi nulo |
+| Costo | Connector `count`: ≈0 (CPU del Collector). Ahorro: una línea de log informativa que solo se contaba puede costar ~USD 0,50/GB; convertirla en una métrica cuesta unas pocas series (centavos). Cuánto ahorra depende de qué proporción de los logs son de ese tipo: **se mide en el estudio previo**. Métricas derivadas en el proveedor: depende de cómo cobra. En Datadog **sí ahorra** si después no indexas esos logs (pagas la ingesta barata, ~USD 0,10/GB, y te evitas la indexación, que es lo caro), pero el dato igual sale del banco y cada métrica generada se cobra como métrica personalizada. En proveedores que cobran solo por GB ingerido (~USD 0,50/GB), el ahorro es casi nulo |
 | Recomendación | Collector ahora; la app como meta del SDK/plantilla corporativa |
 | Tu decisión | |
 
-### D17. Cifra de ahorro
+### D17. Cifra de ahorro → se quita
+
+> *(El borrador v1 mostraba −34% sobre una línea base inventada (logs 45 / trazas 35 / métricas 20). Se
+> quitó de todos los documentos: comprometer un número sin conocer las métricas genera desconfianza.)*
+
 | | |
 |---|---|
-| Escogido | −34% sobre una línea base ilustrativa (logs 45 / trazas 35 / métricas 20) |
-| Alternativas | Decir solo "≥ 30%" sin desglose · rango (30–45%) · no dar cifra hasta medir |
-| Trade-off | La cascada es concreta y convence, pero es inventada: si la mesa pregunta "¿de dónde salen esos porcentajes?", hay que reconocerlo. Sin cifra parece vago |
-| Costo | Desglose ilustrativo de los −34% sobre USD 100.000/mes ⇒ **~USD 34.000/mes ≈ USD 400.000/año**: tail sampling en trazas, Log-to-Metrics y filtrado de logs, retención por niveles (caliente 7–15 días, fría en almacenamiento de objetos 4–20× más barato) y control de cardinalidad en métricas. Contra eso, la inversión es ~1–2 FTE durante 3–6 meses + unos pocos nodos para los gateways: el **retorno es de meses**, no de años. Frase para la mesa: "el ahorro del primer trimestre paga el equipo que lo implementa" |
-| Recomendación | Mantener la cascada con la etiqueta "ilustrativa" bien visible y la frase "lo primero es medir la línea base" |
-| Tu decisión | |
+| Escogido | **Ninguna cifra propia.** El −30% es la meta del caso. La presentación muestra **cómo** se llega (palancas) y **cómo se mide** (estudio previo de línea base), no un porcentaje inventado |
+| Alternativas | Cascada con cifras ilustrativas (descartada: parece compromiso) · rango genérico sin fuente (descartado) · **referencias públicas con fuente** (se usan solo como evidencia de que la meta es alcanzable) |
+| Trade-off | Sin cifra puede parecer vago; se compensa con un **plan de medición concreto** y con casos públicos citados con su fuente |
+| Costo | El estudio previo cuesta poco: 2–4 semanas de una persona leyendo la factura actual y los GB/día por señal y servicio. Es lo que permite comprometer una cifra real después |
+| Referencias públicas | Capital One redujo ~70% el volumen de datos de trazas con OpenTelemetry (The New Stack); Pismo, plataforma de pagos, redujo ~80% su costo de observabilidad con tail sampling (KubeCon EU 2024). Son casos de otras empresas: muestran que la meta es alcanzable, no prometen la cifra de Banco Plus |
+| Recomendación | Frase para la mesa: *"El caso pide −30%. No les voy a dar una cifra sin conocer sus datos: lo primero es un estudio de la línea base, GB por día por señal y por servicio, y la factura actual. Lo que sí sé es que es alcanzable: Capital One redujo cerca del 70% del volumen de trazas con OpenTelemetry, y Pismo, una plataforma de pagos, cerca del 80% del costo de observabilidad con tail sampling."* |
+| Tu decisión | **Quitar la cifra de ahorro de todos lados; decir que hace falta un estudio previo antes de dar cifras; solo usar números con fuente** |
 
 ---
 
@@ -532,7 +538,7 @@ el despliegue."*
 | Escogido | 30 días SLO + burn rate · 60 días Quality Gate + gateway con PII · 90 días tail sampling + MCP |
 | Alternativas | Empezar por FinOps (el ahorro paga el resto) · empezar por el gateway con PII (requisito regulatorio primero) |
 | Trade-off | Empezar por el SLO es lo más coherente con la historia; empezar por el ahorro es lo que más le gusta a un CFO (Chief Financial Officer) |
-| Costo | Hoja de ruta en plata: 30 días (SLO + burn rate) ≈0 en licencias, ~1 FTE. 60 días (Quality Gate + gateway con PII): unos nodos para el gateway ($) + ~1–2 FTE. 90 días (tail sampling + MCP): $ a $$ en cómputo y tokens, y aquí **empieza el ahorro** (D13, D16, D17). Empezar por FinOps traería el ahorro 1–2 meses antes, pero sin SLOs no sabes qué datos son seguros de descartar |
+| Costo | Hoja de ruta en plata: 30 días (SLO + burn rate) ≈0 en licencias, ~1 FTE. 60 días (Quality Gate + gateway con PII): unos nodos para el gateway ($) + ~1–2 FTE. 90 días (tail sampling + MCP): $ a $$ en cómputo y tokens, y aquí **empieza el ahorro**, medido contra la línea base del estudio previo. Empezar por FinOps traería el ahorro 1–2 meses antes, pero sin SLOs no sabes qué datos son seguros de descartar |
 | Recomendación | Mantener, pero decir que el ahorro del tail sampling financia las fases siguientes |
 | Tu decisión | |
 
