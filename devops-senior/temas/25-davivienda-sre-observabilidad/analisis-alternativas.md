@@ -91,13 +91,13 @@ es hablar en **valores relativos** ("el SaaS cuesta 3–5× más por GB que el a
 ### D3. SLI de latencia y dónde se mide
 | | |
 |---|---|
-| Escogido | 99% de pagos confirmados en < 2 s, medido en el API Gateway |
-| Alternativas | Umbral distinto (1 s, 3 s) · medir en el cliente con RUM (Real User Monitoring) desde la app · monitoreo sintético · medir en el balanceador de carga |
+| Escogido | **SLI:** proporción de pagos confirmados por debajo de un umbral de latencia, medido en el API Gateway. **Sin número en la presentación:** el umbral y el porcentaje se calibran en la Fase 0 y se reevalúan cada trimestre. *(El borrador v1 decía "99% en menos de 2 s": eran valores de muestra, inventados; se quitaron de todos lados.)* |
+| Alternativas | Poner un número de muestra (descartado: es arbitrario y genera desconfianza) · medir en el cliente con RUM (Real User Monitoring) desde la app · monitoreo sintético · medir en el balanceador de carga |
 | Trade-off | API Gateway: fácil y confiable, pero no ve la red móvil del cliente. RUM: lo más centrado en el cliente, pero ruidoso (celulares y redes que no controlamos). Sintético: detecta caídas sin tráfico, pero no es tráfico real |
 | Costo | API Gateway: ≈0 (las métricas ya existen). RUM (Real User Monitoring) en SaaS: $ a $$ (se cobra por sesión: del orden de USD 1–2 por cada 1.000 sesiones; con millones de sesiones al mes se vuelve $$). Monitoreo sintético: $ (centavos por ejecución; unas decenas de pruebas cada minuto ≈ cientos de USD/mes). Recomendación: muestrear el RUM (por ejemplo, 10% de las sesiones) para que no infle la factura que justamente queremos bajar |
-| Cómo calibrarlo (para que no sea arbitrario) | Los valores **99% y 2 s del libreto son ilustrativos**. Método: **umbral** = cruce de (a) la curva de abandono/reintento del cliente vs. latencia (RUM o analítica de producto), (b) los timeouts duros del flujo (app, comercio, red de pagos): el umbral va muy por debajo del primero, y (c) el histograma real de 4 semanas (p50/p90/p99/p99,9). **Porcentaje** = lo que hoy se cumple con un margen pequeño (si hoy el 99,4% queda bajo 2 s, el SLO es 99%); la cola es ruidosa (red celular, GC, reintentos), por eso suele ser más bajo que el de disponibilidad. Opcional: dos umbrales (90% < 1 s y 99% < 2 s). Repartir el umbral como presupuesto de latencia por salto (gateway, antifraude, saldos, core bancario). Revisión trimestral. **Frase para la mesa:** "el umbral sale de la curva de abandono del cliente y del timeout del flujo; el porcentaje, del histograma de 4 semanas; se revisa cada trimestre" |
+| Cómo calibrarlo (para que no sea arbitrario) | Método: **umbral** = cruce de (a) la curva de abandono/reintento del cliente vs. latencia (RUM o analítica de producto), (b) los timeouts duros del flujo (app, comercio, red de pagos): el umbral va muy por debajo del primero, y (c) el histograma real de 4 semanas (p50/p90/p99/p99,9). **Porcentaje** = lo que hoy se cumple con un margen pequeño (por ejemplo, si hoy el 99,4% de los pagos queda bajo el umbral, el SLO puede ser 99%); la cola es ruidosa (red celular, GC, reintentos), por eso suele ser más bajo que el de disponibilidad. Opcional: dos umbrales (uno para la experiencia típica y otro para la cola). Repartir el umbral como presupuesto de latencia por salto (gateway, antifraude, saldos, core bancario). Revisión trimestral. **Frase para la mesa:** "el umbral sale de la curva de abandono del cliente y del timeout del flujo; el porcentaje, del histograma de 4 semanas; se revisa cada trimestre" |
 | Recomendación | API Gateway para el SLO + RUM y sintético como señales complementarias (responde "customer centric" sin volver ruidoso el SLO) |
-| Tu decisión | |
+| Tu decisión | **Los 2 s eran arbitrarios: quitarlos de todos lados. Presentar el SLI y el método de calibración; el valor se define en la Fase 0 y se reevalúa** |
 
 ### D4. Umbrales de la Error Budget Policy
 | | |
@@ -379,7 +379,7 @@ el despliegue."*
 ### D13. Política de muestreo
 | | |
 |---|---|
-| Escogido | Tail: 100% errores, 100% > 2 s, 5% del resto, `decision_wait` 10 s |
+| Escogido | Tail: 100% errores, 100% de los pagos más lentos que el umbral del SLO de latencia (D3), 5% del resto, `decision_wait` 10 s |
 | Alternativas | Solo head sampling (barato, pierde errores) · híbrido: head al 20–50% + tail · porcentajes distintos (1%, 10%) · muestreo adaptativo por volumen |
 | Trade-off | Tail puro en todo el tráfico exige memoria en el gateway. El híbrido baja la carga del gateway pero puede botar errores en la cabeza |
 | Costo | Es la decisión que más plata mueve en trazas. Es la palanca de ahorro más grande en trazas. Cuánto ahorra en Banco Plus **no se sabe sin el estudio previo**; referencias públicas: Capital One −70% de volumen de trazas, Pismo −80% de costo de observabilidad. El costo de la decisión es el cómputo del gateway (D12, $ a $$). Head sampling solo: igual de barato, pero pierde errores (costo en MTTR, Mean Time To Restore) |

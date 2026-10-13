@@ -249,3 +249,16 @@ todos los documentos de la presentación: el caso no los menciona; ahora se habl
 2. *"¿Y si la causa no es un despliegue sino una saturación?"* → El rollback no la arregla: se mitiga con load
    shedding (descartar carga de forma controlada) y circuit breaker (cortar las llamadas a la dependencia que
    falla), y se escala la capacidad después.
+
+## D3 — SLO de latencia sin número inventado
+
+**Tu decisión:** los 2 segundos eran de muestra; se quitaron de todos lados. Se presenta el SLI y el método.
+
+1. *"El caso pide definir el SLO. ¿Cuál es el tuyo?"* → *"El SLI está definido: proporción de pagos confirmados
+   por debajo de un umbral, medido en el API Gateway. El umbral no lo invento: sale de la curva de abandono del
+   cliente, de los timeouts del flujo y del histograma real de cuatro semanas, en la Fase 0. Un número inventado
+   hoy sería arbitrario, y un SLO arbitrario o nace roto o no protege nada."*
+2. *"Dame al menos un orden de magnitud."* → *"Depende de dónde abandone el cliente; eso es lo primero que mido.
+   Lo que sí les aseguro es que va muy por debajo del primer timeout del flujo."*
+3. *"¿Y el tail sampling, qué umbral usa?"* → El mismo del SLO de latencia: se guardan el 100% de los pagos más
+   lentos que el umbral. Así el muestreo queda atado al SLO y no a un número suelto.

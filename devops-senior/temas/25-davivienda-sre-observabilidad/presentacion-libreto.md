@@ -163,8 +163,9 @@ por último, las personas."
 **Contenido:**
 - SLI de disponibilidad: pagos aceptados sin error de sistema ÷ pagos válidos. SLO 99,9% en 30 días
   móviles = Error Budget de 43,2 min/mes.
-- SLI de latencia: 99% de los pagos confirmados en < 2 s, medido en el API Gateway (percentil, nunca
-  promedio).
+- SLI de latencia: proporción de pagos confirmados por debajo de un umbral de latencia, medido en el API
+  Gateway (percentil, nunca promedio). **El umbral y el porcentaje no se inventan**: se calibran en la Fase 0
+  con la curva de abandono del cliente, los timeouts del flujo y el histograma real, y se reevalúan cada trimestre.
 - Corrección: cero cobros dobles (idempotency key). Saturación como alerta temprana, no como SLO.
 - Golden Signals (Latency, Traffic, Errors, Saturation) medidas donde las vive el cliente.
 - Error Budget Policy firmada con negocio: > 50% normal · 25–50% solo canary · < 25% congelado salvo
@@ -209,8 +210,10 @@ Indicators).
 El primer SLI es disponibilidad: pagos aceptados sin error de sistema sobre pagos válidos. Ojo con
 'válidos': un saldo insuficiente no es culpa nuestra y no cuenta. El SLO es 99,9% en una ventana móvil
 de 30 días. Eso nos da un Error Budget de 43,2 minutos al mes.
-El segundo SLI es latencia: el 99% de los pagos confirmados en menos de 2 segundos, medido en el API
-Gateway, que es lo más cerca del cliente que tenemos. Siempre en percentil, nunca en promedio, porque
+El segundo SLI es latencia: la proporción de pagos confirmados por debajo de un umbral, medida en el API
+Gateway, que es lo más cerca del cliente que tenemos. No les voy a dar el número del umbral, porque
+sería inventarlo: sale de cruzar en qué punto el cliente abandona o reintenta el pago, los timeouts del
+flujo y el histograma real de cuatro semanas. Y se reevalúa cada trimestre. Siempre en percentil, nunca en promedio, porque
 el promedio esconde al cliente que esperó 10 segundos.
 Las Golden Signals (latencia, tráfico, errores y saturación) cubren el resto: la saturación la usamos
 como alerta temprana, no como SLO, porque el cliente no ve la CPU.
@@ -453,7 +456,7 @@ traza ya no se corta donde más duele."
 **Título:** Pagar por señal, no por ruido: la meta del −30% sin perder un solo error.
 
 **Contenido:**
-- Tail-based sampling: 100% de errores, 100% de pagos > 2 s, 5% de los exitosos (`decision_wait` 10 s).
+- Tail-based sampling: 100% de errores, 100% de los pagos más lentos que el umbral del SLO de latencia, 5% de los exitosos (`decision_wait` 10 s).
 - `spanmetrics` **antes** del muestreo: métricas RED exactas al 100% aunque se descarten trazas.
 - Log-to-Metrics (connector `count`) + `filter` de DEBUG en producción.
 - Control de cardinalidad: ningún ID único como etiqueta de métrica. Showback de costo por tribu.
@@ -470,7 +473,7 @@ tail sampling".
 flowchart LR
     estudio["<b>1. Estudio de línea base</b><br/>GB/día por señal y servicio<br/>mayores emisores · cardinalidad<br/>factura actual"]
     subgraph palancas["2. Palancas"]
-        trazas["Trazas → tail_sampling<br/>100% errores, 100% > 2 s,<br/>pocos exitosos"]
+        trazas["Trazas → tail_sampling<br/>100% errores, 100% más lentos<br/>que el umbral del SLO, pocos exitosos"]
         logs["Logs → Log-to-Metrics<br/>(connector count) + filter de DEBUG"]
         metricas["Métricas → cardinalidad:<br/>ningún ID como etiqueta"]
     end
@@ -486,7 +489,7 @@ guardar menos de todo.
 La palanca principal es el tail-based sampling. El head-based sampling decide al inicio de la traza,
 con un porcentaje fijo: es barato, pero puede botar justo el pago que iba a fallar. El tail-based
 sampling decide al final, cuando ya vio la traza completa: guarda el 100% de los errores, el 100% de los
-pagos de más de 2 segundos y solo el 5% de los exitosos y repetitivos.
+pagos más lentos que el umbral del SLO de latencia y solo el 5% de los exitosos y repetitivos.
 La pregunta obvia es: si boto el 95% de las trazas exitosas, ¿no quedan mal las métricas? No, porque el
 connector spanmetrics calcula las métricas de tasa, errores y duración antes del muestreo. Las métricas
 son exactas al 100%; solo muestreamos el detalle.
