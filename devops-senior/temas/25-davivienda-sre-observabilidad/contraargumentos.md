@@ -170,3 +170,13 @@ herramientas mientras por debajo se pasa de la telemetría heredada a OpenTeleme
    en el piloto); despreciable frente a un minuto caído del pago QR. Sin GPU ni licencias.
 6. *"¿Y si mañana sale un modelo mejor?"* → Se cambia el modelo en la configuración del agente; las herramientas
    MCP, la telemetría y el flujo quedan iguales.
+
+## D20 — Grafo de topología
+
+1. *"¿Ese grafo lo construyeron ustedes?"* → No: el connector `servicegraph` es parte del OpenTelemetry Collector
+   (contrib). Nosotros diseñamos la herramienta MCP `obtener_grafo`, que consulta sus métricas y se las entrega a la
+   IA. **OpenTelemetry construye el grafo; nuestro servidor MCP se lo sirve a la IA.**
+2. *"¿Y si se muestrean las trazas, el grafo queda incompleto?"* → No, porque el `servicegraph` corre **antes** del
+   tail sampling, igual que `spanmetrics`: ve el 100% de los spans.
+3. *"Con varias réplicas del gateway, ¿cómo junta el span del cliente con el del servidor?"* → Por eso la capa 1
+   hace `loadbalancing` por traceID: todos los spans de una traza llegan a la misma réplica de la capa 2.
