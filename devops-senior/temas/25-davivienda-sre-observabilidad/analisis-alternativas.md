@@ -336,7 +336,7 @@ el despliegue."*
 
 | | |
 |---|---|
-| Tu decisión | |
+| Tu decisión | **Sin cambios**: de acuerdo con la comparación, el árbol de decisión y la conexión con la Error Budget Policy |
 
 ---
 
@@ -350,7 +350,7 @@ el despliegue."*
 | Trade-off | OTel: neutral y estándar, pero más trabajo de operación. Agente propietario: más rápido y con mejor "magia", pero amarra al proveedor (cambiar cuesta reinstrumentar todo). eBPF: cero código, pero menos contexto de negocio |
 | Costo | OTel: licencia ≈0; costo de instrumentación (personas) y de operar el Collector (ver D11–D12). Agente propietario: típicamente $$$ a $$$$ para cientos de hosts (por ejemplo, APM de Datadog ~USD 31–40/host/mes + infraestructura ~USD 15–23/host/mes ⇒ 500 hosts ≈ USD 25.000–30.000/mes antes de logs y trazas), y el costo de salida es reinstrumentar todo. eBPF (Grafana Beyla, Pixie, Cilium Hubble): licencia ≈0, CPU/memoria en cada nodo ($) |
 | Recomendación | OTel como estándar (es lo que pide el caso) + eBPF como complemento para lo que no se puede instrumentar |
-| Tu decisión | |
+| Tu decisión | **No era una decisión: la fija el enunciado** ("utilizando OpenTelemetry (OTel Collector)"). OpenTelemetry como estándar; eBPF solo como complemento |
 
 ### D11. Distribución del Collector
 | | |
@@ -360,7 +360,7 @@ el despliegue."*
 | Trade-off | Collector oficial: neutral. ADOT (AWS Distro for OpenTelemetry) tiene soporte de AWS pero sesga a AWS en un banco multi-cloud. Vector/Fluent Bit son excelentes para logs pero no son nativos de trazas OTel |
 | Costo | Todas son de licencia ≈0. El costo está en el cómputo y en las personas: el Collector oficial con OCB (OpenTelemetry Collector Builder) exige un pipeline para construir y parchar la imagen (~0,1–0,2 FTE). Las distribuciones de proveedor traen soporte "incluido" si ya pagas al proveedor, pero empujan a mandarle los datos a él. Diferencia económica pequeña entre opciones: decide la neutralidad, no el precio |
 | Recomendación | Collector oficial construido con OCB (solo componentes aprobados → menos superficie de ataque) |
-| Tu decisión | |
+| Tu decisión | **La fija el enunciado** (OTel Collector). Dentro de esa restricción: Collector oficial construido con OCB |
 
 ### D12. Topología del Collector
 | | |

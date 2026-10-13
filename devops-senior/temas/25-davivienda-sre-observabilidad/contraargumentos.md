@@ -36,3 +36,23 @@
    canary encima: es la oportunidad de migrar.
 5. *"¿Por qué no instalar Istio y listo?"* → Un mesh solo para canary es caro (+10–20% de recursos por los
    sidecars) y es otra pieza crítica. Se usa si ya existe o si hay otras razones (mTLS, políticas de tráfico).
+
+## D8-bis — Estrategias de despliegue
+
+**Tu decisión:** sin cambios.
+
+## D10 y D11 — OpenTelemetry y la distribución del Collector
+
+**Tu decisión:** no son decisiones propias; el enunciado exige OpenTelemetry y el OTel Collector.
+
+**Matices por si la mesa insiste:**
+1. *"¿Por qué OpenTelemetry y no el agente de Datadog o Dynatrace, que es más fácil?"* → Además de que lo pide
+   el caso: neutralidad (cambiar de backend sin reinstrumentar), un solo estándar para AWS, GCP y el
+   datacenter, y control de los datos dentro del banco (PII, costos) antes de enviarlos a cualquier proveedor.
+2. **eBPF no compite con OpenTelemetry:** Grafana donó Beyla al proyecto OpenTelemetry (OpenTelemetry eBPF
+   Instrumentation, OBI), así que la instrumentación sin código también cabe dentro del estándar que pide el caso.
+3. **Dentro de la restricción todavía hay una sub-decisión: qué distribución del Collector.** Opciones: la
+   distribución *contrib* (trae todos los componentes), una construida con OCB (OpenTelemetry Collector Builder,
+   solo los componentes aprobados) o la de un proveedor (AWS ADOT, Grafana Alloy, Splunk). Respuesta: *"OCB,
+   porque menos componentes es menos superficie de ataque y menos parches; las de proveedor sesgan a ese
+   proveedor en un banco multi-cloud"*. Le suma a DevSecOps.
