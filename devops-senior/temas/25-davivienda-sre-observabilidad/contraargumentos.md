@@ -104,3 +104,15 @@ Tempo, Loki y Grafana).
    factura de todos.
 6. *"¿Una instancia o dos en multi-cloud?"* → Una por nube (sin pagar egress entre nubes) y Grafana consulta
    ambas como fuentes de datos.
+
+**Ajuste a D15 (segunda corrección):** no se fuerza Grafana. Regla: reutilizar lo contratado u operado, llenar
+solo los huecos por señal y sugerir Grafana solo desde cero.
+
+7. *"Ya usamos Prometheus + Thanos, ¿para qué Mimir?"* → No hace falta: Thanos y Mimir resuelven lo mismo
+   (almacenamiento de largo plazo y escalable para Prometheus, con PromQL). Se mantiene Thanos. Cambiar costaría
+   migración y dos sistemas en paralelo, **no licencias** (Mimir es gratis).
+8. **Ojo con el argumento del licenciamiento:** el stack de Grafana en su versión abierta **no cobra licencia**.
+   El costo de "venir a poner Grafana" sobre algo que ya existe es de **personas y operación** (migrar, operar dos
+   sistemas, reentrenar), salvo que se compre Grafana Enterprise o Grafana Cloud. Y casi siempre **Grafana (la
+   interfaz de dashboards) ya está** donde hay Prometheus y Thanos: la discusión real es Mimir vs. Thanos, no
+   "Grafana sí o no".
