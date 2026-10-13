@@ -1,16 +1,23 @@
-"""Convierte analisis-alternativas.md en audios .mp3 (uno por sección) con voz colombiana.
+"""Convierte analisis-alternativas.md en audios .mp3 (uno por sección), sin internet.
 
-Uso:  uv run --with edge-tts python generar-audio.py
+Usa Piper (voz neuronal local, el texto no sale del equipo) con la voz es_MX-claude-high.
+Uso:  uv run --python 3.12 --with piper-tts --with lameenc python generar-audio.py
+Primera vez, descargar la voz:
+      uv run --python 3.12 --with piper-tts python -m piper.download_voices \
+          --download-dir ~/.local/share/piper-voces es_MX-claude-high
 Los .mp3 quedan en audio/ (ignorado por git: pesan demasiado para el repositorio).
-Nota: edge-tts envía el texto al servicio de voz en línea de Microsoft.
+(edge-tts, la voz colombiana de Microsoft, quedó bloqueado con error 403 en octubre de 2026.)
 """
-import asyncio
 import re
+import unicodedata
+import wave
+from io import BytesIO
 from pathlib import Path
 
-import edge_tts
+import lameenc
+from piper import PiperVoice
 
-VOZ = "es-CO-SalomeNeural"
+VOZ = Path.home() / ".local/share/piper-voces/es_MX-claude-high.onnx"
 AQUI = Path(__file__).parent
 ORIGEN = AQUI / "analisis-alternativas.md"
 DESTINO = AQUI / "audio"
@@ -79,18 +86,35 @@ def secciones(md: str):
     yield "00-introduccion", partes[0]
     for i, parte in enumerate(partes[1:], start=1):
         titulo = parte.splitlines()[0]
-        nombre = re.sub(r"[^a-z0-9]+", "-", titulo.lower().split("—")[0]).strip("-")[:40]
+        titulo = unicodedata.normalize("NFKD", titulo).encode("ascii", "ignore").decode()
+        nombre = re.sub(r"[^a-z0-9]+", "-", titulo.lower().split("(")[0]).strip("-")[:40].strip("-")
         yield f"{i:02d}-{nombre}", "## " + parte
 
 
-async def main():
+def a_mp3(voz: PiperVoice, texto: str, ruta: Path) -> None:
+    buffer = BytesIO()
+    with wave.open(buffer, "wb") as wav:
+        voz.synthesize_wav(texto, wav)
+    buffer.seek(0)
+    with wave.open(buffer, "rb") as wav:
+        pcm, canales, tasa = wav.readframes(wav.getnframes()), wav.getnchannels(), wav.getframerate()
+    codificador = lameenc.Encoder()
+    codificador.set_bit_rate(64)
+    codificador.set_in_sample_rate(tasa)
+    codificador.set_channels(canales)
+    codificador.set_quality(2)
+    ruta.write_bytes(codificador.encode(pcm) + codificador.flush())
+
+
+def main():
     DESTINO.mkdir(exist_ok=True)
+    voz = PiperVoice.load(str(VOZ))
     for nombre, md in secciones(ORIGEN.read_text(encoding="utf-8")):
         texto = a_texto(md)
         (DESTINO / f"{nombre}.txt").write_text(texto, encoding="utf-8")
-        await edge_tts.Communicate(texto, VOZ).save(str(DESTINO / f"{nombre}.mp3"))
-        print(f"listo: {nombre}.mp3")
+        a_mp3(voz, texto, DESTINO / f"{nombre}.mp3")
+        print(f"listo: {nombre}.mp3", flush=True)
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()
