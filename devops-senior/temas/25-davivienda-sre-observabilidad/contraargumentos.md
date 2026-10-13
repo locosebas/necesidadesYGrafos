@@ -94,8 +94,8 @@ Tempo, Loki y Grafana).
 2. *"Ya tenemos Datadog / Dynatrace."* → Perfecto: OpenTelemetry nos deja exportar a ambos a la vez y migrar por
    partes (o no migrar). No se propone cambiar el backend en la presentación; se propone que el Collector nos dé
    esa libertad.
-3. *"Autogestionar Mimir y Loki es mucho trabajo."* → Cierto: cuesta 2–4 FTE. A volumen de banco, ese costo es
-   menor que la factura SaaS (~30–50% del SaaS). A poco volumen, el SaaS gana; por eso es una decisión de escala.
+3. *"Autogestionar Mimir y Loki es mucho trabajo."* → Cierto: cuesta personas. Si sale más barato que el SaaS depende del
+   volumen y se calcula con la línea base de la Fase 0; a poco volumen, el SaaS suele ganar.
 4. *"Loki no busca texto libre tan bien como Elasticsearch."* → Correcto: Loki solo indexa etiquetas, por eso es
    barato; las búsquedas sin filtrar por etiqueta son más lentas. Con trace_id en cada log (que ya proponemos), se
    llega al log exacto desde la traza sin búsquedas de texto libre.
@@ -262,3 +262,19 @@ todos los documentos de la presentación: el caso no los menciona; ahora se habl
    Lo que sí les aseguro es que va muy por debajo del primer timeout del flujo."*
 3. *"¿Y el tail sampling, qué umbral usa?"* → El mismo del SLO de latencia: se guardan el 100% de los pagos más
    lentos que el umbral. Así el muestreo queda atado al SLO y no a un número suelto.
+
+## D4 — Error Budget Policy de conservación
+
+**Tu decisión:** siempre la estrategia que más economice el Error Budget (canary por defecto); zonas que se
+endurecen; sin porcentajes inventados.
+
+1. *"¿Blue/Green no economiza Error Budget? El rollback es instantáneo."* → Economiza en **tiempo**, no en
+   **exposición**: en el switch, el 100% de los clientes ve la versión nueva. Si el rollback es automático y en
+   segundos, gasta poco; si depende de que alguien lo note, gasta mucho. Canary economiza en exposición: solo una
+   fracción pequeña ve la versión mala.
+2. *"¿Y si el servicio tiene poco tráfico y el canary no da muestras suficientes?"* → Ahí entra Blue/Green con
+   smoke tests y rollback automático, o canary con pasos más largos y tráfico sintético (árbol de D8-bis).
+3. *"¿Cuáles son los porcentajes de cada zona?"* → *"Los negociamos con negocio con datos de la Fase 0. Lo que
+   propongo es la estructura: sano, en riesgo, crítico y agotado, y qué se permite en cada una."*
+4. *"¿Qué pasa cuando se agota?"* → Congelado, post-mortem del consumo y el equipo se dedica a confiabilidad hasta
+   recuperar presupuesto. Es lo que le da dientes a la política.

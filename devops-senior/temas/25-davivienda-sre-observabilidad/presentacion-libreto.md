@@ -168,20 +168,21 @@ por último, las personas."
   con la curva de abandono del cliente, los timeouts del flujo y el histograma real, y se reevalúan cada trimestre.
 - Corrección: cero cobros dobles (idempotency key). Saturación como alerta temprana, no como SLO.
 - Golden Signals (Latency, Traffic, Errors, Saturation) medidas donde las vive el cliente.
-- Error Budget Policy firmada con negocio: > 50% normal · 25–50% solo canary · < 25% congelado salvo
-  arreglos de confiabilidad.
+- Error Budget Policy de **conservación**, firmada con negocio: siempre la estrategia que menos presupuesto gasta
+  (canary por defecto) · en riesgo: solo canary lento · crítico: congelado salvo arreglos de confiabilidad. Los
+  umbrales de cada zona se negocian con negocio con datos de la Fase 0.
 
-**Diagrama:** una barra horizontal del Error Budget mensual (43,2 min) con tres zonas de color: verde
-(más del 50% restante, "despliegue normal"), amarillo (25–50%, "solo canary"), rojo (menos del 25%,
-"congelado salvo fixes"). Al lado, un recuadro: "Dependencias en serie: 3 × 99,9% = 99,7%".
+**Diagrama:** una barra horizontal del Error Budget mensual (43,2 min) con tres zonas de color, sin porcentajes: verde
+("sano: canary por defecto"), amarillo ("en riesgo: solo canary lento"), rojo ("crítico: congelado salvo
+fixes"). Nota al pie: "umbrales a negociar con negocio". Al lado, un recuadro: "Dependencias en serie: 3 × 99,9% = 99,7%".
 
 ```mermaid
 flowchart LR
     subgraph eb["Error Budget mensual: 43,2 min (SLO 99,9% en 30 días móviles)"]
         direction LR
-        verde["🟢 Más del 50% restante<br/>más de 21,6 min<br/><b>Despliegue normal</b>"]
-        amarillo["🟡 Entre 25% y 50%<br/>de 10,8 a 21,6 min<br/><b>Solo canary</b>"]
-        rojo["🔴 Menos del 25%<br/>menos de 10,8 min<br/><b>Congelado salvo<br/>arreglos de confiabilidad</b>"]
+        verde["🟢 Sano<br/><b>Canary por defecto</b><br/>(la estrategia que menos gasta)"]
+        amarillo["🟡 En riesgo<br/><b>Solo canary lento</b><br/>y análisis estricto"]
+        rojo["🔴 Crítico<br/><b>Congelado salvo<br/>arreglos de confiabilidad</b>"]
         verde -- "se gasta" --> amarillo -- "se gasta" --> rojo
     end
 
@@ -218,8 +219,10 @@ el promedio esconde al cliente que esperó 10 segundos.
 Las Golden Signals (latencia, tráfico, errores y saturación) cubren el resto: la saturación la usamos
 como alerta temprana, no como SLO, porque el cliente no ve la CPU.
 Y lo más importante de esta diapositiva no es el número: es la Error Budget Policy. Es un acuerdo
-firmado con negocio: con más de la mitad del presupuesto, se despliega normal; entre 25 y 50%, solo
-con canary; por debajo de 25%, se congela todo menos los arreglos de confiabilidad. Sin esa política,
+firmado con negocio para conservar el presupuesto: siempre desplegamos con la estrategia que menos Error
+Budget gasta, que por defecto es canary con análisis automático. Si el presupuesto entra en riesgo, solo
+canary, más lento y más estricto; si queda crítico, se congela todo menos los arreglos de confiabilidad.
+Los umbrales de cada zona no los invento: los negociamos con negocio con datos reales. Sin esa política,
 el Error Budget es un número en un dashboard. Con la política, el Quality Gate que les muestro ahora
 tiene autoridad, y la tiene porque negocio la firmó."
 

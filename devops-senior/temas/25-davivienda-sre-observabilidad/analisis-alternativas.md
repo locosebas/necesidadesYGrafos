@@ -99,15 +99,48 @@ es hablar en **valores relativos** ("el SaaS cuesta 3–5× más por GB que el a
 | Recomendación | API Gateway para el SLO + RUM y sintético como señales complementarias (responde "customer centric" sin volver ruidoso el SLO) |
 | Tu decisión | **Los 2 s eran arbitrarios: quitarlos de todos lados. Presentar el SLI y el método de calibración; el valor se define en la Fase 0 y se reevalúa** |
 
-### D4. Umbrales de la Error Budget Policy
+### D4. Error Budget Policy: conservar el presupuesto
+
+> *(El borrador v1 tenía "> 50% normal · 25–50% solo canary · < 25% congelado". Dos problemas: los porcentajes eran
+> de muestra, y "normal" no decía cómo se despliega. Se reescribe como una política de **conservación del Error
+> Budget**.)*
+
+**Principio:** siempre se despliega con la estrategia que **menos Error Budget gasta** si la versión nueva sale
+mala. Las zonas no cambian el principio: lo **endurecen** a medida que queda menos presupuesto.
+
+**Cuánto Error Budget gasta cada estrategia si la versión nueva es mala** (gasto ≈ clientes expuestos × tiempo
+hasta revertir):
+
+| Estrategia | Clientes expuestos | Tiempo hasta revertir | Gasto de Error Budget |
+|---|---|---|---|
+| Shadow | Ninguno | No aplica | **Ninguno** (solo sirve si el servicio no mueve plata, D8-bis) |
+| Feature flag | Los usuarios escogidos | Segundos (apagar la bandera) | Muy bajo |
+| Canary con análisis automático | Una fracción pequeña | Minutos (lo que tarde el análisis) | **Bajo**: ahorra en **exposición** |
+| Blue/Green | **Todos**, de golpe | Segundos (devolver el switch) | Medio: ahorra en **tiempo**, no en exposición. Solo si el rollback es automático |
+| Rolling update | Crece hasta todos, sin mirar métricas | Minutos | Alto |
+| Recreate | Todos, con caída garantizada | Minutos | **Seguro gasta** (downtime) |
+
+**Matiz importante:** Blue/Green **no** economiza por sí solo, porque el 100% de los clientes ve la versión nueva
+en el switch. Economiza solo si la detección y el rollback son automáticos y en segundos; por eso queda como
+opción para servicios cuyo tráfico no se puede dividir, no como primera opción.
+
+**Las zonas** (nombres en vez de porcentajes; los umbrales exactos se negocian con negocio en la Fase 0, con datos):
+
+| Zona | Qué se permite en servicios críticos |
+|---|---|
+| **Sano** | Siempre canary con análisis automático (feature flags para lo funcional). Blue/Green solo donde el tráfico no se puede dividir |
+| **En riesgo** | Solo canary, con pasos más pequeños y más largos y análisis más estricto; shadow antes del canary para cambios de alto riesgo. Nada de Blue/Green ni rolling |
+| **Crítico** | Congelado, salvo arreglos de confiabilidad; el arreglo va por canary acelerado |
+| **Agotado** | Congelado + post-mortem del consumo + el equipo se dedica a confiabilidad hasta recuperar presupuesto |
+
 | | |
 |---|---|
-| Escogido | > 50% normal · 25–50% solo canary · < 25% congelado salvo fixes |
-| Alternativas | Política binaria (queda presupuesto / no queda) · umbrales por burn rate en vez de presupuesto restante · congelar solo con presupuesto agotado (0%) |
-| Trade-off | Tres zonas dan gradualidad pero son más difíciles de negociar con negocio. Binaria es simple pero brusca |
-| Costo | ≈0 en herramientas. El costo real es de **oportunidad**: un congelamiento demora funcionalidades de negocio. Por eso las tres zonas son una conversación de plata con negocio: cada zona más estricta cambia velocidad por menos riesgo de minutos caídos |
-| Recomendación | Tres zonas, presentadas como **propuesta para negociar con negocio**, no como verdad. Cada zona también define **qué estrategia de despliegue** se permite (ver D8-bis) |
-| Tu decisión | |
+| Escogido | **Política de conservación del Error Budget:** siempre la estrategia que menos presupuesto gasta (canary por defecto), endurecida por zonas (sano → en riesgo → crítico → agotado). **Sin porcentajes inventados:** los umbrales de cada zona se negocian con negocio en la Fase 0 |
+| Alternativas | Porcentajes fijos de muestra (descartado: arbitrarios) · política binaria (queda presupuesto / no queda) · umbrales por burn rate en vez de presupuesto restante · congelar solo con presupuesto agotado |
+| Trade-off | Zonas graduales: más fáciles de defender y menos bruscas, pero hay que negociar los umbrales con negocio. Canary por defecto: gasta poco presupuesto, pero exige tráfico suficiente y buen análisis automático |
+| Costo | ≈0 en herramientas. El costo real es de **oportunidad**: un congelamiento demora funcionalidades de negocio; por eso los umbrales se negocian con negocio |
+| Recomendación | Frase para la mesa: *"La política no solo dice si se despliega, sino cómo: siempre con la estrategia que menos Error Budget gasta, que por defecto es canary con análisis automático. Entre menos presupuesto queda, más se restringe: primero solo canary lento, luego solo arreglos de confiabilidad. Los umbrales de cada zona los negociamos con negocio con datos reales."* |
+| Tu decisión | **Política de conservación del Error Budget: si se puede, todo por canary (o la estrategia que más economice el presupuesto); las zonas siguen la idea de "se permite todo → solo canary → congelado salvo fixes", pero sin porcentajes inventados** |
 
 ### D5. Herramienta para definir y calcular los SLOs
 | | |
@@ -316,11 +349,9 @@ quitar la vieja (expand), se despliega el código que usa ambas, y solo cuando n
 
 La política no solo dice **si** se despliega, sino **cómo**:
 
-| Error Budget restante | Estrategia permitida para servicios críticos |
-|---|---|
-| > 50% | Canary normal (pasos rápidos); rolling update para servicios no críticos |
-| 25–50% | Solo canary con pasos más lentos y análisis más estricto; nada de blue/green "de golpe" |
-| < 25% | Congelado salvo fixes; el fix va por canary acelerado o blue/green (rollback en segundos) |
+Ver la tabla completa de zonas y el gasto de Error Budget por estrategia en **D4**. Resumen: zona **sana** →
+canary por defecto; **en riesgo** → solo canary lento y estricto, sin Blue/Green; **crítica** → congelado salvo
+arreglos de confiabilidad por canary acelerado.
 
 #### Recomendación para Banco Plus (pago QR)
 
@@ -404,7 +435,7 @@ el despliegue."*
 | Trade-off | Autogestionado: barato en licencias y el dato no sale, pero cuesta operación (personas). SaaS: rápido y potente, pero caro por volumen y el dato sale del banco. Nativo de cada nube: dos mundos distintos en multi-cloud |
 | Costo | La decisión de mayor impacto económico de toda la propuesta. **SaaS** (Datadog, Dynatrace, New Relic, Grafana Cloud): se cobra por volumen, así que a volumen de banco suele ser $$$$; rápido y sin operación. **Autogestionado** (Mimir / Tempo / Loki sobre almacenamiento de objetos): el almacenamiento es barato (~USD 0,02/GB/mes), cómputo $$ a $$$, más **2–4 FTE** de plataforma (≈ USD 12.000–24.000/mes). Más barato en licencias y almacenamiento, pero cuánto más barato depende del volumen real y del costo del equipo: **se calcula en el estudio previo**, no se promete. **Nativo de cada nube** (CloudWatch, Cloud Logging, Managed Prometheus): precio parecido al SaaS por GB (~USD 0,50/GB de logs), y dos consolas distintas. Regla práctica: a poco volumen gana el SaaS; a volumen de banco gana el autogestionado |
 | Recomendación | **Nombrarlo**: "por ejemplo, Mimir, Tempo y Loki", y agregar la frase de neutralidad: "OpenTelemetry nos deja cambiar de backend sin reinstrumentar". Si la mesa dice qué usan (Datadog, Dynatrace...), adaptarse sin problema |
-| Por qué Grafana (si nos dejan sugerir) | 1) **Abierto y sobre almacenamiento de objetos** (S3 / GCS): el dato se guarda barato (~USD 0,02/GB al mes) y **no sale del banco**. 2) **Recibe OTLP nativo**: encaja directo con el Collector. 3) **Mimir es compatible con Prometheus (PromQL)**: Sloth, las alertas de burn rate y el análisis del canary funcionan sin cambios. 4) **Una sola interfaz con correlación** métrica → traza → log (exemplars, *trace to logs*): baja el MTTR y alimenta al servidor MCP (Grafana publica uno). 5) **Multi-tenant**: un tenant por tribu permite *showback/chargeback* de costos (FinOps). 6) Escala horizontal y una instancia por nube, sin tráfico cruzado. 7) Costo: ~30–50% del SaaS a volumen de banco, si hay equipo (2–4 FTE) |
+| Por qué Grafana (si nos dejan sugerir) | 1) **Abierto y sobre almacenamiento de objetos** (S3 / GCS): el dato se guarda barato (~USD 0,02/GB al mes) y **no sale del banco**. 2) **Recibe OTLP nativo**: encaja directo con el Collector. 3) **Mimir es compatible con Prometheus (PromQL)**: Sloth, las alertas de burn rate y el análisis del canary funcionan sin cambios. 4) **Una sola interfaz con correlación** métrica → traza → log (exemplars, *trace to logs*): baja el MTTR y alimenta al servidor MCP (Grafana publica uno). 5) **Multi-tenant**: un tenant por tribu permite *showback/chargeback* de costos (FinOps). 6) Escala horizontal y una instancia por nube, sin tráfico cruzado. 7) Costo: sin licencias, pero con equipo (personas) para operarlo; si sale más barato que el SaaS se calcula con la línea base de la Fase 0 |
 | Regla de decisión | 1) **Reutilizar lo que ya existe y está contratado u operado** (no imponer proveedor). 2) Verificar que soporte OTLP y lo necesario (PromQL para SLOs y burn rate, trazas, correlación). 3) **Solo llenar los huecos**, señal por señal (por ejemplo, si tienen Prometheus + Thanos pero no trazas, agregar solo Tempo o Jaeger). 4) **Stack de Grafana solo si se arranca desde cero.** Equivalentes por señal: métricas Mimir ≈ Thanos (Apache 2.0) ≈ VictoriaMetrics (Apache 2.0); trazas Tempo ≈ Jaeger (Apache 2.0); logs Loki ≈ OpenSearch (Apache 2.0) ≈ Elasticsearch |
 | Tu decisión | **No forzar proveedor: no sabemos qué usa el banco. Si ya tienen algo contratado u operando (Prometheus + Thanos, Datadog, etc.), se reutiliza y solo se llenan huecos; Grafana (Mimir, Tempo, Loki) es la sugerencia solo si se arranca desde cero** |
 
