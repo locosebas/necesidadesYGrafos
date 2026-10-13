@@ -1,5 +1,7 @@
 # Roadmap express — Prueba técnica Davivienda (8 al 12 de octubre de 2026)
 
+> **Cerrado:** la prueba se entregó el 12 de octubre. La ruta vigente es [ruta-sustentacion.md](ruta-sustentacion.md).
+
 Objetivo: llegar a la exposición (20 min + 10 min de preguntas ante SRE, Arquitectura, DevSecOps y
 Operaciones) siendo **experto** en los temas marcados, no "haberlos leído".
 

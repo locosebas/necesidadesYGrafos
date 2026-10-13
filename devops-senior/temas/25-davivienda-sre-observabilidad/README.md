@@ -16,6 +16,9 @@ Dos correos de `paula.patino@davivienda.com` (Centro de Selección Grupo Bolíva
 
 **Plazo:** lunes 12 de octubre de 2026 a medianoche (pruebas psicotécnicas, perfil en Magneto y prueba técnica).
 
+**Estado:** prueba técnica **entregada el 12 de octubre** (PDF de 10 diapositivas, enviado a `@davivienda.com`).
+Siguiente paso: la sustentación → [ruta-sustentacion.md](ruta-sustentacion.md).
+
 ## Revisión de seguridad de los adjuntos
 
 Los PDFs se descargaron por el MIME crudo del correo a una carpeta de cuarentena, sin abrirlos en ningún
@@ -53,6 +56,7 @@ real. Parece un envío por error.
 
 ## Brecha técnica
 
+- [ruta-sustentacion.md](ruta-sustentacion.md): **ruta actual** para la sustentación (presentación + lo flojo).
 - [brecha-tecnica.md](brecha-tecnica.md): qué de lo estudiado sirve y qué falta.
 - [roadmap-express.md](roadmap-express.md): mini roadmap del 8 al 12 de octubre, con nivel y meta por ítem.
 - [chuleta-nombres.md](chuleta-nombres.md): todos los nombres con su mnemotecnia, para leer antes de cada sesión.
