@@ -226,3 +226,15 @@ herramientas mientras por debajo se pasa de la telemetría heredada a OpenTeleme
 2. *"Aquí ya sabemos lo que tenemos."* → Perfecto, entonces la Fase 0 se acorta: se validan los datos y se arranca.
    Las preguntas que hice durante la presentación son justamente esa Fase 0.
 3. *"¿Qué entregas a los 30 días?"* → El SLO del pago QR calibrado con datos reales y las alertas de burn rate.
+
+## D28 — Un solo servicio piloto
+
+**Tu decisión:** de acuerdo. El pago QR lo sugiere el caso (ejemplo del Eje 1); hacer todo el programa con un solo
+piloto es decisión propia.
+
+1. *"¿Por qué no varios servicios a la vez?"* → Porque el piloto da evidencia con poco riesgo y poco costo; con
+   varios a la vez se multiplica el esfuerzo sin multiplicar el aprendizaje.
+2. *"¿Por qué el pago QR y no las transferencias?"* → Es el ejemplo del caso, el más visible para el cliente y el
+   que cruza más piezas (app, antifraude, core AS400, otros bancos): si funciona ahí, funciona en el resto.
+3. *"¿Cuándo escalan?"* → Con criterios: SLO estable, gate sin falsos bloqueos, ahorro medido y un incidente o
+   Game Day atendido con el flujo nuevo. Después se escala con plantillas e IDP.

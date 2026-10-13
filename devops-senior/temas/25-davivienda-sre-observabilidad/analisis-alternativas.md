@@ -652,7 +652,9 @@ en las propias aplicaciones.
 | Trade-off | El pago QR es el ejemplo del enunciado y el más visible para el cliente |
 | Costo | Un piloto acota la inversión: ~1–2 FTE durante el trimestre (≈ USD 18.000–36.000) para un servicio, con un resultado medible antes de escalar. Ir con varios servicios a la vez multiplica el costo de personas y el riesgo, sin multiplicar la evidencia |
 | Recomendación | Mantener |
-| Tu decisión | |
+| ¿Viene del caso o es propia? | **Mitad y mitad.** El **pago QR** viene del caso: el Eje 1 pide los SLIs y SLOs "para una transacción crítica (ejemplo: Procesamiento de Pagos con QR/CBU)". Que **todo el programa** (SLO, gate, telemetría, MCP, incidentes) arranque con **un solo servicio piloto** es una **decisión propia** del libreto: el caso no lo pide |
+| Criterio para escalar | Se pasa al siguiente servicio cuando el piloto cumple: SLO estable y calibrado, gate funcionando sin falsos bloqueos, ahorro medido contra la línea base y al menos un incidente (real o Game Day) atendido con el flujo nuevo. Se escala con las plantillas y el IDP, no a mano |
+| Tu decisión | **De acuerdo: un solo servicio piloto (pago QR)** |
 
 ### D29. Mención de experiencia previa
 | | |
