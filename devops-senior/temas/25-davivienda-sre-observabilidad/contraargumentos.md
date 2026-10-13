@@ -56,3 +56,27 @@
    solo los componentes aprobados) o la de un proveedor (AWS ADOT, Grafana Alloy, Splunk). Respuesta: *"OCB,
    porque menos componentes es menos superficie de ataque y menos parches; las de proveedor sesgan a ese
    proveedor en un banco multi-cloud"*. Le suma a DevSecOps.
+
+## D14 — Dónde se enmascara la PII
+
+**Tu decisión:** cada aplicación debe enmascarar la PII (Personally Identifiable Information); Plataforma agrega
+una seguridad extra con el processor `redaction` en el gateway.
+
+**Contraargumentos y respuestas:**
+1. *"Si cada aplicación ya enmascara, ¿para qué el gateway?"* → Defensa en profundidad: basta un desarrollador
+   que loguee el objeto completo de la petición para que una cédula se escape. El gateway es la red final y el
+   **único punto auditable** frente a la SFC y la SIC (Superintendencia de Industria y Comercio).
+2. *"Entre la aplicación y el gateway el dato viaja en claro."* → Viaja dentro de la red del banco y cifrado con
+   mTLS (OTLP sobre TLS mutuo). Y si la aplicación cumple su parte, ni siquiera viaja.
+3. *"Las expresiones regulares fallan: un formato nuevo se escapa."* → Por eso el `redaction` se configura en
+   **modo lista permitida** (`allowed_keys`): todo atributo que no esté aprobado se borra, en vez de intentar
+   adivinar qué es PII. Los patrones (cédula, tarjeta) son una segunda capa.
+4. *"¿Y el cuerpo del log (texto libre)?"* → Se complementa con el processor `transform` (OTTL,
+   `replace_pattern`). Y la plantilla de logging estructurado evita meter PII en texto libre.
+5. *"Si borras la cédula, ¿cómo correlaciono los eventos de un cliente?"* → **Hash** (con sal) en vez de borrar:
+   el mismo cliente produce el mismo valor, pero no se puede revertir. Para tarjetas, PCI DSS permite mostrar
+   los primeros 6 y los últimos 4 dígitos.
+6. *"¿Cómo sabes que funciona?"* → Pruebas con PII sintética en el pipeline del Collector y un escaneo periódico
+   de los backends buscando patrones; si aparece algo, es un incidente de seguridad.
+7. *"¿No le cuesta rendimiento al gateway?"* → Algo de CPU por las expresiones regulares; es despreciable frente
+   al costo de una sanción por la Ley 1581.

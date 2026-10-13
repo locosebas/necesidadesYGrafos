@@ -347,7 +347,8 @@ central? ¿Ya existen plantillas corporativas?"*
 - OTel Collector **agente** (DaemonSet) por nodo: metadatos de Kubernetes, logs locales, filtrado barato.
 - OTel Collector **gateway de dos capas** por nube: capa 1 con `loadbalancing` por traceID, capa 2 con
   `tail_sampling`.
-- PII masking (processor `redaction`) **dentro de la red del banco**, antes de exportar (SFC, Ley 1581).
+- PII: cada aplicación la enmascara (plantilla de logging); **seguridad extra** de Plataforma con el processor
+  `redaction` en el gateway, **dentro de la red del banco**, antes de exportar (SFC, Ley 1581).
 - `traceparent` W3C (o B3 en legado) en los headers de IBM MQ hacia el AS400; span links en lo asíncrono.
 - OpenTelemetry Operator: auto-instrumentación por anotación, sin cambiar el código de las tribus.
 
@@ -424,8 +425,9 @@ Luego viene el OTel Collector en modo gateway, que es donde vive la inteligencia
 mismo pago caen en réplicas distintas, ninguna la ve entera. La capa uno usa el exporter loadbalancing
 y enruta por traceID: todos los spans de un pago llegan a la misma réplica. La capa dos hace el
 muestreo, que les explico en la siguiente diapositiva.
-Dos cosas para DevSecOps. Primera: el enmascaramiento de PII ocurre aquí, con el processor redaction,
-dentro de la red del banco. La cédula y el número de tarjeta se tachan antes de salir; si lo hiciéramos
+Dos cosas para DevSecOps. Primera: la PII la enmascara cada aplicación, con la librería de logging de la
+plantilla; pero no confiamos en una sola capa, así que Plataforma pone una seguridad extra aquí, con el
+processor redaction en el gateway, dentro de la red del banco. La cédula y el número de tarjeta se tachan antes de salir; si lo hiciéramos
 en la consola del proveedor, el dato ya habría viajado, y eso incumple la Ley 1581 y las instrucciones
 de la Superintendencia Financiera. Segunda: todo viaja por OTLP con mTLS.
 Y la frontera con el core: el header traceparent del estándar W3C viaja dentro de los mensajes de IBM

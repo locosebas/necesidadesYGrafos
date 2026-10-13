@@ -385,12 +385,12 @@ el despliegue."*
 ### D14. Dónde y cómo se enmascara la PII
 | | |
 |---|---|
-| Escogido | Processor `redaction` en el gateway |
+| Escogido | **Primera línea: cada aplicación enmascara** (responsabilidad de la tribu, con la librería de logging / SDK de la plantilla corporativa). **Seguridad extra de Plataforma: processor `redaction` en el gateway** como red final, en modo lista permitida (solo pasan los atributos aprobados) más patrones de cédula y tarjeta |
 | Alternativas | `transform` con OTTL (más flexible, permite hash) · `attributes` (delete / hash) · en el agente (más cerca del origen) · en el SDK de la app · en el proveedor SaaS (**red flag**: el dato ya salió) |
 | Trade-off | Solo en el gateway: un punto único fácil de auditar, pero el dato viaja en claro dentro del clúster. En el agente: antes, pero hay muchos más puntos que gobernar |
 | Costo | Los processors `redaction` / `transform` / `attributes`: ≈0 (algo de CPU en el Collector). El costo grande es el **riesgo**: una fuga de cédulas o tarjetas implica sanciones de la SIC (Superintendencia de Industria y Comercio) por Ley 1581 (multas de hasta 2.000 SMMLV, salarios mínimos mensuales legales vigentes, del orden de miles de millones de pesos), además de hallazgos de PCI DSS (Payment Card Industry Data Security Standard) y de la SFC. Defensa en profundidad cuesta horas de personas (plantilla del SDK), no licencias |
 | Recomendación | Defensa en profundidad: SDK/plantilla evita loguear PII + agente + gateway como red final. Hash (no borrado) donde haga falta correlacionar |
-| Tu decisión | |
+| Tu decisión | **La PII debe enmascararse en cada aplicación; Plataforma agrega una seguridad extra con el processor `redaction` en el gateway (la decisión de Plataforma es enmascarar en el gateway)** |
 
 ### D15. Backends de almacenamiento
 | | |
