@@ -72,14 +72,14 @@ def d2():
     L.box(350, 200, 300, 150, "*Plataforma de pagos\n*de Banco Plus\nmicroservicios en Kubernetes\nAWS (EKS) + GCP (GKE)", "b", 18)
     for y, t in [(40, "Cliente en la app\n[persona]"), (245, "Tribus de desarrollo\n[persona]"), (450, "Incident Commander\n/ on-call [persona]")]:
         L.box(30, y, 230, 75, t, "d")
-    for y, t in [(40, "Comercio\n[persona]"), (175, "Core bancario\n[sistema externo]"), (310, "Bre-B y otros bancos\n[sistema externo]"),
+    for y, t in [(40, "Comercio\n[persona]"), (175, "Core bancario\n[sistema externo]"), (310, "Transferencias CBU\ny otros bancos [externo]"),
                  (450, "Observabilidad actual\ndel banco [sistema]")]:
         L.box(740, y, 230, 75, t, "d" if y == 40 else "g")
     L.flecha(260, 78, 350, 215, "paga con QR", 345, 112)
     L.flecha(260, 282, 345, 282, "reto 1:\nsin freno", 302, 230, color="#c62828")
     L.flecha(650, 215, 740, 80, "confirma", 630, 140)
     L.flecha(650, 250, 738, 212, "reto 3: la traza\nse corta aquí", 700, 262, color="#c62828", dash=True)
-    L.flecha(650, 320, 738, 345, "pago inmediato", 665, 362)
+    L.flecha(650, 320, 738, 345, "transferencia en\ntiempo real", 665, 362)
     L.flecha(600, 350, 760, 448, "reto 2: telemetría sin\nestándar, paga por volumen", 600, 405, color="#c62828")
     L.flecha(260, 500, 735, 500, "reto 3: diagnostica con MTTR largo · reto 4: la IA no entiende datos desordenados", 498, 535, color="#c62828")
     return L.svg()

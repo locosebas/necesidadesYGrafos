@@ -1,21 +1,23 @@
 # Libreto de la presentación — Banco Plus (versión 2)
 
-> Diez diapositivas, veinte minutos. Cada diapositiva tiene título, contenido, diagrama (descrito en
-> palabras y dibujado en Mermaid, para pasarlo a las diapositivas), guion y preguntas probables de la mesa.
+> Diez diapositivas, veinte minutos. Cada diapositiva tiene pregunta, título, contenido, diagrama (descrito aquí y
+> dibujado en [diagramas.py](diagramas.py)), guion y preguntas probables de la mesa. La presentación
+> ([presentacion.html](presentacion.html)) se genera con `python3 generar-presentacion.py`.
 >
 > **La versión 2 aplica la revisión del [análisis de alternativas](analisis-alternativas.md)** (las razones y
 > los contraargumentos están en [contraargumentos.md](contraargumentos.md)). Cinco reglas atraviesan todo el
 > libreto:
 >
-> 1. **Ningún número inventado.** Las metas y umbrales (latencia, zonas del Error Budget, ahorro, indicadores
+> 1. **Ningún número inventado.** El único valor propio es el SLO de disponibilidad de partida (99,9%), dicho
+>    explícitamente como punto de partida que se calibra. Las demás metas y umbrales (latencia, zonas del Error Budget, ahorro, indicadores
 >    DORA) se calibran con datos en la **Fase 0**. Solo se dicen en voz alta la meta que pone el caso (−30%),
->    valores estándar con fuente (las alertas del SRE Workbook de Google) y casos públicos citados.
+>    valores estándar con fuente (las alertas del SRE Workbook y el toil por debajo del 50%, ambos de Google) y casos públicos citados.
 > 2. **Lo que el banco seguramente ya tiene no se escoge, se integra** (backend de observabilidad, on-call,
 >    ITSM, motor de políticas, IDP): se nombra como ejemplo.
 > 3. **Lo que sí proponemos se nombra** (GitHub Actions, Argo Rollouts o Flagger, OpenTelemetry Collector,
 >    Sloth, el servidor MCP propio).
 > 4. **Plataforma es un equipo habilitador:** da el piso, no el techo.
-> 5. **No mencionar sistemas que el caso no nombra** (se habla del "core bancario", sin productos).
+> 5. **No mencionar sistemas que el caso no nombra:** se habla del "core bancario" y de "CBU/QR", como el caso.
 
 > **Hilo conductor:** cada diapositiva responde una **pregunta**, y su respuesta abre la pregunta de la siguiente
 > (campo "Puente a la siguiente"). Cada guion **abre respondiendo su pregunta y cierra con el puente**.
@@ -50,28 +52,9 @@
 - Éxito medido con DORA (DevOps Research and Assessment): Change Failure Rate y Time to Restore, contra la
   línea base de la Fase 0. Telemetría: la meta del caso, −30% de costo, sin perder ninguna traza de error.
 
-**Diagrama:** un ciclo de cuatro pasos. Uno, SLO del pago QR con su Error Budget. Dos, Quality Gate en
-CI/CD que frena despliegues malos. Tres, OpenTelemetry Collector y MCP, que dan datos limpios, baratos y
-sin PII para la IA causal. Cuatro, Incident Commander y post-mortem blameless. Una flecha vuelve del
-paso cuatro al paso uno: "acciones → SLOs y alertas mejores".
-
-```mermaid
-flowchart LR
-    slo["① SLO del pago QR<br/>+ Error Budget<br/><i>qué es estar bien</i>"]
-    gate["② Quality Gate en CI/CD<br/>frena los despliegues malos<br/><i>protege el SLO</i>"]
-    otel["③ OpenTelemetry Collector + MCP<br/>datos limpios, baratos y sin PII<br/>para la IA causal<br/><i>explica el SLO</i>"]
-    ic["④ Incident Commander<br/>+ post-mortem blameless<br/><i>las personas aprenden</i>"]
-    exito["Éxito medido con DORA<br/>Change Failure Rate · Time to Restore<br/>contra la línea base de la Fase 0<br/>Telemetría: meta del caso −30%"]
-
-    slo --> gate --> otel --> ic
-    ic -- "acciones → SLOs y alertas mejores" --> slo
-    ic -.-> exito
-
-    classDef eje fill:#1168bd,stroke:#0b4884,color:#ffffff
-    classDef meta fill:#f4f4f4,stroke:#2e7d32,color:#1b1b1b,stroke-width:2px
-    class slo,gate,otel,ic eje
-    class exito meta
-```
+**Diagrama** (`d1` en [diagramas.py](diagramas.py)): ciclo de cuatro cajas: ① SLO + Error Budget → ② Quality Gate en
+CI/CD → ③ OpenTelemetry + MCP → ④ Incident Commander + post-mortem blameless, con una flecha verde de ④ a ①:
+"acciones → mejores SLOs". Al centro: "Una sola causa: falta un 'estar bien' medible y datos estandarizados".
 
 **Guion:**
 "Buenos días. Hoy les traigo una sola historia, y empieza con una pregunta: ¿por qué el pago QR de Banco
@@ -107,66 +90,21 @@ Si el problema es uno solo, ¿dónde lo vemos en Banco Plus?"
 **Puente a la siguiente:** Para arreglarlo, primero hay que acordar: ¿qué es “estar bien” para el cliente?
 
 **Contenido:**
-- Pago QR y transferencias en tiempo real sobre microservicios en Kubernetes, en AWS y GCP.
+- Pagos CBU/QR y transferencias en tiempo real sobre microservicios en Kubernetes, en AWS y GCP.
 - El core bancario está fuera de Kubernetes: la traza hoy se corta en esa frontera.
 - Despliegues sin freno → Change Failure Rate alto.
 - Telemetría sin estándar → factura alta y MTTR largo.
 - Los 4 ejes atacan la causa común: falta de un "estar bien" medible y de datos estandarizados.
 
-**Diagrama (C4 nivel 1, Context):** en el centro, la caja "Plataforma de pagos de Banco Plus
-(microservicios en Kubernetes, AWS + GCP)". Alrededor:
-- Actor "Cliente en la app móvil" → paga con QR.
-- Actor "Comercio" → recibe la confirmación.
-- Sistema externo "Core bancario".
-- Sistema externo "Sistema de pagos inmediatos / otros bancos" (Bre-B).
-- Sistema "Plataforma de observabilidad actual del banco" ← recibe telemetría.
-- Actores internos "Tribus de desarrollo" (despliegan por CI/CD) e "Incident Commander / on-call".
-Debajo, una franja con cuatro etiquetas: reto 1 → Eje 1, reto 2 → Eje 2, reto 3 (MTTR) → Eje 3 + Eje 4,
-reto 4 (AIOps) → Eje 3.
-
-```mermaid
-flowchart TB
-    cliente["👤 Cliente en la app móvil<br/>[Persona]"]
-    comercio["👤 Comercio<br/>[Persona]"]
-    tribus["👥 Tribus de desarrollo<br/>[Persona]"]
-    oncall["👥 Incident Commander / on-call<br/>[Persona]"]
-
-    plataforma["<b>Plataforma de pagos de Banco Plus</b><br/>[Sistema de software]<br/>Microservicios en Kubernetes<br/>AWS (EKS) + GCP (GKE)"]
-
-    core["Core bancario<br/>[Sistema externo]"]
-    breb["Bre-B: pagos inmediatos<br/>y otros bancos<br/>[Sistema externo]"]
-    obs["Plataforma de observabilidad<br/>actual del banco<br/>[Sistema]"]
-
-    cliente -- "paga con QR" --> plataforma
-    plataforma -- "confirma el pago" --> comercio
-    tribus -- "despliegan por CI/CD<br/>(reto 1: sin freno)" --> plataforma
-    plataforma -- "mueve la plata<br/>(reto 3: la traza se corta aquí)" --> core
-    plataforma -- "transferencia inmediata" --> breb
-    plataforma -- "envía telemetría sin estándar<br/>(reto 2: paga por volumen)" --> obs
-    oncall -- "diagnostica incidentes<br/>(reto 3: MTTR largo)" --> obs
-
-    subgraph franja["Cuatro síntomas, una sola causa: falta un 'estar bien' medible y datos estandarizados"]
-        direction LR
-        r1["Reto 1: despliegues sin freno<br/>→ Eje 1: SLO + Quality Gate"]
-        r2["Reto 2: costo de telemetría<br/>→ Eje 2: OpenTelemetry + FinOps"]
-        r3["Reto 3: MTTR largo<br/>→ Eje 3: hipótesis vía MCP<br/>+ Eje 4: Incident Command"]
-        r4["Reto 4: AIOps<br/>→ Eje 3: datos AI-Ready + MCP"]
-        r1 ~~~ r2 ~~~ r3 ~~~ r4
-    end
-    obs ~~~ franja
-
-    classDef persona fill:#08427b,stroke:#052e56,color:#ffffff
-    classDef sistema fill:#1168bd,stroke:#0b4884,color:#ffffff
-    classDef externo fill:#8a8a8a,stroke:#6b6b6b,color:#ffffff
-    class cliente,comercio,tribus,oncall persona
-    class plataforma,obs sistema
-    class core,breb externo
-    linkStyle 3 stroke:#d32f2f,stroke-width:2px,stroke-dasharray:5 5
-```
+**Diagrama** (`d2`, C4 nivel 1, Context): al centro, "Plataforma de pagos de Banco Plus (microservicios en
+Kubernetes, AWS + GCP)". A la izquierda: Cliente en la app, Tribus de desarrollo e Incident Commander / on-call.
+A la derecha: Comercio, Core bancario, Transferencias CBU y otros bancos, y Observabilidad actual del banco.
+Flechas rojas con los retos: 1 (despliegues sin freno), 2 (telemetría sin estándar), 3 (la traza se corta en el
+core; MTTR largo) y 4 (la IA no entiende datos desordenados).
 
 **Guion:**
 "Lo vemos aquí, en un diagrama C4 de nivel Context. El cliente paga con QR desde la app; el pago recorre
-microservicios en Kubernetes, en AWS y GCP, y habla con el core bancario y con Bre-B y otros bancos.
+microservicios en Kubernetes, en AWS y GCP, y habla con el core bancario y con otros bancos para las transferencias CBU en tiempo real.
 Los cuatro síntomas se ven en el diagrama. Uno: las tribus despliegan sin freno; en DORA eso es un Change
 Failure Rate alto. Dos: cada componente manda su telemetría sin filtro, y pagamos por volumen, no por valor.
 Tres: cuando algo falla, la traza se corta en la frontera con el core y cada equipo nombra los datos
@@ -176,10 +114,7 @@ y, al final, las personas. Y parto de lo que el banco ya tiene: no vengo a cambi
 Para arreglarlo, primero hay que acordar: ¿qué es 'estar bien' para el cliente?"
 
 **Preguntas probables:**
-1. *El caso habla de CBU. ¿Lo tuviste en cuenta?* — "CBU es un término argentino; en Colombia el
-   equivalente de pagos inmediatos es Bre-B, del Banco de la República. El diseño aplica igual: es una
-   dependencia externa más en el grafo, con su propio SLI."
-2. *¿Por qué no incluyes el nivel Component del C4?* — "Para una mesa de decisión bastan Context y
+1. *¿Por qué no incluyes el nivel Component del C4?* — "Para una mesa de decisión bastan Context y
    Container; el detalle de componentes lo dibuja cada tribu en su repositorio, como arquitectura como
    código."
 
@@ -205,44 +140,15 @@ Para arreglarlo, primero hay que acordar: ¿qué es 'estar bien' para el cliente
   presupuesto gasta (canary por defecto) · en riesgo: solo canary lento · crítico: congelado salvo arreglos de
   confiabilidad. Los umbrales de cada zona se negocian con negocio con datos.
 
-**Diagrama:** una barra horizontal del Error Budget con tres zonas de color, sin porcentajes: verde
-("sano: canary por defecto"), amarillo ("en riesgo: solo canary lento"), rojo ("crítico: congelado salvo
-fixes"). Nota al pie: "umbrales a negociar con negocio". Al lado, un recuadro: "Dependencias en serie:
-0,999³ ≈ 99,7%".
-
-```mermaid
-flowchart LR
-    subgraph eb["Error Budget del pago QR (SLO de partida 99,9% en 30 días móviles, se calibra en la Fase 0)"]
-        direction LR
-        verde["🟢 Sano<br/><b>Canary por defecto</b><br/>(la estrategia que menos gasta)"]
-        amarillo["🟡 En riesgo<br/><b>Solo canary lento</b><br/>y análisis estricto"]
-        rojo["🔴 Crítico<br/><b>Congelado salvo<br/>arreglos de confiabilidad</b>"]
-        verde -- "se gasta" --> amarillo -- "se gasta" --> rojo
-    end
-
-    subgraph serie["Dependencias en serie"]
-        direction LR
-        s1["Servicio A<br/>99,9%"] --> s2["Servicio B<br/>99,9%"] --> s3["Servicio C<br/>99,9%"] --> total["0,999³ ≈ <b>99,7%</b>"]
-    end
-
-    politica["Error Budget Policy de conservación<br/>firmada con negocio<br/>(umbrales negociados con datos)"] -.-> eb
-    eb ~~~ serie
-
-    classDef ok fill:#2e7d32,stroke:#1b5e20,color:#ffffff
-    classDef warn fill:#f9a825,stroke:#c17900,color:#1b1b1b
-    classDef bad fill:#c62828,stroke:#8e0000,color:#ffffff
-    classDef nota fill:#f4f4f4,stroke:#6b6b6b,color:#1b1b1b
-    class verde ok
-    class amarillo warn
-    class rojo bad
-    class s1,s2,s3,total,politica nota
-```
+**Diagrama** (`d3`): tres zonas del Error Budget, sin porcentajes: 🟢 sano (canary por defecto), 🟡 en riesgo
+(solo canary lento) y 🔴 crítico (congelado salvo arreglos de confiabilidad); debajo, la franja "Error Budget
+Policy de conservación, firmada con negocio" y las dependencias en serie: 0,999³ ≈ 99,7%.
 
 **Guion:**
 "Eje uno. Al cliente que paga con QR le importan tres cosas: que el pago salga, que salga rápido y que no le
 cobren dos veces. Eso se traduce en SLIs, Service Level Indicators.
 Disponibilidad: pagos aceptados sin error de sistema sobre pagos válidos; un saldo insuficiente no es culpa
-nuestra y no cuenta. Como punto de partida propongo un SLO de 99,9% en 30 días móviles, unos 43 minutos de
+nuestra y no cuenta. Como punto de partida propongo un SLO de 99,9% en 30 días móviles, 43,2 minutos de
 Error Budget al mes, que se calibra con datos reales.
 Latencia: la proporción de pagos confirmados por debajo de un umbral, medida en el API Gateway, siempre en
 percentil. El umbral no lo invento: sale de dónde el cliente abandona o reintenta, de los timeouts del flujo
@@ -289,54 +195,11 @@ Ya sabemos qué es estar bien. ¿Cómo evitamos que un despliegue lo rompa?"
 - Alertas multi-window, multi-burn-rate del SRE Workbook de Google: 14,4× en 1 h → page · 6× en 6 h → page ·
   1× en 3 días → ticket.
 
-**Diagrama:** flujo del pipeline de izquierda a derecha: Commit → Build, pruebas y seguridad (plantilla) →
-**Gate 1: deployment protection rule** (¿hay Error Budget?) → Canary con un porcentaje pequeño → **Gate 2:
-análisis automático** (tasa de error y p99 del canary vs. versión estable; malo = rollback) → pasos crecientes
-hasta el 100% → **Gate 3: verificación posterior** → evento "cambio desplegado" enviado al registro de
-cambios (que luego consultará el servidor MCP). Una flecha punteada de excepción: "hotfix de confiabilidad
-con aprobación manual y auditoría".
-
-```mermaid
-flowchart LR
-    subgraph antes["ANTES: plantilla de Plataforma por lenguaje"]
-        direction TB
-        commit["Commit"] --> build["Build, pruebas y seguridad<br/>(mínimos obligatorios<br/>+ lo que agregue la tribu)"]
-        build --> g1{"<b>Gate 1</b><br/>deployment protection rule<br/>¿hay Error Budget?<br/>(Prometheus + reglas de Sloth)"}
-    end
-
-    subgraph durante["DURANTE: canary con Argo Rollouts o Flagger"]
-        direction TB
-        c5["Canary: porcentaje pequeño"] --> g2{"<b>Gate 2</b><br/>Análisis automático<br/>tasa de error y p99<br/>canary vs. estable"}
-        g2 -- "sano" --> pasos["Pasos crecientes"] --> c100["100%"]
-    end
-
-    subgraph despues["DESPUÉS"]
-        direction TB
-        g3{"<b>Gate 3</b><br/>Verificación posterior<br/>del burn rate"} --> evento["Evento 'cambio desplegado'<br/>→ registro de cambios<br/>(lo consulta el servidor MCP)"]
-    end
-
-    g1 -- "hay presupuesto<br/>OIDC entrega credenciales" --> c5
-    g1 -- "congelado" --> alto["⛔ Despliegue detenido"]
-    g2 -- "empeora" --> rb["↩️ Rollback automático"]
-    c100 --> g3
-    hotfix["Hotfix de confiabilidad<br/>aprobación manual + auditoría"] -. "excepción" .-> c5
-
-    classDef gate fill:#1168bd,stroke:#0b4884,color:#ffffff
-    classDef bad fill:#c62828,stroke:#8e0000,color:#ffffff
-    classDef nota fill:#f4f4f4,stroke:#6b6b6b,color:#1b1b1b
-    class g1,g2,g3 gate
-    class alto,rb bad
-    class hotfix,evento nota
-```
-
-Alertas que acompañan al pipeline (multi-window, multi-burn-rate, valores del SRE Workbook de Google):
-
-```mermaid
-flowchart LR
-    br["Burn rate del<br/>Error Budget"] --> a1["14,4× en 1 h<br/>(2% del presupuesto)"] --> p1["📟 Page"]
-    br --> a2["6× en 6 h<br/>(5% del presupuesto)"] --> p2["📟 Page"]
-    br --> a3["1× en 3 días<br/>(10% del presupuesto)"] --> t3["🎫 Ticket"]
-```
+**Diagrama** (`d4`): tres columnas. ANTES: Commit → Build, pruebas y seguridad (plantilla) → Gate 1, deployment
+protection rule (¿hay Error Budget?); si no hay, "congelado". DURANTE: canary con un porcentaje pequeño (Argo
+Rollouts o Flagger) → Gate 2, análisis automático → pasos crecientes hasta el 100%, o rollback automático.
+DESPUÉS: Gate 3, verificación del burn rate → evento "cambio desplegado" que consulta el MCP. Abajo, las tres
+alertas del SRE Workbook (14,4× en 1 h y 6× en 6 h → page; 1× en 3 días → ticket).
 
 **Guion:**
 "Con un Quality Gate autoejecutable. El reto uno dice que el CI/CD no detiene ni revierte: son dos verbos, y
@@ -397,65 +260,10 @@ service mesh?"*
 - OpenTelemetry Operator: auto-instrumentación por anotación, sin cambiar el código de las tribus.
 - Exporta al backend de observabilidad que ya tenga el banco (por ejemplo, Mimir, Tempo y Loki).
 
-**Diagrama (C4 nivel 2, Container):** dos bloques grandes, "AWS (EKS)" y "GCP (GKE)", iguales por
-dentro. En cada uno: pods de microservicios con SDK/auto-instrumentación → **OTel Collector agente**
-(DaemonSet) → **Gateway capa 1** (`loadbalancing` por traceID) → **Gateway capa 2** (`memory_limiter` →
-`filter` → `redaction` → `tail_sampling` → `batch`, y los connectors `spanmetrics` y `servicegraph` antes del
-muestreo). Un tercer bloque, "Datacenter": conector del core instrumentado ↔ core bancario, con un sobre
-que dice "traceparent en el header". Las salidas de ambos gateways van por OTLP con mTLS al "Backend de
-observabilidad del banco" y a un pipeline separado "Auditoría regulatoria (sin muestreo, inmutable)". Una
-línea roja punteada marca "frontera de la red del banco: ninguna PII la cruza".
-
-```mermaid
-flowchart LR
-    subgraph banco["🔒 Red del banco: ninguna PII cruza esta frontera"]
-        direction LR
-        subgraph aws["AWS (EKS)"]
-            direction TB
-            appA["Pods de microservicios<br/>enmascaran su PII (plantilla)<br/>SDK o auto-instrumentación<br/>(OpenTelemetry Operator)"]
-            agA["OTel Collector <b>agente</b><br/>DaemonSet, uno por nodo<br/>metadatos de Kubernetes<br/>bota health checks"]
-            gw1A["Gateway <b>capa 1</b><br/>exporter loadbalancing<br/>por traceID"]
-            subgraph gw2A["Gateway capa 2 (imagen OCB)"]
-                direction TB
-                procA["memory_limiter → filter<br/>→ redaction (seguridad extra de PII)"]
-                smA["connectors spanmetrics<br/>y servicegraph<br/>ven el 100% de los spans"]
-                tsA["tail_sampling → batch"]
-                procA --> smA
-                procA --> tsA
-            end
-            appA --> agA --> gw1A --> procA
-        end
-
-        subgraph gcp["GCP (GKE): igual por dentro"]
-            direction TB
-            appG["Pods de microservicios"] --> agG["OTel Collector agente"] --> gw1G["Gateway capa 1<br/>loadbalancing"] --> gw2G["Gateway capa 2<br/>redaction + spanmetrics<br/>+ tail_sampling"]
-        end
-
-        subgraph dc["Datacenter"]
-            direction TB
-            conector["Conector del core<br/>instrumentado"] -- "✉️ traceparent W3C<br/>en el header" --> corebanc["Core bancario"]
-        end
-
-        audit["Auditoría regulatoria<br/>pipeline aparte<br/>sin muestreo, inmutable"]
-    end
-
-    backends["Backend de observabilidad<br/>que ya tenga el banco<br/>(por ejemplo, Mimir, Tempo y Loki)"]
-
-    appA -- "llamada con traceparent" --> conector
-    conector -. "spans del conector" .-> gw1A
-    smA -- "OTLP + mTLS" --> backends
-    tsA -- "OTLP + mTLS" --> backends
-    gw2G -- "OTLP + mTLS" --> backends
-    appA -. "logs transaccionales" .-> audit
-
-    classDef col fill:#1168bd,stroke:#0b4884,color:#ffffff
-    classDef ext fill:#8a8a8a,stroke:#6b6b6b,color:#ffffff
-    classDef reg fill:#f4f4f4,stroke:#6b6b6b,color:#1b1b1b
-    class agA,gw1A,procA,smA,tsA,agG,gw1G,gw2G col
-    class backends,corebanc ext
-    class audit reg
-    style banco stroke:#d32f2f,stroke-width:2px,stroke-dasharray:6 4
-```
+**Diagrama** (`d5`, C4 nivel 2, Container): dentro de la red del banco, igual en AWS y GCP: Apps (enmascaran su
+PII) → Agente (DaemonSet) → Gateway capa 1 (loadbalancing por traceID) → Gateway capa 2 (imagen OCB: redaction,
+spanmetrics + servicegraph, tail_sampling) → backend que ya tenga el banco, vía OTLP + mTLS. Abajo: conector del
+core instrumentado → core bancario (con traceparent) y el pipeline aparte de auditoría regulatoria.
 
 **Guion:**
 "Eje dos. Salen de un solo camino estándar de telemetría, igual en AWS, en GCP y en el datacenter:
@@ -508,26 +316,10 @@ Ya tenemos los datos. ¿Cómo los tenemos todos sin pagar de más?"
 - Auditoría regulatoria por un pipeline aparte: nunca se muestrea.
 - **La cifra de ahorro no se promete:** sale del estudio de línea base de la Fase 0.
 
-**Diagrama:** de izquierda a derecha, tres pasos: **1. Estudio de línea base** (GB/día por señal y por
-servicio, mayores emisores, cardinalidad, factura actual) → **2. Palancas** (tres cajas: trazas → tail
-sampling; logs → Log-to-Metrics y filtro de DEBUG; métricas → control de cardinalidad) → **3. Medir antes y
-después** contra la meta del −30% y mostrar el costo por tribu (showback). Al pie, una franja de
-"Referencias públicas": "Capital One: ~70% menos volumen de trazas con OpenTelemetry · Pismo (pagos): ~80%
-menos costo de observabilidad con tail sampling".
-
-```mermaid
-flowchart LR
-    estudio["<b>1. Estudio de línea base</b><br/>GB/día por señal y servicio<br/>mayores emisores · cardinalidad<br/>factura actual"]
-    subgraph palancas["2. Palancas"]
-        trazas["Trazas → tail_sampling<br/>100% errores, 100% más lentos<br/>que el umbral del SLO, pocos exitosos"]
-        logs["Logs → Log-to-Metrics<br/>(connector count) + filter de DEBUG"]
-        metricas["Métricas → cardinalidad:<br/>ningún ID como etiqueta"]
-    end
-    medir["<b>3. Medir antes y después</b><br/>meta del caso: −30%<br/>showback por tribu"]
-    estudio --> palancas --> medir
-    spanm["spanmetrics antes del muestreo:<br/>métricas RED exactas al 100%"] -.-> trazas
-    refs["Referencias públicas: Capital One ~70% menos volumen de trazas ·<br/>Pismo ~80% menos costo de observabilidad"] -.-> medir
-```
+**Diagrama** (`d6`): 1. Estudio de línea base → 2. Palancas (trazas → tail_sampling; logs → Log-to-Metrics y
+filtro de DEBUG; métricas → cardinalidad) → 3. Medir antes y después (meta del caso −30%, showback por tribu).
+Nota: spanmetrics antes del muestreo. Franja de referencias públicas: Capital One (~70% menos volumen de trazas) y
+Pismo (~80% menos costo de observabilidad).
 
 **Guion:**
 "Pagando por señal, no por ruido. El caso pide −30% sin perder trazas de errores, y eso descarta la salida
@@ -580,56 +372,10 @@ Datos limpios y baratos. ¿Cómo hacemos que una IA los entienda?"
   (por ejemplo, Claude o Gemini) por Amazon Bedrock o Vertex AI. Guardarraíles: datos ya sin PII, solo
   lectura, auditoría, defensa contra Indirect Prompt Injection, humano en el bucle.
 
-**Diagrama:** a la izquierda, la alerta de burn rate que dispara al "Agente de RCA (cliente MCP)", con el
-modelo consumido por Bedrock o Vertex AI; en el medio, el "Servidor MCP de observabilidad" con sus cinco
-herramientas; a la derecha, los datos (telemetría nueva con Semantic Conventions y, mientras se migra, la
-telemetría heredada) y el registro de cambios del Quality Gate. Abajo, el "Incident Commander" con un
-candado: "aprueba cualquier acción". Un segundo diagrama muestra el embudo en el que navega el agente.
-
-```mermaid
-flowchart LR
-    alerta["📟 Alerta de burn rate"] -- "webhook" --> agente["🤖 Agente de RCA<br/>(cliente MCP, dentro del banco)<br/>modelo vía Amazon Bedrock<br/>o Vertex AI"]
-
-    subgraph mcp["Servidor MCP propio: solo lectura, cada llamada auditada"]
-        direction TB
-        t1["1. obtener_grafo"]
-        t2["2. consultar_slo"]
-        t3["3. buscar_trazas"]
-        t4["4. buscar_logs(trace_id)"]
-        t5["+ cambios_recientes"]
-        t1 --> t2 --> t3 --> t4
-    end
-
-    subgraph datos["Datos ya sin PII"]
-        direction TB
-        nuevo["Telemetría nueva<br/>OpenTelemetry + Semantic Conventions<br/>(grafo, métricas, trazas, logs)"]
-        viejo["Telemetría heredada<br/>(adaptadores temporales<br/>mientras se migra)"]
-        cambios["Registro de cambios<br/>del Quality Gate"]
-    end
-
-    agente --> mcp
-    t1 --> nuevo
-    t2 --> nuevo
-    t3 --> nuevo
-    t4 --> nuevo
-    t4 -.-> viejo
-    t5 --> cambios
-    agente -- "hipótesis rankeadas<br/>con evidencia" --> ic["🔒 Incident Commander<br/>aprueba cualquier acción"]
-
-    classDef tool fill:#1168bd,stroke:#0b4884,color:#ffffff
-    classDef dato fill:#8a8a8a,stroke:#6b6b6b,color:#ffffff
-    classDef humano fill:#08427b,stroke:#052e56,color:#ffffff
-    class t1,t2,t3,t4,t5 tool
-    class nuevo,viejo,cambios dato
-    class ic humano
-```
-
-El embudo en el que navega el agente (de lo general a lo específico):
-
-```mermaid
-flowchart TB
-    f1["Grafo de servicios: ¿dónde está el problema?"] --> f2["Métricas y SLOs: ¿cuánto duele?"] --> f3["Trazas: ¿en qué llamada?"] --> f4["Logs: ¿qué error exacto?"]
-```
+**Diagrama** (`d7`): alerta de burn rate → (webhook) agente de RCA dentro del banco, con el modelo vía Bedrock o
+Vertex AI → servidor MCP propio con sus cinco herramientas → telemetría nueva (OpenTelemetry + Semantic
+Conventions), telemetría heredada (adaptadores temporales, strangler fig) y registro de cambios del Quality Gate.
+Abajo: "hipótesis rankeadas con evidencia → el Incident Commander decide".
 
 **Guion:**
 "Eje tres. Primero se ordenan los datos: una IA no razona donde un equipo dice status, otro http_code y otro
@@ -683,46 +429,10 @@ observabilidad con IA incluida?"*
 - **BFS** (Breadth-First Search) sobre el grafo invertido → radio de explosión (a quién afecta).
 - Cruce con `cambios_recientes` → hipótesis rankeadas con evidencia; el humano decide.
 
-**Diagrama:** un grafo de 8 nodos: App QR → API pagos → {Antifraude, Saldos, Notificaciones};
-Antifraude → Base de datos de reglas; Saldos → Conector del core → Core bancario. Nodos en rojo: App QR,
-API pagos, Antifraude. Nodos en verde: Base de datos de reglas, Saldos, Notificaciones, Conector del core y
-Core bancario. Una flecha gruesa (DFS) baja de App QR a Antifraude, que queda resaltado: "anómalo y con
-dependencias sanas → candidato". Etiqueta al lado: "v2.3.1 desplegada hace 12 min". Un recuadro (BFS sobre
-el grafo invertido) desde Antifraude marca el radio de explosión.
-
-```mermaid
-flowchart TB
-    subgraph radio["💥 Radio de explosión: BFS sobre el grafo invertido desde Antifraude → journey pago QR"]
-        app["App QR<br/>🔴 anómalo"]
-        api["API pagos<br/>🔴 anómalo<br/>(el que más grita: víctima)"]
-        anti["<b>Antifraude</b><br/>🔴 anómalo<br/>dependencias sanas<br/>→ <b>causa raíz candidata</b>"]
-    end
-
-    saldos["Saldos<br/>🟢 sano"]
-    notif["Notificaciones<br/>🟢 sano"]
-    db["Base de datos de reglas<br/>🟢 sana"]
-    conector["Conector del core<br/>🟢 sano"]
-    corebanc["Core bancario<br/>🟢 sano"]
-    cambio["cambios_recientes:<br/>Antifraude v2.3.1<br/>desplegada hace 12 min"]
-
-    app == "DFS" ==> api
-    api == "DFS" ==> anti
-    api --> saldos
-    api --> notif
-    anti --> db
-    saldos --> conector --> corebanc
-    cambio -.-> anti
-
-    classDef rojo fill:#c62828,stroke:#8e0000,color:#ffffff
-    classDef causa fill:#c62828,stroke:#ffd600,color:#ffffff,stroke-width:4px
-    classDef verde fill:#2e7d32,stroke:#1b5e20,color:#ffffff
-    classDef nota fill:#fff8e1,stroke:#c17900,color:#1b1b1b
-    class app,api rojo
-    class anti causa
-    class saldos,notif,db,conector,corebanc verde
-    class cambio nota
-    linkStyle 0,1 stroke:#ffd600,stroke-width:4px
-```
+**Diagrama** (`d8`): grafo App QR → API pagos → {Antifraude, Saldos, Notificaciones}; Antifraude → BD de reglas;
+Saldos → Conector del core → Core bancario. App QR, API pagos y Antifraude en rojo, dentro del recuadro "radio
+de explosión (BFS)"; el resto en verde. Flechas DFS de App QR a Antifraude, que tiene borde amarillo (causa
+candidata), y una nota "cambios_recientes: Antifraude v2.3.1, hace 12 min" que apunta a Antifraude.
 
 **Guion:**
 "Con el grafo de dependencias. OpenTelemetry lo arma solo con el connector servicegraph: cada servicio es un
@@ -767,41 +477,16 @@ Todo listo. Pero igual algo va a fallar: ¿qué hacemos en plena crisis?"
   comunicaciones. La línea de tiempo la registran las herramientas, no una persona.
 - Minuto 0–5: la herramienta de on-call del banco despierta al on-call; declarar SEV1, abrir el canal,
   asignar roles, medir el impacto con el SLO y el burn rate; el incidente queda en el ITSM del banco.
-- Minuto 5–15: preguntar **qué cambió**: la hipótesis del agente de RCA ya está en el canal.
+- Minuto 5–10: preguntar **qué cambió**: la hipótesis del agente de RCA ya está en el canal. Minuto 10: el IC
+  decide el rollback.
 - **Mitigar antes de diagnosticar:** rollback, apagar el feature flag, failover a la otra nube, load
   shedding, circuit breaker.
 - Comunicar con hechos y con frecuencia fija; confirmar la recuperación con el SLI, no con "parece que ya".
 
-**Diagrama:** una línea de tiempo horizontal de 0 a 60 minutos. Hitos: 0' alerta de burn rate 14,4× (el
-agente de RCA arranca solo) → 2' SEV1 declarado → 5' roles asignados → 8' hipótesis del agente revisada →
-10' rollback de Antifraude v2.3.1 (decisión del IC) → 15' primer comunicado → 20' SLI recuperado → 60'
-monitoreo estable y programación del post-mortem. Encima, tres carriles: IC, responsable técnico y
-comunicaciones (este último porque es SEV1).
-
-```mermaid
-gantt
-    title SEV1 del pago QR, 12:30 de un día de quincena (minuto 0 = 12:30)
-    dateFormat HH:mm
-    axisFormat %H:%M
-
-    section Incident Commander
-    0' alerta de burn rate 14,4× al on-call      :crit, milestone, m0, 12:30, 0m
-    2' declara SEV1 y abre el canal              :milestone, m1, 12:32, 0m
-    5' asigna roles                              :milestone, m2, 12:35, 0m
-    10' decide rollback de Antifraude v2.3.1     :crit, milestone, m3, 12:40, 0m
-    60' programa el post-mortem                  :milestone, m4, 13:30, 0m
-
-    section Responsable técnico
-    Revisa la hipótesis del agente de RCA        :ops1, 12:35, 3m
-    8' hipótesis confirmada                      :milestone, m5, 12:38, 0m
-    Ejecuta el rollback                          :crit, ops2, 12:40, 10m
-    20' SLI recuperado                           :milestone, m6, 12:50, 0m
-    Monitoreo hasta que esté estable             :ops3, 12:50, 40m
-
-    section Comunicaciones (SEV1)
-    15' primer comunicado                        :milestone, m7, 12:45, 0m
-    Comunicados con hechos, frecuencia fija      :com1, 12:45, 45m
-```
+**Diagrama** (`d9`): línea de tiempo de 0 a 60 minutos con cuatro carriles. Incident Commander: 0' alerta,
+2–5' SEV1 y roles, 10' decide rollback, post-mortem. Agente de RCA: hipótesis lista en el canal antes de que
+llegue el on-call. Responsable técnico: revisa, rollback, 20' SLI recuperado, monitoreo. Comunicaciones (SEV1):
+15' primer comunicado y comunicados con frecuencia fija.
 
 **Guion:**
 "Eje cuatro. Doce y media de un día de quincena, y el pago QR empieza a fallar. La alerta no llega por CPU:
@@ -811,7 +496,7 @@ Como Incident Commander, en cinco minutos declaro SEV1, abro el canal y asigno l
 responsable técnico, el dueño del servicio, que diagnostica y ejecuta; y, como es un SEV1 en un banco,
 alguien de comunicaciones para negocio y la Superintendencia. La línea de tiempo la registran las
 herramientas. Mi regla de oro: no toco el teclado; si me pongo a depurar, nadie coordina.
-Pregunto lo más rentable: ¿qué cambió? La respuesta ya está en el canal: antifraude 2.3.1, hace 12 minutos.
+Pregunto lo más rentable: ¿qué cambió? La respuesta ya está en el canal: antifraude 2.3.1, desplegada 12 minutos antes de la alerta.
 Y la decisión clave: mitigar antes de diagnosticar. No necesito entender el bug para hacer rollback. Sin un
 cambio claro, el menú es apagar el feature flag, failover a la otra nube, load shedding para salvar los
 pagos sacrificando consultas, o un circuit breaker.
@@ -855,52 +540,12 @@ El servicio volvió. ¿Cómo evitamos que vuelva a pasar?"
   existe** · 30 días SLO calibrado + burn rate · 60 días Quality Gate + gateway con PII · 90 días tail
   sampling medido + servidor MCP de solo lectura.
 
-**Diagrama:** a la izquierda, el ciclo de la diapositiva 1 cerrándose (flecha de "post-mortem" a "SLO").
-A la derecha, una línea de tiempo con la Fase 0 y tres hitos a 30/60/90 días y, debajo, los indicadores de
-éxito: Change Failure Rate y Time to Restore contra la línea base · meta de costo de telemetría −30% ·
-toil por debajo del 50%.
-
-```mermaid
-flowchart LR
-    subgraph ciclo["El ciclo se cierra"]
-        direction TB
-        pm["Post-mortem blameless<br/>en ≤ 5 días hábiles<br/>acciones con dueño y fecha:<br/>prevenir · detectar · mitigar"]
-        slo["① SLO + Error Budget"]
-        gate["② Quality Gate"]
-        otel["③ OpenTelemetry + MCP"]
-        ic["④ Incident Commander"]
-        slo --> gate --> otel --> ic --> pm
-        pm == "ej.: canary de Antifraude<br/>sin análisis automático<br/>→ vuelve al Eje 1" ==> slo
-    end
-
-    subgraph ruta["Hoja de ruta: empezar con un servicio piloto (pago QR)"]
-        direction TB
-        d0["<b>Fase 0 (2–4 semanas)</b><br/>caracterizar lo que existe:<br/>herramientas, línea base de costo<br/>y confiabilidad, incidentes"]
-        d30["<b>30 días</b><br/>SLO del pago QR (calibrado)<br/>+ alertas de burn rate"]
-        d60["<b>60 días</b><br/>Quality Gate<br/>+ gateway con enmascaramiento de PII"]
-        d90["<b>90 días</b><br/>tail sampling con ahorro medido<br/>+ servidor MCP de solo lectura"]
-        d0 --> d30 --> d60 --> d90
-    end
-
-    kpi["<b>Indicadores de éxito</b><br/>Change Failure Rate y Time to Restore<br/>contra la línea base de la Fase 0<br/>Costo de telemetría: meta −30%<br/>Toil por debajo del 50%"]
-
-    cultura["Cultura: Team Topologies<br/>Plataforma = habilitador<br/>you build it, you run it<br/>autoservicio en el IDP del banco"]
-
-    ciclo ~~~ ruta
-    d90 --> kpi
-    cultura -.-> ruta
-
-    classDef eje fill:#1168bd,stroke:#0b4884,color:#ffffff
-    classDef hito fill:#08427b,stroke:#052e56,color:#ffffff
-    classDef meta fill:#f4f4f4,stroke:#2e7d32,color:#1b1b1b,stroke-width:2px
-    class slo,gate,otel,ic,pm eje
-    class d0,d30,d60,d90 hito
-    class kpi,cultura meta
-    linkStyle 4 stroke:#2e7d32,stroke-width:4px
-```
+**Diagrama** (`d10`): a la izquierda, el ciclo ① a ④ → post-mortem blameless, con una flecha verde "acciones →
+Eje 1"; a la derecha, la hoja de ruta Fase 0 → 30 → 60 → 90 días y los indicadores de éxito (Change Failure Rate
+y Time to Restore contra la línea base, meta −30% de costo, toil por debajo del 50%).
 
 **Guion:**
-"Aprendiendo del incidente. En menos de cinco días hábiles hacemos el post-mortem blameless, sin culpa:
+"Aprendiendo del incidente. En máximo cinco días hábiles hacemos el post-mortem blameless, sin culpa:
 asumimos que las personas actuaron razonablemente con lo que sabían, y arreglamos el sistema. Si
 castigamos, la próxima vez nos esconden información.
 El documento trae impacto, con el Error Budget gastado; línea de tiempo; factores contribuyentes, en plural;

@@ -701,7 +701,7 @@ en las propias aplicaciones.
 | | |
 |---|---|
 | Escogido | Antifraude v2.3.1 rompe el pago QR (causa = un despliegue) |
-| Alternativas | Una falla de infraestructura (nodo, red, certificado vencido) · una dependencia externa (otro banco, Bre-B) · saturación del core bancario en quincena |
+| Alternativas | Una falla de infraestructura (nodo, red, certificado vencido) · una dependencia externa (otro banco) · saturación del core bancario en quincena |
 | Trade-off | El despliegue conecta los 4 ejes (el gate debió frenarlo), pero es el caso "fácil". La saturación del core en quincena es más realista, pero el rollback no la arregla |
 | Costo | Para la narrativa: un despliegue malo cuesta los minutos que tarde el rollback (con Argo Rollouts: minutos, casi todo el Error Budget a salvo). Una saturación del core es más cara: el rollback no la arregla; la respuesta rápida es **load shedding + circuit breaker** |
 | Recomendación | Mantener el despliegue malo (Antifraude v2.3.1) como único ejemplo; conecta los 4 ejes |
