@@ -4,7 +4,10 @@
 > se escogió, las alternativas, el trade-off (qué ganas y qué pierdes) y una recomendación.
 > La columna **Tu decisión** queda vacía a propósito: se llena en sesión, **de a una decisión por vez**.
 >
-> **Regla: nombrar siempre las herramientas.** Decir el nombre concreto (Sloth, Mimir, PagerDuty, Backstage...)
+> **Regla 1: lo que el banco seguramente ya tiene contratado no se escoge, se integra** (herramienta de on-call,
+> ITSM, backend de observabilidad, nube): se nombra como ejemplo y se defienden los requisitos.
+>
+> **Regla 2: nombrar siempre las herramientas que sí proponemos.** Decir el nombre concreto (Sloth, Mimir, PagerDuty, Backstage...)
 > suma puntos ante la mesa: demuestra experiencia real y hace la propuesta viable. La neutralidad se muestra
 > diciendo "por ejemplo" y "OpenTelemetry nos deja cambiarla", **no** dejando la caja sin nombre.
 >
@@ -525,15 +528,19 @@ reutilizar lo contratado).
 
 ## Eje 4 — Incidentes y cultura
 
-### D22. Herramienta de gestión de incidentes y on-call
+### D22. Herramienta de gestión de incidentes y on-call → no es decisión nuestra
+
+> *(El borrador v1 "escogía" PagerDuty + ServiceNow. Un banco ya tiene esto contratado: no se escoge, se
+> integra. La lista queda solo como referencia por si la mesa pregunta.)*
+
 | | |
 |---|---|
-| Escogido | **PagerDuty** para on-call y escalamiento + **ServiceNow** como sistema de registro (ITSM). *(El borrador v1 no las nombraba.)* |
-| Alternativas | PagerDuty · incident.io · FireHydrant · Grafana IRM · ServiceNow (probable en un banco) · Opsgenie (Atlassian anunció su fin de venta; verificar fechas antes de mencionarlo) |
-| Trade-off | Lo que importa es el proceso; la herramienta es secundaria. ServiceNow suele ser el sistema de registro en banca; las otras son mejores para el flujo en vivo |
-| Costo | **PagerDuty**: ~USD 20–40+ por usuario al mes según el plan; 50 personas en on-call ≈ **USD 1.000–2.000/mes ($$)**. **incident.io / FireHydrant**: rango parecido. **Grafana IRM**: incluido en algunos planes de Grafana Cloud. **ServiceNow**: licencia cara (del orden de USD 100 por agente al mes), pero en un banco **ya está pagada**: el costo marginal es ≈0. Argumento económico: reutilizar el ITSM (IT Service Management) del banco y solo pagar la herramienta de on-call si hace falta |
-| Recomendación | **Nombrarlas en la diapositiva 9**: "PagerDuty para despertar al on-call y escalar; el incidente queda registrado en el ITSM (IT Service Management) del banco, por ejemplo ServiceNow". El proceso sigue siendo lo principal, pero el nombre suma |
-| Tu decisión | |
+| Escogido | **Ninguna: se integra con lo que el banco ya tenga contratado** para on-call (despertar y escalar) y para ITSM (IT Service Management, registro del incidente) |
+| Lo que sí proponemos: requisitos de integración | Cualquiera que sea la herramienta, debe: 1) recibir la alerta de burn rate por webhook (desde Alertmanager); 2) tener políticas de escalamiento y severidades (SEV1–SEV3); 3) crear el ticket en el ITSM automáticamente; 4) tener una API para que el **agente de RCA publique su hipótesis** en el incidente (D19); 5) plantilla de post-mortem. Esto es lo que se defiende ante la mesa, no la marca |
+| Referencia (solo si preguntan) | On-call: PagerDuty, incident.io, FireHydrant, Grafana IRM, Opsgenie (Atlassian anunció su fin de venta; verificar fechas). ITSM: ServiceNow (muy común en banca), Jira Service Management |
+| Costo | Lo ya contratado: costo marginal ≈0. Solo si faltara la herramienta de on-call: licencia por usuario ($$ para decenas de personas en turno) |
+| Recomendación | En la diapositiva 9 hablar de "la herramienta de on-call del banco" y "el ITSM del banco". Si la mesa pregunta cuál, responder con los requisitos y dar un ejemplo: *"la que ya tengan; por ejemplo PagerDuty para el on-call y ServiceNow para el registro"* |
+| Tu decisión | **No escoger herramienta: ya debe existir contratada. Solo integrarse; la lista queda como referencia** |
 
 ### D23. Estructura de roles del incidente
 | | |

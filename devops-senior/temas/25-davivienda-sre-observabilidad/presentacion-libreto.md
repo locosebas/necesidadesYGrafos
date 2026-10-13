@@ -698,8 +698,8 @@ base de la IA causal y de la auto-remediación futura, siempre con humano en el 
 
 **Contenido:**
 - Roles: Incident Commander (coordina, no toca teclado) · Operations Lead · Communications Lead · Scribe.
-- Minuto 0–5: PagerDuty despierta al on-call; declarar SEV1, abrir el canal, asignar roles, medir el impacto
-  con el SLO y el burn rate; el incidente queda registrado en ServiceNow.
+- Minuto 0–5: la herramienta de on-call del banco despierta al on-call; declarar SEV1, abrir el canal, asignar
+  roles, medir el impacto con el SLO y el burn rate; el incidente queda registrado en el ITSM del banco.
 - Minuto 5–15: preguntar **qué cambió** (grafo + `cambios_recientes` vía MCP).
 - **Mitigar antes de diagnosticar:** rollback, apagar el feature flag, failover a la otra nube, load
   shedding, circuit breaker.
@@ -717,7 +717,7 @@ gantt
     axisFormat %H:%M
 
     section Incident Commander
-    0' alerta de burn rate 14,4× por PagerDuty   :crit, milestone, m0, 12:30, 0m
+    0' alerta de burn rate 14,4× al on-call   :crit, milestone, m0, 12:30, 0m
     2' declara SEV1 y abre el canal              :milestone, m1, 12:32, 0m
     5' asigna roles                              :milestone, m2, 12:35, 0m
     10' decide rollback de Antifraude v2.3.1     :crit, milestone, m3, 12:40, 0m
@@ -735,14 +735,14 @@ gantt
     Comunicados cada 15 a 30 min con hechos      :com1, 12:45, 45m
 
     section Scribe
-    Línea de tiempo y registro en ServiceNow     :scr1, 12:32, 58m
+    Línea de tiempo y registro en el ITSM     :scr1, 12:32, 58m
 ```
 
 **Guion:**
 "Ahora juntemos todo en el peor momento: 12:30 de un día de quincena y el pago QR falla en un 30%.
 Primero, la alerta. No llega por CPU: llega porque el burn rate pasó de 14,4 veces en la ventana de una
 hora. Ya sabemos que es grave porque está atada al SLO.
-La alerta de burn rate llega por PagerDuty al on-call. Como Incident Commander, en los primeros cinco minutos declaro SEV1, abro el canal y asigno roles: un
+La alerta de burn rate llega al on-call por la herramienta de guardia del banco. Como Incident Commander, en los primeros cinco minutos declaro SEV1, abro el canal y asigno roles: un
 Operations Lead que ejecuta los cambios técnicos, un Communications Lead que habla con negocio y con los
 canales, y un Scribe que lleva la línea de tiempo. La regla de oro del Incident Commander: no toco el
 teclado. Si me pongo a depurar, nadie coordina.

@@ -180,3 +180,14 @@ herramientas mientras por debajo se pasa de la telemetría heredada a OpenTeleme
    tail sampling, igual que `spanmetrics`: ve el 100% de los spans.
 3. *"Con varias réplicas del gateway, ¿cómo junta el span del cliente con el del servidor?"* → Por eso la capa 1
    hace `loadbalancing` por traceID: todos los spans de una traza llegan a la misma réplica de la capa 2.
+
+## D22 — Herramienta de incidentes y on-call (no se escoge)
+
+**Tu decisión:** no escoger; ya debe existir contratada. Solo integrarse.
+
+1. *"¿Qué herramienta de incidentes usarías?"* → *"La que ya tengan; lo importante es que cumpla cinco cosas:
+   recibir la alerta de burn rate por webhook, escalar por severidad, crear el ticket en el ITSM, dejar que el
+   agente de RCA publique su hipótesis por API y tener plantilla de post-mortem. Por ejemplo, PagerDuty para el
+   on-call y ServiceNow para el registro."*
+2. *"¿Y si la que tenemos no tiene API para el agente?"* → El agente publica en el canal de chat del incidente
+   (Slack o Teams) y deja el enlace en el ticket; se integra por donde se pueda, sin cambiar de herramienta.
