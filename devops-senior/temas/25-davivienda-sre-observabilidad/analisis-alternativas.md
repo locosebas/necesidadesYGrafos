@@ -53,7 +53,7 @@ es hablar en **valores relativos** ("el SaaS cuesta 3–5× más por GB que el a
 | Tráfico de salida de la nube (egress a internet / a otra nube) | ~USD 0,08–0,12/GB |
 | Tráfico entre regiones de la misma nube | ~USD 0,02/GB |
 | Nodo de cómputo mediano (4 vCPU, 16 GB) | ~USD 120–150/mes |
-| LLM (Large Language Model) de gama media vía Amazon Bedrock / Vertex AI | ~USD 3 por millón de tokens de entrada, ~USD 15 de salida |
+| LLM (Large Language Model) de gama media (por ejemplo, Claude Sonnet 5.5) | ~USD 2 por millón de tokens de entrada, ~USD 10 de salida (precio de lista de Anthropic; Bedrock y Vertex AI publican su propia lista) |
 
 - **Costo del minuto caído del pago QR** (para hablar del Error Budget en plata):
   `pagos por minuto × valor promedio × margen por transacción` + costo regulatorio y reputacional.
@@ -444,14 +444,60 @@ el despliegue."*
 | Recomendación | Combinar: adoptar el del backend escogido y construir solo lo propio (cambios, grafo, SLO de negocio) |
 | Tu decisión | |
 
-### D19. Modelo de IA y dónde corre
+### D19. Modelo de IA, canal y modo de ejecución
+
+> *(El borrador v1 mezclaba tres decisiones distintas y solo nombraba el canal. Se separan aquí.)*
+
+**Panorama: son tres preguntas, no una.**
+
+1. **¿Qué modelo?** El "cerebro": Claude (Anthropic), Gemini (Google), Llama (Meta), Mistral, Amazon Nova...
+2. **¿Por qué canal se consume?** Por dónde se le hacen las peticiones y con quién se firma el contrato: la API
+   directa del fabricante, **Amazon Bedrock**, **Google Vertex AI**, Microsoft Foundry, o autoalojado en GPU
+   propias. Bedrock y Vertex **no son modelos**: son "tiendas" dentro de la nube que ofrecen varios modelos.
+   Claude está en Bedrock y en Vertex; Gemini, solo en Vertex.
+3. **¿En qué modo corre?**
+   - **Automático, disparado por la alerta** (lo que pide el caso): ninguna persona lo inicia. La alerta de burn
+     rate (Alertmanager o PagerDuty) llama por *webhook* a un **agente de RCA** que corre **centralizado en la
+     infraestructura del banco** (un Job de Kubernetes o una función serverless). El agente le pide al modelo un
+     diagnóstico, el modelo consulta la telemetría a través del servidor MCP (solo lectura), y el resultado
+     —hipótesis de causa raíz con su evidencia— se publica en el canal del incidente y en el ticket **antes de que
+     el on-call abra el portátil**. El Incident Commander decide (humano en el bucle).
+   - **Interactivo, por usuario:** el ingeniero le pregunta al modelo desde su herramienta (un cliente MCP como
+     Claude Code o Claude Desktop, o un bot en el chat). Sirve para profundizar, pero no reemplaza al automático:
+     depende de que alguien lo abra.
+   - Los dos modos usan **el mismo servidor MCP**; por eso se pueden tener ambos.
+
+```
+Alerta de burn rate ─► webhook ─► Agente de RCA (Job en Kubernetes, dentro del banco)
+                                      │  ▲
+                        petición      ▼  │ hipótesis
+                        Claude (o Gemini) vía Bedrock / Vertex AI
+                                      │  ▲
+                           herramientas▼  │ datos sin PII
+                              Servidor MCP de solo lectura ─► Mimir / Tempo / Loki / cambios
+                                      │
+                                      ▼
+            Canal del incidente + PagerDuty / ServiceNow ─► Incident Commander decide
+```
+
+**Por qué el canal es Bedrock o Vertex (y no la API directa ni autoalojado):** el banco ya tiene contrato,
+facturación, IAM y cumplimiento negociados con AWS y GCP. Consumir el modelo por ahí deja el tráfico en red
+privada (AWS PrivateLink / Google Private Service Connect), en la región escogida, con los permisos y la
+auditoría de la nube que ya usa, y **sin comprar licencias ni GPU**: se paga por token usado. La API directa de
+Anthropic sirve igual técnicamente, pero suma un proveedor nuevo que aprobar. Autoalojado da máxima soberanía,
+pero exige GPU encendidas 24/7.
+
+**¿Depende de lo que ya se pague?** Sí: si el banco ya paga una plataforma de observabilidad con IA incluida
+(Dynatrace Davis, Datadog Bits AI) o ya tiene contratado un modelo, se evalúa eso primero (misma regla que D15:
+reutilizar lo contratado).
+
 | | |
 |---|---|
-| Escogido | **Amazon Bedrock** (en AWS) o **Google Vertex AI** (en GCP), dentro de la cuenta del banco. *(El borrador v1 no lo nombraba.)* |
-| Alternativas | Modelo vía nube del banco (Amazon Bedrock, Google Vertex AI) · modelo abierto autoalojado · IA del proveedor de observabilidad (Dynatrace Davis, Datadog Bits AI / Watchdog) · plataformas AIOps (BigPanda, Moogsoft) |
-| Trade-off | Bedrock/Vertex: el dato queda en la cuenta del banco, buen balance. Autoalojado: máxima soberanía, más costo y menos capacidad. IA del proveedor: lista ya, pero caja negra y amarrada. Plataformas AIOps: fuertes en correlación de alertas, débiles en causalidad |
-| Costo | **Bedrock / Vertex AI**: pago por token. Una investigación de RCA (Root Cause Analysis) consume ~50.000–200.000 tokens ⇒ **~USD 0,30–3 por incidente** con un modelo de gama media: incluso 1.000 investigaciones al mes son $ a $$. **Modelo abierto autoalojado**: GPU encendida 24/7; un modelo grande (~70B parámetros) necesita 2–4 GPU de gama alta ⇒ **USD 5.000–20.000/mes ($$ a $$$)** + personas, aunque se use poco. **IA del proveedor de observabilidad**: suele venir en planes superiores o con cargos por uso ($$). **Plataformas AIOps** (BigPanda, Moogsoft): licencia empresarial ($$ a $$$). Comparación clave: el costo por token es despreciable frente a un minuto caído del pago QR |
-| Recomendación | **Nombrarlos**: "Amazon Bedrock o Vertex AI dentro de la cuenta del banco", y agregar "gracias a MCP, el modelo se puede cambiar" |
+| Escogido | **Modelo:** Claude (por ejemplo, Claude Sonnet 5.5 para el día a día; uno más potente para incidentes complejos) o Gemini. **Canal:** Amazon Bedrock o Google Vertex AI dentro de la cuenta del banco. **Modo:** agente automático disparado por la alerta, centralizado, + modo interactivo para los ingenieros |
+| Alternativas | API directa del fabricante · modelo abierto autoalojado (Llama, Mistral) · IA del proveedor de observabilidad (Dynatrace Davis, Datadog Bits AI / Watchdog) · plataformas AIOps (BigPanda, Moogsoft) · solo modo interactivo (sin automático) |
+| Trade-off | Bedrock/Vertex: el dato queda en la cuenta del banco y se paga por uso; depende del catálogo de la nube. Autoalojado: máxima soberanía, pero GPU 24/7 y modelos menos capaces. IA del proveedor: lista ya, pero caja negra y amarrada. Solo interactivo: más simple, pero no cumple "automatizar el RCA" del caso |
+| Costo | **Bedrock / Vertex AI**: pago por token. Una investigación de RCA consume del orden de 50.000–200.000 tokens; con un modelo de gama media (~USD 2 por millón de entrada y ~USD 10 de salida, lista de Anthropic) son **centavos a pocos dólares por incidente** (estimado mío; se mide en el piloto). **Autoalojado:** GPU encendidas 24/7, $$ a $$$ al mes aunque casi no se use. **IA del proveedor:** planes superiores o cargos por uso ($$). **AIOps:** licencia empresarial ($$ a $$$) |
+| Recomendación | Nombrar los tres niveles: *"El agente de RCA se dispara solo con la alerta, corre dentro del banco y consulta la telemetría por MCP; el modelo, por ejemplo Claude, se consume por Amazon Bedrock o Vertex AI dentro de la cuenta del banco. Gracias a MCP, cambiar de modelo no cambia nada más."* |
 | Tu decisión | |
 
 ### D20. Fuente del grafo de topología

@@ -151,3 +151,22 @@ herramientas mientras por debajo se pasa de la telemetría heredada a OpenTeleme
    mínimo privilegio, enmascaramiento de PII antes de responder y auditoría de cada llamada.
 5. **Nombre del patrón para la mesa:** *strangler fig* (higuera estranguladora): lo nuevo crece alrededor de lo
    viejo y lo va reemplazando por partes, sin un "big bang".
+
+## D19 — Modelo, canal y modo de ejecución
+
+**Contraargumentos y respuestas:**
+1. *"¿Por qué Bedrock y no la API de OpenAI o de Anthropic directamente?"* → Bedrock y Vertex son el **canal**,
+   no el modelo: el modelo puede ser Claude o Gemini. Se usa el canal de la nube que el banco ya tiene contratada:
+   red privada, región escogida, IAM, auditoría y facturación que ya existen, sin aprobar un proveedor nuevo.
+2. *"¿Los datos del banco entrenan el modelo?"* → En Bedrock y Vertex los datos de las peticiones no se usan para
+   entrenar los modelos (verificar los términos vigentes del contrato) y, además, al modelo solo le llega
+   telemetría **ya sin PII**.
+3. *"¿Y si la IA se equivoca?"* → Propone, no actúa: entrega una hipótesis con su evidencia (qué métrica, qué
+   traza, qué cambio reciente) y el Incident Commander decide. Se mide su tasa de acierto en los post-mortems.
+4. *"¿Por qué no que cada ingeniero lo use desde su portátil?"* → Ese modo existe, pero depende de que alguien lo
+   abra. El valor del caso es que el diagnóstico **ya esté listo** cuando el on-call llega: eso solo lo da el
+   agente automático y centralizado (y además centraliza credenciales y auditoría).
+5. *"¿Cuánto cuesta?"* → Pago por uso: del orden de centavos a pocos dólares por investigación (estimado, se mide
+   en el piloto); despreciable frente a un minuto caído del pago QR. Sin GPU ni licencias.
+6. *"¿Y si mañana sale un modelo mejor?"* → Se cambia el modelo en la configuración del agente; las herramientas
+   MCP, la telemetría y el flujo quedan iguales.
