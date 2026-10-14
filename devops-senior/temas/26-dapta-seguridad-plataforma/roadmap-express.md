@@ -15,6 +15,8 @@ Escala: ⬜ no visto · 🔴 novato · 🟡 intermedio · 🟢 sólido · 🔵 s
 
 ## Fase 2 — Aprender lo que la propuesta necesita
 
+> Detalle y orden de estudio por dolor (certificaciones, estabilidad, DORA): [brecha-conocimiento.md](brecha-conocimiento.md).
+
 | # | Tema | Nivel hoy | Meta |
 |---|---|---|---|
 | A1 | SOC 2: Trust Services Criteria, Type I vs. Type II, ventana de observación, bridge letter | ⬜ | 🔵 |
