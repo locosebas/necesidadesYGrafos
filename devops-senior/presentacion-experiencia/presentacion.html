@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mi experiencia — Sebastián Díaz</title>
+<style>
+:root {
+  --azul:#1168bd; --azul-suave:#dbe8f6; --oscuro:#0b2a4a; --gris:#5b6470; --fondo:#e9edf2; --slide:#ffffff;
+  --caja:#f3f6fa; --borde:#c9d2dc; --verde:#2e9a52; --verde-suave:#dcf3e2; --ambar:#c17900; --ambar-suave:#fff3d6;
+  --notas:#fff8e1; --texto:#1b1b1b;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --azul:#5aa2ec; --azul-suave:#16294a; --oscuro:#dbe8f6; --gris:#9aa4b0; --fondo:#0b0f14; --slide:#151b22;
+    --caja:#1d252f; --borde:#2f3c4a; --verde:#4cbb70; --verde-suave:#14321f; --ambar:#e0a030; --ambar-suave:#3a2c0c;
+    --notas:#2a2410; --texto:#e6e9ee;
+  }
+}
+:root[data-theme="dark"] {
+  --azul:#5aa2ec; --azul-suave:#16294a; --oscuro:#dbe8f6; --gris:#9aa4b0; --fondo:#0b0f14; --slide:#151b22;
+  --caja:#1d252f; --borde:#2f3c4a; --verde:#4cbb70; --verde-suave:#14321f; --ambar:#e0a030; --ambar-suave:#3a2c0c;
+  --notas:#2a2410; --texto:#e6e9ee;
+}
+* { box-sizing:border-box; }
+html, body { margin:0; height:100%; }
+body { background:var(--fondo); color:var(--texto); font-family:system-ui,Segoe UI,Roboto,sans-serif; overflow:hidden; }
+#escenario { position:absolute; left:50%; top:50%; width:1280px; height:720px; transform-origin:center; }
+.slide { display:none; position:absolute; inset:0; background:var(--slide); padding:44px 60px 40px; flex-direction:column; border-radius:6px; box-shadow:0 4px 24px rgba(0,0,0,.15); }
+.slide.activa { display:flex; }
+header { display:flex; justify-content:space-between; color:var(--gris); font-size:14px; text-transform:uppercase; letter-spacing:.06em; border-bottom:3px solid var(--azul); padding-bottom:8px; }
+h1 { color:var(--oscuro); font-size:38px; margin:22px 0 4px; line-height:1.15; }
+h2 { color:var(--azul); font-size:21px; font-weight:600; margin:0 0 22px; }
+.cuerpo { flex:1; display:flex; gap:36px; min-height:0; }
+.col { flex:1; min-width:0; display:flex; flex-direction:column; gap:14px; }
+ul.puntos { margin:0; padding-left:1.2em; font-size:20px; line-height:1.45; }
+ul.puntos li { margin-bottom:10px; }
+b { color:var(--oscuro); }
+.chips { display:flex; flex-wrap:wrap; gap:8px; }
+.chip { background:var(--azul-suave); color:var(--oscuro); border:1px solid var(--borde); border-radius:999px; padding:5px 13px; font-size:16px; }
+.chip.v { background:var(--verde-suave); border-color:var(--verde); }
+.etq { font-size:13px; color:var(--gris); text-transform:uppercase; letter-spacing:.06em; margin-bottom:6px; }
+
+/* flujo de cajas */
+.flujo { display:flex; align-items:stretch; gap:0; }
+.paso { flex:1; background:var(--caja); border:1.5px solid var(--borde); border-radius:10px; padding:14px 14px; font-size:16px; line-height:1.35; }
+.paso .t { font-weight:700; color:var(--oscuro); font-size:18px; margin-bottom:6px; }
+.paso.dest { border-color:var(--azul); background:var(--azul-suave); }
+.paso.ok { border-color:var(--verde); background:var(--verde-suave); }
+.flecha { flex:0 0 34px; display:flex; align-items:center; justify-content:center; color:var(--azul); font-size:26px; font-weight:700; }
+.vertical { flex-direction:column; }
+.vertical .flecha { flex:0 0 26px; }
+.caja-nota { background:var(--ambar-suave); border-left:4px solid var(--ambar); padding:12px 16px; font-size:17px; line-height:1.4; border-radius:0 8px 8px 0; }
+
+/* línea de tiempo */
+.tiempo { display:flex; gap:0; align-items:stretch; margin-top:10px; }
+.hito { flex:1; position:relative; padding-top:46px; }
+.hito::before { content:""; position:absolute; top:16px; left:0; right:0; height:4px; background:var(--borde); }
+.hito::after { content:""; position:absolute; top:7px; left:20px; width:22px; height:22px; border-radius:50%; background:var(--slide); border:4px solid var(--azul); }
+.hito.hoy::after { background:var(--azul); }
+.hito .fecha { font-size:15px; color:var(--gris); margin-left:4px; }
+.hito .emp { font-size:26px; font-weight:800; color:var(--oscuro); margin:4px 4px 2px; }
+.hito .rol { font-size:18px; color:var(--azul); font-weight:600; margin:0 4px 10px; }
+.hito ul { margin:0 18px 0 4px; padding-left:1.1em; font-size:16px; line-height:1.4; color:var(--texto); }
+
+/* portada */
+.portada { justify-content:center; }
+.portada h1 { font-size:58px; margin:0 0 10px; }
+.portada h2 { font-size:28px; margin:0 0 34px; }
+.portada .ruta { display:flex; gap:12px; align-items:center; font-size:22px; color:var(--oscuro); flex-wrap:wrap; }
+.portada .ruta span.n { background:var(--caja); border:1.5px solid var(--borde); padding:8px 16px; border-radius:8px; }
+.portada .ruta span.f { color:var(--azul); font-weight:800; }
+
+/* PaaS */
+.capas { display:flex; flex-direction:column; gap:8px; }
+.capa { border:1.5px solid var(--borde); border-radius:10px; padding:12px 16px; background:var(--caja); font-size:16px; }
+.capa .t { font-weight:700; color:var(--oscuro); font-size:18px; }
+.capa.yo { border:2.5px solid var(--azul); background:var(--azul-suave); }
+.capa .fila { display:flex; gap:8px; margin-top:8px; flex-wrap:wrap; }
+.capa .fila span { background:var(--slide); border:1px solid var(--borde); border-radius:6px; padding:4px 10px; font-size:15px; }
+.yo-tag { float:right; background:var(--azul); color:#fff; font-size:12px; padding:3px 10px; border-radius:999px; text-transform:uppercase; letter-spacing:.05em; }
+
+table.stack { width:100%; border-collapse:collapse; font-size:16px; }
+table.stack th { text-align:left; color:var(--gris); font-size:13px; text-transform:uppercase; letter-spacing:.05em; padding:6px 10px; border-bottom:2px solid var(--borde); }
+table.stack td { padding:9px 10px; border-bottom:1px solid var(--borde); vertical-align:top; }
+table.stack td:first-child { font-weight:700; color:var(--oscuro); white-space:nowrap; width:170px; }
+
+.notas { display:none; position:fixed; left:0; right:0; bottom:0; max-height:30vh; overflow:auto; background:var(--notas); border-top:4px solid var(--ambar); padding:12px 20px 48px; font-size:16px; line-height:1.5; z-index:5; }
+body.ver-notas .slide.activa .notas { display:block; }
+nav { position:fixed; bottom:10px; right:16px; display:flex; gap:8px; align-items:center; font-size:14px; color:var(--gris); z-index:6; }
+nav button { border:0; background:var(--azul); color:#fff; border-radius:4px; padding:6px 12px; cursor:pointer; font-size:14px; }
+@media print {
+  @page { size:1280px 720px; margin:0; }
+  body { overflow:visible; background:#fff; } nav, .notas { display:none !important; }
+  #escenario { position:static; transform:none !important; }
+  .slide { display:flex !important; position:relative; height:720px; page-break-after:always; box-shadow:none; border-radius:0; }
+}
+</style></head>
+<body>
+<div id="escenario">
+
+<!-- 1 -->
+<section class="slide portada">
+  <h1>Sebastián Díaz</h1>
+  <h2>DevOps / Platform Engineer</h2>
+  <div class="ruta">
+    <span class="n">Ingeniería</span><span class="f">→</span>
+    <span class="n">Bizagi · DevOps en Azure</span><span class="f">→</span>
+    <span class="n">MercadoLibre · Plataforma de cómputo</span>
+  </div>
+  <aside class="notas">Hola, soy Sebastián Díaz. Les voy a contar mi recorrido en tres partes: de dónde vengo, que es la ingeniería; mi
+  paso por Bizagi, donde construí el CI/CD (Continuous Integration / Continuous Delivery) sobre Azure; y MercadoLibre,
+  donde trabajé en el equipo de cómputo de la plataforma como servicio interna.</aside>
+</section>
+
+<!-- 2 -->
+<section class="slide">
+  <header><span>Mi recorrido</span></header>
+  <h1>De la ingeniería a la plataforma</h1>
+  <h2>De diseñar máquinas a diseñar la infraestructura donde corre el software.</h2>
+  <div class="tiempo">
+    <div class="hito">
+      <div class="fecha">oct. 2020 – ene. 2022</div>
+      <div class="emp">StroTech</div>
+      <div class="rol">Diseñador mecánico</div>
+      <ul><li>Diseño en Inventor y AutoCAD</li><li>Diagramas eléctricos y de control</li><li>Equipo de 4 personas a cargo</li></ul>
+    </div>
+    <div class="hito">
+      <div class="fecha">ene. 2022 – jun. 2024</div>
+      <div class="emp">Bizagi</div>
+      <div class="rol">Ingeniero DevOps</div>
+      <ul><li>CI/CD con Azure Pipelines y Jenkins</li><li>Versionamiento y releases</li><li>Onboarding automatizado de clientes</li><li>Kubernetes sobre Azure</li></ul>
+    </div>
+    <div class="hito hoy">
+      <div class="fecha">jun. 2024 – ago. 2026</div>
+      <div class="emp">MercadoLibre</div>
+      <div class="rol">Software Developer (DevOps)</div>
+      <ul><li>Equipo de cómputo de la PaaS interna</li><li>Kubernetes y AWS ECS</li><li>AWS y GCP con Terraform</li><li>Triage de tickets con IA</li></ul>
+    </div>
+  </div>
+  <aside class="notas">Empecé mi carrera en la ingeniería: soy ingeniero mecatrónico de la Universidad Nacional y trabajé como diseñador
+  mecánico en StroTech. Rápidamente me cambié al área de IT. En Bizagi entré como ingeniero DevOps, y de ahí pasé a
+  MercadoLibre, al equipo de cómputo de la plataforma interna.</aside>
+</section>
+
+<!-- 3 -->
+<section class="slide">
+  <header><span>De dónde vengo</span></header>
+  <h1>Ingeniería primero, IT después</h1>
+  <h2>La ingeniería me dejó una forma de pensar que sigo usando en plataforma.</h2>
+  <div class="cuerpo">
+    <div class="col">
+      <ul class="puntos">
+        <li><b>Ingeniería Mecatrónica</b>, Universidad Nacional de Colombia, con intercambio en el Politecnico di Torino (Italia).</li>
+        <li><b>StroTech</b>: diseño mecánico, diagramas eléctricos y de control, un equipo de cuatro personas y trato directo con clientes.</li>
+        <li>Me cambié rápido a IT: la automatización me atraía más que el diseño de piezas.</li>
+      </ul>
+    </div>
+    <div class="col">
+      <div class="etq">Lo que me traje de la ingeniería</div>
+      <div class="flujo vertical">
+        <div class="paso"><div class="t">Pensar en sistemas</div>cada pieza afecta a las demás, igual que en una plataforma.</div>
+        <div class="flecha">↓</div>
+        <div class="paso"><div class="t">Trazabilidad</div>saber qué versión de qué cosa está en dónde.</div>
+        <div class="flecha">↓</div>
+        <div class="paso ok"><div class="t">Trato con clientes</div>explicar algo técnico a quien no lo es.</div>
+      </div>
+    </div>
+  </div>
+  <aside class="notas">Comencé mi carrera en la ingeniería. Estudié Ingeniería Mecatrónica en la Universidad Nacional, con un intercambio en el
+  Politecnico di Torino, y trabajé en StroTech haciendo diseño mecánico y diagramas eléctricos y de control, con un equipo de cuatro
+  personas a cargo. Rápidamente me cambié a IT. De la ingeniería me traje tres cosas: pensar en sistemas, la trazabilidad y el
+  trato con clientes.</aside>
+</section>
+
+<!-- 4 -->
+<section class="slide">
+  <header><span>Bizagi · Continuous Integration</span></header>
+  <h1>Bizagi: construí la integración continua de la empresa</h1>
+  <h2>Cada cambio se compila y se prueba solo, antes de que llegue a un cliente.</h2>
+  <div class="flujo" style="margin-bottom:26px">
+    <div class="paso"><div class="t">Commit</div>el desarrollador sube su cambio</div>
+    <div class="flecha">→</div>
+    <div class="paso"><div class="t">Build</div>Azure Pipelines / Jenkins compilan</div>
+    <div class="flecha">→</div>
+    <div class="paso dest"><div class="t">Pruebas automatizadas</div>unitarias → integración → interfaz (end-to-end)</div>
+    <div class="flecha">→</div>
+    <div class="paso ok"><div class="t">Artefacto</div>listo para versionar</div>
+  </div>
+  <div class="cuerpo">
+    <div class="col">
+      <ul class="puntos">
+        <li>Administré los sistemas de <b>CI/CD (Continuous Integration / Continuous Delivery)</b> con <b>Azure Pipelines</b> y <b>Jenkins</b>.</li>
+        <li>Integré las <b>pruebas automatizadas</b> dentro de los pipelines: si una prueba falla, el cambio no avanza.</li>
+      </ul>
+    </div>
+    <div class="col">
+      <div class="etq">Herramientas</div>
+      <div class="chips"><span class="chip">Azure Pipelines</span><span class="chip">Jenkins</span><span class="chip">Python</span><span class="chip">PowerShell</span></div>
+    </div>
+  </div>
+  <aside class="notas">En Bizagi entré como ingeniero DevOps, y el reto fue desarrollar el Continuous Integration y el Continuous Delivery de
+  la empresa. Empezamos por el Continuous Integration: cada cambio se compilaba y pasaba por pruebas automatizadas dentro del
+  pipeline, en Azure Pipelines y Jenkins. Si una prueba fallaba, el cambio no avanzaba.
+  <br><br><b>[Para ti, no para decir: completa en la caja de "Pruebas automatizadas" las herramientas de pruebas que de verdad usaste.]</b></aside>
+</section>
+
+<!-- 5 -->
+<section class="slide">
+  <header><span>Bizagi · Continuous Delivery</span></header>
+  <h1>Bizagi: versiones que el cliente puede escoger</h1>
+  <h2>Generar la versión, promoverla por ambientes y dejar que cada cliente cambie cuando lo necesite.</h2>
+  <div class="flujo" style="margin-bottom:26px">
+    <div class="paso"><div class="t">Desarrollo</div></div>
+    <div class="flecha">→</div>
+    <div class="paso"><div class="t">Pruebas</div></div>
+    <div class="flecha">→</div>
+    <div class="paso"><div class="t">UAT</div>aceptación de usuario</div>
+    <div class="flecha">→</div>
+    <div class="paso ok"><div class="t">Producción</div>versión publicada</div>
+    <div class="flecha">→</div>
+    <div class="paso dest"><div class="t">Cliente</div>escoge a qué versión cambiar</div>
+  </div>
+  <div class="cuerpo">
+    <div class="col">
+      <ul class="puntos">
+        <li><b>Versionamiento</b>: cada entrega sale con su número de versión, así se sabe exactamente qué tiene cada cliente.</li>
+        <li><b>Release management</b> entre Desarrollo, Pruebas, UAT (User Acceptance Testing) y Producción, estandarizando y automatizando la promoción de cambios.</li>
+        <li>Los clientes podían <b>cambiar de versión</b> cuando lo necesitaban.</li>
+      </ul>
+    </div>
+    <div class="col">
+      <div class="caja-nota">Plataforma cloud certificada bajo estándares de cumplimiento del sector salud, con clientes en Norteamérica: cada versión tenía que ser trazable.</div>
+    </div>
+  </div>
+  <aside class="notas">Luego vino el Continuous Delivery: generar la versión, el versionamiento, y promoverla por los ambientes de Desarrollo,
+  Pruebas, UAT y Producción. Y algo importante: disponibilizamos que los clientes pudieran cambiar de versión cuando lo
+  necesitaran. Como la plataforma estaba certificada con estándares del sector salud, cada versión tenía que ser trazable.</aside>
+</section>
+
+<!-- 6 -->
+<section class="slide">
+  <header><span>Bizagi · Infraestructura</span></header>
+  <h1>Bizagi: un cliente nuevo, con su infraestructura lista sola</h1>
+  <h2>Automaticé el ingreso de clientes nuevos, con sus dashboards de Grafana desde el primer día.</h2>
+  <div class="flujo" style="margin-bottom:26px">
+    <div class="paso"><div class="t">Cliente nuevo</div>se registra el ingreso</div>
+    <div class="flecha">→</div>
+    <div class="paso"><div class="t">Infraestructura como código</div>Terraform y ARM Templates</div>
+    <div class="flecha">→</div>
+    <div class="paso"><div class="t">Recursos en Azure</div>aprovisionados con Python y PowerShell</div>
+    <div class="flecha">→</div>
+    <div class="paso ok"><div class="t">Grafana</div>dashboards de salud y logs</div>
+  </div>
+  <div class="cuerpo">
+    <div class="col">
+      <ul class="puntos">
+        <li>Lideré de punta a punta la <b>automatización del onboarding de Grafana</b> para cada cliente nuevo.</li>
+        <li>Gestión de <b>Kubernetes</b> y sus herramientas, todo en el entorno <b>Azure</b>.</li>
+        <li>Guardias <b>on-call</b> con soporte a producción, y pruebas de concepto en AWS.</li>
+      </ul>
+    </div>
+    <div class="col">
+      <div class="etq">Herramientas</div>
+      <div class="chips"><span class="chip">Azure</span><span class="chip">Kubernetes</span><span class="chip">Terraform</span><span class="chip">ARM Templates</span><span class="chip">Grafana</span><span class="chip">Python</span><span class="chip">PowerShell</span></div>
+    </div>
+  </div>
+  <aside class="notas">También trabajé en un proyecto donde automaticé el ingreso de clientes nuevos con su infraestructura nueva: con Terraform
+  y ARM Templates como infraestructura como código, y Python y PowerShell para aprovisionar los recursos en Azure. A cada
+  cliente le dejaba sus dashboards de Grafana listos, para tener visibilidad de salud y logs desde el primer día. Y finalmente,
+  todas las herramientas de Kubernetes para la gestión, todo esto en el entorno Azure.</aside>
+</section>
+
+<!-- 7 -->
+<section class="slide">
+  <header><span>MercadoLibre · Plataforma</span></header>
+  <h1>MercadoLibre: el equipo de cómputo de la plataforma interna</h1>
+  <h2>Una plataforma como servicio (PaaS) que manejábamos nosotros: los equipos despliegan, nosotros damos el cómputo.</h2>
+  <div class="cuerpo">
+    <div class="col" style="flex:1.2">
+      <div class="capas">
+        <div class="capa"><div class="t">Equipos de desarrollo</div>despliegan sus aplicaciones sin pensar en servidores</div>
+        <div class="capa"><div class="t">Plataforma como servicio (PaaS) interna</div>despliegue, configuración, observabilidad</div>
+        <div class="capa yo"><span class="yo-tag">Mi equipo</span><div class="t">Cómputo</div>
+          <div class="fila"><span>Kubernetes</span><span>AWS ECS</span><span>EC2 / Auto Scaling Groups</span></div></div>
+        <div class="capa"><div class="t">Nube</div>
+          <div class="fila"><span>AWS</span><span>GCP</span><span>Terraform</span></div></div>
+      </div>
+    </div>
+    <div class="col">
+      <ul class="puntos">
+        <li><b>Kubernetes</b> y <b>AWS ECS</b> como plataforma principal de cómputo.</li>
+        <li>Infraestructura en <b>AWS</b> y <b>GCP</b> con <b>Terraform</b>: módulos propios y manejo de estado.</li>
+        <li><b>Operadores de Kubernetes</b> y servicios en <b>Go</b> y <b>Python</b>.</li>
+        <li>Soporte a la línea de banca (<b>Mercado Pago</b>), en un entorno financiero regulado.</li>
+      </ul>
+    </div>
+  </div>
+  <aside class="notas">Luego pasé a MercadoLibre, donde teníamos una plataforma como servicio interna que manejábamos nosotros. Yo estaba en la
+  parte de cómputo: los equipos de desarrollo despliegan sus aplicaciones, y nosotros les damos el cómputo debajo, con
+  Kubernetes y AWS ECS. La infraestructura estaba en AWS y en GCP, aprovisionada con Terraform. Escribí operadores de
+  Kubernetes en Go y en Python, y di soporte a la línea de banca, Mercado Pago, que es un entorno regulado.</aside>
+</section>
+
+<!-- 8 -->
+<section class="slide">
+  <header><span>MercadoLibre · Operación</span></header>
+  <h1>MercadoLibre: operar la plataforma y automatizar el soporte</h1>
+  <h2>Despliegues seguros, observabilidad y menos trabajo repetitivo gracias a la IA.</h2>
+  <div class="cuerpo">
+    <div class="col">
+      <div class="etq">Triage de tickets con IA</div>
+      <div class="flujo vertical">
+        <div class="paso"><div class="t">Llega un ticket</div></div>
+        <div class="flecha">↓</div>
+        <div class="paso dest"><div class="t">Se compara con el histórico</div>de resoluciones anteriores</div>
+        <div class="flecha">↓</div>
+        <div class="paso ok"><div class="t">Se resuelve solo</div>si la acción es segura y la puede ejecutar el usuario</div>
+      </div>
+    </div>
+    <div class="col">
+      <ul class="puntos">
+        <li>Despliegues <b>blue/green</b> y <b>canary</b>, y planes de recuperación entre regiones, en el día a día.</li>
+        <li><b>Alertas de capacidad</b>: una capa reactiva sobre el uso real y otra predictiva sobre el histórico.</li>
+        <li><b>Datadog</b> en el onboarding de clientes: logs y métricas de salud.</li>
+        <li>Análisis de causa raíz y <b>postmortems sin culpables</b>.</li>
+        <li>CI (Continuous Integration) con <b>CircleCI</b>.</li>
+      </ul>
+    </div>
+  </div>
+  <aside class="notas">En la operación, los despliegues blue/green y canary eran el día a día. Co-desarrollé el sistema de triage de tickets:
+  cada ticket se compara con el histórico de resoluciones y, si la acción es segura, se resuelve solo, sin que intervenga el
+  equipo. También construí alertas de capacidad, con una capa reactiva y una predictiva, configuré Datadog en el onboarding
+  de clientes, y lideré análisis de causa raíz y postmortems sin culpables.</aside>
+</section>
+
+<!-- 9 -->
+<section class="slide">
+  <header><span>Resumen</span></header>
+  <h1>Lo que traigo</h1>
+  <h2>Del pipeline de una empresa a la plataforma de cómputo de otra.</h2>
+  <table class="stack">
+    <tr><th>Área</th><th>Bizagi (Azure)</th><th>MercadoLibre (AWS y GCP)</th></tr>
+    <tr><td>CI/CD</td><td>Azure Pipelines, Jenkins, pruebas automatizadas, versionamiento</td><td>CircleCI, blue/green, canary</td></tr>
+    <tr><td>Infraestructura</td><td>Terraform, ARM Templates, Python, PowerShell</td><td>Terraform (módulos y estado), AWS, GCP</td></tr>
+    <tr><td>Cómputo</td><td>Kubernetes sobre Azure</td><td>Kubernetes, AWS ECS, operadores en Go</td></tr>
+    <tr><td>Observabilidad</td><td>Grafana, guardias on-call</td><td>Datadog, alertas de capacidad, postmortems</td></tr>
+    <tr><td>IA</td><td>—</td><td>Triage automático de tickets con modelos de lenguaje</td></tr>
+  </table>
+  <aside class="notas">En resumen: en Bizagi construí el CI/CD y la automatización de infraestructura sobre Azure, y en MercadoLibre trabajé en
+  la plataforma de cómputo sobre AWS y GCP, con Kubernetes y ECS, y metí IA para reducir el trabajo repetitivo del soporte.
+  Y ya. Con gusto les cuento más de cualquiera de estas partes.</aside>
+</section>
+
+</div>
+<nav><button id="ant">◀</button><span id="num"></span><button id="sig">▶</button><button id="bn" title="Notas del presentador (N)">Notas</button></nav>
+<script>
+const slides = [...document.querySelectorAll(".slide")];
+let i = 0;
+try { i = Math.min(+sessionStorage.getItem("exp-slide") || 0, slides.length - 1); } catch (e) {}
+if (/^#\d+$/.test(location.hash)) i = +location.hash.slice(1) - 1;
+function ver(n) {
+  i = Math.max(0, Math.min(slides.length - 1, n));
+  slides.forEach((s, k) => s.classList.toggle("activa", k === i));
+  document.getElementById("num").textContent = (i + 1) + " / " + slides.length;
+  try { sessionStorage.setItem("exp-slide", i); } catch (e) {}
+}
+function escalar() {
+  const k = Math.min(innerWidth / 1280, innerHeight / 720) * 0.96;
+  document.getElementById("escenario").style.transform = `translate(-50%,-50%) scale(${k})`;
+}
+addEventListener("resize", escalar);
+addEventListener("keydown", e => {
+  if (["ArrowRight", "PageDown", " "].includes(e.key)) { e.preventDefault(); ver(i + 1); }
+  else if (["ArrowLeft", "PageUp"].includes(e.key)) ver(i - 1);
+  else if (e.key === "Home") ver(0);
+  else if (e.key === "End") ver(slides.length - 1);
+  else if (e.key.toLowerCase() === "n") document.body.classList.toggle("ver-notas");
+  else if (e.key.toLowerCase() === "f") document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
+});
+document.getElementById("ant").onclick = () => ver(i - 1);
+document.getElementById("sig").onclick = () => ver(i + 1);
+document.getElementById("bn").onclick = () => document.body.classList.toggle("ver-notas");
+escalar(); ver(i);
+</script>
+</body></html>
