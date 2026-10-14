@@ -9,7 +9,7 @@ Escala: ⬜ no visto · 🔴 novato · 🟡 intermedio · 🟢 sólido · 🔵 s
 | # | Paso | Estado |
 |---|---|---|
 | 1.1 | Lo público (web, trust center, subprocesadores) | ✅ ver README |
-| 1.2 | Lo que te contaron en la entrevista (de a una pregunta) | ⬜ |
+| 1.2 | Lo que te contaron en la entrevista (de a una pregunta) | 🟡 en curso |
 | 1.3 | Preguntas abiertas para la próxima entrevista | ⬜ |
 | 1.4 | Síntesis: el problema en 3 frases | ⬜ |
 
@@ -23,6 +23,7 @@ Escala: ⬜ no visto · 🔴 novato · 🟡 intermedio · 🟢 sólido · 🔵 s
 | A4 | Compliance automation (Vanta/Drata): qué automatiza y qué no; "controles en papel" vs. evidencia continua | ⬜ | 🟢 |
 | B1 | Seguridad de AWS para una startup: AWS Organizations, SCPs, IAM Identity Center, GuardDuty, Security Hub, CloudTrail | 🟡 (IAM/IRSA 🟢) | 🔵 |
 | B2 | Supply chain y CI/CD: SAST/DAST, Trivy, Dependabot, secretos en GitHub, SBOM | 🟡 | 🟢 |
+| B0 | **Temporal** (workflows, activities, workers, task queues, versionado) y su migración — puente: Durable Functions 🟢 (#48); material en tema 21 | ⬜ | 🟢 |
 | B3 | Detección y respuesta: SIEM, runbooks, incident response (enlaza con el tema 25) | 🟡 | 🟢 |
 | C1 | Seguridad de LLM y agentes de voz: OWASP Top 10 para LLM, prompt injection, guardrails, ZDR | 🟡 | 🔵 |
 | C2 | Multi-tenancy y secretos por cliente (tokens OAuth de CRMs) | 🟡 | 🟢 |

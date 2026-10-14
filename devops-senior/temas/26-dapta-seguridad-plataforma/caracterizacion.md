@@ -8,7 +8,7 @@
 
 | # | Pregunta | Respuesta | Fuente |
 |---|---|---|---|
-| 1.1 | ¿Qué certificaciones/requisitos exigen los compradores que hoy Dapta no logra cumplir? | | |
+| 1.1 | ¿Qué certificaciones/requisitos exigen los compradores que hoy Dapta no logra cumplir? | No lo concretaron. Lo que sí dijeron del cargo: hay una **migración a Temporal** en curso ("amalgam caso": término por aclarar), y el cargo debe **entender la infraestructura** y montar un **proceso confiable de desarrollo y despliegue**. Lectura: el SDLC (Software Development Life Cycle) y el CI/CD son la **evidencia** de los controles de SOC 2 "Change management procedures enforced", "Development lifecycle established" y "Production deployment access restricted" | 🗣️ |
 | 1.2 | ¿Quiénes son esos compradores (segmento, país, vertical: salud, cobranza, fintech...)? | | |
 | 1.3 | ¿Cuántos negocios se han perdido o frenado por esto? ¿Hay una fecha límite (un contrato grande esperando)? | | |
 | 1.4 | ¿Cómo sacaron el SOC 2 Type II (Vanta + consultor + auditor)? ¿Quién lo mantiene hoy? | | |
@@ -31,6 +31,8 @@
 | 3.4 | Identidad: WorkOS (SSO, Single Sign-On, para clientes). ¿Y para empleados (Google Workspace, MFA)? | | 🌐 ❓ |
 | 3.5 | Observabilidad: Grafana Labs, PostHog, Metabase. ¿SIEM (Security Information and Event Management)? | | 🌐 ❓ |
 | 3.6 | Datos sensibles: grabaciones, transcripciones, datos de CRM de los clientes. ¿Dónde viven, cuánto tiempo, cifrados con qué llaves? | | |
+
+| 3.7 | **Migración a Temporal** (workflows durables; Temporal ya es subprocesador → ¿Temporal Cloud?). ¿Qué se migra (llamadas, secuencias, campañas)? ¿Desde qué (colas, cron, código propio)? | En curso | 🗣️ |
 
 ## 4. Riesgos propios de un producto de voz con IA
 
