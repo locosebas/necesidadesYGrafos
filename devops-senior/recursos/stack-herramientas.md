@@ -9,10 +9,10 @@ por nivel: [stack-herramientas.html](stack-herramientas.html).
 | Nivel | Significado | Herramientas |
 |---|---|---|
 | 🔵 | Senior | 0 |
-| 🟢 | Sólido | 32 |
-| 🟡 | Intermedio | 23 |
-| 🔴 | Novato (visto en el plan, sin poner a prueba) | 45 |
-| ⬜ | No visto | 80 |
+| 🟢 | Sólido | 47 |
+| 🟡 | Intermedio | 27 |
+| 🔴 | Novato (visto en el plan, sin poner a prueba) | 56 |
+| ⬜ | No visto | 109 |
 
 Fuentes de la calificación: `examenes/registro/progreso.md` (desempeño en
 repasos), tu experiencia laboral confirmada en postulaciones y los temas del
@@ -91,7 +91,75 @@ tema que todavía no estudias queda en ⬜.
 - 🟡 AWS Step Functions — tema 09
 - ⬜ Google Cloud Functions
 
-## 6. Seguridad
+## 6. Networking — AWS
+
+- 🟢 VPC — modelo de 3 capas, subredes pública/privada
+- 🟢 Security Groups — experiencia real
+- 🟢 NACLs (Network ACLs) — experiencia real
+- 🟢 Route Tables — enrutamiento de VPC, experiencia real
+- 🟢 Internet Gateway — subred pública
+- 🟢 NAT Gateway — salida a internet de subred privada
+- 🟢 AWS PrivateLink / VPC Endpoints
+- 🟢 AWS WAF
+- 🟢 AWS Direct Connect — lo configuraste
+- 🟢 Amazon API Gateway — experiencia real
+- 🟡 ALB / NLB / GWLB (Elastic Load Balancing) — fallado en entrevista EY, repasado
+- 🟡 AWS Network Firewall — firewall centralizado como concepto
+- 🔴 Transit Gateway — tema 05
+- 🔴 VPC Peering — tema 05
+- 🔴 Route 53 — tema 05
+- ⬜ Amazon CloudFront
+- ⬜ AWS Global Accelerator
+- ⬜ AWS Shield
+- ⬜ AWS Site-to-Site VPN — no la has configurado
+- ⬜ AWS Client VPN
+- ⬜ VPC Flow Logs
+- ⬜ VPC Lattice
+
+## 7. Networking — Azure
+
+- 🟢 VNet (Virtual Network) — modelo de 3 capas
+- 🟢 NSG (Network Security Group)
+- 🟢 Private Endpoint
+- 🟢 NAT Gateway
+- 🟡 Azure Firewall — firewall centralizado como concepto
+- 🔴 VNet Peering — tema 05
+- 🔴 UDR (User-Defined Routes) — tema 05
+- 🔴 Private DNS Zones — tema 05
+- 🔴 Network Watcher — tema 05
+- ⬜ Azure Load Balancer — ≈ NLB
+- ⬜ Application Gateway (+ WAF) — ≈ ALB + AWS WAF
+- ⬜ Azure Front Door — ≈ CloudFront + WAF global
+- ⬜ Traffic Manager — ≈ Route 53 por DNS
+- ⬜ Virtual WAN (hub-and-spoke) — ≈ Transit Gateway
+- ⬜ VPN Gateway
+- ⬜ ExpressRoute — ≈ Direct Connect 🟢
+- ⬜ Service Endpoints
+- ⬜ Private Link Service
+- ⬜ Azure Bastion
+- ⬜ Azure DDoS Protection — ≈ AWS Shield
+- ⬜ API Management — ≈ API Gateway 🟢
+- ⬜ Azure DNS
+
+## 8. Networking — GCP
+
+- 🟢 Private Service Connect
+- 🟡 VPC (global) — como en AWS, pero una VPC abarca todas las regiones
+- 🔴 VPC Firewall Rules — tema 05
+- 🔴 VPC Network Peering — tema 05
+- 🔴 Cloud DNS — tema 05
+- 🔴 Network Connectivity Center — tema 05
+- ⬜ Cloud NAT — ≈ NAT Gateway 🟢
+- ⬜ Cloud Load Balancing — ≈ ALB/NLB
+- ⬜ Cloud Armor — ≈ WAF
+- ⬜ Cloud CDN — ≈ CloudFront
+- ⬜ Shared VPC
+- ⬜ Cloud Router
+- ⬜ Cloud VPN
+- ⬜ Cloud Interconnect — ≈ Direct Connect 🟢
+- ⬜ API Gateway / Apigee
+
+## 9. Seguridad
 
 - 🟢 OPA / Gatekeeper — policy-as-code
 - 🟡 Trivy — mecanismo bien; nombre débil
@@ -128,7 +196,7 @@ tema que todavía no estudias queda en ⬜.
 - ⬜ Wiz
 - ⬜ Prisma Cloud
 
-## 7. Identidad y secretos
+## 10. Identidad y secretos
 
 - 🟢 AWS IAM — IRSA sin ayuda
 - 🟢 Azure Key Vault
@@ -142,7 +210,7 @@ tema que todavía no estudias queda en ⬜.
 - ⬜ Auth0
 - ⬜ Sealed Secrets
 
-## 8. Carga y performance
+## 11. Carga y performance
 
 - 🔴 k6 — en tu lista de estudio
 - 🔴 JMeter — en tu lista de estudio
@@ -155,7 +223,7 @@ tema que todavía no estudias queda en ⬜.
 - ⬜ Azure Load Testing
 - ⬜ Distributed Load Testing on AWS
 
-## 9. Observabilidad
+## 12. Observabilidad
 
 - 🟢 AWS CloudWatch / X-Ray — CloudWatch sí; X-Ray poco
 - 🟡 OpenTelemetry — señales bien; el Collector por dentro sigue 🔴
@@ -181,14 +249,14 @@ tema que todavía no estudias queda en ⬜.
 - ⬜ Google Cloud Operations
 - ⬜ Alertmanager
 
-## 10. Chaos engineering
+## 13. Chaos engineering
 
 - 🔴 Chaos Mesh — concepto de chaos engineering 🔴
 - ⬜ LitmusChaos
 - ⬜ AWS Fault Injection Service
 - ⬜ Azure Chaos Studio
 
-## 11. Datos y mensajería
+## 14. Datos y mensajería
 
 - 🟢 Kafka — log retenido, replay, Outbox
 - 🟢 AWS SQS / SNS — experiencia real
@@ -204,13 +272,13 @@ tema que todavía no estudias queda en ⬜.
 - 🔴 Temporal
 - ⬜ Airflow
 
-## 12. Platform Engineering
+## 15. Platform Engineering
 
 - 🟢 Backstage — IDP, golden path
 - 🔴 Crossplane — tema 23
 - ⬜ Port
 
-## 13. IA / MLOps / LLMOps
+## 16. IA / MLOps / LLMOps
 
 - 🟢 MCP (Model Context Protocol) — has construido servidores MCP
 - 🟡 KServe — solo proyectos personales
@@ -231,7 +299,7 @@ tema que todavía no estudias queda en ⬜.
 - ⬜ LangSmith
 - ⬜ Promptfoo
 
-## 14. Lenguajes y scripting
+## 17. Lenguajes y scripting
 
 - 🟢 Python — lenguaje principal, 5 años
 - 🟢 Go — MercadoLibre
