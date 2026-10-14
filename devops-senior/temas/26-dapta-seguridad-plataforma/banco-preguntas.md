@@ -498,7 +498,7 @@ a **Availability** por las SLAs de Enterprise.
 
 Deployment Frequency, Lead Time for Changes, Change Failure Rate, Failed Deployment Recovery Time (antes Time to
 Restore Service). Mnemotecnia del tema 25: "DeLiCaTe" (**De**ployment Frequency, **L**ead t**i**me, **Ca**mbio fallido = Change Failure
-Rate, **Te**mpo de recuperación = Time to Restore). Ver N2.2.
+Rate, **Te** = Time to Restore, el tiempo de recuperación). Ver N2.2.
 </details>
 
 **R2** ⭐ [Nombre] (A1.2) ¿Cómo se llaman la *medida* ("% de llamadas que conectan"), la *meta interna* ("99,9% en 30
