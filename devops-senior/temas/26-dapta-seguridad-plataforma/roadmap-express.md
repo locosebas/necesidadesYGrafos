@@ -33,9 +33,9 @@ Escala: ⬜ no visto · 🔴 novato · 🟡 intermedio · 🟢 sólido · 🔵 s
 
 | # | Entregable | Estado |
 |---|---|---|
-| 3.1 | Diagnóstico: madurez actual vs. lo que piden los compradores | ⬜ |
-| 3.2 | Hoja de ruta 30-60-90 días (y 6-12 meses: certificaciones) | ⬜ |
-| 3.3 | Costos y esfuerzo (auditorías, herramientas, personas) | ⬜ |
+| 3.1 | Diagnóstico: madurez actual vs. lo que piden los compradores | 🟡 borrador v1 en [propuesta-valor.md](propuesta-valor.md) |
+| 3.2 | Hoja de ruta 30-60-90 días (y 6-12 meses: certificaciones) | 🟡 borrador v1 |
+| 3.3 | Costos y esfuerzo (auditorías, herramientas, personas) | 🟡 órdenes de magnitud |
 | 3.4 | One-pager o presentación corta para la siguiente entrevista | ⬜ |
 
 ## Fase 4 — Defenderla
@@ -43,5 +43,5 @@ Escala: ⬜ no visto · 🔴 novato · 🟡 intermedio · 🟢 sólido · 🔵 s
 | # | Paso | Estado |
 |---|---|---|
 | 4.1 | Contraargumentos ("ya tenemos Vanta", "somos 14, no hay tiempo para burocracia") | ⬜ |
-| 4.2 | Historia en 60 segundos | ⬜ |
+| 4.2 | Historia en 60 segundos | 🟡 texto escrito, falta decirla en voz alta |
 | 4.3 | Simulacro de entrevista | ⬜ |
