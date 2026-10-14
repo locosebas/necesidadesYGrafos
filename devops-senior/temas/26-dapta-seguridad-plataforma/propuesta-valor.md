@@ -1,6 +1,8 @@
 # Propuesta de valor para Dapta — Cumplimiento ("defensa")
 
-> **v2 (2026-10-14).** La v1 ([propuesta-valor-v1.md](propuesta-valor-v1.md)) estaba enfocada en *seguridad* y
+> **v2 de cumplimiento (2026-10-14).** Ojo: el [libreto](presentacion-libreto.md) se escribió en paralelo sobre una
+> "v2" anterior, enfocada en seguridad; el reenfoque está pendiente en [presentacion-decisiones.md](presentacion-decisiones.md) (sección 0).
+> La v1 ([propuesta-valor-v1.md](propuesta-valor-v1.md)) estaba enfocada en *seguridad* y
 > nombraba demasiadas herramientas. La v2 se reenfoca en lo que de verdad es el cargo: una **propuesta de
 > cumplimiento** (igual que en Davivienda), con la **deuda técnica** como hilo conductor, porque fue lo que más
 > se mencionó en la entrevista.
