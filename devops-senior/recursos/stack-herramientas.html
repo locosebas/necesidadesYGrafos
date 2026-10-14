@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stack de herramientas</title>
+<style>
+:root { --azul:#1168bd; --oscuro:#0b2a4a; --gris:#5b6470; --fondo:#f3f6f9; --tarjeta:#fff; --chip:#eef4fb; --borde:#d5dee8; --texto:#1b1b1b; --marca:#fff3b0; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --azul:#5aa2ec; --oscuro:#dbe8f6; --gris:#9aa4b0; --fondo:#11161c; --tarjeta:#1a2129; --chip:#22303e; --borde:#2f3c4a; --texto:#e6e9ee; --marca:#5c4d00; }
+}
+:root[data-theme="dark"] { --azul:#5aa2ec; --oscuro:#dbe8f6; --gris:#9aa4b0; --fondo:#11161c; --tarjeta:#1a2129; --chip:#22303e; --borde:#2f3c4a; --texto:#e6e9ee; --marca:#5c4d00; }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--fondo); color:var(--texto); font-family:system-ui,Segoe UI,Roboto,sans-serif; }
+main { max-width:1200px; margin:0 auto; padding:24px 16px 48px; }
+h1 { color:var(--oscuro); margin:0 0 4px; font-size:1.8rem; }
+.sub { color:var(--gris); margin:0 0 16px; }
+.barra { position:sticky; top:0; background:var(--fondo); padding:10px 0; z-index:1; display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+input { flex:1; min-width:200px; padding:10px 12px; font-size:1rem; border:1px solid var(--borde); border-radius:8px; background:var(--tarjeta); color:var(--texto); }
+.cuenta { color:var(--gris); font-size:.9rem; }
+.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:16px; margin-top:8px; }
+section { background:var(--tarjeta); border:1px solid var(--borde); border-top:4px solid var(--azul); border-radius:10px; padding:14px 16px; }
+section.oculta { display:none; }
+h2 { font-size:1.05rem; color:var(--oscuro); margin:0 0 10px; display:flex; justify-content:space-between; gap:8px; }
+h2 .n { color:var(--azul); margin-right:6px; }
+h2 .total { color:var(--gris); font-weight:400; font-size:.85rem; white-space:nowrap; }
+ul { list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:6px; }
+li { background:var(--chip); border:1px solid var(--borde); border-radius:999px; padding:4px 10px; font-size:.9rem; }
+li.oculta { display:none; }
+li.match { background:var(--marca); }
+</style>
+</head><body>
+<main>
+<h1>Stack de herramientas</h1>
+<p class="sub">DevOps / Plataforma — herramientas agrupadas por categoría.</p>
+<div class="barra">
+  <input id="q" type="search" placeholder="Buscar herramienta (ej.: Trivy, Argo, Vault)…" autocomplete="off">
+  <span class="cuenta" id="cuenta"></span>
+</div>
+<div class="grid" id="grid"></div>
+</main>
+<script>
+const DATOS = [
+  ["CI/CD (Integración y Entrega Continuas)", ["GitHub Actions","GitLab CI","Jenkins","Azure DevOps (Azure Pipelines)","CircleCI","Bitbucket Pipelines","TeamCity","AWS CodePipeline / CodeBuild","Google Cloud Build","Tekton"]],
+  ["GitOps y despliegue", ["Argo CD","Flux","Argo Rollouts","Flagger","Spinnaker","Helm","Kustomize","LaunchDarkly","Unleash"]],
+  ["Infraestructura como código (IaC)", ["Terraform","OpenTofu","Terragrunt","Bicep","ARM Templates","AWS CloudFormation","AWS CDK","Pulumi","Crossplane","Ansible","Chef","Puppet","Packer"]],
+  ["Contenedores y orquestación", ["Docker","Podman","containerd","Kubernetes","EKS","AKS","GKE","Azure Container Apps","AWS ECS / Fargate","Google Cloud Run","KEDA","Karpenter","Istio","Linkerd","ACR","ECR","Harbor","Artifact Registry"]],
+  ["Nube", ["AWS","Azure","GCP","AWS Lambda","Azure Functions / Durable Functions","Google Cloud Functions","AWS Step Functions"]],
+  ["Seguridad", ["SonarQube","Snyk","Trivy","Semgrep","OWASP ZAP","Burp Suite","CodeQL","Checkmarx","Fortify","Dependabot","Renovate","OWASP Dependency-Check","Mend","Nuclei","Grype","Clair","Docker Scout","Checkov","tfsec","KICS","Terrascan","Gitleaks","TruffleHog","GitHub Secret Scanning","Cosign / Sigstore","Syft (SBOM)","SLSA","OPA / Gatekeeper","Kyverno","Falco","Microsoft Defender for Cloud","AWS GuardDuty","Wiz","Prisma Cloud"]],
+  ["Identidad y secretos", ["Keycloak","Microsoft Entra ID (Azure AD)","AWS IAM","Okta","Auth0","HashiCorp Vault","Azure Key Vault","AWS Secrets Manager","GCP Secret Manager","External Secrets Operator","Sealed Secrets"]],
+  ["Carga y performance", ["k6","JMeter","Gatling","Locust","Artillery","Vegeta","wrk","hey","Azure Load Testing","Distributed Load Testing on AWS"]],
+  ["Observabilidad", ["Datadog","Grafana","Prometheus","OpenTelemetry","Thanos","Mimir","VictoriaMetrics","ELK / Elastic Stack","Loki","Fluentd / Fluent Bit","Splunk","Jaeger","Tempo","Zipkin","New Relic","Dynatrace","Elastic APM","Azure Monitor / Application Insights / Log Analytics","AWS CloudWatch / X-Ray","Google Cloud Operations","Alertmanager","PagerDuty","Opsgenie"]],
+  ["Chaos engineering", ["Chaos Mesh","LitmusChaos","AWS Fault Injection Service","Azure Chaos Studio"]],
+  ["Datos y mensajería", ["Kafka","RabbitMQ","AWS SQS / SNS","Azure Service Bus / Event Hubs","Google Pub/Sub","PostgreSQL","MySQL","Redis","MongoDB","Cosmos DB","DynamoDB","Temporal","Airflow"]],
+  ["Platform Engineering", ["Backstage","Port","Crossplane"]],
+  ["IA / MLOps / LLMOps", ["MLflow","Kubeflow","SageMaker","Azure ML","Vertex AI","vLLM","KServe","Ollama","LangChain","LlamaIndex","MCP (Model Context Protocol)","pgvector","Pinecone","Qdrant","Azure AI Search","Langfuse","LangSmith","Promptfoo"]],
+  ["Lenguajes y scripting", ["Python","FastAPI","PowerShell","Bash","Go","YAML","HCL (HashiCorp Configuration Language)"]],
+];
+
+const grid = document.getElementById("grid");
+const cuenta = document.getElementById("cuenta");
+const total = DATOS.reduce((s, [, h]) => s + h.length, 0);
+
+DATOS.forEach(([cat, herramientas], i) => {
+  const sec = document.createElement("section");
+  const h2 = document.createElement("h2");
+  h2.innerHTML = `<span><span class="n">${i + 1}.</span></span><span class="total">${herramientas.length}</span>`;
+  h2.firstChild.append(cat);
+  const ul = document.createElement("ul");
+  herramientas.forEach(h => { const li = document.createElement("li"); li.textContent = h; ul.append(li); });
+  sec.append(h2, ul);
+  grid.append(sec);
+});
+
+const norm = s => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+function filtrar() {
+  const q = norm(document.getElementById("q").value.trim());
+  let visibles = 0;
+  grid.querySelectorAll("section").forEach(sec => {
+    const catCoincide = q && norm(sec.querySelector("h2").textContent).includes(q);
+    let n = 0;
+    sec.querySelectorAll("li").forEach(li => {
+      const ok = !q || catCoincide || norm(li.textContent).includes(q);
+      li.classList.toggle("oculta", !ok);
+      li.classList.toggle("match", !!q && !catCoincide && ok);
+      if (ok) n++;
+    });
+    sec.classList.toggle("oculta", n === 0);
+    visibles += n;
+  });
+  cuenta.textContent = q ? `${visibles} de ${total} herramientas` : `${total} herramientas · ${DATOS.length} categorías`;
+}
+document.getElementById("q").addEventListener("input", filtrar);
+filtrar();
+</script>
+</body></html>
