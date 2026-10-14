@@ -1,4 +1,4 @@
-# Banco de preguntas — Entrevista Dapta ("defensa": certificaciones, estabilidad, DORA)
+# Banco de preguntas — Entrevista Dapta (propuesta de cumplimiento: deuda técnica, certificaciones, estabilidad, DORA)
 
 Acompaña a [roadmap-express.md](roadmap-express.md) y [brecha-conocimiento.md](brecha-conocimiento.md).
 **Entrevista probable: jueves 15 de octubre de 2026.**
@@ -16,6 +16,82 @@ Acompaña a [roadmap-express.md](roadmap-express.md) y [brecha-conocimiento.md](
 ---
 
 # PARTE I — LO NUEVO
+
+## N0 — Deuda técnica (el hilo conductor de la propuesta)
+
+**N0.1** ⭐ [Nombre] Ward Cunningham comparó los atajos que se toman en el código para salir rápido con un
+préstamo: sirve para avanzar hoy, pero cobra "intereses" cada vez que hay que tocar ese código. ¿Cómo se llama el
+concepto, y cómo se llaman (a) el costo de arreglarlo y (b) el costo extra que se paga mientras no se arregla?
+<details><summary>Respuesta</summary>
+
+**Deuda técnica** (*technical debt*). (a) **Principal**: el esfuerzo de pagarla (refactorizar, migrar).
+(b) **Interés**: lo que cuesta convivir con ella (incidentes, horas extra en cada cambio, controles que hay que
+cumplir a mano). Regla de prioridad: se paga primero la deuda con **más interés**, no la más fea.
+</details>
+
+**N0.2** [Nombre] Martin Fowler clasifica la deuda técnica en una matriz de 2 ejes: si se tomó **a propósito o sin
+darse cuenta**, y si fue **imprudente o prudente**. ¿Cómo se llama la matriz?
+<details><summary>Respuesta</summary>
+
+**Technical Debt Quadrant** (cuadrante de la deuda técnica): **deliberada/inadvertida** × **imprudente/prudente**.
+Ejemplo prudente y deliberada: "salimos ya con esto para cerrar la ronda, y lo arreglamos después" (válido en una
+startup). Imprudente e inadvertida: "¿qué es una arquitectura por capas?". Sirve para hablar de deuda **sin culpar**.
+</details>
+
+**N0.3** ⭐ [Mesa] "¿Cómo conecta la deuda técnica con nuestros tres dolores: certificaciones, estabilidad y DORA?"
+<details><summary>Respuesta</summary>
+
+Es la **causa común**: (1) **certificaciones**: controles que dependen de trabajo manual porque el proceso no los
+hace solo (despliegues a mano, secretos en el código, accesos sin revisar); (2) **estabilidad**: código frágil y sin
+reintentos/timeouts que genera incidentes; (3) **DORA**: cada cambio tarda más (Lead Time) y falla más (Change
+Failure Rate, Rework Rate). Por eso la propuesta no ataca los síntomas por separado.
+</details>
+
+**N0.4** ⭐ [Mesa] "¿Cómo convences al CEO de dedicar tiempo a pagar deuda en vez de sacar funcionalidades?"
+<details><summary>Respuesta</summary>
+
+Se habla en **plata y riesgo**, no en "código feo": "esta deuda nos cuesta X incidentes al mes, Y horas por despliegue
+y nos tiene en rojo el control Z que el auditor va a mirar; está frenando el contrato Enterprise W". Mecanismos:
+(1) una **capacidad fija** por sprint (por ejemplo, 15–20%); (2) la **Error Budget Policy**, que sube esa capacidad
+sola cuando un servicio agota su presupuesto; (3) pagar deuda **dentro** de las migraciones que ya están en curso.
+</details>
+
+**N0.5** ⭐ [Nombre] Un patrón de Martin Fowler migra un sistema viejo **por partes**: se pone delante una capa que
+redirige, se reemplaza una funcionalidad a la vez y el sistema viejo se apaga cuando ya nada lo usa. Toma su nombre
+de una planta que crece alrededor de un árbol hasta reemplazarlo. ¿Cómo se llama?
+<details><summary>Respuesta</summary>
+
+**Strangler Fig** (higuera estranguladora). Aplicado a Dapta: Kubernetes y Temporal se adoptan **servicio por
+servicio**, y cada servicio que migra sale **sin deuda** (pipeline estándar, secretos en Secrets Manager,
+observabilidad, ADR). El riesgo es quedarse con **dos plataformas para siempre**: por eso cada migración necesita
+**criterio de salida** y fecha de apagado.
+</details>
+
+**N0.6** [Nombre] El análisis que cruza **qué tan seguido cambia un archivo** (según Git) con **qué tan complejo es**,
+para encontrar dónde la deuda cobra más interés. ¿Cómo se llaman esos puntos y qué herramienta/libro lo popularizó?
+<details><summary>Respuesta</summary>
+
+**Hotspots** (puntos calientes), con **code churn** × complejidad. Lo popularizó Adam Tornhill (*Your Code as a Crime
+Scene*, herramienta **CodeScene**). Se puede hacer gratis con `git log` y un análisis de complejidad. Código complejo
+que nadie toca **no** es prioridad.
+</details>
+
+**N0.7** [Mesa] "¿La migración a Kubernetes y a Temporal paga deuda o crea deuda nueva?"
+<details><summary>Respuesta</summary>
+
+Las dos cosas, según cómo se haga. **Paga** si cada servicio migrado queda estandarizado y lo viejo se apaga.
+**Crea** si se hace "lift and shift" (lo mismo de antes, ahora en Kubernetes), si quedan dos plataformas en paralelo
+sin fecha de salida, o si se traen más herramientas de las que el equipo puede operar. Por eso: Strangler Fig con
+criterio de salida, golden path y **ADR** por cada decisión.
+</details>
+
+**N0.8** [Nombre] La regla de "dejar el código un poco mejor de como lo encontraste" en cada cambio, para pagar deuda
+de a poquitos sin proyectos especiales. ¿Cómo se llama?
+<details><summary>Respuesta</summary>
+
+**Boy Scout Rule** (regla del Boy Scout, popularizada por Robert C. Martin). Complementa la capacidad fija por sprint;
+sola no alcanza para la deuda grande (arquitectura, migraciones).
+</details>
 
 ## N1 — Certificaciones y cumplimiento
 
@@ -462,11 +538,19 @@ Argo Rollouts y un service mesh **todavía no**: sin SLOs medidos, el canary no 
 ## N8 — La entrevista
 
 **N8.1** ⭐ Cuenta en 60 segundos tu propuesta para Dapta.
+
+**N8.0** ⭐ [Lista] Recita los 4 pilares de la propuesta v2, en orden.
 <details><summary>Respuesta</summary>
 
-Ver la sección 9 de [propuesta-valor.md](propuesta-valor.md), ajustada a los 3 dolores: certificaciones, estabilidad
-y DORA. Estructura: dolor → por qué ahora (ronda + migración) → carretera pavimentada → 30-60-90 → cómo se mide (DORA,
-SLO, controles en verde).
+**Medir, Pagar, Cumplir, Estabilizar** (M-P-C-E): medir DORA, SLOs, controles y deuda; pagar la deuda que más
+interés cobra (Strangler Fig en las migraciones); cumplir con evidencia continua; estabilizar con SLOs, Error Budget
+Policy e incidentes.
+</details>
+<details><summary>Respuesta</summary>
+
+Ver la sección 9 de [propuesta-valor.md](propuesta-valor.md) (v2). Estructura: una causa (deuda técnica) y tres
+síntomas (certificaciones, estabilidad, DORA) → "el cumplimiento como subproducto" → Medir, Pagar, Cumplir,
+Estabilizar → 30-60-90 → sin llenar al equipo de herramientas.
 </details>
 
 **N8.2** ⭐ [Mesa] "¿Qué harías tus primeros 30 días?"

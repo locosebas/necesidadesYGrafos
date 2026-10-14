@@ -1,4 +1,4 @@
-# Proceso de selección Dapta — Seguridad de infraestructura ("defensa")
+# Proceso de selección Dapta — Propuesta de cumplimiento ("defensa")
 
 > ⚠️ Este repo es **público** en GitHub. Aquí solo va información pública de Dapta (su web y su
 > trust center) y lo que tú decidas contar de la entrevista. Nada que te hayan compartido como
@@ -10,12 +10,14 @@
   **"defensa"**; el cargo es de **defensa**: organizar todo el proceso de seguridad de infraestructura.
 - Dolor que te contaron: **les cuesta certificarse**, y sus compradores les exigen ciertas certificaciones.
 - Tamaño: **~14 desarrolladores**.
+- Dolores confirmados: **certificaciones, estabilidad, métricas DORA** y, sobre todo, **deuda técnica**.
+- Enfoque: **propuesta de cumplimiento** (como en Davivienda), no de seguridad pura.
 
 **Objetivo de esta ruta:** no llegar como "alguien que sabe", sino como alguien que **ya trae una
 propuesta de valor**: (1) caracterizar la necesidad, (2) proponer la solución, (3) defenderla.
 Mismo formato que la prueba Davivienda (rama `davivienda-sre-prueba-tecnica`, tema 25).
 
-Ruta y avance: [roadmap-express.md](roadmap-express.md) · Caracterización: [caracterizacion.md](caracterizacion.md) · **Propuesta: [propuesta-valor.md](propuesta-valor.md)**
+Ruta y avance: [roadmap-express.md](roadmap-express.md) · Caracterización: [caracterizacion.md](caracterizacion.md) · **Propuesta v2: [propuesta-valor.md](propuesta-valor.md)** · Brecha: [brecha-conocimiento.md](brecha-conocimiento.md) · Preguntas: [banco-preguntas.md](banco-preguntas.md) · Herramientas: [decisiones-herramientas.md](decisiones-herramientas.md)
 
 ## Qué es Dapta (fuentes públicas, revisadas el 2026-10-14)
 

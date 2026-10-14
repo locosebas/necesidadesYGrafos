@@ -10,7 +10,7 @@
 |---|---|---|---|
 | 1.1 | ¿Qué certificaciones/requisitos exigen los compradores que hoy Dapta no logra cumplir? | No lo concretaron. Lo que sí dijeron del cargo: hay una **migración a Temporal** en curso, y el cargo debe **entender la infraestructura** y montar un **proceso confiable de desarrollo y despliegue**. Lectura: el SDLC (Software Development Life Cycle) y el CI/CD son la **evidencia** de los controles de SOC 2 "Change management procedures enforced", "Development lifecycle established" y "Production deployment access restricted" | 🗣️ |
 | 1.2 | ¿Quiénes son esos compradores (segmento, país, vertical: salud, cobranza, fintech...)? | | |
-| 1.2b | **Dolores confirmados** | **Certificaciones, estabilidad y métricas DORA** son lo que más les duele | 🗣️ |
+| 1.2b | **Dolores confirmados** | **Certificaciones, estabilidad y métricas DORA** son lo que más les duele; **mencionaron mucho la deuda técnica**. El cargo es de **cumplimiento** (como Davivienda), no de seguridad pura | 🗣️ |
 | 1.3 | ¿Cuántos negocios se han perdido o frenado por esto? ¿Hay una fecha límite (un contrato grande esperando)? | | |
 | 1.4 | ¿Cómo sacaron el SOC 2 Type II (Vanta + consultor + auditor)? ¿Quién lo mantiene hoy? | | |
 

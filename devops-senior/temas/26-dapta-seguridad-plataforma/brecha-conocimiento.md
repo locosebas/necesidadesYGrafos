@@ -4,6 +4,14 @@ Cruce de los **3 dolores confirmados en la entrevista** (certificaciones, estabi
 `../../examenes/registro/progreso.md` al 2026-10-14.
 Escala: ⬜ no visto · 🔴 novato · 🟡 intermedio · 🟢 sólido · 🔵 senior. Prioridad: 🔥 crítica · ⬆️ alta · ➖ media.
 
+## Hilo conductor — Deuda técnica (mencionada mucho en la entrevista)
+
+| # | Tema | Nivel | Prioridad | Por qué en Dapta |
+|---|---|---|---|---|
+| 0a | Deuda técnica: principal e interés, cuadrante de Fowler, cómo priorizar | ⬜ | 🔥 | Es la causa común de los 3 dolores |
+| 0b | Strangler Fig, criterio de salida, "lift and shift" como deuda nueva | ⬜ | 🔥 | Las migraciones a Kubernetes y Temporal |
+| 0c | Hotspots (code churn × complejidad), registro de deuda, Boy Scout Rule, capacidad fija por sprint | ⬜ | ⬆️ | Cómo medir y pagar sin frenar producto |
+
 ## Dolor 1 — Certificaciones
 
 | # | Tema | Nivel | Prioridad | Por qué en Dapta |

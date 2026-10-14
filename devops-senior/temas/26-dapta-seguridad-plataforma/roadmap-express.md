@@ -1,4 +1,4 @@
-# Roadmap express — Propuesta de valor para Dapta (seguridad de infraestructura)
+# Roadmap express — Propuesta de cumplimiento para Dapta
 
 > **Entrevista probable: jueves 15 de octubre de 2026.** Preguntas: [banco-preguntas.md](banco-preguntas.md) (Parte I nuevo → Parte II repaso de Davivienda; ⭐ = prioridad).
 
@@ -21,6 +21,7 @@ Escala: ⬜ no visto · 🔴 novato · 🟡 intermedio · 🟢 sólido · 🔵 s
 
 | # | Tema | Nivel hoy | Meta |
 |---|---|---|---|
+| A0 | **Deuda técnica**: principal/interés, cuadrante de Fowler, hotspots, Strangler Fig, capacidad por sprint | ⬜ | 🔵 |
 | A1 | SOC 2: Trust Services Criteria, Type I vs. Type II, ventana de observación, bridge letter | ⬜ | 🔵 |
 | A2 | ISO 27001 (SGSI, Anexo A) vs. SOC 2; ISO 42001 (gestión de IA) | ⬜ | 🟢 |
 | A3 | HIPAA (BAA, Business Associate Agreement), PCI DSS para pagos por voz, GDPR / Ley 1581 | ⬜ | 🟡 |
@@ -37,7 +38,7 @@ Escala: ⬜ no visto · 🔴 novato · 🟡 intermedio · 🟢 sólido · 🔵 s
 
 | # | Entregable | Estado |
 |---|---|---|
-| 3.1 | Diagnóstico: madurez actual vs. lo que piden los compradores | 🟡 borrador v1 en [propuesta-valor.md](propuesta-valor.md) |
+| 3.1 | Diagnóstico: madurez actual vs. lo que piden los compradores | 🟡 **v2 (cumplimiento + deuda técnica)** en [propuesta-valor.md](propuesta-valor.md); v1 archivada |
 | 3.2 | Hoja de ruta 30-60-90 días (y 6-12 meses: certificaciones) | 🟡 borrador v1 |
 | 3.3 | Costos y esfuerzo (auditorías, herramientas, personas) | 🟡 órdenes de magnitud |
 | 3.4 | One-pager o presentación corta para la siguiente entrevista | ⬜ |
