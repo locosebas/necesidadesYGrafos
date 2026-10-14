@@ -3,70 +3,1095 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Stack de herramientas</title>
 <style>
-:root { --azul:#1168bd; --oscuro:#0b2a4a; --gris:#5b6470; --fondo:#f3f6f9; --tarjeta:#fff; --chip:#eef4fb; --borde:#d5dee8; --texto:#1b1b1b; --marca:#fff3b0; }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) { --azul:#5aa2ec; --oscuro:#dbe8f6; --gris:#9aa4b0; --fondo:#11161c; --tarjeta:#1a2129; --chip:#22303e; --borde:#2f3c4a; --texto:#e6e9ee; --marca:#5c4d00; }
+:root {
+  --azul:#1168bd; --oscuro:#0b2a4a; --gris:#5b6470; --fondo:#f3f6f9; --tarjeta:#fff; --borde:#d5dee8; --texto:#1b1b1b;
+  --b-bg:#dbe8fb; --b-bd:#2f6fd6; --b-tx:#123d80;
+  --g-bg:#dcf3e2; --g-bd:#2e9a52; --g-tx:#145c2b;
+  --y-bg:#fdf1c7; --y-bd:#c99a06; --y-tx:#6b5100;
+  --r-bg:#fbe0dd; --r-bd:#d0473a; --r-tx:#7d1f16;
+  --n-bg:#eef0f3; --n-bd:#b9c0c9; --n-tx:#59616b;
 }
-:root[data-theme="dark"] { --azul:#5aa2ec; --oscuro:#dbe8f6; --gris:#9aa4b0; --fondo:#11161c; --tarjeta:#1a2129; --chip:#22303e; --borde:#2f3c4a; --texto:#e6e9ee; --marca:#5c4d00; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --azul:#5aa2ec; --oscuro:#dbe8f6; --gris:#9aa4b0; --fondo:#11161c; --tarjeta:#1a2129; --borde:#2f3c4a; --texto:#e6e9ee;
+    --b-bg:#16294a; --b-bd:#5b93ef; --b-tx:#c3d8fb;
+    --g-bg:#14321f; --g-bd:#4cbb70; --g-tx:#bfe9cc;
+    --y-bg:#3a3010; --y-bd:#d9ad25; --y-tx:#f3e2a6;
+    --r-bg:#3d1a17; --r-bd:#e2685c; --r-tx:#f6c6c0;
+    --n-bg:#222a33; --n-bd:#4a5562; --n-tx:#a6afba;
+  }
+}
+:root[data-theme="dark"] {
+  --azul:#5aa2ec; --oscuro:#dbe8f6; --gris:#9aa4b0; --fondo:#11161c; --tarjeta:#1a2129; --borde:#2f3c4a; --texto:#e6e9ee;
+  --b-bg:#16294a; --b-bd:#5b93ef; --b-tx:#c3d8fb;
+  --g-bg:#14321f; --g-bd:#4cbb70; --g-tx:#bfe9cc;
+  --y-bg:#3a3010; --y-bd:#d9ad25; --y-tx:#f3e2a6;
+  --r-bg:#3d1a17; --r-bd:#e2685c; --r-tx:#f6c6c0;
+  --n-bg:#222a33; --n-bd:#4a5562; --n-tx:#a6afba;
+}
 * { box-sizing:border-box; }
 body { margin:0; background:var(--fondo); color:var(--texto); font-family:system-ui,Segoe UI,Roboto,sans-serif; }
 main { max-width:1200px; margin:0 auto; padding:24px 16px 48px; }
 h1 { color:var(--oscuro); margin:0 0 4px; font-size:1.8rem; }
-.sub { color:var(--gris); margin:0 0 16px; }
-.barra { position:sticky; top:0; background:var(--fondo); padding:10px 0; z-index:1; display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+.sub { color:var(--gris); margin:0 0 12px; }
+.barra { position:sticky; top:0; background:var(--fondo); padding:10px 0; z-index:1; display:flex; flex-direction:column; gap:10px; }
+.fila { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
 input { flex:1; min-width:200px; padding:10px 12px; font-size:1rem; border:1px solid var(--borde); border-radius:8px; background:var(--tarjeta); color:var(--texto); }
 .cuenta { color:var(--gris); font-size:.9rem; }
+.leyenda { display:flex; gap:8px; flex-wrap:wrap; }
+.leyenda button { font:inherit; font-size:.85rem; cursor:pointer; border-radius:999px; padding:5px 12px; border:1.5px solid; display:flex; gap:6px; align-items:center; }
+.leyenda button.apagado { opacity:.35; text-decoration:line-through; }
+.leyenda b { font-weight:700; }
 .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:16px; margin-top:8px; }
 section { background:var(--tarjeta); border:1px solid var(--borde); border-top:4px solid var(--azul); border-radius:10px; padding:14px 16px; }
 section.oculta { display:none; }
-h2 { font-size:1.05rem; color:var(--oscuro); margin:0 0 10px; display:flex; justify-content:space-between; gap:8px; }
+h2 { font-size:1.05rem; color:var(--oscuro); margin:0 0 6px; display:flex; justify-content:space-between; gap:8px; }
 h2 .n { color:var(--azul); margin-right:6px; }
 h2 .total { color:var(--gris); font-weight:400; font-size:.85rem; white-space:nowrap; }
+.barrita { display:flex; height:6px; border-radius:3px; overflow:hidden; margin-bottom:10px; background:var(--n-bg); }
+.barrita span { display:block; height:100%; }
 ul { list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:6px; }
-li { background:var(--chip); border:1px solid var(--borde); border-radius:999px; padding:4px 10px; font-size:.9rem; }
+li { border:1.5px solid; border-radius:999px; padding:4px 10px; font-size:.9rem; }
+li[title]:not([title=""]) { cursor:help; }
 li.oculta { display:none; }
-li.match { background:var(--marca); }
+li.match { outline:2px solid var(--azul); outline-offset:1px; }
+.b { background:var(--b-bg); border-color:var(--b-bd); color:var(--b-tx); }
+.g { background:var(--g-bg); border-color:var(--g-bd); color:var(--g-tx); }
+.y { background:var(--y-bg); border-color:var(--y-bd); color:var(--y-tx); }
+.r { background:var(--r-bg); border-color:var(--r-bd); color:var(--r-tx); }
+.n { background:var(--n-bg); border-color:var(--n-bd); color:var(--n-tx); }
+.barrita .b { background:var(--b-bd); } .barrita .g { background:var(--g-bd); } .barrita .y { background:var(--y-bd); }
+.barrita .r { background:var(--r-bd); } .barrita .n { background:var(--n-bd); }
+.nota { color:var(--gris); font-size:.85rem; margin-top:24px; }
 </style>
 </head><body>
 <main>
 <h1>Stack de herramientas</h1>
-<p class="sub">DevOps / Plataforma — herramientas agrupadas por categoría.</p>
+<p class="sub">Ordenadas en cada categoría de la que más conoces a la que menos. Pasa el mouse sobre una herramienta para ver la nota.</p>
 <div class="barra">
-  <input id="q" type="search" placeholder="Buscar herramienta (ej.: Trivy, Argo, Vault)…" autocomplete="off">
-  <span class="cuenta" id="cuenta"></span>
+  <div class="fila">
+    <input id="q" type="search" placeholder="Buscar herramienta (ej.: Trivy, Argo, Vault)…" autocomplete="off">
+    <span class="cuenta" id="cuenta"></span>
+  </div>
+  <div class="leyenda" id="leyenda"></div>
 </div>
 <div class="grid" id="grid"></div>
+<p class="nota">Fuentes: <code>examenes/registro/progreso.md</code>, tu experiencia laboral confirmada y los temas del plan donde aparece cada herramienta.</p>
 </main>
 <script>
 const DATOS = [
-  ["CI/CD (Integración y Entrega Continuas)", ["GitHub Actions","GitLab CI","Jenkins","Azure DevOps (Azure Pipelines)","CircleCI","Bitbucket Pipelines","TeamCity","AWS CodePipeline / CodeBuild","Google Cloud Build","Tekton"]],
-  ["GitOps y despliegue", ["Argo CD","Flux","Argo Rollouts","Flagger","Spinnaker","Helm","Kustomize","LaunchDarkly","Unleash"]],
-  ["Infraestructura como código (IaC)", ["Terraform","OpenTofu","Terragrunt","Bicep","ARM Templates","AWS CloudFormation","AWS CDK","Pulumi","Crossplane","Ansible","Chef","Puppet","Packer"]],
-  ["Contenedores y orquestación", ["Docker","Podman","containerd","Kubernetes","EKS","AKS","GKE","Azure Container Apps","AWS ECS / Fargate","Google Cloud Run","KEDA","Karpenter","Istio","Linkerd","ACR","ECR","Harbor","Artifact Registry"]],
-  ["Nube", ["AWS","Azure","GCP","AWS Lambda","Azure Functions / Durable Functions","Google Cloud Functions","AWS Step Functions"]],
-  ["Seguridad", ["SonarQube","Snyk","Trivy","Semgrep","OWASP ZAP","Burp Suite","CodeQL","Checkmarx","Fortify","Dependabot","Renovate","OWASP Dependency-Check","Mend","Nuclei","Grype","Clair","Docker Scout","Checkov","tfsec","KICS","Terrascan","Gitleaks","TruffleHog","GitHub Secret Scanning","Cosign / Sigstore","Syft (SBOM)","SLSA","OPA / Gatekeeper","Kyverno","Falco","Microsoft Defender for Cloud","AWS GuardDuty","Wiz","Prisma Cloud"]],
-  ["Identidad y secretos", ["Keycloak","Microsoft Entra ID (Azure AD)","AWS IAM","Okta","Auth0","HashiCorp Vault","Azure Key Vault","AWS Secrets Manager","GCP Secret Manager","External Secrets Operator","Sealed Secrets"]],
-  ["Carga y performance", ["k6","JMeter","Gatling","Locust","Artillery","Vegeta","wrk","hey","Azure Load Testing","Distributed Load Testing on AWS"]],
-  ["Observabilidad", ["Datadog","Grafana","Prometheus","OpenTelemetry","Thanos","Mimir","VictoriaMetrics","ELK / Elastic Stack","Loki","Fluentd / Fluent Bit","Splunk","Jaeger","Tempo","Zipkin","New Relic","Dynatrace","Elastic APM","Azure Monitor / Application Insights / Log Analytics","AWS CloudWatch / X-Ray","Google Cloud Operations","Alertmanager","PagerDuty","Opsgenie"]],
-  ["Chaos engineering", ["Chaos Mesh","LitmusChaos","AWS Fault Injection Service","Azure Chaos Studio"]],
-  ["Datos y mensajería", ["Kafka","RabbitMQ","AWS SQS / SNS","Azure Service Bus / Event Hubs","Google Pub/Sub","PostgreSQL","MySQL","Redis","MongoDB","Cosmos DB","DynamoDB","Temporal","Airflow"]],
-  ["Platform Engineering", ["Backstage","Port","Crossplane"]],
-  ["IA / MLOps / LLMOps", ["MLflow","Kubeflow","SageMaker","Azure ML","Vertex AI","vLLM","KServe","Ollama","LangChain","LlamaIndex","MCP (Model Context Protocol)","pgvector","Pinecone","Qdrant","Azure AI Search","Langfuse","LangSmith","Promptfoo"]],
-  ["Lenguajes y scripting", ["Python","FastAPI","PowerShell","Bash","Go","YAML","HCL (HashiCorp Configuration Language)"]],
+[
+"CI/CD (Integración y Entrega Continuas)",
+[
+[
+"GitHub Actions",
+"g",
+"producción, Terraform plan/apply por PR"
+],
+[
+"Jenkins",
+"g",
+"experiencia real"
+],
+[
+"Azure DevOps (Azure Pipelines)",
+"g",
+"experiencia real"
+],
+[
+"GitLab CI",
+"y",
+"usado en Bizagi; en el plan sigue 🔴 sin verificar"
+],
+[
+"CircleCI",
+"n",
+""
+],
+[
+"Bitbucket Pipelines",
+"n",
+""
+],
+[
+"TeamCity",
+"n",
+""
+],
+[
+"AWS CodePipeline / CodeBuild",
+"n",
+""
+],
+[
+"Google Cloud Build",
+"n",
+""
+],
+[
+"Tekton",
+"n",
+""
+]
+]
+],
+[
+"GitOps y despliegue",
+[
+[
+"Helm",
+"g",
+"uso profesional desde 2022"
+],
+[
+"Argo CD",
+"y",
+"modelo pull claro; falta configuración práctica"
+],
+[
+"Argo Rollouts",
+"r",
+"progressive delivery, tema Davivienda"
+],
+[
+"Flagger",
+"r",
+"progressive delivery, tema Davivienda"
+],
+[
+"Flux",
+"r",
+""
+],
+[
+"Kustomize",
+"r",
+""
+],
+[
+"LaunchDarkly",
+"r",
+"feature flags, Dapta"
+],
+[
+"Unleash",
+"r",
+"feature flags, Dapta"
+],
+[
+"Spinnaker",
+"n",
+""
+]
+]
+],
+[
+"Infraestructura como código (IaC)",
+[
+[
+"Terraform",
+"g",
+"state, locking, backends"
+],
+[
+"Terragrunt",
+"y",
+"explicado; poco uso real"
+],
+[
+"Ansible",
+"y",
+"fundamentos, roles, idempotencia"
+],
+[
+"Crossplane",
+"r",
+"tema 23"
+],
+[
+"OpenTofu",
+"n",
+""
+],
+[
+"Bicep",
+"n",
+"hueco del roadmap"
+],
+[
+"ARM Templates",
+"n",
+""
+],
+[
+"AWS CloudFormation",
+"n",
+"hueco del roadmap"
+],
+[
+"AWS CDK",
+"n",
+"hueco del roadmap"
+],
+[
+"Pulumi",
+"n",
+""
+],
+[
+"Chef",
+"n",
+""
+],
+[
+"Puppet",
+"n",
+""
+],
+[
+"Packer",
+"n",
+""
+]
+]
+],
+[
+"Contenedores y orquestación",
+[
+[
+"Kubernetes",
+"g",
+"troubleshooting 🔵; operators en MercadoLibre"
+],
+[
+"Docker",
+"g",
+""
+],
+[
+"AWS ECS / Fargate",
+"g",
+"ECS 2 años en MercadoLibre; Fargate 🟡"
+],
+[
+"EKS",
+"g",
+""
+],
+[
+"AKS",
+"g",
+""
+],
+[
+"GKE",
+"y",
+""
+],
+[
+"Istio",
+"y",
+""
+],
+[
+"containerd",
+"y",
+"arquitectura de K8s"
+],
+[
+"Azure Container Apps",
+"y",
+""
+],
+[
+"Google Cloud Run",
+"y",
+""
+],
+[
+"ECR",
+"y",
+""
+],
+[
+"KEDA",
+"r",
+""
+],
+[
+"Linkerd",
+"r",
+""
+],
+[
+"ACR",
+"r",
+""
+],
+[
+"Artifact Registry",
+"r",
+""
+],
+[
+"Podman",
+"n",
+""
+],
+[
+"Karpenter",
+"n",
+""
+],
+[
+"Harbor",
+"n",
+""
+]
+]
+],
+[
+"Nube",
+[
+[
+"AWS",
+"g",
+""
+],
+[
+"Azure",
+"g",
+""
+],
+[
+"AWS Lambda",
+"g",
+"Lambda + API Gateway + SQS/SNS"
+],
+[
+"Azure Functions / Durable Functions",
+"g",
+"replay del orchestrator"
+],
+[
+"GCP",
+"y",
+""
+],
+[
+"AWS Step Functions",
+"y",
+"tema 09"
+],
+[
+"Google Cloud Functions",
+"n",
+""
+]
+]
+],
+[
+"Seguridad",
+[
+[
+"OPA / Gatekeeper",
+"g",
+"policy-as-code"
+],
+[
+"Trivy",
+"y",
+"mecanismo bien; nombre débil"
+],
+[
+"Snyk",
+"r",
+""
+],
+[
+"Semgrep",
+"r",
+""
+],
+[
+"Dependabot",
+"r",
+""
+],
+[
+"Renovate",
+"r",
+""
+],
+[
+"Checkov",
+"r",
+""
+],
+[
+"tfsec",
+"r",
+""
+],
+[
+"Gitleaks",
+"r",
+""
+],
+[
+"GitHub Secret Scanning",
+"r",
+""
+],
+[
+"Cosign / Sigstore",
+"r",
+""
+],
+[
+"Kyverno",
+"r",
+""
+],
+[
+"Microsoft Defender for Cloud",
+"r",
+""
+],
+[
+"AWS GuardDuty",
+"r",
+""
+],
+[
+"SonarQube",
+"n",
+"en tu lista de estudio"
+],
+[
+"OWASP ZAP",
+"n",
+""
+],
+[
+"Burp Suite",
+"n",
+""
+],
+[
+"CodeQL",
+"n",
+""
+],
+[
+"Checkmarx",
+"n",
+""
+],
+[
+"Fortify",
+"n",
+""
+],
+[
+"OWASP Dependency-Check",
+"n",
+""
+],
+[
+"Mend",
+"n",
+""
+],
+[
+"Nuclei",
+"n",
+""
+],
+[
+"Grype",
+"n",
+""
+],
+[
+"Clair",
+"n",
+""
+],
+[
+"Docker Scout",
+"n",
+""
+],
+[
+"KICS",
+"n",
+""
+],
+[
+"Terrascan",
+"n",
+""
+],
+[
+"TruffleHog",
+"n",
+""
+],
+[
+"Syft (SBOM)",
+"n",
+""
+],
+[
+"SLSA",
+"n",
+""
+],
+[
+"Falco",
+"n",
+""
+],
+[
+"Wiz",
+"n",
+""
+],
+[
+"Prisma Cloud",
+"n",
+""
+]
+]
+],
+[
+"Identidad y secretos",
+[
+[
+"AWS IAM",
+"g",
+"IRSA sin ayuda"
+],
+[
+"Azure Key Vault",
+"g",
+""
+],
+[
+"AWS Secrets Manager",
+"g",
+""
+],
+[
+"Keycloak",
+"y",
+"Realm, Client, SSO"
+],
+[
+"Microsoft Entra ID (Azure AD)",
+"y",
+"Managed Identity, RBAC"
+],
+[
+"GCP Secret Manager",
+"y",
+""
+],
+[
+"HashiCorp Vault",
+"r",
+""
+],
+[
+"External Secrets Operator",
+"r",
+""
+],
+[
+"Okta",
+"r",
+""
+],
+[
+"Auth0",
+"n",
+""
+],
+[
+"Sealed Secrets",
+"n",
+""
+]
+]
+],
+[
+"Carga y performance",
+[
+[
+"k6",
+"r",
+"en tu lista de estudio"
+],
+[
+"JMeter",
+"r",
+"en tu lista de estudio"
+],
+[
+"Gatling",
+"n",
+""
+],
+[
+"Locust",
+"n",
+""
+],
+[
+"Artillery",
+"n",
+""
+],
+[
+"Vegeta",
+"n",
+""
+],
+[
+"wrk",
+"n",
+""
+],
+[
+"hey",
+"n",
+""
+],
+[
+"Azure Load Testing",
+"n",
+""
+],
+[
+"Distributed Load Testing on AWS",
+"n",
+""
+]
+]
+],
+[
+"Observabilidad",
+[
+[
+"AWS CloudWatch / X-Ray",
+"g",
+"CloudWatch sí; X-Ray poco"
+],
+[
+"OpenTelemetry",
+"y",
+"señales bien; el Collector por dentro sigue 🔴"
+],
+[
+"Datadog",
+"y",
+"uso real como consumidor"
+],
+[
+"Grafana",
+"y",
+"uso real como consumidor"
+],
+[
+"ELK / Elastic Stack",
+"y",
+"usado, no a fondo"
+],
+[
+"Prometheus",
+"r",
+""
+],
+[
+"Loki",
+"r",
+""
+],
+[
+"Tempo",
+"r",
+""
+],
+[
+"Zipkin",
+"r",
+""
+],
+[
+"Splunk",
+"r",
+""
+],
+[
+"New Relic",
+"r",
+""
+],
+[
+"Dynatrace",
+"r",
+""
+],
+[
+"Azure Monitor / Application Insights / Log Analytics",
+"r",
+""
+],
+[
+"PagerDuty",
+"r",
+""
+],
+[
+"Opsgenie",
+"r",
+""
+],
+[
+"Thanos",
+"n",
+""
+],
+[
+"Mimir",
+"n",
+""
+],
+[
+"VictoriaMetrics",
+"n",
+""
+],
+[
+"Fluentd / Fluent Bit",
+"n",
+""
+],
+[
+"Jaeger",
+"n",
+""
+],
+[
+"Elastic APM",
+"n",
+""
+],
+[
+"Google Cloud Operations",
+"n",
+""
+],
+[
+"Alertmanager",
+"n",
+""
+]
+]
+],
+[
+"Chaos engineering",
+[
+[
+"Chaos Mesh",
+"r",
+"concepto de chaos engineering 🔴"
+],
+[
+"LitmusChaos",
+"n",
+""
+],
+[
+"AWS Fault Injection Service",
+"n",
+""
+],
+[
+"Azure Chaos Studio",
+"n",
+""
+]
+]
+],
+[
+"Datos y mensajería",
+[
+[
+"Kafka",
+"g",
+"log retenido, replay, Outbox"
+],
+[
+"AWS SQS / SNS",
+"g",
+"experiencia real"
+],
+[
+"PostgreSQL",
+"g",
+""
+],
+[
+"Cosmos DB",
+"g",
+"niveles de consistencia"
+],
+[
+"DynamoDB",
+"g",
+"niveles de consistencia"
+],
+[
+"Redis",
+"y",
+"usado, no a fondo"
+],
+[
+"MySQL",
+"y",
+"relacional administrada"
+],
+[
+"RabbitMQ",
+"r",
+""
+],
+[
+"Azure Service Bus / Event Hubs",
+"r",
+""
+],
+[
+"Google Pub/Sub",
+"r",
+""
+],
+[
+"MongoDB",
+"r",
+""
+],
+[
+"Temporal",
+"r",
+""
+],
+[
+"Airflow",
+"n",
+""
+]
+]
+],
+[
+"Platform Engineering",
+[
+[
+"Backstage",
+"g",
+"IDP, golden path"
+],
+[
+"Crossplane",
+"r",
+"tema 23"
+],
+[
+"Port",
+"n",
+""
+]
+]
+],
+[
+"IA / MLOps / LLMOps",
+[
+[
+"MCP (Model Context Protocol)",
+"g",
+"has construido servidores MCP"
+],
+[
+"KServe",
+"y",
+"solo proyectos personales"
+],
+[
+"MLflow",
+"n",
+""
+],
+[
+"Kubeflow",
+"n",
+""
+],
+[
+"SageMaker",
+"n",
+""
+],
+[
+"Azure ML",
+"n",
+""
+],
+[
+"Vertex AI",
+"n",
+""
+],
+[
+"vLLM",
+"n",
+""
+],
+[
+"Ollama",
+"n",
+""
+],
+[
+"LangChain",
+"n",
+""
+],
+[
+"LlamaIndex",
+"n",
+""
+],
+[
+"pgvector",
+"n",
+"RAG/embeddings 🟢 como concepto"
+],
+[
+"Pinecone",
+"n",
+""
+],
+[
+"Qdrant",
+"n",
+""
+],
+[
+"Azure AI Search",
+"n",
+""
+],
+[
+"Langfuse",
+"n",
+""
+],
+[
+"LangSmith",
+"n",
+""
+],
+[
+"Promptfoo",
+"n",
+""
+]
+]
+],
+[
+"Lenguajes y scripting",
+[
+[
+"Python",
+"g",
+"lenguaje principal, 5 años"
+],
+[
+"Go",
+"g",
+"MercadoLibre"
+],
+[
+"FastAPI",
+"g",
+"hardening, BOLA"
+],
+[
+"Bash",
+"g",
+""
+],
+[
+"YAML",
+"g",
+""
+],
+[
+"HCL (HashiCorp Configuration Language)",
+"g",
+"Terraform"
+],
+[
+"PowerShell",
+"n",
+""
+]
+]
+]
 ];
+const NIVELES = { b:"🔵 Senior", g:"🟢 Sólido", y:"🟡 Intermedio", r:"🔴 Novato", n:"⬜ No visto" };
+const ORDEN = "bgyrn";
+const activos = new Set(ORDEN);
 
 const grid = document.getElementById("grid");
 const cuenta = document.getElementById("cuenta");
-const total = DATOS.reduce((s, [, h]) => s + h.length, 0);
+const leyenda = document.getElementById("leyenda");
+const conteo = Object.fromEntries([...ORDEN].map(k => [k, 0]));
+DATOS.forEach(([, hs]) => hs.forEach(([, k]) => conteo[k]++));
+const total = Object.values(conteo).reduce((a, b) => a + b, 0);
 
-DATOS.forEach(([cat, herramientas], i) => {
+for (const k of ORDEN) {
+  if (!conteo[k]) continue;
+  const b = document.createElement("button");
+  b.className = k;
+  b.innerHTML = `<span></span><b>${conteo[k]}</b>`;
+  b.firstChild.textContent = NIVELES[k];
+  b.onclick = () => { activos.has(k) ? activos.delete(k) : activos.add(k); b.classList.toggle("apagado", !activos.has(k)); filtrar(); };
+  leyenda.append(b);
+}
+
+DATOS.forEach(([cat, hs], i) => {
   const sec = document.createElement("section");
   const h2 = document.createElement("h2");
-  h2.innerHTML = `<span><span class="n">${i + 1}.</span></span><span class="total">${herramientas.length}</span>`;
+  h2.innerHTML = `<span><span class="n">${i + 1}.</span></span><span class="total">${hs.length}</span>`;
   h2.firstChild.append(cat);
+  const barra = document.createElement("div");
+  barra.className = "barrita";
+  for (const k of ORDEN) {
+    const n = hs.filter(h => h[1] === k).length;
+    if (n) { const s = document.createElement("span"); s.className = k; s.style.width = (100 * n / hs.length) + "%"; barra.append(s); }
+  }
   const ul = document.createElement("ul");
-  herramientas.forEach(h => { const li = document.createElement("li"); li.textContent = h; ul.append(li); });
-  sec.append(h2, ul);
+  hs.forEach(([nombre, k, nota]) => {
+    const li = document.createElement("li");
+    li.className = k; li.dataset.nivel = k;
+    li.textContent = nombre;
+    li.title = NIVELES[k] + (nota ? " — " + nota : "");
+    ul.append(li);
+  });
+  sec.append(h2, barra, ul);
   grid.append(sec);
 });
 
@@ -78,7 +1103,8 @@ function filtrar() {
     const catCoincide = q && norm(sec.querySelector("h2").textContent).includes(q);
     let n = 0;
     sec.querySelectorAll("li").forEach(li => {
-      const ok = !q || catCoincide || norm(li.textContent).includes(q);
+      const texto = !q || catCoincide || norm(li.textContent).includes(q);
+      const ok = texto && activos.has(li.dataset.nivel);
       li.classList.toggle("oculta", !ok);
       li.classList.toggle("match", !!q && !catCoincide && ok);
       if (ok) n++;
@@ -86,7 +1112,7 @@ function filtrar() {
     sec.classList.toggle("oculta", n === 0);
     visibles += n;
   });
-  cuenta.textContent = q ? `${visibles} de ${total} herramientas` : `${total} herramientas · ${DATOS.length} categorías`;
+  cuenta.textContent = visibles === total ? `${total} herramientas · ${DATOS.length} categorías` : `${visibles} de ${total} herramientas`;
 }
 document.getElementById("q").addEventListener("input", filtrar);
 filtrar();
