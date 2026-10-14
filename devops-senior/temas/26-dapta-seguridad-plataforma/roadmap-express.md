@@ -44,6 +44,7 @@ Escala: ⬜ no visto · 🔴 novato · 🟡 intermedio · 🟢 sólido · 🔵 s
 
 | # | Paso | Estado |
 |---|---|---|
+| 4.0 | **Decidir herramientas** (marco de 7 preguntas + 12 decisiones reales): [decisiones-herramientas.md](decisiones-herramientas.md) | 🟡 en curso |
 | 4.1 | Contraargumentos ("ya tenemos Vanta", "somos 14, no hay tiempo para burocracia") | ⬜ |
 | 4.2 | Historia en 60 segundos | 🟡 texto escrito, falta decirla en voz alta |
 | 4.3 | Simulacro de entrevista | ⬜ |
