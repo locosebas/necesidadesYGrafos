@@ -31,7 +31,6 @@
 | 3.4 | Identidad: WorkOS (SSO, Single Sign-On, para clientes). ¿Y para empleados (Google Workspace, MFA)? | | 🌐 ❓ |
 | 3.5 | Observabilidad: Grafana Labs, PostHog, Metabase. ¿SIEM (Security Information and Event Management)? | | 🌐 ❓ |
 | 3.6 | Datos sensibles: grabaciones, transcripciones, datos de CRM de los clientes. ¿Dónde viven, cuánto tiempo, cifrados con qué llaves? | | |
-
 | 3.7 | **Migración a Temporal** (workflows durables; Temporal ya es subprocesador → ¿Temporal Cloud?). ¿Qué se migra (llamadas, secuencias, campañas)? ¿Desde qué (colas, cron, código propio)? | En curso | 🗣️ |
 
 ## 4. Riesgos propios de un producto de voz con IA
