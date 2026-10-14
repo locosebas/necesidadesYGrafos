@@ -15,7 +15,7 @@
 propuesta de valor**: (1) caracterizar la necesidad, (2) proponer la solución, (3) defenderla.
 Mismo formato que la prueba Davivienda (rama `davivienda-sre-prueba-tecnica`, tema 25).
 
-Ruta y avance: [roadmap-express.md](roadmap-express.md) · Caracterización: [caracterizacion.md](caracterizacion.md) · **Propuesta: [propuesta-valor.md](propuesta-valor.md)**
+Ruta y avance: [roadmap-express.md](roadmap-express.md) · **Chuleta de nombres: [chuleta-nombres.md](chuleta-nombres.md)** · Caracterización: [caracterizacion.md](caracterizacion.md) · **Propuesta: [propuesta-valor.md](propuesta-valor.md)**
 
 ## Qué es Dapta (fuentes públicas, revisadas el 2026-10-14)
 

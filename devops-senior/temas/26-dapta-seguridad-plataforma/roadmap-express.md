@@ -1,6 +1,6 @@
 # Roadmap express — Propuesta de valor para Dapta (seguridad de infraestructura)
 
-> **Entrevista probable: jueves 15 de octubre de 2026.** Preguntas: [banco-preguntas.md](banco-preguntas.md) (Parte I nuevo → Parte II repaso de Davivienda; ⭐ = prioridad).
+> **Entrevista probable: jueves 15 de octubre de 2026.** Preguntas: [banco-preguntas.md](banco-preguntas.md) (Parte I nuevo → Parte II repaso de Davivienda; ⭐ = prioridad). Chuleta de nombres (Davivienda + Dapta): [chuleta-nombres.md](chuleta-nombres.md).
 
 Mismo método que la prueba Davivienda: **de a una pregunta**, de lo general a lo específico, y en
 los repasos se describe el mecanismo y **tú dices el nombre**.
