@@ -19,13 +19,13 @@
 |---|---|---|---|
 | 2.1 | ¿Qué es exactamente "ataque" y "defensa"? (¿red team / blue team, o producto vs. plataforma?) | | |
 | 2.2 | ¿Hay alguien de seguridad hoy? ¿A quién reportaría el cargo (CTO, CEO)? | | |
-| 2.3 | ¿Cómo trabajan los ~14 desarrolladores (equipos, despliegues por día, on-call)? | | |
+| 2.3 | ¿Cómo trabajan los ~14 desarrolladores (equipos, despliegues por día, on-call)? ¿Cómo despliegan hoy? | Dato de la entrevista: migración a Kubernetes en curso, junto con la de Temporal. Proceso actual de despliegue: por preguntar | 🗣️ |
 
 ## 3. Técnica: ¿sobre qué corre?
 
 | # | Pregunta | Respuesta | Fuente |
 |---|---|---|---|
-| 3.1 | Nube y cómputo: AWS confirmado (subservice provider del SOC 2); ¿ECS, EKS, Lambda? ¿IaC (Terraform)? | AWS | 🌐 |
+| 3.1 | Nube y cómputo: AWS confirmado (subservice provider del SOC 2); ¿ECS, EKS, Lambda? ¿IaC (Terraform)? | AWS 🌐. **Están "kubernetizando"**: migración a Kubernetes en curso (¿EKS? ¿desde qué?) 🗣️ | 🌐 🗣️ |
 | 3.2 | Voz en tiempo real: LiveKit + Twilio + Deepgram (según subprocesadores) | | 🌐 ❓ |
 | 3.3 | LLMs: OpenAI, Anthropic, Gemini, Groq. ¿Con retención cero de datos (ZDR, Zero Data Retention)? | | 🌐 ❓ |
 | 3.4 | Identidad: WorkOS (SSO, Single Sign-On, para clientes). ¿Y para empleados (Google Workspace, MFA)? | | 🌐 ❓ |
