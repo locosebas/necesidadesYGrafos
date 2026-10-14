@@ -60,6 +60,22 @@ Ruta y avance: [roadmap-express.md](roadmap-express.md) · Caracterización: [ca
    proveedores de LLM, prompt injection por teléfono, suplantación de voz, TCPA (Telephone Consumer
    Protection Act) en EE. UU.
 
+### Hallazgos de la segunda búsqueda (2026-10-14)
+
+| Dato | Valor | Fuente |
+|---|---|---|
+| **Ronda semilla de USD 6 M** anunciada el **13-oct-2026** (un día antes de esta nota) | Lidera Chingona Ventures; también Crew Capital, Broom Ventures, Cometa VC, 500 Global, Fen Ventures. Total levantado: USD 7,4 M. Uso: expansión EE. UU. + LatAm, producto y **crecimiento del equipo** | GlobeNewswire, FinSMEs |
+| Tracción | Dapti con +200 mil usuarios (+4 mil por semana); ingresos se duplicaron en 6 meses; ingreso anual esperado > USD 4 M | GlobeNewswire |
+| **Plan Enterprise** | "Enterprise-grade security", **despliegue on-premise**, soporte premium **con SLAs** (Service Level Agreements). Precio por consumo | docs.dapta.ai (Plans and Pricing) |
+| Status page | `status.dapta.ai` (Qodex). Componentes: Dapta, Text Agents, **Flow Studio**. Flow Studio tuvo **5 incidentes de ~30 min entre el 8 y el 12 de octubre**, y aun así marca 100,0% de uptime | status.dapta.ai |
+| Dapta MCP | Servidor MCP con **139 herramientas** (112 de lectura, 8 de escritura aditiva, 19 destructivas con "preview → commit"); login OAuth o API keys (máx. 10 por workspace); 60 llamadas/min; está en el directorio de conectores de Claude | docs.dapta.ai (Dapta MCP) |
+| Enlaces de grabación | Interruptor "Public call link": si está encendido, cualquiera con el enlace `files.dapta.ai/calls/...` escucha la grabación y lee la transcripción | docs.dapta.ai |
+| Changelog reciente | Variables de credenciales tipo "vault" en Flow Studio (sep.), grabaciones servidas por `files.dapta.ai` sin exponer el almacenamiento (sep.), login OAuth en el MCP con auditoría por usuario (oct.) | changelog.dapta.ai |
+| Producto | Voice Agents, Text Agents (WhatsApp vía Meta), **Flow Studio** (automatizaciones), Dapta Databases, Sales Intelligence (notetaker), Dapti (asistente) | docs.dapta.ai |
+
+Fuentes nuevas: https://www.globenewswire.com/news-release/2026/10/13/3379778/0/en/dapta-raises-6m-to-accelerate-the-adoption-of-ai-sales-agents-to-smbs-across-the-u-s-and-latin-america.html ·
+https://www.finsmes.com/2026/10/dapta-raises-6m-in-seed-funding.html · https://status.dapta.ai · https://changelog.dapta.ai · https://docs.dapta.ai/llms.txt
+
 ## Fuentes
 
 - https://dapta.ai · https://dapta.ai/privacy-policy · https://trust.dapta.ai/en · https://trust.dapta.ai/en/controls
