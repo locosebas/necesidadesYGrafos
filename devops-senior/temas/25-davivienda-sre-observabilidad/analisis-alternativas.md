@@ -1,0 +1,708 @@
+# Análisis de alternativas — decisiones del libreto (borrador v1)
+
+> El libreto (`presentacion-libreto.md`) tomó decisiones sin discutirlas. Aquí está cada una con lo que
+> se escogió, las alternativas, el trade-off (qué ganas y qué pierdes) y una recomendación.
+> La columna **Tu decisión** queda vacía a propósito: se llena en sesión, **de a una decisión por vez**.
+>
+> **Regla 1: lo que el banco seguramente ya tiene contratado no se escoge, se integra** (herramienta de on-call,
+> ITSM, backend de observabilidad, nube): se nombra como ejemplo y se defienden los requisitos.
+>
+> **Regla 2: nombrar siempre las herramientas que sí proponemos.** Decir el nombre concreto (Sloth, Mimir, PagerDuty, Backstage...)
+> suma puntos ante la mesa: demuestra experiencia real y hace la propuesta viable. La neutralidad se muestra
+> diciendo "por ejemplo" y "OpenTelemetry nos deja cambiarla", **no** dejando la caja sin nombre.
+>
+> Criterio general de la recomendación: el caso premia **viabilidad y pragmatismo**, y la mesa incluye
+> DevSecOps (soberanía del dato) y Arquitectura (neutralidad frente al proveedor). Por eso pesa más lo
+> estándar y abierto que lo "más potente".
+
+---
+
+## Componente económico: supuestos y escala
+
+Cada decisión tiene una fila **Costo**. Son **órdenes de magnitud** para comparar alternativas, no
+cotizaciones: precios de lista públicos aproximados en USD (2025–2026), que cambian y se negocian
+(un banco casi nunca paga lista). **Verificar antes de citar una cifra exacta ante la mesa**; lo seguro
+es hablar en **valores relativos** ("el SaaS cuesta 3–5× más por GB que el autogestionado").
+
+**Escala relativa** (costo recurrente):
+
+| Símbolo | Rango aproximado |
+|---|---|
+| ≈0 | Gratis o costo marginal despreciable (software abierto, cambio de configuración) |
+| $ | < USD 1.000/mes |
+| $$ | USD 1.000–10.000/mes |
+| $$$ | USD 10.000–50.000/mes |
+| $$$$ | > USD 50.000/mes |
+
+**Supuestos de referencia:**
+
+- **Sin cifra de ahorro propia.** No conocemos las métricas de Banco Plus, así que **no se inventa una línea base
+  ni un porcentaje de ahorro**. El −30% es la **meta que pone el caso**; cuánto se ahorra de verdad sale de un
+  **estudio previo** de la línea base (GB/día por señal y por servicio, mayores emisores, cardinalidad, factura actual).
+  Referencias públicas que muestran que la meta es alcanzable: Capital One redujo ~70% el volumen de datos de trazas con OpenTelemetry (The New Stack); Pismo, plataforma de pagos, redujo ~80% su costo de observabilidad con tail sampling (KubeCon EU 2024). Son casos de otras empresas: muestran que la meta es alcanzable, no prometen la cifra de Banco Plus.
+- **Costo de personas: 1 FTE (Full-Time Equivalent, persona de tiempo completo) de ingeniería senior en
+  Colombia ≈ USD 6.000/mes de costo empresa** (≈ COP 24 millones con TRM, Tasa Representativa del Mercado,
+  de ~4.000; verificar la del día). El software abierto no tiene licencia, pero sí cuesta personas: esa es
+  la comparación honesta frente al SaaS.
+- **Precios de referencia por unidad** (lista, aproximados):
+
+| Concepto | Precio aproximado |
+|---|---|
+| Ingesta de logs en SaaS (Grafana Cloud, CloudWatch, Cloud Logging) | ~USD 0,50/GB |
+| Logs en Datadog | Dos cobros: ~USD 0,10/GB **ingerido** (todo lo que envías) + ~USD 1,70 por millón de eventos **indexados** (solo lo que quieres poder buscar, con 15 días de retención). A volumen alto, la indexación es la mayor parte de la factura |
+| APM (Application Performance Monitoring) de Datadog | ~USD 31–40 por host al mes |
+| Métricas en Grafana Cloud | ~USD 6–8 por cada 1.000 series activas al mes |
+| Almacenamiento de objetos (S3 / GCS) | ~USD 0,02/GB al mes (clases frías: 4–20× menos) |
+| Tráfico de salida de la nube (egress a internet / a otra nube) | ~USD 0,08–0,12/GB |
+| Tráfico entre regiones de la misma nube | ~USD 0,02/GB |
+| Nodo de cómputo mediano (4 vCPU, 16 GB) | ~USD 120–150/mes |
+| LLM (Large Language Model) de gama media (por ejemplo, Claude Sonnet 5.5) | ~USD 2 por millón de tokens de entrada, ~USD 10 de salida (precio de lista de Anthropic; Bedrock y Vertex AI publican su propia lista) |
+
+- **Costo del minuto caído del pago QR** (para hablar del Error Budget en plata):
+  `pagos por minuto × valor promedio × margen por transacción` + costo regulatorio y reputacional.
+  En pagos inmediatos el dinero perdido directo suele ser pequeño (mucho cliente reintenta); lo caro es
+  la **reputación**, el reporte a la SFC (Superintendencia Financiera de Colombia) y la fuga de clientes.
+  Por eso conviene presentarlo como "minutos de Error Budget", no como pesos exactos.
+
+---
+
+## Eje 1 — SLOs, Error Budgets y Quality Gate
+
+### D1. Valor del SLO de disponibilidad del pago QR
+| | |
+|---|---|
+| Escogido | 99,9% en 30 días móviles (43,2 min/mes) |
+| Alternativas | 99,95% (21,6 min) · 99,99% (4,32 min) · 99,5% (3,6 h) |
+| Trade-off | 99,95% suena más "bancario", pero 3 dependencias en serie de 99,9% ya dan 99,7%: obliga a redundancia en todo. 99,9% es defendible como **punto de partida** que se ajusta con datos |
+| Costo | Cada nueve adicional **multiplica** el costo de infraestructura y operación (regla práctica: ×2 a ×10 por nueve), porque obliga a redundancia en todas las dependencias, multi-zona o multi-región y on-call más exigente. 99,9% → 99,95% suele exigir activo-activo en dos zonas para todo ($$ a $$$ adicional); 99,99% casi siempre exige activo-activo **multi-región**, que puede duplicar la factura de cómputo y base de datos del servicio ($$$ a $$$$) y sumar 1–2 FTE de SRE. Pasar de 43,2 a 4,3 min/mes de presupuesto rara vez compensa ese gasto si el cliente reintenta |
+| Recomendación | 99,9% y decir explícitamente "se calibra con 4 semanas de datos reales" |
+| Tu decisión | |
+
+### D2. Ventana del SLO
+| | |
+|---|---|
+| Escogido | 30 días móviles |
+| Alternativas | 28 días móviles (todas las ventanas con los mismos días de semana) · mes calendario |
+| Trade-off | 28 días es más riguroso; 30 días hace la cuenta de 43,2 min más fácil de recordar. El mes calendario "resetea" el presupuesto el día 1 (mala práctica) |
+| Costo | ≈0: es una decisión de configuración. Ningún costo diferencial entre 28 y 30 días |
+| Recomendación | 30 días en la diapositiva; 28 como respuesta si preguntan |
+| Tu decisión | |
+
+### D3. SLI de latencia y dónde se mide
+| | |
+|---|---|
+| Escogido | **SLI:** proporción de pagos confirmados por debajo de un umbral de latencia, medido en el API Gateway. **Sin número en la presentación:** el umbral y el porcentaje se calibran en la Fase 0 y se reevalúan cada trimestre. *(El borrador v1 decía "99% en menos de 2 s": eran valores de muestra, inventados; se quitaron de todos lados.)* |
+| Alternativas | Poner un número de muestra (descartado: es arbitrario y genera desconfianza) · medir en el cliente con RUM (Real User Monitoring) desde la app · monitoreo sintético · medir en el balanceador de carga |
+| Trade-off | API Gateway: fácil y confiable, pero no ve la red móvil del cliente. RUM: lo más centrado en el cliente, pero ruidoso (celulares y redes que no controlamos). Sintético: detecta caídas sin tráfico, pero no es tráfico real |
+| Costo | API Gateway: ≈0 (las métricas ya existen). RUM (Real User Monitoring) en SaaS: $ a $$ (se cobra por sesión: del orden de USD 1–2 por cada 1.000 sesiones; con millones de sesiones al mes se vuelve $$). Monitoreo sintético: $ (centavos por ejecución; unas decenas de pruebas cada minuto ≈ cientos de USD/mes). Recomendación: muestrear el RUM (por ejemplo, 10% de las sesiones) para que no infle la factura que justamente queremos bajar |
+| Cómo calibrarlo (para que no sea arbitrario) | Método: **umbral** = cruce de (a) la curva de abandono/reintento del cliente vs. latencia (RUM o analítica de producto), (b) los timeouts duros del flujo (app, comercio, red de pagos): el umbral va muy por debajo del primero, y (c) el histograma real de 4 semanas (p50/p90/p99/p99,9). **Porcentaje** = lo que hoy se cumple con un margen pequeño (por ejemplo, si hoy el 99,4% de los pagos queda bajo el umbral, el SLO puede ser 99%); la cola es ruidosa (red celular, GC, reintentos), por eso suele ser más bajo que el de disponibilidad. Opcional: dos umbrales (uno para la experiencia típica y otro para la cola). Repartir el umbral como presupuesto de latencia por salto (gateway, antifraude, saldos, core bancario). Revisión trimestral. **Frase para la mesa:** "el umbral sale de la curva de abandono del cliente y del timeout del flujo; el porcentaje, del histograma de 4 semanas; se revisa cada trimestre" |
+| Recomendación | API Gateway para el SLO + RUM y sintético como señales complementarias (responde "customer centric" sin volver ruidoso el SLO) |
+| Tu decisión | **Los 2 s eran arbitrarios: quitarlos de todos lados. Presentar el SLI y el método de calibración; el valor se define en la Fase 0 y se reevalúa** |
+
+### D4. Error Budget Policy: conservar el presupuesto
+
+> *(El borrador v1 tenía "> 50% normal · 25–50% solo canary · < 25% congelado". Dos problemas: los porcentajes eran
+> de muestra, y "normal" no decía cómo se despliega. Se reescribe como una política de **conservación del Error
+> Budget**.)*
+
+**Principio:** siempre se despliega con la estrategia que **menos Error Budget gasta** si la versión nueva sale
+mala. Las zonas no cambian el principio: lo **endurecen** a medida que queda menos presupuesto.
+
+**Cuánto Error Budget gasta cada estrategia si la versión nueva es mala** (gasto ≈ clientes expuestos × tiempo
+hasta revertir):
+
+| Estrategia | Clientes expuestos | Tiempo hasta revertir | Gasto de Error Budget |
+|---|---|---|---|
+| Shadow | Ninguno | No aplica | **Ninguno** (solo sirve si el servicio no mueve plata, D8-bis) |
+| Feature flag | Los usuarios escogidos | Segundos (apagar la bandera) | Muy bajo |
+| Canary con análisis automático | Una fracción pequeña | Minutos (lo que tarde el análisis) | **Bajo**: ahorra en **exposición** |
+| Blue/Green | **Todos**, de golpe | Segundos (devolver el switch) | Medio: ahorra en **tiempo**, no en exposición. Solo si el rollback es automático |
+| Rolling update | Crece hasta todos, sin mirar métricas | Minutos | Alto |
+| Recreate | Todos, con caída garantizada | Minutos | **Seguro gasta** (downtime) |
+
+**Matiz importante:** Blue/Green **no** economiza por sí solo, porque el 100% de los clientes ve la versión nueva
+en el switch. Economiza solo si la detección y el rollback son automáticos y en segundos; por eso queda como
+opción para servicios cuyo tráfico no se puede dividir, no como primera opción.
+
+**Las zonas** (nombres en vez de porcentajes; los umbrales exactos se negocian con negocio en la Fase 0, con datos):
+
+| Zona | Qué se permite en servicios críticos |
+|---|---|
+| **Sano** | Siempre canary con análisis automático (feature flags para lo funcional). Blue/Green solo donde el tráfico no se puede dividir |
+| **En riesgo** | Solo canary, con pasos más pequeños y más largos y análisis más estricto; shadow antes del canary para cambios de alto riesgo. Nada de Blue/Green ni rolling |
+| **Crítico** | Congelado, salvo arreglos de confiabilidad; el arreglo va por canary acelerado |
+| **Agotado** | Congelado + post-mortem del consumo + el equipo se dedica a confiabilidad hasta recuperar presupuesto |
+
+| | |
+|---|---|
+| Escogido | **Política de conservación del Error Budget:** siempre la estrategia que menos presupuesto gasta (canary por defecto), endurecida por zonas (sano → en riesgo → crítico → agotado). **Sin porcentajes inventados:** los umbrales de cada zona se negocian con negocio en la Fase 0 |
+| Alternativas | Porcentajes fijos de muestra (descartado: arbitrarios) · política binaria (queda presupuesto / no queda) · umbrales por burn rate en vez de presupuesto restante · congelar solo con presupuesto agotado |
+| Trade-off | Zonas graduales: más fáciles de defender y menos bruscas, pero hay que negociar los umbrales con negocio. Canary por defecto: gasta poco presupuesto, pero exige tráfico suficiente y buen análisis automático |
+| Costo | ≈0 en herramientas. El costo real es de **oportunidad**: un congelamiento demora funcionalidades de negocio; por eso los umbrales se negocian con negocio |
+| Recomendación | Frase para la mesa: *"La política no solo dice si se despliega, sino cómo: siempre con la estrategia que menos Error Budget gasta, que por defecto es canary con análisis automático. Entre menos presupuesto queda, más se restringe: primero solo canary lento, luego solo arreglos de confiabilidad. Los umbrales de cada zona los negociamos con negocio con datos reales."* |
+| Tu decisión | **Política de conservación del Error Budget: si se puede, todo por canary (o la estrategia que más economice el presupuesto); las zonas siguen la idea de "se permite todo → solo canary → congelado salvo fixes", pero sin porcentajes inventados** |
+
+### D5. Herramienta para definir y calcular los SLOs
+| | |
+|---|---|
+| Escogido | **Sloth** (SLO como código en Git que genera las reglas de Prometheus de SLI, Error Budget y burn rate), con la especificación **OpenSLO** como formato portable. *(El borrador v1 no nombraba ninguna: era un error.)* |
+| Alternativas | **Sloth** o **Pyrra** (generan reglas de Prometheus desde un YAML) · **OpenSLO** (especificación abierta) · Google **SLO Generator** · SaaS: **Nobl9**, SLOs de Datadog / Dynatrace / Grafana Cloud |
+| Trade-off | Sloth/Pyrra: abiertos, "SLO como código" en Git, pero hay que operarlos. SaaS: listo rápido, pero amarra al proveedor y cuesta |
+| Costo | Sloth / Pyrra / OpenSLO: licencia ≈0; operación ~0,1–0,2 FTE (≈ USD 600–1.200/mes) mientras se adopta. SaaS de SLOs: **Nobl9** es licencia empresarial (del orden de decenas de miles de USD al año, $$); los SLOs de Datadog / Dynatrace / Grafana Cloud vienen incluidos si ya pagas esa plataforma (≈0 marginal), pero refuerzan el amarre al proveedor |
+| Recomendación | **Nombrarla en la diapositiva 4**: "el SLO vive como código en Git con Sloth (formato OpenSLO); Sloth genera las reglas de Prometheus y el Quality Gate consulta esas métricas". Coherente con GitOps y con el IDP. Alternativa a mencionar: Pyrra (misma idea, con interfaz web) |
+| Tu decisión | |
+
+### D6. Plataforma de CI/CD para el gate
+| | |
+|---|---|
+| Escogido | **GitHub Actions** *(el borrador v1 nombraba las dos sin escoger)* |
+| Alternativas | Escoger una sola · Jenkins · Azure DevOps · gate en el CD (ArgoCD) en vez del CI |
+| Trade-off | **El CI vive donde vive el código**: GitHub Actions solo corre sobre repositorios de GitHub y GitLab CI sobre repositorios de GitLab (espejar el repositorio a otra plataforma solo para el CI agrega fricción y otro punto de falla). Por eso la elección real la decide dónde está el código del banco, no el gusto. Nombrar ambas parece neutral pero suena indeciso; escoger una permite mostrar un ejemplo concreto y defendible. Tu nivel en GitLab CI es 🔴 |
+| Costo | GitHub Actions / GitLab CI: si el banco ya tiene licencia, el gate es ≈0 marginal (segundos de runner por despliegue). Cambiar de plataforma de CI/CD solo por el gate sería $$$ en migración y personas; nunca lo propongas. Jenkins: licencia ≈0 pero alto costo de operación (servidores, plugins, parches) |
+| Por qué GitHub Actions | 1) **Environments con deployment protection rules**: el gate se vuelve obligatorio a nivel de plataforma, no un paso que una tribu pueda borrar del YAML (D7). 2) **Reusable workflows** (flujos reutilizables) mantenidos por Plataforma: todas las tribus llaman el mismo gate central, una sola versión que gobernar. 3) **OIDC (OpenID Connect) hacia AWS y GCP**: el pipeline obtiene credenciales temporales en las dos nubes sin guardar llaves de larga duración (DevSecOps lo valora mucho). 4) **Runners autoalojados dentro de la red del banco con ARC (Actions Runner Controller) en Kubernetes**: el gate necesita consultar el Prometheus interno, que no está expuesto a internet; además la ejecución no sale del banco. 5) Es tu herramienta más fuerte: podrás responder en profundidad las preguntas de la mesa |
+| Recomendación | **GitHub Actions** en la diapositiva, con la justificación anterior. Y una frase para cubrir el otro caso: *"Si el código del banco está en GitLab, el diseño es el mismo: el gate es un contenedor que consulta Prometheus y se impone con environments protegidos y aprobaciones de despliegue de GitLab CI. La lógica es portable; la plataforma la decide dónde vive el código"* |
+| Tu decisión | |
+
+### D7. Quién controla los pipelines y cómo se impone el gate
+
+> *(El borrador v1 lo reducía a "un paso que termina en `exit 1`". La pregunta de fondo no es técnica:
+> es **quién es dueño de los pipelines**.)*
+
+**Panorama.** Un gate que una tribu puede borrar de su YAML no es un gate. Antes de escoger mecanismo hay
+que responder: **¿quién controla el pipeline: cada tribu o un equipo central?** Eso es lo primero que hay
+que **preguntarle a la mesa** (ver abajo). Si la decisión es nuestra, el modelo es el de un **equipo de
+plataforma habilitador** (Team Topologies): damos el **camino pavimentado** (*golden path*), no hacemos el
+trabajo de las tribus ni las vigilamos paso a paso.
+
+**El modelo propuesto: plantillas con mínimos obligatorios y espacio para crecer**
+
+1. **Plataforma es dueña de las plantillas**, una por stack tecnológico (Java/Maven, Node.js, Python, .NET,
+   Go...), porque cada lenguaje tiene sus propias herramientas de build, pruebas y análisis. Se publican como
+   **reusable workflows** de GitHub Actions, versionadas (`@v2`) y con changelog.
+2. **Mínimos obligatorios (no negociables)** en cada plantilla: build, pruebas unitarias, SAST (Static
+   Application Security Testing, análisis estático de seguridad), SCA (Software Composition Analysis, análisis
+   de dependencias), escaneo de secretos, escaneo de la imagen, SBOM (Software Bill of Materials, inventario
+   de componentes) y firma de la imagen, **gate de Error Budget** y despliegue con Argo Rollouts.
+3. **Puntos de extensión**: la tribu agrega lo que quiera **además** de los mínimos (pruebas de integración,
+   de contrato, de carga, umbrales de cobertura más altos). La calidad extra es responsabilidad y decisión
+   de cada tribu; nosotros damos el piso, no el techo.
+4. **El gate principal es la deployment protection rule** del environment `production`: una GitHub App de
+   Plataforma recibe cada despliegue, consulta el Error Budget y los mínimos de la plantilla, y lo aprueba o
+   lo rechaza. Es mejor que un paso en el YAML porque **vive en el environment, no en el workflow**: aunque la
+   tribu borre pasos, el job que va a producción queda en pausa hasta que Plataforma lo aprueba. Tiene **dos
+   huecos que se cierran así**:
+   - *Hueco 1: el job no declara `environment: production`* (entonces la regla nunca se activa). Se cierra con
+     **OIDC (OpenID Connect)**: AWS y GCP solo entregan credenciales de producción a tokens cuyo `sub` diga
+     `environment:production` (y, más estricto, cuyo `job_workflow_ref` sea la plantilla oficial). Sin
+     environment no hay credenciales; con environment, la regla siempre corre.
+   - *Hueco 2: quien administra el repositorio puede editar o quitar la regla.* Se cierra definiendo los
+     environments y sus reglas **como código** (Terraform con el provider de GitHub) gestionado por Plataforma;
+     las tribus no son administradoras del repositorio.
+   - **Complementos:** rulesets de GitHub con workflows obligatorios (no se fusiona sin pasar la plantilla) y
+     un admission controller (OPA Gatekeeper o Kyverno) como última red para imágenes sin firma desplegadas
+     por fuera del pipeline.
+5. **Gobierno de las plantillas como producto**: versionado semántico, ventana de migración cuando cambia
+   una versión mayor, proceso de **excepción** documentado (con dueño y fecha de vencimiento) y
+   contribuciones de las tribus por *inner source* (pull requests a las plantillas).
+
+| | |
+|---|---|
+| Escogido | **Plantillas por stack como reusable workflows** con mínimos obligatorios + puntos de extensión; **gate principal: deployment protection rule** del environment `production` (GitHub App de Plataforma), blindada con OIDC (`environment:production` / `job_workflow_ref`) y environments como código en Terraform; rulesets y admission controller como complementos |
+| Alternativas | Un paso suelto en el YAML de cada tribu (se borra fácil) · pipelines 100% centrales sin extensión (Plataforma se vuelve cuello de botella y "policía") · cada tribu libre con solo auditoría posterior (no hay gate real) · gate solo en el CD (Argo CD sync windows / pre-sync hooks) o solo en el clúster |
+| Trade-off | Plantillas con mínimos: consistencia y seguridad sin quitar autonomía, pero Plataforma tiene que mantener N plantillas como producto. 100% central: control total, pero lento y genera resistencia. Libre: rápido, pero no cumple el reto 1 del caso ("el CI/CD no detiene") |
+| Costo | Licencias ≈0 sobre GitHub Enterprise. El costo real es de personas: mantener ~5 plantillas ≈ 0,5–1 FTE (≈ USD 3.000–6.000/mes). Admission controller: unos pods por clúster ($). Lo compensa: cada tribu deja de mantener su propio pipeline de seguridad (decenas de tribus × horas) y se evita un SEV1 por despliegue sin gate |
+| Pregunta para la mesa | **"¿Hoy quién es dueño de los pipelines: cada tribu o un equipo central? ¿Ya existen plantillas corporativas?"** Hacerla en la exposición o en los 10 minutos de preguntas: muestra que el diseño depende de la organización, no solo de la herramienta |
+| Recomendación | Presentar el modelo de plantillas con mínimos y extensión, y la frase: *"Como equipo habilitador damos el piso, no el techo: la plantilla trae los mínimos de calidad, seguridad y confiabilidad, y el despliegue a producción lo aprueba una deployment protection rule de Plataforma, que la tribu no puede saltarse. Lo que cada tribu agregue encima es su decisión."* |
+| Tu decisión | **Control en Plataforma con plantillas por lenguaje; mínimos obligatorios que, si se quitan, impiden desplegar; espacio para que cada tribu agregue más pruebas; preguntar a la mesa quién controla hoy los pipelines. Gate principal: deployment protection rule** |
+
+### D8. Herramienta de progressive delivery (canary): dos opciones según el stack del banco
+
+> *(El borrador v1 imponía Argo Rollouts. No se puede empujar a instalar herramientas nuevas si el banco no las
+> tiene: se dan **dos opciones** y se escoge según su tecnología actual y el licenciamiento.)*
+
+**Pregunta para la mesa:** *"¿Con qué despliegan hoy en Kubernetes (Argo CD, Flux, Helm desde el pipeline) y
+tienen service mesh (Istio, Linkerd, Cloud Service Mesh)?"*
+
+**Opción A (preferida): Argo Rollouts.** Controlador de Kubernetes que reemplaza el Deployment por un recurso
+`Rollout` con pasos de canary y `AnalysisTemplate` contra Prometheus. **No exige Argo CD**: corre solo; si el
+banco ya usa Argo CD, se integra en la misma interfaz. El tráfico lo divide con lo que ya exista: un service
+mesh (Istio, Linkerd), un ingress / balanceador (AWS ALB, NGINX, Traefik) o Gateway API.
+
+**Opción B: automatizar el service mesh que ya existe, con Flagger.** Si el banco ya tiene Istio o Linkerd (o
+usa Flux), Flagger automatiza los pesos de tráfico del mesh y el análisis de métricas **sin reemplazar sus
+Deployments** (crea los objetos de canary al lado). Menos cambio para las tribus.
+
+**Regla:** nunca instalar un service mesh **solo** para hacer canary (sidecars: +10–20% de recursos y otra pieza
+crítica que operar).
+
+**Árbol corto:** ¿usan Argo CD? → A · ¿usan Flux o tienen un mesh y no quieren tocar los Deployments? → B ·
+¿no tienen ni mesh ni GitOps? → A con el ingress o Gateway API que ya tengan.
+
+**Licenciamiento**
+
+| Herramienta | Licencia | Ojo |
+|---|---|---|
+| Argo Rollouts / Argo CD | Apache 2.0, proyecto graduado de la CNCF | Soporte comercial opcional (Akuity, Codefresh) |
+| Flagger / Flux | Apache 2.0, proyecto graduado de la CNCF | Soporte comercial opcional |
+| Istio | Apache 2.0, graduado de la CNCF | Soporte comercial opcional (Solo.io, Tetrate) |
+| Linkerd | Código Apache 2.0, **pero** desde 2024 Buoyant solo publica versiones *stable* bajo Buoyant Enterprise for Linkerd: **de pago para empresas de más de 50 empleados** en producción (del orden de USD 2.000 por clúster al mes; verificar). Gratis solo las versiones *edge* | Un banco paga |
+| Google Cloud Service Mesh | Servicio administrado (Istio de Google), cobro por endpoint o incluido en GKE Enterprise | Costo recurrente |
+| AWS App Mesh | **Descontinuado** (fin de soporte anunciado para el 30 de septiembre de 2026) | Si lo usan: migrar (Istio o Amazon VPC Lattice), no construir encima |
+| Spinnaker | Apache 2.0, muy pesado de operar | Versiones comerciales (Harness / Armory) |
+| Feature flags | OpenFeature y flagd: Apache 2.0 · Unleash: open core · LaunchDarkly: SaaS de pago | |
+
+| | |
+|---|---|
+| Escogido | **Dos opciones según el stack**: A) Argo Rollouts (preferida, no exige Argo CD) · B) Flagger sobre el service mesh existente. Pasos 5% → 25% → 50% → 100% |
+| Alternativas | Spinnaker con Kayenta (pesado) · canary manual cambiando pesos del mesh (no es automático) · feature flags (OpenFeature) además del canary |
+| Trade-off | A: más funciones (blue/green y canary, análisis, interfaz), pero cambia el Deployment por un `Rollout` (`workloadRef` permite reutilizar el Deployment existente). B: no toca los Deployments, pero depende de que exista un mesh o ingress compatible |
+| Costo | Licencias ≈0 (Apache 2.0) para Argo Rollouts, Flagger, Argo CD, Flux e Istio. Costo de pago solo si: usan Linkerd *stable* (licencia por clúster), Cloud Service Mesh (por endpoint) o soporte comercial. Canary: ~5–25% de capacidad extra durante minutos. Instalar un mesh solo para esto: +10–20% de recursos, $$ |
+| Recomendación | Presentar ambas: *"Si ya tienen Argo CD, Argo Rollouts; si ya tienen un service mesh, Flagger lo automatiza. No vamos a imponer herramientas nuevas: el diseño (pasos + análisis automático contra Prometheus + rollback) es el mismo"*. Ver D8-bis para las estrategias de despliegue |
+| Tu decisión | **Dos opciones según la tecnología actual del banco: Argo Rollouts (me gusta Argo) o automatizar el service mesh existente; considerar el licenciamiento** |
+
+### D8-bis. Estrategias de despliegue: comparación y árbol de decisión
+
+> El libreto solo habla de canary. La mesa (SRE, DevSecOps, Operaciones) puede preguntar "¿por qué canary y
+> no blue/green?" o "¿y si el servicio tiene poco tráfico?". Aquí está el panorama completo.
+
+**Panorama.** Toda estrategia de despliegue responde tres preguntas: **¿hay caída (downtime)?**, **¿a cuántos
+clientes expongo la versión nueva si sale mala (radio de explosión)?** y **¿qué tan rápido vuelvo atrás
+(rollback)?**. Ninguna gana en las tres sin pagar algo: infraestructura duplicada, complejidad o tiempo.
+
+#### Las 8 estrategias
+
+1. **Recreate (recrear).** Se apaga toda la versión vieja (v1) y se prende la nueva (v2). Hay downtime. Es la
+   estrategia `Recreate` de un Deployment de Kubernetes. Uso: procesos batch, ambientes de desarrollo o
+   aplicaciones donde **dos versiones no pueden convivir** (por ejemplo, un esquema de base de datos incompatible).
+2. **Rolling update (actualización gradual).** Kubernetes reemplaza los pods de a poco (`maxSurge`,
+   `maxUnavailable`). Es la estrategia **por defecto** de Kubernetes. Sin downtime, pero el avance **no mira
+   métricas de negocio**: si la v2 es mala, termina en el 100% de los pods igual, salvo que falle el readiness probe.
+   Rollback: `kubectl rollout undo` (minutos).
+3. **Blue/Green (azul/verde).** Dos ambientes completos: blue (v1, en producción) y green (v2, probado en
+   paralelo). Se cambia **todo** el tráfico de una vez (balanceador, DNS o Service). Rollback en **segundos**
+   (devolver el switch). Costo: **2× la infraestructura** durante la ventana. Riesgo: en el switch, el 100% de los
+   clientes ve la v2 de golpe. Netflix lo llama *red/black*.
+4. **Canary (canario).** Un porcentaje pequeño del tráfico (5% → 25% → 50% → 100%) va a la v2; en cada paso un
+   **análisis automático** de métricas (tasa de error, latencia p99, burn rate) decide si avanza o aborta.
+   Radio de explosión acotado (5%) y rollback en segundos. Necesita: **tráfico suficiente** para que el 5% dé
+   muestras estadísticamente útiles, buenas métricas y control fino del tráfico (service mesh o ingress).
+   Herramientas: Argo Rollouts, Flagger, Spinnaker con Kayenta.
+5. **A/B testing (prueba A/B).** Mecánica parecida al canary, pero el tráfico se divide **por atributo del
+   usuario** (segmento, región, header) y el objetivo es un **experimento de negocio** (¿qué versión convierte
+   más?), no la seguridad del despliegue. Suele hacerse con feature flags.
+6. **Shadow / traffic mirroring (sombra / espejo de tráfico, también "dark launch").** Se **copia** el tráfico
+   real a la v2, pero sus respuestas se descartan: el cliente nunca la ve (radio de explosión 0). Permite
+   probar la v2 con carga y datos reales. Costo: ~2× el cómputo del servicio durante la prueba. **Peligro en
+   banca:** efectos colaterales (cobrar dos veces, enviar dos notificaciones) → solo para servicios de **lectura
+   o cálculo** (por ejemplo, el **scoring del antifraude**) o con dependencias simuladas. Herramienta: mirroring
+   de Istio.
+7. **Feature flags (banderas de funcionalidad).** Se despliega el código **apagado** y se enciende por
+   usuarios, porcentaje o región, sin volver a desplegar. **Separa desplegar de liberar.** Rollback = apagar la
+   bandera (segundos). No protege de un binario roto (el código nuevo ya corre) y deja deuda técnica si las
+   banderas no se limpian. Herramientas: OpenFeature (estándar), Unleash, flagd, LaunchDarkly.
+8. **Ring deployment (despliegue por anillos u oleadas).** Se despliega por grupos crecientes: anillo 0
+   (empleados del banco) → anillo 1 (piloto) → una región o nube → todos. En multi-cloud: **primero un clúster
+   de AWS, luego GCP**, nunca los dos a la vez. Se combina con cualquiera de las anteriores dentro de cada
+   anillo. Herramientas: Argo CD ApplicationSets, Kargo.
+
+#### Comparación
+
+| Estrategia | Downtime | Radio de explosión | Rollback | Costo de infraestructura | Complejidad |
+|---|---|---|---|---|---|
+| Recreate | Sí | 100% | Minutos (redesplegar) | 1× (≈0) | Muy baja |
+| Rolling update | No | Crece hasta 100% sin mirar métricas | Minutos | ~1–1,25× durante el despliegue (≈0) | Baja |
+| Blue/Green | No | 100% en el switch | **Segundos** | **2× durante la ventana** ($ a $$ según el servicio) | Media |
+| Canary | No | **Acotado (5%)** | Segundos | ~1× + unos pods (≈0); mesh si no existe: +10–20% de recursos | Media-alta |
+| A/B testing | No | Segmento escogido | Segundos | ≈0 | Media |
+| Shadow | No | **0%** (cliente no lo ve) | No aplica | ~2× cómputo del servicio y carga extra en sus dependencias | Alta |
+| Feature flags | No | Usuarios escogidos | **Segundos sin redesplegar** | ≈0 a $$ (LaunchDarkly) | Media (deuda de banderas) |
+| Anillos | No | Un anillo a la vez | Depende de la estrategia interna | ≈0 (cuesta tiempo) | Media |
+
+**Lo que todas las estrategias sin downtime exigen:** que **dos versiones convivan**. Si el cambio toca la base
+de datos, se usa el patrón **expand/contract** (o *parallel change*): primero se agrega la columna nueva sin
+quitar la vieja (expand), se despliega el código que usa ambas, y solo cuando nadie usa la vieja se borra
+(contract). Sin eso, ni blue/green ni canary permiten volver atrás.
+
+#### Árbol de decisión
+
+```
+¿Pueden convivir v1 y v2 (API y esquema de BD compatibles)?
+├── No ──► Hacerlas compatibles con expand/contract. Si es imposible ──► Recreate en ventana de mantenimiento
+└── Sí
+    ¿El cambio es de lógica de negocio que quiero prender y apagar sin desplegar?
+    ├── Sí ──► Feature flag (además de la estrategia de abajo para el binario)
+    └── (siempre seguir)
+        ¿El servicio es crítico (tiene SLO de cara al cliente, como el pago QR)?
+        ├── No ──► Rolling update + Quality Gate previo
+        └── Sí
+            ¿Es un cambio de alto riesgo y el servicio NO tiene efectos colaterales (solo lee o calcula)?
+            ├── Sí ──► Shadow primero (validar con tráfico real), luego canary
+            └── No
+                ¿Hay tráfico suficiente para que el 5% dé muestras útiles en minutos?
+                ├── Sí ──► Canary con análisis automático (Argo Rollouts / Flagger)
+                └── No ──► Blue/Green con smoke tests (pruebas de humo) y rollback instantáneo,
+                           o canary con pasos más largos y tráfico sintético
+            ¿Varios clústeres, regiones o nubes? ──► Encima de todo: anillos (AWS primero, luego GCP)
+```
+
+#### Conexión con la Error Budget Policy (D4)
+
+La política no solo dice **si** se despliega, sino **cómo**:
+
+Ver la tabla completa de zonas y el gasto de Error Budget por estrategia en **D4**. Resumen: zona **sana** →
+canary por defecto; **en riesgo** → solo canary lento y estricto, sin Blue/Green; **crítica** → congelado salvo
+arreglos de confiabilidad por canary acelerado.
+
+#### Recomendación para Banco Plus (pago QR)
+
+- **Por defecto:** canary con Argo Rollouts y análisis automático contra Prometheus (es lo del libreto).
+- **Cambios de negocio:** feature flags con OpenFeature, para apagar sin redesplegar.
+- **Cambios grandes del antifraude** (por ejemplo, un modelo nuevo de scoring): **shadow** antes del canary,
+  porque el antifraude calcula y no mueve plata. Encaja perfecto con el incidente de la diapositiva 9
+  (antifraude v2.3.1).
+- **Multi-cloud:** anillos, primero el clúster de AWS y luego el de GCP.
+- **Base de datos:** siempre expand/contract.
+- **Recreate:** nunca para el pago QR.
+
+**Frase para la mesa:** *"No hay una sola estrategia: el árbol depende de si las versiones conviven, de si el
+servicio tiene efectos colaterales y de cuánto tráfico tiene. Para el pago QR uso canary con análisis
+automático; para el antifraude, shadow primero; y la Error Budget Policy decide qué tan agresivo puede ser
+el despliegue."*
+
+| | |
+|---|---|
+| Tu decisión | **Sin cambios**: de acuerdo con la comparación, el árbol de decisión y la conexión con la Error Budget Policy |
+
+---
+
+## Eje 2 — Telemetría y FinOps
+
+### D10. Estándar de instrumentación y recolección
+| | |
+|---|---|
+| Escogido | OpenTelemetry (SDK + auto-instrumentación con el OpenTelemetry Operator) |
+| Alternativas | Agentes propietarios (Datadog Agent, Dynatrace OneAgent, New Relic) · **eBPF** sin tocar código (Grafana Beyla, Pixie, Cilium Hubble) · mezcla |
+| Trade-off | OTel: neutral y estándar, pero más trabajo de operación. Agente propietario: más rápido y con mejor "magia", pero amarra al proveedor (cambiar cuesta reinstrumentar todo). eBPF: cero código, pero menos contexto de negocio |
+| Costo | OTel: licencia ≈0; costo de instrumentación (personas) y de operar el Collector (ver D11–D12). Agente propietario: típicamente $$$ a $$$$ para cientos de hosts (por ejemplo, APM de Datadog ~USD 31–40/host/mes + infraestructura ~USD 15–23/host/mes ⇒ 500 hosts ≈ USD 25.000–30.000/mes antes de logs y trazas), y el costo de salida es reinstrumentar todo. eBPF (Grafana Beyla, Pixie, Cilium Hubble): licencia ≈0, CPU/memoria en cada nodo ($) |
+| Recomendación | OTel como estándar (es lo que pide el caso) + eBPF como complemento para lo que no se puede instrumentar |
+| Tu decisión | **No era una decisión: la fija el enunciado** ("utilizando OpenTelemetry (OTel Collector)"). OpenTelemetry como estándar; eBPF solo como complemento |
+
+### D11. Distribución del Collector
+| | |
+|---|---|
+| Escogido | OpenTelemetry Collector (contrib), construido con OCB |
+| Alternativas | **Grafana Alloy** · distribuciones de proveedor (Datadog, Splunk, Elastic, AWS ADOT) · **Vector** · **Fluent Bit** (solo logs) |
+| Trade-off | Collector oficial: neutral. ADOT (AWS Distro for OpenTelemetry) tiene soporte de AWS pero sesga a AWS en un banco multi-cloud. Vector/Fluent Bit son excelentes para logs pero no son nativos de trazas OTel |
+| Costo | Todas son de licencia ≈0. El costo está en el cómputo y en las personas: el Collector oficial con OCB (OpenTelemetry Collector Builder) exige un pipeline para construir y parchar la imagen (~0,1–0,2 FTE). Las distribuciones de proveedor traen soporte "incluido" si ya pagas al proveedor, pero empujan a mandarle los datos a él. Diferencia económica pequeña entre opciones: decide la neutralidad, no el precio |
+| Recomendación | Collector oficial construido con OCB (solo componentes aprobados → menos superficie de ataque) |
+| Tu decisión | **La fija el enunciado** (OTel Collector). Dentro de esa restricción: Collector oficial construido con OCB |
+
+### D12. Topología del Collector
+| | |
+|---|---|
+| Escogido | Agente DaemonSet + gateway de dos capas (`loadbalancing` por traceID → `tail_sampling`) por nube |
+| Alternativas | Solo agentes, exportando directo · sidecar por pod · gateway de una capa (sin tail sampling) · un gateway central único para las dos nubes · delegar el muestreo al proveedor (Datadog ingestion controls, **Honeycomb Refinery**) |
+| Trade-off | Dos capas es lo más robusto pero son más piezas que operar. Gateway central único cruza tráfico entre nubes (latencia y costo de egress). Muestreo en el proveedor: menos operación, pero ya pagaste el transporte y el dato salió del banco |
+| Costo | Agentes DaemonSet: ~0,1–0,5 vCPU y 200–500 MB por nodo (≈ $ por cientos de nodos). Gateway de tail sampling: la memoria crece con `spans por segundo × decision_wait × tamaño del span` (ej.: 20.000 spans/s × 10 s × 1 KB ≈ 200 MB por réplica, ×2–3 de margen). Dos capas por nube: unos pocos nodos medianos ⇒ **$ a $$** al mes. Gateway central único: suma **egress entre nubes** (~USD 0,08–0,12/GB: 2 TB/día ≈ USD 5.000–7.000/mes extra, $$). Muestreo en el proveedor: pagas el transporte y a veces la ingesta de todo antes de descartar |
+| Recomendación | La escogida, un gateway por nube (sin tráfico cruzado), y decir que empieza en una capa y crece a dos cuando se activa el tail sampling |
+| Tu decisión | |
+
+### D13. Política de muestreo
+| | |
+|---|---|
+| Escogido | Tail: 100% errores, 100% de los pagos más lentos que el umbral del SLO de latencia (D3), 5% del resto, `decision_wait` 10 s |
+| Alternativas | Solo head sampling (barato, pierde errores) · híbrido: head al 20–50% + tail · porcentajes distintos (1%, 10%) · muestreo adaptativo por volumen |
+| Trade-off | Tail puro en todo el tráfico exige memoria en el gateway. El híbrido baja la carga del gateway pero puede botar errores en la cabeza |
+| Costo | Es la decisión que más plata mueve en trazas. Es la palanca de ahorro más grande en trazas. Cuánto ahorra en Banco Plus **no se sabe sin el estudio previo**; referencias públicas: Capital One −70% de volumen de trazas, Pismo −80% de costo de observabilidad. El costo de la decisión es el cómputo del gateway (D12, $ a $$). Head sampling solo: igual de barato, pero pierde errores (costo en MTTR, Mean Time To Restore) |
+| Recomendación | Tail como diseño; si preguntan por memoria, el híbrido como optimización. Los porcentajes se ajustan midiendo |
+| Tu decisión | |
+
+### D14. Dónde y cómo se enmascara la PII
+| | |
+|---|---|
+| Escogido | **Primera línea: cada aplicación enmascara** (responsabilidad de la tribu, con la librería de logging / SDK de la plantilla corporativa). **Seguridad extra de Plataforma: processor `redaction` en el gateway** como red final, en modo lista permitida (solo pasan los atributos aprobados) más patrones de cédula y tarjeta |
+| Alternativas | `transform` con OTTL (más flexible, permite hash) · `attributes` (delete / hash) · en el agente (más cerca del origen) · en el SDK de la app · en el proveedor SaaS (**red flag**: el dato ya salió) |
+| Trade-off | Solo en el gateway: un punto único fácil de auditar, pero el dato viaja en claro dentro del clúster. En el agente: antes, pero hay muchos más puntos que gobernar |
+| Costo | Los processors `redaction` / `transform` / `attributes`: ≈0 (algo de CPU en el Collector). El costo grande es el **riesgo**: una fuga de cédulas o tarjetas implica sanciones de la SIC (Superintendencia de Industria y Comercio) por Ley 1581 (multas de hasta 2.000 SMMLV, salarios mínimos mensuales legales vigentes, del orden de miles de millones de pesos), además de hallazgos de PCI DSS (Payment Card Industry Data Security Standard) y de la SFC. Defensa en profundidad cuesta horas de personas (plantilla del SDK), no licencias |
+| Recomendación | Defensa en profundidad: SDK/plantilla evita loguear PII + agente + gateway como red final. Hash (no borrado) donde haga falta correlacionar |
+| Tu decisión | **La PII debe enmascararse en cada aplicación; Plataforma agrega una seguridad extra con el processor `redaction` en el gateway (la decisión de Plataforma es enmascarar en el gateway)** |
+
+### D15. Backends de almacenamiento
+| | |
+|---|---|
+| Escogido | Stack de Grafana: **Mimir** (métricas), **Tempo** (trazas), **Loki** (logs) y **Grafana** (visualización), autogestionado. *(El borrador v1 no lo nombraba.)* |
+| Alternativas | Abiertos/autogestionados: Prometheus + **Mimir** o **Thanos** o VictoriaMetrics (métricas), **Tempo** o Jaeger (trazas), **Loki**, Elasticsearch u OpenSearch (logs), ClickHouse (SigNoz) · Administrados de nube: Amazon Managed Prometheus, Google Cloud Managed Service for Prometheus, CloudWatch, Cloud Logging · SaaS: Datadog, Dynatrace, New Relic, Grafana Cloud, Elastic Cloud |
+| Trade-off | Autogestionado: barato en licencias y el dato no sale, pero cuesta operación (personas). SaaS: rápido y potente, pero caro por volumen y el dato sale del banco. Nativo de cada nube: dos mundos distintos en multi-cloud |
+| Costo | La decisión de mayor impacto económico de toda la propuesta. **SaaS** (Datadog, Dynatrace, New Relic, Grafana Cloud): se cobra por volumen, así que a volumen de banco suele ser $$$$; rápido y sin operación. **Autogestionado** (Mimir / Tempo / Loki sobre almacenamiento de objetos): el almacenamiento es barato (~USD 0,02/GB/mes), cómputo $$ a $$$, más **2–4 FTE** de plataforma (≈ USD 12.000–24.000/mes). Más barato en licencias y almacenamiento, pero cuánto más barato depende del volumen real y del costo del equipo: **se calcula en el estudio previo**, no se promete. **Nativo de cada nube** (CloudWatch, Cloud Logging, Managed Prometheus): precio parecido al SaaS por GB (~USD 0,50/GB de logs), y dos consolas distintas. Regla práctica: a poco volumen gana el SaaS; a volumen de banco gana el autogestionado |
+| Recomendación | **Nombrarlo**: "por ejemplo, Mimir, Tempo y Loki", y agregar la frase de neutralidad: "OpenTelemetry nos deja cambiar de backend sin reinstrumentar". Si la mesa dice qué usan (Datadog, Dynatrace...), adaptarse sin problema |
+| Por qué Grafana (si nos dejan sugerir) | 1) **Abierto y sobre almacenamiento de objetos** (S3 / GCS): el dato se guarda barato (~USD 0,02/GB al mes) y **no sale del banco**. 2) **Recibe OTLP nativo**: encaja directo con el Collector. 3) **Mimir es compatible con Prometheus (PromQL)**: Sloth, las alertas de burn rate y el análisis del canary funcionan sin cambios. 4) **Una sola interfaz con correlación** métrica → traza → log (exemplars, *trace to logs*): baja el MTTR y alimenta al servidor MCP (Grafana publica uno). 5) **Multi-tenant**: un tenant por tribu permite *showback/chargeback* de costos (FinOps). 6) Escala horizontal y una instancia por nube, sin tráfico cruzado. 7) Costo: sin licencias, pero con equipo (personas) para operarlo; si sale más barato que el SaaS se calcula con la línea base de la Fase 0 |
+| Regla de decisión | 1) **Reutilizar lo que ya existe y está contratado u operado** (no imponer proveedor). 2) Verificar que soporte OTLP y lo necesario (PromQL para SLOs y burn rate, trazas, correlación). 3) **Solo llenar los huecos**, señal por señal (por ejemplo, si tienen Prometheus + Thanos pero no trazas, agregar solo Tempo o Jaeger). 4) **Stack de Grafana solo si se arranca desde cero.** Equivalentes por señal: métricas Mimir ≈ Thanos (Apache 2.0) ≈ VictoriaMetrics (Apache 2.0); trazas Tempo ≈ Jaeger (Apache 2.0); logs Loki ≈ OpenSearch (Apache 2.0) ≈ Elasticsearch |
+| Tu decisión | **No forzar proveedor: no sabemos qué usa el banco. Si ya tienen algo contratado u operando (Prometheus + Thanos, Datadog, etc.), se reutiliza y solo se llenan huecos; Grafana (Mimir, Tempo, Loki) es la sugerencia solo si se arranca desde cero** |
+
+### D16. Log-to-Metrics
+| | |
+|---|---|
+| Escogido | Connector `count` en el Collector |
+| Alternativas | Que la app emita métricas directamente (lo ideal a largo plazo) · métricas derivadas de logs en el proveedor (pagas la ingesta igual) · reglas de grabación en Loki |
+| Trade-off | En el Collector: ahorro inmediato sin tocar código. En la app: más limpio, pero exige cambios en cientos de repositorios |
+| Costo | Connector `count`: ≈0 (CPU del Collector). Ahorro: una línea de log informativa que solo se contaba puede costar ~USD 0,50/GB; convertirla en una métrica cuesta unas pocas series (centavos). Cuánto ahorra depende de qué proporción de los logs son de ese tipo: **se mide en el estudio previo**. Métricas derivadas en el proveedor: depende de cómo cobra. En Datadog **sí ahorra** si después no indexas esos logs (pagas la ingesta barata, ~USD 0,10/GB, y te evitas la indexación, que es lo caro), pero el dato igual sale del banco y cada métrica generada se cobra como métrica personalizada. En proveedores que cobran solo por GB ingerido (~USD 0,50/GB), el ahorro es casi nulo |
+| Recomendación | Collector ahora; la app como meta del SDK/plantilla corporativa |
+| Tu decisión | |
+
+### D17. Cifra de ahorro → se quita
+
+> *(El borrador v1 mostraba −34% sobre una línea base inventada (logs 45 / trazas 35 / métricas 20). Se
+> quitó de todos los documentos: comprometer un número sin conocer las métricas genera desconfianza.)*
+
+| | |
+|---|---|
+| Escogido | **Ninguna cifra propia.** El −30% es la meta del caso. La presentación muestra **cómo** se llega (palancas) y **cómo se mide** (estudio previo de línea base), no un porcentaje inventado |
+| Alternativas | Cascada con cifras ilustrativas (descartada: parece compromiso) · rango genérico sin fuente (descartado) · **referencias públicas con fuente** (se usan solo como evidencia de que la meta es alcanzable) |
+| Trade-off | Sin cifra puede parecer vago; se compensa con un **plan de medición concreto** y con casos públicos citados con su fuente |
+| Costo | El estudio previo cuesta poco: 2–4 semanas de una persona leyendo la factura actual y los GB/día por señal y servicio. Es lo que permite comprometer una cifra real después |
+| Referencias públicas | Capital One redujo ~70% el volumen de datos de trazas con OpenTelemetry (The New Stack); Pismo, plataforma de pagos, redujo ~80% su costo de observabilidad con tail sampling (KubeCon EU 2024). Son casos de otras empresas: muestran que la meta es alcanzable, no prometen la cifra de Banco Plus |
+| Recomendación | Frase para la mesa: *"El caso pide −30%. No les voy a dar una cifra sin conocer sus datos: lo primero es un estudio de la línea base, GB por día por señal y por servicio, y la factura actual. Lo que sí sé es que es alcanzable: Capital One redujo cerca del 70% del volumen de trazas con OpenTelemetry, y Pismo, una plataforma de pagos, cerca del 80% del costo de observabilidad con tail sampling."* |
+| Tu decisión | **Quitar la cifra de ahorro de todos lados; decir que hace falta un estudio previo antes de dar cifras; solo usar números con fuente** |
+
+---
+
+## Eje 3 — AI-Ready, MCP e IA causal
+
+### D18. Servidor MCP: construir o adoptar
+| | |
+|---|---|
+| Escogido | Construir un servidor MCP propio de solo lectura con 5 herramientas |
+| Alternativas | Servidores MCP de los proveedores (Grafana, Datadog, Dynatrace, Prometheus ya publican uno) · combinar: los de proveedor para consultas + uno propio para `cambios_recientes` y el grafo |
+| Trade-off | Propio: control total, herramientas de negocio y auditoría a la medida, pero hay que mantenerlo. De proveedor: gratis y rápido, pero herramientas genéricas y permisos a veces más amplios. **Migración del desorden al orden:** el servidor MCP propio es una **capa de abstracción** entre el agente y los datos. Sus herramientas (`buscar_logs`, `buscar_trazas`...) tienen el mismo contrato aunque por debajo consulten la telemetría vieja (logs sin estructura, sin `trace_id`, backends heredados) o la nueva (OpenTelemetry con Semantic Conventions). Así la IA sirve **desde el día uno** sin esperar a que todo esté migrado, y cada servicio se pasa al estándar sin cambiarle nada al agente (patrón *strangler fig*: lo nuevo va reemplazando lo viejo por partes). Los MCP de proveedor solo hablan con su propio backend |
+| Costo | Servidor MCP propio: licencia ≈0, desarrollo ~1 persona durante 4–8 semanas (≈ USD 6.000–12.000 una sola vez) + mantenimiento ~0,1–0,2 FTE. Servidores MCP de proveedor: ≈0 (vienen con el producto), pero **cada consulta del agente** contra un SaaS puede tener costo (llamadas a la API, límites de tasa). El cómputo para correr el servidor MCP es $ |
+| Recomendación | Combinar: adoptar el del backend escogido y construir solo lo propio (cambios, grafo, SLO de negocio) |
+| Tu decisión | |
+
+### D19. Modelo de IA, canal y modo de ejecución
+
+> *(El borrador v1 mezclaba tres decisiones distintas y solo nombraba el canal. Se separan aquí.)*
+
+**Panorama: son tres preguntas, no una.**
+
+1. **¿Qué modelo?** El "cerebro": Claude (Anthropic), Gemini (Google), Llama (Meta), Mistral, Amazon Nova...
+2. **¿Por qué canal se consume?** Por dónde se le hacen las peticiones y con quién se firma el contrato: la API
+   directa del fabricante, **Amazon Bedrock**, **Google Vertex AI**, Microsoft Foundry, o autoalojado en GPU
+   propias. Bedrock y Vertex **no son modelos**: son "tiendas" dentro de la nube que ofrecen varios modelos.
+   Claude está en Bedrock y en Vertex; Gemini, solo en Vertex.
+3. **¿En qué modo corre?**
+   - **Automático, disparado por la alerta** (lo que pide el caso): ninguna persona lo inicia. La alerta de burn
+     rate (Alertmanager o PagerDuty) llama por *webhook* a un **agente de RCA** que corre **centralizado en la
+     infraestructura del banco** (un Job de Kubernetes o una función serverless). El agente le pide al modelo un
+     diagnóstico, el modelo consulta la telemetría a través del servidor MCP (solo lectura), y el resultado
+     —hipótesis de causa raíz con su evidencia— se publica en el canal del incidente y en el ticket **antes de que
+     el on-call abra el portátil**. El Incident Commander decide (humano en el bucle).
+   - **Interactivo, por usuario:** el ingeniero le pregunta al modelo desde su herramienta (un cliente MCP como
+     Claude Code o Claude Desktop, o un bot en el chat). Sirve para profundizar, pero no reemplaza al automático:
+     depende de que alguien lo abra.
+   - Los dos modos usan **el mismo servidor MCP**; por eso se pueden tener ambos.
+
+```
+Alerta de burn rate ─► webhook ─► Agente de RCA (Job en Kubernetes, dentro del banco)
+                                      │  ▲
+                        petición      ▼  │ hipótesis
+                        Claude (o Gemini) vía Bedrock / Vertex AI
+                                      │  ▲
+                           herramientas▼  │ datos sin PII
+                              Servidor MCP de solo lectura ─► Mimir / Tempo / Loki / cambios
+                                      │
+                                      ▼
+            Canal del incidente + PagerDuty / ServiceNow ─► Incident Commander decide
+```
+
+**Por qué el canal es Bedrock o Vertex (y no la API directa ni autoalojado):** el banco ya tiene contrato,
+facturación, IAM y cumplimiento negociados con AWS y GCP. Consumir el modelo por ahí deja el tráfico en red
+privada (AWS PrivateLink / Google Private Service Connect), en la región escogida, con los permisos y la
+auditoría de la nube que ya usa, y **sin comprar licencias ni GPU**: se paga por token usado. La API directa de
+Anthropic sirve igual técnicamente, pero suma un proveedor nuevo que aprobar. Autoalojado da máxima soberanía,
+pero exige GPU encendidas 24/7.
+
+**¿Depende de lo que ya se pague?** Sí: si el banco ya paga una plataforma de observabilidad con IA incluida
+(Dynatrace Davis, Datadog Bits AI) o ya tiene contratado un modelo, se evalúa eso primero (misma regla que D15:
+reutilizar lo contratado).
+
+| | |
+|---|---|
+| Escogido | **Modelo:** Claude (por ejemplo, Claude Sonnet 5.5 para el día a día; uno más potente para incidentes complejos) o Gemini. **Canal:** Amazon Bedrock o Google Vertex AI dentro de la cuenta del banco. **Modo:** agente automático disparado por la alerta, centralizado, + modo interactivo para los ingenieros |
+| Alternativas | API directa del fabricante · modelo abierto autoalojado (Llama, Mistral) · IA del proveedor de observabilidad (Dynatrace Davis, Datadog Bits AI / Watchdog) · plataformas AIOps (BigPanda, Moogsoft) · solo modo interactivo (sin automático) |
+| Trade-off | Bedrock/Vertex: el dato queda en la cuenta del banco y se paga por uso; depende del catálogo de la nube. Autoalojado: máxima soberanía, pero GPU 24/7 y modelos menos capaces. IA del proveedor: lista ya, pero caja negra y amarrada. Solo interactivo: más simple, pero no cumple "automatizar el RCA" del caso |
+| Costo | **Bedrock / Vertex AI**: pago por token. Una investigación de RCA consume del orden de 50.000–200.000 tokens; con un modelo de gama media (~USD 2 por millón de entrada y ~USD 10 de salida, lista de Anthropic) son **centavos a pocos dólares por incidente** (estimado mío; se mide en el piloto). **Autoalojado:** GPU encendidas 24/7, $$ a $$$ al mes aunque casi no se use. **IA del proveedor:** planes superiores o cargos por uso ($$). **AIOps:** licencia empresarial ($$ a $$$) |
+| Recomendación | Nombrar los tres niveles: *"El agente de RCA se dispara solo con la alerta, corre dentro del banco y consulta la telemetría por MCP; el modelo, por ejemplo Claude, se consume por Amazon Bedrock o Vertex AI dentro de la cuenta del banco. Gracias a MCP, cambiar de modelo no cambia nada más."* |
+| Tu decisión | |
+
+### D20. Fuente del grafo de topología
+| | |
+|---|---|
+| Escogido | Connector `servicegraph` (desde trazas) |
+| Alternativas | Kiali con Istio (desde el service mesh) · eBPF (conexiones de red reales) · catálogo declarado (Backstage, ServiceNow CMDB) · service map del proveedor |
+| Trade-off | Desde trazas: rico en contexto, pero ciego donde no hay instrumentación. eBPF: ve todo lo que se conecta, pero sin semántica. Catálogo: dice lo que debería ser, no lo que es |
+| Costo | Connector `servicegraph`: ≈0 (genera métricas en el Collector, unas pocas series por cada par de servicios). Kiali: ≈0 si ya existe Istio; desplegar Istio solo para esto es caro en operación y CPU de sidecars (+10–20% de recursos, $$). eBPF: ≈0 de licencia, $ de CPU. Catálogo (Backstage): ver D25. Service map del proveedor: incluido en el APM que ya pagas, pero amarrado |
+| Quién hace qué (aclaración) | El connector `servicegraph` **ya existe**: es un componente del OpenTelemetry Collector (distribución *contrib*), no lo construimos. Lee los spans, empareja el span de cliente (A llama) con el de servidor (B responde) y emite **métricas** de cada arista: `traces_service_graph_request_total{client, server}`, `..._request_failed_total` e histogramas de latencia. Esas métricas van a Prometheus / Mimir y Grafana las dibuja como grafo. **Lo que sí diseñamos** es la herramienta MCP `obtener_grafo` de nuestro servidor MCP: consulta esas métricas con PromQL y le entrega al agente el grafo listo (nodos, aristas, tasa de error y latencia por arista). Detalle técnico: como necesita los dos spans de cada llamada, corre en la capa 2 del gateway, donde el `loadbalancing` por traceID junta todos los spans de una traza, y **antes** del tail sampling (como `spanmetrics`) |
+| Recomendación | Trazas como fuente principal y comparar con el catálogo: la diferencia entre "declarado" y "observado" es un hallazgo en sí |
+| Tu decisión | |
+
+### D21. Algoritmo de causa raíz
+| | |
+|---|---|
+| Escogido | DFS al nodo anómalo más profundo + BFS para radio de explosión |
+| Alternativas | Random walk / PageRank personalizado (MicroRCA) · inferencia causal (algoritmo PC, Granger) · dejar que el LLM razone sobre el grafo sin algoritmo |
+| Trade-off | DFS/BFS: simple, explicable y barato, pero frágil con dos causas o ciclos. PageRank: rankea mejor varios candidatos, pero menos explicable. Causal pura: es investigación |
+| Costo | DFS/BFS: ≈0, son algoritmos que corren en milisegundos sobre un grafo de cientos de nodos. PageRank personalizado: ≈0 en cómputo, ~2–4 semanas de una persona para implementarlo y validarlo. Inferencia causal pura: investigación, meses de personas ($$$ en tiempo). Dejar todo al LLM: más tokens por investigación (centavos a pocos dólares) y respuestas menos reproducibles |
+| Recomendación | DFS/BFS en la diapositiva (explicable ante la mesa); PageRank como evolución si preguntan |
+| Tu decisión | |
+
+---
+
+## Eje 4 — Incidentes y cultura
+
+### D22. Herramienta de gestión de incidentes y on-call → no es decisión nuestra
+
+> *(El borrador v1 "escogía" PagerDuty + ServiceNow. Un banco ya tiene esto contratado: no se escoge, se
+> integra. La lista queda solo como referencia por si la mesa pregunta.)*
+
+| | |
+|---|---|
+| Escogido | **Ninguna: se integra con lo que el banco ya tenga contratado** para on-call (despertar y escalar) y para ITSM (IT Service Management, registro del incidente) |
+| Lo que sí proponemos: requisitos de integración | Cualquiera que sea la herramienta, debe: 1) recibir la alerta de burn rate por webhook (desde Alertmanager); 2) tener políticas de escalamiento y severidades (SEV1–SEV3); 3) crear el ticket en el ITSM automáticamente; 4) tener una API para que el **agente de RCA publique su hipótesis** en el incidente (D19); 5) plantilla de post-mortem. Esto es lo que se defiende ante la mesa, no la marca |
+| Referencia (solo si preguntan) | On-call: PagerDuty, incident.io, FireHydrant, Grafana IRM, Opsgenie (Atlassian anunció su fin de venta; verificar fechas). ITSM: ServiceNow (muy común en banca), Jira Service Management |
+| Costo | Lo ya contratado: costo marginal ≈0. Solo si faltara la herramienta de on-call: licencia por usuario ($$ para decenas de personas en turno) |
+| Recomendación | En la diapositiva 9 hablar de "la herramienta de on-call del banco" y "el ITSM del banco". Si la mesa pregunta cuál, responder con los requisitos y dar un ejemplo: *"la que ya tengan; por ejemplo PagerDuty para el on-call y ServiceNow para el registro"* |
+| Tu decisión | **No escoger herramienta: ya debe existir contratada. Solo integrarse; la lista queda como referencia** |
+
+### D23. Estructura de roles del incidente: entre más simple, mejor
+
+> *(¿Lo pide el caso? Indirectamente: el Eje 4 pide el "plan de acción y liderazgo como Incident Commander", y
+> ser IC implica repartir el trabajo. El borrador v1 traía 4 roles fijos del modelo ICS (Incident Command
+> System); se simplifica.)*
+
+**Principio:** los **roles no son personas**. Una persona puede tener varios roles, con **una sola regla que no se
+negocia: el Incident Commander no es quien arregla**. Si el IC se pone a depurar, nadie coordina.
+
+| Rol | ¿Siempre? | Quién lo cubre en un equipo pequeño |
+|---|---|---|
+| **Incident Commander (IC):** coordina, decide la mitigación, comunica | Sí | El on-call que declara el incidente o el primero en llegar |
+| **Responsable técnico (Ops Lead):** diagnostica y ejecuta (rollback, failover) | Sí | El dueño del servicio afectado (la tribu: "you build it, you run it") |
+| Comunicaciones | Solo si el IC no da abasto | En SEV2/SEV3 lo hace el IC. En SEV1 de un banco (reportes a la SFC, comercios, negocio) se delega a una tercera persona |
+| Registro de la línea de tiempo (Scribe) | **No como persona** | Se **automatiza**: el canal del incidente, la herramienta de on-call y el agente de RCA ya registran todo con hora; el IC solo marca las decisiones |
+
+| | |
+|---|---|
+| Escogido | **Mínimo dos roles: IC + responsable técnico.** Comunicaciones se agrega solo en SEV1 o cuando el IC no da abasto. La línea de tiempo se automatiza (sin Scribe humano) |
+| Alternativas | Cuatro roles fijos del modelo ICS (IC, Ops Lead, Comms Lead, Scribe) · más roles (expertos por dominio, enlace con negocio, Planning) · un solo rol (quien arregla también coordina: **no**) |
+| Trade-off | Simple: funciona con un equipo pequeño y arranca en minutos; el riesgo es que en un SEV1 grande el IC se sature con la comunicación, por eso ese rol se agrega cuando hace falta. Cuatro roles fijos: claro, pero exige más gente y es burocrático en incidentes menores |
+| Costo | Menos horas-persona por incidente. Automatizar la línea de tiempo ≈0 (viene con el canal y las herramientas existentes) |
+| Recomendación | Frase para la mesa: *"Entre más simple, mejor: IC y responsable técnico siempre; comunicaciones solo cuando el IC no da abasto, como en un SEV1 con reporte a la Superintendencia; y la línea de tiempo la llevan las herramientas, no una persona. La única regla fija: el IC no toca el teclado."* |
+| Tu decisión | **Entre más simple, mejor, para poder actuar con un equipo pequeño: IC + responsable técnico; los demás roles solo si hacen falta** |
+
+### D24. Plazo y método del post-mortem
+| | |
+|---|---|
+| Escogido | ≤ 5 días hábiles, factores contribuyentes, acciones prevenir/detectar/mitigar |
+| Alternativas | 48 horas · 5 porqués · análisis de "Learning from Incidents" sin causa raíz única |
+| Trade-off | Muy rápido pierde perspectiva; muy lento pierde memoria |
+| Costo | Un post-mortem cuesta ~4–8 horas-persona entre preparación, reunión y redacción (≈ USD 150–300). Las **acciones** que salen de él son las que cuestan (y las que ahorran): priorizarlas por minutos de Error Budget que evitan |
+| Recomendación | Mantener |
+| Tu decisión | |
+
+### D25. IDP (Internal Developer Platform)
+| | |
+|---|---|
+| Escogido | **Backstage** (CNCF). *(El borrador v1 no lo nombraba.)* |
+| Alternativas | **Backstage** (abierto, de Spotify / CNCF) · Port · Cortex · ServiceNow · portal propio |
+| Trade-off | Backstage es el estándar abierto, pero exige un equipo que lo mantenga. Port/Cortex son más rápidos de adoptar, pero son SaaS |
+| Costo | **Backstage**: licencia ≈0, pero exige un equipo de plataforma de **2–4 FTE** (≈ USD 12.000–24.000/mes) para mantenerlo y escribir plugins. **Port / Cortex**: SaaS por desarrollador (del orden de USD 30–70 por desarrollador al mes; 500 desarrolladores ≈ $$ a $$$). **ServiceNow** (si ya existe): costo marginal bajo. Para la mesa: el IDP (Internal Developer Platform) no es parte del costo de esta propuesta; se reutiliza lo que ya tenga el banco |
+| Recomendación | **Nombrarlo en la diapositiva 10**: "IDP con Backstage: plantillas que crean el SLO en Sloth, los dashboards y las alertas". Si el banco ya tiene otro portal, adaptarse |
+| Tu decisión | |
+
+### D26. Motor de políticas → preguntar primero; si no existe, sugerir OPA
+
+> *(El borrador v1 escogía OPA sin más. Un banco seguramente ya tiene un motor de políticas: no nos cerramos a
+> uno.)*
+
+**Qué es:** un motor de políticas evalúa reglas escritas como código ("ninguna imagen sin firma llega a
+producción", "todo pod declara límites de CPU") y responde permitir o rechazar. **OPA (Open Policy Agent)** es el
+motor abierto más usado: proyecto graduado de la CNCF (Cloud Native Computing Foundation), licencia Apache 2.0,
+y sus políticas se escriben en el lenguaje **Rego**. Sirve en varios puntos: en Kubernetes con **OPA Gatekeeper**
+(admission controller), en el pipeline con **Conftest** (valida YAML, Terraform y planes antes de desplegar) y
+en las propias aplicaciones.
+
+**Pregunta para la mesa:** *"¿Qué motor de políticas usan hoy en Kubernetes y en el pipeline?"*
+
+| | |
+|---|---|
+| Escogido | **Usar el que ya exista en el banco.** Si no hay ninguno, sugerir **OPA (Open Policy Agent)** como opción abierta: Gatekeeper en los clústeres y Conftest en el pipeline |
+| Alternativas | **Kyverno** (abierto, políticas en YAML, solo Kubernetes) · políticas nativas de la nube (AWS Organizations SCP, Azure Policy, GCP Organization Policy) · versiones comerciales (Styra para OPA, Nirmata para Kyverno) |
+| Trade-off | OPA: general (Kubernetes, pipeline, aplicaciones, Terraform), pero Rego cuesta aprenderlo. Kyverno: más fácil de leer para las tribus, pero solo cubre Kubernetes. Cambiar el motor que ya existe: costo de migrar políticas sin ganancia clara |
+| Costo | OPA y Kyverno: licencia ≈0, unos pods por clúster ($). El costo real son las horas de escribir y mantener políticas. Soporte comercial (Styra, Nirmata): $$ |
+| Recomendación | Preguntar primero; si no existe, OPA, con la frase: *"no me caso con el motor; si no tienen uno, OPA, porque con un solo lenguaje cubro el clúster, el pipeline y Terraform"* |
+| Tu decisión | **No cerrarse a uno: seguramente ya existe en la compañía, hay que preguntarlo. Si no, sugerir OPA (Open Policy Agent) como opción open source** |
+
+---
+
+## Decisiones de narrativa (no son de herramientas)
+
+### D27. Orden de la hoja de ruta: primero caracterizar lo que existe
+
+> *(El borrador v1 arrancaba directo con el SLO a 30 días, como si se partiera de cero. El caso habla de una
+> plataforma que ya funciona y ya tiene herramientas: no se puede empezar "a la loca".)*
+
+**Fase 0 — Caracterización de lo que ya existe (primeras 2–4 semanas, antes del día 30).** Qué se levanta:
+
+1. **Inventario de herramientas y contratos:** CI/CD y quién controla los pipelines (D6, D7), Argo CD / Flux /
+   service mesh (D8), backends y proveedor de observabilidad (D15), modelo o IA ya contratada (D19), on-call e
+   ITSM (D22), motor de políticas (D26), IDP (D25).
+2. **Línea base de telemetría y costo:** GB/día por señal y por servicio, mayores emisores, cardinalidad, factura
+   actual. Es el estudio previo que exige D17 antes de dar cualquier cifra de ahorro.
+3. **Línea base de confiabilidad:** histogramas reales de latencia y tasa de error del pago QR (para calibrar el
+   SLO de D1 y D3) y métricas DORA actuales (Change Failure Rate, Time to Restore, frecuencia de despliegue).
+4. **Historia de incidentes:** post-mortems de los últimos 6–12 meses: qué falló, cuánto tardó, causas repetidas.
+5. **Flujos de PII y restricciones regulatorias:** qué datos personales viajan hoy en logs y trazas.
+6. **Organización:** tribus, dueños de cada servicio, turnos de on-call.
+
+**Clave para la presentación:** todas las "preguntas para la mesa" del análisis (D7, D8, D15, D19, D22, D26)
+**son el backlog de la Fase 0**. Si la mesa no las responde, la Fase 0 las responde.
+
+| | |
+|---|---|
+| Escogido | **Fase 0 (2–4 semanas): caracterización** · 30 días: SLO del pago QR (calibrado con datos reales) + burn rate · 60 días: Quality Gate + gateway con PII · 90 días: tail sampling con ahorro medido contra la línea base + servidor MCP de solo lectura |
+| Alternativas | Arrancar directo con el SLO (borrador v1) · empezar por FinOps (el ahorro paga el resto) · empezar por el gateway con PII (requisito regulatorio primero) |
+| Trade-off | La Fase 0 retrasa 2–4 semanas la primera entrega visible, pero evita imponer herramientas que ya existen, inventar cifras y fijar SLOs arbitrarios. Arrancar sin ella es más rápido y más riesgoso |
+| Costo | Fase 0: 1–2 personas durante 2–4 semanas, sin licencias. Luego: 30 días ≈0 en licencias; 60 días unos nodos para el gateway ($); 90 días $ a $$ en cómputo y tokens, y ahí **empieza el ahorro**, medido contra la línea base de la Fase 0 |
+| Recomendación | Frase para la mesa: *"No arranco a la loca: las primeras semanas son de caracterización. Inventario de lo que ya tienen, línea base de costo y de confiabilidad, e historia de incidentes. Con eso, el SLO se calibra con datos reales y la cifra de ahorro se compromete con fundamento."* |
+| Tu decisión | **Agregar una etapa de caracterización de lo que ya existe antes de las entregas; no empezar a la loca** |
+
+### D28. Un solo servicio piloto
+| | |
+|---|---|
+| Escogido | Pago QR como piloto |
+| Alternativas | Transferencias en tiempo real · varios servicios a la vez |
+| Trade-off | El pago QR es el ejemplo del enunciado y el más visible para el cliente |
+| Costo | Un piloto acota la inversión: ~1–2 FTE durante el trimestre (≈ USD 18.000–36.000) para un servicio, con un resultado medible antes de escalar. Ir con varios servicios a la vez multiplica el costo de personas y el riesgo, sin multiplicar la evidencia |
+| Recomendación | Mantener |
+| ¿Viene del caso o es propia? | **Mitad y mitad.** El **pago QR** viene del caso: el Eje 1 pide los SLIs y SLOs "para una transacción crítica (ejemplo: Procesamiento de Pagos con QR/CBU)". Que **todo el programa** (SLO, gate, telemetría, MCP, incidentes) arranque con **un solo servicio piloto** es una **decisión propia** del libreto: el caso no lo pide |
+| Criterio para escalar | Se pasa al siguiente servicio cuando el piloto cumple: SLO estable y calibrado, gate funcionando sin falsos bloqueos, ahorro medido contra la línea base y al menos un incidente (real o Game Day) atendido con el flujo nuevo. Se escala con las plantillas y el IDP, no a mano |
+| Tu decisión | **De acuerdo: un solo servicio piloto (pago QR)** |
+
+### D29. Mención de experiencia previa
+| | |
+|---|---|
+| Escogido | "Una plataforma de comercio electrónico de alto volumen", sin nombre |
+| Alternativas | Nombrar a MercadoLibre sin detalles internos · no mencionarla |
+| Trade-off | Nombrarla da credibilidad inmediata; no nombrarla es más prudente con la confidencialidad |
+| Costo | Sin componente económico |
+| Recomendación | Decisión tuya: depende de tu acuerdo de confidencialidad |
+| Tu decisión | |
+
+### D30. Ejemplo del incidente
+| | |
+|---|---|
+| Escogido | Antifraude v2.3.1 rompe el pago QR (causa = un despliegue) |
+| Alternativas | Una falla de infraestructura (nodo, red, certificado vencido) · una dependencia externa (otro banco) · saturación del core bancario en quincena |
+| Trade-off | El despliegue conecta los 4 ejes (el gate debió frenarlo), pero es el caso "fácil". La saturación del core en quincena es más realista, pero el rollback no la arregla |
+| Costo | Para la narrativa: un despliegue malo cuesta los minutos que tarde el rollback (con Argo Rollouts: minutos, casi todo el Error Budget a salvo). Una saturación del core es más cara: el rollback no la arregla; la respuesta rápida es **load shedding + circuit breaker** |
+| Recomendación | Mantener el despliegue malo (Antifraude v2.3.1) como único ejemplo; conecta los 4 ejes |
+| Tu decisión | **Tema menor: mantener el despliegue como ejemplo. No mencionar AS400 ni IBM MQ en ningún lado: el caso no los nombra y meter supuestos que no dominamos puede confundir** |
