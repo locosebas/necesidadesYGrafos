@@ -86,3 +86,34 @@ Subtemas extra:
 Cada archivo tiene su propia sección de Autoevaluación al final — pedime el
 examen del archivo específico que acabás de repasar (uno por vez, siguiendo
 tu preferencia de a una pregunta).
+
+## Material externo: preguntas reales de entrevista
+
+Preguntas de escenario/troubleshooting recopiladas de entrevistas reales,
+para usar como banco de examen además de las generadas por Claude.
+
+### Mastercard — DevOps Engineer (compartido por Sowjanya Srinivasan, LinkedIn, sept. 2026)
+
+1. La aplicación está healthy pero los usuarios sufren timeouts
+   intermitentes. ¿Cómo identificás si el problema está en la aplicación,
+   la red, la infraestructura o el load balancer?
+2. Un deployment terminó exitosamente pero el tiempo de respuesta subió de
+   200ms a 3s. Explicá tu approach de troubleshooting.
+3. El pipeline de CI/CD estuvo estable por meses y de repente empieza a
+   fallar sin cambios en el pipeline. ¿Cómo aislás la causa raíz?
+4. Un deployment a producción falló a la mitad, dejando corriendo distintas
+   versiones del servicio. ¿Cómo recuperás con mínimo impacto al cliente?
+5. Un container se reinicia constantemente pero no hay errores de
+   aplicación en los logs. ¿Qué investigás a continuación?
+6. Los dashboards de monitoreo se ven healthy pero los clientes reportan
+   performance lenta. ¿Cuáles son tus próximos pasos?
+7. La empresa quiere migrar infraestructura administrada manualmente a
+   Terraform. ¿Cómo encarás la migración sin interrumpir producción?
+8. Se descubre una vulnerabilidad crítica en una imagen de container en
+   producción. ¿Cuáles son tus acciones inmediatas y las medidas
+   preventivas a largo plazo?
+9. Necesitás reducir costos de infraestructura un 30% sin afectar
+   performance ni disponibilidad. ¿Por dónde empezás?
+10. Describí el incidente de producción más desafiante que manejaste.
+    ¿Cómo lo troubleshooteaste, cómo comunicaste durante el incidente, y
+    cómo evitaste que vuelva a pasar?
