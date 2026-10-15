@@ -1,0 +1,63 @@
+---
+# Rol mariadb: Paso 2 del tutorial.
+
+# Paso 2: sudo yum install mariadb-server mariadb
+- name: Instalar MariaDB
+  ansible.builtin.yum:
+    name:                          # Lista de paquetes en una sola transacción de yum
+      - mariadb-server             # El servidor de base de datos
+      - mariadb                    # El cliente de línea de comandos (comando "mysql")
+    state: present                 # Instalar si faltan
+
+# Paso 2: sudo systemctl start mariadb && sudo systemctl enable mariadb
+- name: Iniciar MariaDB y habilitarla en el arranque
+  ansible.builtin.systemd:
+    name: mariadb                  # Servicio de la base de datos
+    state: started                 # systemctl start
+    enabled: true                  # systemctl enable
+
+# Paso 2: sudo mysql_secure_installation
+# Ese script es interactivo (hace preguntas), así que Ansible no puede
+# responderlo; se replica con las mismas sentencias SQL. Para que sea
+# idempotente, primero se comprueba si root todavía entra SIN contraseña.
+- name: Comprobar si root de MariaDB aún no tiene contraseña
+  # --no-defaults: ignora /root/.my.cnf para probar de verdad sin clave
+  ansible.builtin.command: mysql --no-defaults -u root -e "SELECT 1"
+  register: mariadb_root_sin_clave # Guarda el resultado (incluye rc = código de salida)
+  changed_when: false              # Solo es una consulta: nunca reporta "changed"
+  failed_when: false               # Si falla (ya hay clave) no es error: es la respuesta que buscamos
+
+- name: Asegurar MariaDB (equivalente a mysql_secure_installation)
+  ansible.builtin.command:
+    cmd: mysql --no-defaults -u root   # Entra como root sin clave (solo posible la primera vez)
+    # stdin: texto que se le pasa al comando como entrada (las sentencias SQL)
+    stdin: |
+      -- 1) Ponerle contraseña a root
+      UPDATE mysql.user SET Password = PASSWORD('{{ mariadb_root_password }}') WHERE User = 'root';
+      -- 2) Borrar usuarios anónimos
+      DELETE FROM mysql.user WHERE User = '';
+      -- 3) Prohibir login remoto de root (solo desde la propia máquina)
+      DELETE FROM mysql.user WHERE User = 'root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
+      -- 4) Borrar la base de datos de prueba "test"
+      DROP DATABASE IF EXISTS test;
+      -- 5) Borrar los permisos asociados a la base "test"
+      DELETE FROM mysql.db WHERE Db = 'test' OR Db = 'test\\_%';
+      -- 6) Recargar la tabla de permisos para que los cambios apliquen ya
+      FLUSH PRIVILEGES;
+  when: mariadb_root_sin_clave.rc == 0 # rc 0 = entró sin clave = aún no está asegurada
+  changed_when: true               # Si corre, siempre cambia algo
+  no_log: true                     # No mostrar la contraseña en la salida de Ansible
+
+# Para que root del sistema pueda usar "mysql" sin escribir la clave
+- name: Guardar credenciales de root en /root/.my.cnf
+  ansible.builtin.template:
+    src: my.cnf.j2                 # Plantilla con usuario y contraseña
+    dest: /root/.my.cnf            # El cliente mysql lee este archivo automáticamente
+    owner: root                    # Dueño: root
+    group: root
+    mode: "0600"                   # Solo root puede leerlo (contiene la contraseña)
+
+# Comprueba que la contraseña quedó bien puesta (usa /root/.my.cnf)
+- name: Verificar acceso a MariaDB con la nueva contraseña
+  ansible.builtin.command: mysql -e "SELECT VERSION()"
+  changed_when: false              # Solo lectura

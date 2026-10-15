@@ -1,0 +1,26 @@
+# Nombre del proyecto en Docker (prefijo de la red y las imágenes)
+name: seb-env-install
+
+# Define los contenedores del laboratorio local.
+services:
+  # Destino: CentOS 7 donde Ansible instala el stack LEMP.
+  lemp:
+    build: docker/centos7            # Construye la imagen con docker/centos7/Dockerfile
+    container_name: lemp-centos7     # Nombre fijo: es el que usa inventories/docker.ini
+    ports:
+      - "8080:80"                    # localhost:8080 del equipo -> puerto 80 (Nginx) del contenedor
+
+  # Opcional: Ansible dentro de un contenedor (no requiere instalar Ansible).
+  # Se ejecuta con: docker compose run --rm ansible
+  ansible:
+    build: docker/ansible            # Imagen con Python 3.12 + Ansible 9 + cliente Docker
+    profiles: ["ansible"]            # No arranca con "docker compose up"; solo con "run"
+    depends_on:
+      - lemp                         # Asegura que el destino exista antes
+    environment:
+      ANSIBLE_CONFIG: /proyecto/ansible.cfg   # Usar la configuración del proyecto
+      ANSIBLE_FORCE_COLOR: "1"                # Salida con colores aunque no haya terminal
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD:-}  # Pasa la clave del equipo si existe (vacía si no)
+    volumes:
+      - ./:/proyecto:ro                        # Monta el proyecto en solo lectura
+      - /var/run/docker.sock:/var/run/docker.sock  # Socket de Docker: permite hacer "docker exec" al destino

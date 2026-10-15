@@ -1,0 +1,9 @@
+# {{ ansible_managed }}
+# Opciones por defecto del cliente "mysql" para el usuario root del sistema.
+
+# [client] aplica a todos los programas cliente (mysql, mysqldump, ...)
+[client]
+# Usuario de la base de datos
+user=root
+# Contraseña (sale de la variable mariadb_root_password)
+password={{ mariadb_root_password }}

@@ -1,0 +1,32 @@
+---
+# ↑ "---" marca el inicio de un documento YAML.
+# Playbook principal. Automatiza el tutorial de DigitalOcean:
+# "How To Install Linux, Nginx, MySQL, PHP (LEMP) stack On CentOS 7"
+
+# Un "play": qué hosts se configuran y con qué roles
+- name: Instalar stack LEMP en CentOS 7
+  # Grupo del inventario sobre el que corre (definido en inventories/*.ini)
+  hosts: lemp
+  # become = ejecutar como root (equivale al "sudo" de cada comando del tutorial)
+  become: true
+
+  # pre_tasks: tareas que corren ANTES de los roles
+  pre_tasks:
+    # Falla rápido si el destino no es CentOS 7, en vez de romper a mitad de camino
+    - name: Verificar que el destino es CentOS 7
+      # assert: comprueba condiciones; si alguna es falsa, detiene el playbook
+      ansible.builtin.assert:
+        # Condiciones a cumplir (ansible_* son "facts" que Ansible recolecta del servidor)
+        that:
+          - ansible_distribution == "CentOS"
+          - ansible_distribution_major_version == "7"
+        # Mensaje si no se cumplen
+        fail_msg: "Este playbook está pensado para CentOS 7 (detectado: {{ ansible_distribution }} {{ ansible_distribution_version }})"
+
+  # Roles en orden de ejecución: cada uno es una carpeta en roles/
+  roles:
+    - base      # Prerrequisitos: repos, EPEL y usuario no-root
+    - nginx     # Paso 1: instalar Nginx
+    - mariadb   # Paso 2: instalar y asegurar MariaDB
+    - php       # Paso 3: instalar PHP 7.4 y configurar PHP-FPM
+    - app       # Pasos 4 y 5: server block de Nginx + prueba con info.php

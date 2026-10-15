@@ -1,0 +1,15 @@
+# Inventario de ejemplo para un servidor o VM CentOS 7 real, accesible por SSH.
+# Copiar a servidor.ini, ajustar valores y correr: ansible-playbook -i inventories/servidor.ini site.yml
+
+# Grupo de servidores a configurar
+[lemp]
+# mi-servidor = alias; ansible_host = IP real; ansible_user = usuario SSH;
+# ansible_ssh_private_key_file = llave privada para entrar sin contraseña
+mi-servidor ansible_host=192.168.56.10 ansible_user=centos ansible_ssh_private_key_file=~/.ssh/id_rsa
+
+# Variables que aplican a todo el grupo [lemp]
+[lemp:vars]
+# Usar sudo para las tareas (el usuario SSH no es root)
+ansible_become=true
+# Nombre/IP con el que Nginx responde (server_name del paso 4)
+nginx_server_name=192.168.56.10

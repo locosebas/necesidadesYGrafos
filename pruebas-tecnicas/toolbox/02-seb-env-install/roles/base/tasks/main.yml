@@ -1,0 +1,34 @@
+---
+# Rol base: prerrequisitos antes de instalar el stack.
+
+# CentOS 7 está en fin de vida: mirror.centos.org ya no responde,
+# así que sin esto ningún "yum install" funciona.
+- name: Apuntar los repos base de CentOS 7 a vault.centos.org
+  # template: genera un archivo a partir de una plantilla Jinja2 (templates/*.j2)
+  ansible.builtin.template:
+    src: CentOS-Base.repo.j2                   # Plantilla origen (en roles/base/templates/)
+    dest: /etc/yum.repos.d/CentOS-Base.repo    # Archivo destino: definición de repos de yum
+    mode: "0644"                               # Permisos: lectura para todos, escritura para root
+  when: centos7_eol_repos | bool               # Solo si la variable está en true (| bool la convierte a booleano)
+
+# Paso 1 del tutorial: sudo yum install epel-release
+- name: Instalar el repositorio EPEL
+  ansible.builtin.yum:                         # Módulo yum: instala/quita paquetes en CentOS
+    name: epel-release                         # Paquete que agrega el repo EPEL (ahí está Nginx)
+    state: present                             # present = instalarlo si no está (idempotente)
+
+# El epel.repo que trae el paquete apunta a mirrors que ya no publican EPEL 7
+- name: Apuntar EPEL 7 a su archivo (los mirrors ya no lo publican)
+  ansible.builtin.template:
+    src: epel.repo.j2                          # Plantilla con la URL del archivo de EPEL
+    dest: /etc/yum.repos.d/epel.repo           # Reemplaza el epel.repo original
+    mode: "0644"
+  when: centos7_eol_repos | bool
+
+# Prerrequisito del tutorial: usuario no-root con permisos de sudo
+- name: Crear el usuario no-root {{ app_user }}
+  ansible.builtin.user:                        # Módulo user: crea/modifica usuarios
+    name: "{{ app_user }}"                     # Nombre tomado de group_vars/all.yml
+    groups: wheel                              # En CentOS, el grupo wheel tiene permiso de sudo
+    append: true                               # Agrega el grupo sin quitar los que ya tenga
+    shell: /bin/bash                           # Shell de inicio de sesión

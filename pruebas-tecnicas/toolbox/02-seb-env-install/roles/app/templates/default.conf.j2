@@ -1,0 +1,42 @@
+# {{ ansible_managed }}
+# Server block del paso 4 del tutorial (equivale a un VirtualHost de Apache).
+server {
+    # Puerto en el que escucha
+    listen       80;
+    # Dominio/IP al que responde este bloque (variable nginx_server_name)
+    server_name  {{ nginx_server_name }};
+
+    # Carpeta de donde se sirven los archivos
+    root   {{ nginx_root }};
+    # Archivo a buscar cuando se pide un directorio (index.php primero)
+    index index.php index.html index.htm;
+
+    # Regla para cualquier ruta
+    location / {
+        # Buscar el archivo, luego el directorio; si no existe, 404
+        try_files $uri $uri/ =404;
+    }
+    # Página a mostrar cuando hay 404
+    error_page 404 /404.html;
+    # Página a mostrar cuando hay errores del servidor
+    error_page 500 502 503 504 /50x.html;
+
+    # Ubicación exacta de la página de error 50x
+    location = /50x.html {
+        root {{ nginx_root }};
+    }
+
+    # Regla para archivos que terminan en .php (expresión regular ~)
+    location ~ \.php$ {
+        # Si el .php no existe, 404 (evita ejecutar rutas inventadas, un riesgo de seguridad)
+        try_files $uri =404;
+        # Mandar la petición a PHP-FPM por el socket Unix
+        fastcgi_pass unix:{{ php_fpm_socket }};
+        # Archivo por defecto si se pide un directorio
+        fastcgi_index index.php;
+        # Ruta completa del script que PHP-FPM debe ejecutar
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        # Resto de parámetros FastCGI estándar (método, query string, etc.)
+        include fastcgi_params;
+    }
+}

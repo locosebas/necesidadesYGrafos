@@ -1,0 +1,54 @@
+---
+# Rol app: Pasos 4 y 5 del tutorial.
+
+# Paso 4: crear /etc/nginx/conf.d/default.conf
+- name: Crear el server block de Nginx que envía PHP a PHP-FPM
+  ansible.builtin.template:
+    src: default.conf.j2                     # Plantilla con el server block del tutorial
+    dest: /etc/nginx/conf.d/default.conf     # Nginx carga todo lo que está en conf.d/
+    mode: "0644"
+  notify: reiniciar nginx                    # Si cambió: validar con nginx -t y reiniciar
+
+# Paso 5: sudo chown -R sammy.sammy /usr/share/nginx/html/
+- name: Dar la raíz web al usuario {{ app_user }}
+  ansible.builtin.file:
+    path: "{{ nginx_root }}"                 # /usr/share/nginx/html
+    owner: "{{ app_user }}"                  # Nuevo dueño
+    group: "{{ app_user }}"                  # Nuevo grupo
+    recurse: true                            # -R: aplica a todo lo que hay dentro
+
+# Paso 5: crear info.php con phpinfo()
+- name: Publicar la página de prueba info.php
+  ansible.builtin.copy:                      # Copia un archivo (aquí con contenido en línea)
+    content: |                               # Contenido exacto del archivo del tutorial
+      <?php
+
+      phpinfo();
+    dest: "{{ nginx_root }}/info.php"        # Ruta final del archivo
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+    mode: "0644"
+  when: php_info_page | bool                 # Solo si la demo está activada
+
+# Paso 5 (final): el tutorial recomienda borrarlo tras la prueba
+- name: Borrar info.php (expone información sensible del servidor)
+  ansible.builtin.file:
+    path: "{{ nginx_root }}/info.php"
+    state: absent                            # absent = borrar si existe
+  when: not (php_info_page | bool)           # Solo si la demo está desactivada
+
+# Los handlers normalmente corren al final del play; aquí se fuerzan YA,
+# para que la prueba de abajo vea la configuración nueva.
+- name: Aplicar cambios pendientes de Nginx y PHP-FPM
+  ansible.builtin.meta: flush_handlers
+
+# Paso 5: lo que el tutorial revisa en el navegador, automatizado
+- name: Verificar que Nginx procesa PHP con PHP-FPM
+  ansible.builtin.uri:                       # Hace una petición HTTP desde el servidor
+    url: http://127.0.0.1/info.php           # El propio servidor, puerto 80
+    headers:
+      Host: "{{ nginx_server_name }}"        # Para que Nginx elija nuestro server block
+    return_content: true                     # Guardar el HTML de la respuesta
+  register: app_info_php                     # Resultado en una variable
+  failed_when: "'PHP Version' not in app_info_php.content"  # Si PHP no se ejecutó, falla
+  when: php_info_page | bool                 # Solo si info.php está publicado
