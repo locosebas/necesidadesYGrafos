@@ -31,6 +31,21 @@ cuando aplica — ver también las tablas de equivalencias dentro de cada tema.
 | Azure AI Content Safety | Bedrock Guardrails | Model Armor | Guardrails: filtros de entrada/salida de un LLM |
 | Azure AI Foundry Agent Service | Bedrock Agents / AgentCore | Vertex AI Agent Engine | Servicio gestionado para correr agentes de IA |
 
+## Términos de Chaos Engineering / SRE (tema 14)
+
+| Término | Definición corta |
+|---|---|
+| Chaos Engineering | Disciplina de provocar fallas controladas en un sistema para descubrir debilidades antes de que las encuentre un usuario real |
+| Blast radius | Radio de impacto de un experimento de chaos engineering; se empieza acotado (un pod, un % chico de tráfico) y se expande gradualmente |
+| Steady-state hypothesis | Hipótesis de "comportamiento normal" del sistema, medida antes y después del experimento para saber si la falla tuvo impacto |
+| Litmus | Herramienta de chaos engineering nativa de Kubernetes (proyecto CNCF), basada en CRDs (`ChaosEngine`) |
+| Chaos Mesh | Herramienta de chaos engineering nativa de Kubernetes (proyecto CNCF), basada en CRDs (`PodChaos`, `NetworkChaos`) |
+| Chaos Monkey | Herramienta pionera de Netflix que termina instancias al azar en producción; origen histórico de la disciplina |
+| Gremlin | Plataforma comercial (SaaS) de chaos engineering, con certificación propia y controles de "halt" de emergencia |
+| OpenTelemetry | Estándar abierto de instrumentación (trazas, métricas, logs) neutral de vendor; puede exportar a Prometheus, Elastic u otros backends |
+| Elastic Stack (ELK) | Elasticsearch (búsqueda/almacenamiento) + Logstash/Beats (ingesta) + Kibana (visualización); logging centralizado |
+| AIOps | Aplicación de IA/ML a operaciones: detección de anomalías, correlación automática de alertas, reducción de alert fatigue |
+
 ## Términos generales (no específicos de una nube)
 
 | Término | Definición corta |

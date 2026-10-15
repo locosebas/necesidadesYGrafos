@@ -15,12 +15,20 @@ y ofertas en cualquiera de las tres nubes son válidas. Por eso cada tema de
 `temas/` está organizado por **concepto** (no por nube) e incluye la
 equivalencia en Azure, AWS y GCP.
 
+Segunda vacante de referencia agregada: **Chaos & Resilience Engineer**
+(Davivienda, Bogotá) — ver
+`00-diagnostico/gap-analysis-davivienda-chaos-sre.md` y el tema nuevo
+`temas/14-chaos-engineering-sre/`. Cada vacante nueva que se agregue suma
+como caso de referencia adicional (su propio `gap-analysis-<empresa>.md`),
+no reemplaza a las anteriores.
+
 ## Estructura
 
 ```
 devops-senior/
 ├── 00-diagnostico/        # dónde estás hoy vs. dónde necesitas estar
-│   ├── gap-analysis.md
+│   ├── gap-analysis.md                         # vacante Azure Platform Engineer (Julieta García)
+│   ├── gap-analysis-davivienda-chaos-sre.md    # vacante Chaos & Resilience Engineer (Davivienda)
 │   └── roadmap.md
 ├── temas/                 # una carpeta por tema (concepto), con equivalencias
 │   │                       # Azure / AWS / GCP + teoría + labs + lecturas
