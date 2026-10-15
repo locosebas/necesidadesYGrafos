@@ -206,6 +206,10 @@ Con la fusión DevOps + IA del roadmap (2026-10-07) se agregaron los temas
 14-20 (IA). Falta rendir el **diagnóstico general de IA** (Fase 0, parte IA)
 — mismo formato que el de DevOps: preguntas abiertas, de a una.
 
+- **Kubernetes — componentes que se instalan (control plane, nodo, runtime,
+  CNI, add-ons)**: salió en la entrevista de PayU (2026-09-22) y no la supo
+  responder bien. Respuesta modelo en `../../temas/14-entrevista-payu/` (sección 2).
+
 ## Ronda de vocabulario pendiente
 
 El usuario pidió una ronda rápida de repaso de términos/nombres de
