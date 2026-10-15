@@ -4,11 +4,11 @@ Uso: python postular_ct.py CARPETA_EXPORT [--max N] [--enviar]
   CARPETA_EXPORT: carpeta donde ArtifactData guardó las vacantes aprobadas (out_dir).
   Sin --enviar llega hasta las preguntas de filtro y no envía (prueba en seco).
 Salida: una línea por vacante y resultados_ct.json para actualizar el tablero.
-Estados: ENVIADA | YA | PREGUNTAS (hay preguntas sin regla: se le preguntan a Sebastián) | BLOQUEADA.
+Estados: ENVIADA | YA | DESCARTADA/MARCADA (compuertas) | PREGUNTAS (hay preguntas sin regla: se le preguntan a Sebastián) | BLOQUEADA.
 """
 import json, os, re, sys
 from playwright.sync_api import sync_playwright
-from comun import destrabar, responder, linea, vacantes, BASE
+from comun import compuerta, destrabar, responder, linea, vacantes, BASE
 
 args = sys.argv[1:]
 carpeta = args[0]
@@ -45,8 +45,12 @@ with sync_playwright() as p:
         try:
             pg.goto(v["url"], wait_until="domcontentloaded", timeout=40000)
             pg.wait_for_timeout(2500)
-            if re.search(r"Ya (te )?(aplicaste|postulaste)", pg.inner_text("body")):
+            cuerpo = pg.inner_text("body")
+            filtro, motivo = compuerta(v, cuerpo)
+            if re.search(r"Ya (te )?(aplicaste|postulaste)", cuerpo):
                 r["estado"] = "YA"
+            elif filtro != "PASA":
+                r.update(estado=filtro, detalle=motivo)
             else:
                 btn = pg.locator("a:visible, button:visible").filter(has_text=re.compile(r"^\s*(Postularme|Aplicar)\s*$", re.I))
                 if not btn.count():
