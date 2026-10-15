@@ -39,3 +39,46 @@ Los pendientes que salen de los exámenes de autoevaluación siguen en
 | 2026-09-30 | Stack ELK (Elasticsearch, Logstash, Kibana), Redis y Cassandra | GoReel, Senior Cloud Delivery Engineer: requerido | Los ha usado, pero no a profundidad | [`temas/07-observabilidad-multicloud/`](temas/07-observabilidad-multicloud/) y [`temas/06-datos-secretos/`](temas/06-datos-secretos/) | pendiente |
 | 2026-09-30 | AWS X-Ray (trazas distribuidas) | Rekluti, Senior DevOps AWS: requerido | "Poco, pero sé del tema" | [`temas/07-observabilidad-multicloud/`](temas/07-observabilidad-multicloud/) | pendiente |
 | 2026-10-02 | **[PRIORIDAD ALTA]** Siglas de IA: LLMOps, RAG, evals, fine-tuning (SFT/LoRA/QLoRA), model serving (vLLM, KServe, Triton), bases vectoriales, frameworks de agentes | Todas las ofertas de IA del tablero (Robots & Pencils, Mariposa, BC, Niuro, Improving, Curotec, Accelerant, Blupax, Lemon.io) | Tiene LLM en producción y MCP; RAG en proyecto propio; fine-tuning y evals conocidos pero no practicados | [`glosario-ia-ofertas.md`](glosario-ia-ofertas.md) (tema nuevo) | pendiente |
+
+## Pendientes de las rondas de postulaciones del 2 y el 7 de octubre
+
+Venían en una rama aparte (`claude/estudio-desde-postulaciones`); se trajeron aquí al limpiar ramas el 2026-10-15.
+
+- **Cumplimiento PCI-DSS / SOC 2** (surgió en postulaciones, Rapyd): trabajó
+  dentro del entorno PCI-DSS de Mercado Pago pero no recuerda los controles.
+  Repasar qué exige PCI-DSS a infraestructura (segmentación, cifrado, logs,
+  accesos) y en qué se diferencia SOC 2. Ver `temas/11-seguridad-devsecops/`.
+- **HashiCorp Vault / Open Policy Agent** (surgió en postulaciones, Endava):
+  exposición poca; reforzar antes de una entrevista. Vault: motores de
+  secretos, secretos dinámicos, auth con Kubernetes/OIDC. OPA: políticas como
+  código (Rego, Gatekeeper). Ver `temas/06-datos-secretos/` y
+  `temas/11-seguridad-devsecops/`.
+- **Zabbix 6.x/7.x** (surgió en postulaciones, Mainsoft — lo piden como
+  indispensable): sin experiencia. Templates, LLD (Low Level Discovery),
+  triggers y macros, proxies y Zabbix Agent 2, API JSON-RPC para automatizar
+  altas/bajas de hosts, integración de alertas con Teams/Slack/Jira. Montar un
+  laboratorio con Docker y monitorear un par de VMs. Ver
+  `temas/07-observabilidad-multicloud/`.
+- **Argo Workflows** (surgió en postulaciones, AgileEngine — obligatorio):
+  exposición poca; conoce ArgoCD pero no el motor de workflows. Diferencia con
+  ArgoCD, `Workflow`/`WorkflowTemplate`, DAGs y steps, artefactos en S3,
+  troubleshooting de pods de un workflow. Ver `temas/10-kubernetes-avanzado/`
+  y `temas/21-event-streaming-workflows/`.
+- **PyTorch / TensorFlow** (surgió en postulaciones, Aprio): solo en proyectos
+  personales. Repasar entrenamiento y evaluación básicos y cómo se empaqueta
+  un modelo para servirlo. Ver `temas/18-mlops-llmops/` y
+  `temas/19-serving-modelos-gpu/`.
+- **Vertex AI y AWS Bedrock** (surgieron en postulaciones, Centraprise, EPAM y
+  Aptonet): Vertex sin experiencia, Bedrock poca. Ya están dentro de los temas
+  15-18; priorizarlos cuando se estudien (agentes en Vertex AI Agent Builder,
+  Bedrock Agents/Knowledge Bases).
+- **Amazon Connect y Twilio** (surgieron en postulaciones, Rappi y EPAM):
+  exposición poca. Contact center en la nube, flujos de contacto, integración
+  con Lambda y con LLMs para voz/chat. Ver `temas/15-desarrollo-apps-llm/`.
+- **Zapier** (surgió en postulaciones, HKR.TEAM): exposición poca. Zaps,
+  webhooks y cuándo conviene frente a n8n o Logic Apps; vale para la oferta de
+  servicios de automatización.
+- **Full-stack con React** (surgió en postulaciones, Strider): tiene
+  aplicaciones propias y en producción (referencia: repo `ElGerente`), pero el
+  frontend con React es lo más flojo. Repasar React + TypeScript lo suficiente
+  para armar la interfaz de un POC sobre una API FastAPI.
