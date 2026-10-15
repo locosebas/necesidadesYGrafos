@@ -62,7 +62,7 @@ https://www.magneto365.com/co/empresas/davivienda/empleos/especialista-ii-confia
    con vocabulario y casos de uso (detección de anomalías, correlación de
    alertas) para la entrevista.
 
-Ver el nuevo tema `../temas/14-chaos-engineering-sre/` para el detalle de
+Ver el nuevo tema `../temas/30-chaos-engineering-sre/` para el detalle de
 estudio. Los temas de observabilidad, Kubernetes, Terraform y CI/CD ya
 existentes en este repo (`07`, `10`, `01`, `03`) cubren el resto de la
 vacante — no se duplican acá.

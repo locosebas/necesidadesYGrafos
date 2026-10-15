@@ -1,9 +1,9 @@
 # Banco de preguntas — Respuesta a incidentes L2/L3
 
-Material de práctica del tema 14. La teoría completa está en [`README.md`](README.md).
+Material de práctica del tema 28. La teoría completa está en [`README.md`](README.md).
 
 **Cómo se usa** (según las preferencias del roadmap): **una pregunta por
-vez**. Pedime *"tomame el tema 14"* (o un bloque puntual, ej. *"bloque C"*)
+vez**. Pedime *"tomame el tema 28"* (o un bloque puntual, ej. *"bloque C"*)
 y te hago las preguntas de a una, corrijo cada respuesta y recién después
 pasamos a la siguiente. Si practicás solo, tapá la respuesta (está oculta
 en cada `▶ Respuesta esperada`) y respondé en voz alta antes de abrirla.

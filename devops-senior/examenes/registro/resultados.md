@@ -208,7 +208,7 @@ Con la fusión DevOps + IA del roadmap (2026-10-07) se agregaron los temas
 
 - **Kubernetes — componentes que se instalan (control plane, nodo, runtime,
   CNI, add-ons)**: salió en la entrevista de PayU (2026-09-22) y no la supo
-  responder bien. Respuesta modelo en `../../temas/14-entrevista-payu/` (sección 2).
+  responder bien. Respuesta modelo en `../../temas/29-entrevista-payu/` (sección 2).
 
 ## Ronda de vocabulario pendiente
 

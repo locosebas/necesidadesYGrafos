@@ -330,3 +330,15 @@ qué certificación/skill tiene más demanda real:
 > formal. Sirven de contexto de mercado — el `gap-analysis.md` (basado en tu
 > CV real) y el diagrama de plataforma del tema 23 son la referencia real
 > para saber qué tan profundo tenés que ir en cada tema.
+
+## Temas 25-30: procesos de selección y temas sueltos
+
+Agregados en ramas aparte y traídos a `main` el 2026-10-15 (antes algunos usaban el número 14 o 25, ya ocupados):
+
+- `temas/25-davivienda-sre-observabilidad` — prueba técnica Davivienda SRE (OpenTelemetry, SLOs, presentación).
+- `temas/26-dapta-seguridad-plataforma` — propuesta de seguridad y cumplimiento para Dapta.
+- `temas/27-linux-distros-infraestructura` — Linux, distribuciones e infraestructura (ruta NubeShop).
+- `temas/28-respuesta-incidentes-l2-l3` — proceso de respuesta a incidentes (on-call L2/L3): clasificar, mitigar, diagnosticar, resolver, post-mortem.
+- `temas/29-entrevista-payu` — preguntas y respuestas modelo de la entrevista PayU.
+- `temas/30-chaos-engineering-sre` — chaos engineering (Litmus, Chaos Mesh, Chaos Monkey, Gremlin), a partir de la vacante Chaos & Resilience Engineer de Davivienda (`gap-analysis-davivienda-chaos-sre.md`). Asume base de Kubernetes (tema 10) y observabilidad (tema 07).
+

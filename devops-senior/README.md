@@ -18,7 +18,7 @@ equivalencia en Azure, AWS y GCP.
 Segunda vacante de referencia agregada: **Chaos & Resilience Engineer**
 (Davivienda, Bogotá) — ver
 `00-diagnostico/gap-analysis-davivienda-chaos-sre.md` y el tema nuevo
-`temas/14-chaos-engineering-sre/`. Cada vacante nueva que se agregue suma
+`temas/30-chaos-engineering-sre/`. Cada vacante nueva que se agregue suma
 como caso de referencia adicional (su propio `gap-analysis-<empresa>.md`),
 no reemplaza a las anteriores.
 
@@ -57,7 +57,15 @@ devops-senior/
 │   ├── 21-event-streaming-workflows/           # Redpanda/Kafka, Temporal (Event Hubs, MSK, Pub/Sub)
 │   ├── 22-datos-salud-hl7-fhir/                # dominio salud: HL7/FHIR, Medplum, HAPI FHIR, OIE
 │   ├── 23-platform-engineering/                # IDP, golden paths, Backstage, multi-tenancy, DORA
-│   └── 24-gitlab-admin-service-accounts/       # GitLab self-managed, tokens, migración a Service Accounts (entrevista)
+│   ├── 24-gitlab-admin-service-accounts/       # GitLab self-managed, tokens, migración a Service Accounts (entrevista)
+│   │   # ── Procesos de selección y temas sueltos ──
+│   ├── 25-davivienda-sre-observabilidad/       # prueba técnica Davivienda SRE: OpenTelemetry, SLOs, presentación
+│   ├── 26-dapta-seguridad-plataforma/          # propuesta de seguridad y cumplimiento para Dapta
+│   ├── 27-linux-distros-infraestructura/       # Linux, distribuciones, tuning por servicio (ruta NubeShop)
+│   ├── 28-respuesta-incidentes-l2-l3/          # on-call, triage, mitigación, post-mortem (L2/L3)
+│   ├── 29-entrevista-payu/                     # preguntas de la entrevista PayU (2026-09-22) + respuestas modelo
+│   └── 30-chaos-engineering-sre/               # Litmus, Chaos Mesh, Chaos Monkey, Gremlin (vacante Davivienda)
+├── proyectos/             # ideas de proyectos prácticos (beginner → advanced) mapeadas a los temas
 ├── formulas-de-cero/      # recetas "¿cómo armarías X de cero?" para entrevistas
 │                           # (K8s, red interna, Terraform empresa, CI/CD, observabilidad…)
 ├── pendientes-de-estudio.md  # lo que piden las vacantes y quiero estudiar
