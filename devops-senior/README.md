@@ -73,6 +73,8 @@ devops-senior/
 3. **Pedime un examen** de ese tema (ver `examenes/README.md` para el formato).
    Resolvelo, te corrijo, y anotamos el resultado en `examenes/registro/`.
 4. Revisamos juntos los puntos débiles y volvemos a ese tema o pasamos al siguiente.
+5. **Construí algo:** elegí un proyecto de `proyectos/README.md` ligado al tema
+   para tener evidencia práctica que mostrar en entrevistas.
 
 No hace falta pedirme permiso para arrancar: decime "dame un examen de Bicep nivel
 intermedio", "explicame RAG" o "explicame Private Endpoints" y seguimos desde ahí.
