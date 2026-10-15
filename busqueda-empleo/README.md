@@ -34,11 +34,31 @@ Ejecutar siempre así (la regla de permisos solo admite esta forma, sin tubería
   Remotos con pago bajo se aceptan como medio tiempo.
 - Formato del CV: cada trabajo en 4 líneas (cargo / empresa / ciudad / fechas) para que los ATS lo lean bien.
 
+## Política y compuertas
+
+**Cantidad primero, calidad después.** Antes de postular solo se aplican filtros baratos; el trabajo de
+calidad (agente revisor, verificación ATS, investigación de la empresa) se hace cuando hay entrevista o
+cuando Sebastián tiene que decidir sobre una oferta. Rúbrica adaptada de
+[MadsLorentzen/ai-job-search](https://github.com/MadsLorentzen/ai-job-search).
+
+Compuertas (`comun.compuerta()`), se revisan antes de postular; la primera que falla decide:
+
+1. **Ubicación:** Colombia (o una región que la incluya: LATAM, Sudamérica, mundial) debe estar entre
+   las ubicaciones. Si lista países sin Colombia → `DESCARTADA`.
+2. **Modalidad × salario** (cualquier tipo de contrato): presencial completa solo por encima de un piso
+   alto; híbrida se descarta por debajo de un piso medio; remota siempre pasa. Salario no publicado →
+   pasa. Los pisos y la tasa COP/USD viven en `datos_privados.json` → `compuertas` (privado).
+3. **Idioma:** inglés se declara siempre C1; si la vacante pide C2 o nativo → `MARCADA` (decide él);
+   si exige otro idioma (portugués, alemán…) → `DESCARTADA`.
+
+`revisar_compuertas.py CARPETA_EXPORT [PREFIJO]` revisa un export del tablero sin abrir el navegador
+y deja `resultados_compuertas.json` para actualizar el tablero con un solo `batch`.
+
 ## Flujo barato por lotes (usar esto primero)
 
 1. Exportar del tablero solo lo necesario con ArtifactData (`get` por id o `query` con `out_dir` a
    `C:/Users/diazt/Documents/Postulaciones/lote/tablero`). No volcar listados grandes al chat.
-2. Ejecutar el script del portal; imprime **una línea por vacante**: `ENVIADA`, `YA`, `PREGUNTAS`, `BLOQUEADA`, `LISTA`.
+2. Ejecutar el script del portal; imprime **una línea por vacante**: `ENVIADA`, `YA`, `DESCARTADA`/`MARCADA` (compuertas), `PREGUNTAS`, `BLOQUEADA`, `LISTA`.
 3. `PREGUNTAS` = hay preguntas sin regla: se escriben en la vacante del tablero (campo `preguntas`, estado
    `por_revisar`) para que Sebastián las responda una vez desde el celular; luego se agrega la regla a
    `reglas.json` y se reintenta. Nunca improvisar respuestas.
