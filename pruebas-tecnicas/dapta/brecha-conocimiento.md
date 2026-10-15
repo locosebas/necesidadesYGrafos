@@ -1,7 +1,7 @@
 # Brecha de conocimiento — lo que Dapta necesita vs. lo que dominas hoy
 
 Cruce de los **3 dolores confirmados en la entrevista** (certificaciones, estabilidad, métricas DORA) contra
-`../../examenes/registro/progreso.md` al 2026-10-14.
+`../../devops-senior/examenes/registro/progreso.md` al 2026-10-14.
 Escala: ⬜ no visto · 🔴 novato · 🟡 intermedio · 🟢 sólido · 🔵 senior. Prioridad: 🔥 crítica · ⬆️ alta · ➖ media.
 
 ## Hilo conductor — Deuda técnica (mencionada mucho en la entrevista)

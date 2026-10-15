@@ -192,8 +192,8 @@ se termina de cerrar en la Fase 6 (Key Vault/Secrets Manager).
 
 ## ↳ Interrupción: Prueba técnica Davivienda — SRE y observabilidad (8–12 oct. 2026)
 
-Ver `../../temas/25-davivienda-sre-observabilidad/roadmap-express.md` (detalle y meta por ítem) y
-`banco-preguntas.md` (preguntas), en la rama `davivienda-sre-prueba-tecnica` (no en `main`). Niveles al arrancar:
+Ver `../../../pruebas-tecnicas/davivienda/roadmap-express.md` (detalle y meta por ítem) y
+`banco-preguntas.md` (preguntas). Niveles al arrancar:
 
 | # | Tema | Nivel | Última vez puesto a prueba |
 |---|---|---|---|

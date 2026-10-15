@@ -5,7 +5,7 @@
 Objetivo: llegar a la exposición (20 min + 10 min de preguntas ante SRE, Arquitectura, DevSecOps y
 Operaciones) siendo **experto** en los temas marcados, no "haberlos leído".
 
-**Criterio de experto** para marcar un ítem 🟢/🔵 (misma escala de `../../examenes/registro/progreso.md`):
+**Criterio de experto** para marcar un ítem 🟢/🔵 (misma escala de `../../devops-senior/examenes/registro/progreso.md`):
 1. Dices el **nombre** de la técnica/herramienta sin pista cuando te describen el mecanismo.
 2. Lo explicas con **números** (porcentajes, minutos, costos) y con al menos un **trade-off**.
 3. Lo aplicas al caso de Banco Plus (pagos QR / transferencias en tiempo real).

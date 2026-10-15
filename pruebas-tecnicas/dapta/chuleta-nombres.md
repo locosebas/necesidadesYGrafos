@@ -5,7 +5,7 @@ Leer 5 minutos antes de cada sesión. Cada nombre con su imagen para recordarlo.
 - **Bloques A–E + repaso final:** prueba Davivienda (tema 25). Es la base de la Parte II del
   [banco de preguntas de Dapta](banco-preguntas.md) (repaso).
 - **Bloques F–J:** lo nuevo de Dapta (tema 26), en el mismo orden que la Parte I del banco (N1–N8).
-- Original de Davivienda: rama `davivienda-sre-prueba-tecnica`, `temas/25-davivienda-sre-observabilidad/chuleta-nombres.md`.
+- Original de Davivienda: [`../davivienda/chuleta-nombres.md`](../davivienda/chuleta-nombres.md).
 
 ## Bloque A — SRE
 

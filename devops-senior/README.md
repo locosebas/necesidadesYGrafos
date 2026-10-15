@@ -58,13 +58,12 @@ devops-senior/
 │   ├── 22-datos-salud-hl7-fhir/                # dominio salud: HL7/FHIR, Medplum, HAPI FHIR, OIE
 │   ├── 23-platform-engineering/                # IDP, golden paths, Backstage, multi-tenancy, DORA
 │   ├── 24-gitlab-admin-service-accounts/       # GitLab self-managed, tokens, migración a Service Accounts (entrevista)
-│   │   # ── Procesos de selección y temas sueltos ──
-│   ├── 25-davivienda-sre-observabilidad/       # prueba técnica Davivienda SRE: OpenTelemetry, SLOs, presentación
-│   ├── 26-dapta-seguridad-plataforma/          # propuesta de seguridad y cumplimiento para Dapta
+│   │   # ── Temas sueltos (25 y 26 se movieron a ../pruebas-tecnicas/) ──
 │   ├── 27-linux-distros-infraestructura/       # Linux, distribuciones, tuning por servicio (ruta NubeShop)
 │   ├── 28-respuesta-incidentes-l2-l3/          # on-call, triage, mitigación, post-mortem (L2/L3)
 │   ├── 29-entrevista-payu/                     # preguntas de la entrevista PayU (2026-09-22) + respuestas modelo
 │   └── 30-chaos-engineering-sre/               # Litmus, Chaos Mesh, Chaos Monkey, Gremlin (vacante Davivienda)
+├── ../pruebas-tecnicas/   # pruebas técnicas de procesos de selección, una carpeta por empresa
 ├── proyectos/             # ideas de proyectos prácticos (beginner → advanced) mapeadas a los temas
 ├── formulas-de-cero/      # recetas "¿cómo armarías X de cero?" para entrevistas
 │                           # (K8s, red interna, Terraform empresa, CI/CD, observabilidad…)

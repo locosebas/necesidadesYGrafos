@@ -4,7 +4,7 @@
 
 Mismo método que la prueba Davivienda: **de a una pregunta**, de lo general a lo específico, y en
 los repasos se describe el mecanismo y **tú dices el nombre**.
-Escala: ⬜ no visto · 🔴 novato · 🟡 intermedio · 🟢 sólido · 🔵 senior (la de `../../examenes/registro/progreso.md`).
+Escala: ⬜ no visto · 🔴 novato · 🟡 intermedio · 🟢 sólido · 🔵 senior (la de `../../devops-senior/examenes/registro/progreso.md`).
 
 ## Fase 1 — Caracterizar la necesidad → [caracterizacion.md](caracterizacion.md)
 

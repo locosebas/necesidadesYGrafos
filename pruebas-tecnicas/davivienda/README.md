@@ -68,7 +68,7 @@ real. Parece un envío por error.
 
 Presentación de máx. 10 diapositivas + 20 min de exposición + 10 min de preguntas, sobre 4 ejes:
 
-1. SLOs, Error Budgets y Quality Gate en CI/CD → ver [tema 07](../07-observabilidad-multicloud/README.md), [tema 03](../03-cicd-multicloud/README.md)
-2. Telemetría con OpenTelemetry Collector multi-cloud + Smart Sampling / FinOps (−30% costo) → [tema 07](../07-observabilidad-multicloud/README.md), [tema 12](../12-arquitectura-costos-multicloud/README.md)
-3. Telemetría AI-Ready con MCP + IA causal para RCA → [tema 17](../17-agentes-ia/README.md)
-4. Incident Commander + post-mortem blameless → [tema 10](../10-kubernetes-avanzado/README.md)
+1. SLOs, Error Budgets y Quality Gate en CI/CD → ver [tema 07](../../devops-senior/temas/07-observabilidad-multicloud/README.md), [tema 03](../../devops-senior/temas/03-cicd-multicloud/README.md)
+2. Telemetría con OpenTelemetry Collector multi-cloud + Smart Sampling / FinOps (−30% costo) → [tema 07](../../devops-senior/temas/07-observabilidad-multicloud/README.md), [tema 12](../../devops-senior/temas/12-arquitectura-costos-multicloud/README.md)
+3. Telemetría AI-Ready con MCP + IA causal para RCA → [tema 17](../../devops-senior/temas/17-agentes-ia/README.md)
+4. Incident Commander + post-mortem blameless → [tema 10](../../devops-senior/temas/10-kubernetes-avanzado/README.md)

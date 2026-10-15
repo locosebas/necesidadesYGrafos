@@ -107,8 +107,7 @@ numeradas, sin ocupar un número de fase propio.
 
 Proceso de selección real (Especialista Senior SRE, Davivienda / Grupo Bolívar), con entrega el **lunes
 12 de octubre de 2026**. Mientras dure, **pausa el orden de las fases** de abajo, igual que la pista
-del CCA-F. Todo el detalle está en `temas/25-davivienda-sre-observabilidad/`, que vive **solo en la rama
-`davivienda-sre-prueba-tecnica`** (no en `main`):
+del CCA-F. Todo el detalle está en `pruebas-tecnicas/davivienda/` (raíz del repo):
 
 - `roadmap-express.md`: mini roadmap por días con nivel actual y meta de cada ítem.
 - `banco-preguntas.md`: preguntas por ítem (de a una, con respuesta plegada).
@@ -331,12 +330,11 @@ qué certificación/skill tiene más demanda real:
 > CV real) y el diagrama de plataforma del tema 23 son la referencia real
 > para saber qué tan profundo tenés que ir en cada tema.
 
-## Temas 25-30: procesos de selección y temas sueltos
+## Temas 27-30: temas sueltos traídos de otras ramas
 
 Agregados en ramas aparte y traídos a `main` el 2026-10-15 (antes algunos usaban el número 14 o 25, ya ocupados):
 
-- `temas/25-davivienda-sre-observabilidad` — prueba técnica Davivienda SRE (OpenTelemetry, SLOs, presentación).
-- `temas/26-dapta-seguridad-plataforma` — propuesta de seguridad y cumplimiento para Dapta.
+- Davivienda (antes tema 25) y Dapta (antes tema 26) se movieron a `pruebas-tecnicas/` en la raíz del repo, una carpeta por empresa.
 - `temas/27-linux-distros-infraestructura` — Linux, distribuciones e infraestructura (ruta NubeShop).
 - `temas/28-respuesta-incidentes-l2-l3` — proceso de respuesta a incidentes (on-call L2/L3): clasificar, mitigar, diagnosticar, resolver, post-mortem.
 - `temas/29-entrevista-payu` — preguntas y respuestas modelo de la entrevista PayU.

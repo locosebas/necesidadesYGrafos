@@ -6,7 +6,7 @@
 > **Cómo se usa:** las preguntas se hacen **de a una**, sin ver la respuesta (está plegada en "Respuesta").
 > En los repasos se **describe el mecanismo y se pide el nombre**. Las listas (las 10 preguntas del hilo, las 5
 > reglas, los 4 ejes) se recitan **completas y sin pistas** antes de recibir corrección.
-> Escala: ⬜ no visto · 🔴 novato · 🟡 intermedio · 🟢 sólido · 🔵 senior (la de `../../examenes/registro/progreso.md`).
+> Escala: ⬜ no visto · 🔴 novato · 🟡 intermedio · 🟢 sólido · 🔵 senior (la de `../../devops-senior/examenes/registro/progreso.md`).
 
 **Material de apoyo:** [libreto](presentacion-libreto.md) · [análisis de alternativas](analisis-alternativas.md) ·
 [contraargumentos](contraargumentos.md) · [chuleta de nombres](chuleta-nombres.md) · [banco de preguntas](banco-preguntas.md).
@@ -325,5 +325,5 @@ Ordenado por prioridad: primero lo 🔴 que aparece en la presentación, despué
 
 ## Registro
 
-Al terminar cada sesión, actualizar los niveles de los temas 64 a 80 en `../../examenes/registro/progreso.md` y
+Al terminar cada sesión, actualizar los niveles de los temas 64 a 80 en `../../devops-senior/examenes/registro/progreso.md` y
 la sesión en `resultados.md`. El ítem 80 (Modelo C4 y presentación) sube con la Parte 1.

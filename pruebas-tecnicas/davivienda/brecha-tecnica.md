@@ -1,7 +1,7 @@
 # Brecha técnica — prueba Davivienda vs. lo estudiado
 
 Cruce de `caso-de-uso-especialista-i-plataforma-confiabilidad.md` (y de la rúbrica, por si el cargo es
-Especialista II / Tech Lead) contra `../../examenes/registro/progreso.md` al 2026-10-08.
+Especialista II / Tech Lead) contra `../../devops-senior/examenes/registro/progreso.md` al 2026-10-08.
 Escala: ⬜ no visto · 🔴 novato · 🟡 intermedio · 🟢 sólido · 🔵 senior.
 
 ## Lo que ya tienes y sirve para la prueba
