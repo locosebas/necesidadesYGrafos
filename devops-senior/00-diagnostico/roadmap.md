@@ -142,7 +142,7 @@ actualiza cada vez que avanza una sesión de estudio (ver
 | 0 | IA | Diagnóstico general IA (temas 14-20) | ⬜ — los fundamentos se cubrieron enseñando directo, sin el examen diagnóstico formal |
 | 0 | Ops | Diagnóstico de herramientas startup (Istio, ArgoCD, Keycloak, OPA, ESO, Valkey, Redpanda, Temporal…) | ⬜ |
 | 1 | Ops | 01 — IaC multi-cloud | ✅ Terraform + Ansible (agregado fuera del roadmap original); 🔁 Bicep/CloudFormation/CDK nunca visto |
-| 1 | Ops | 10 — Kubernetes avanzado | ✅ completo, incluido troubleshooting (`CrashLoopBackOff`/`OOMKilled`/`ImagePullBackOff`, nivel 🔵 Senior) |
+| 1 | Ops | 10 — Kubernetes avanzado | ✅ lo examinado (arquitectura, networking, troubleshooting 🔵 Senior); 🔁 16 de 36 sub-temas sin evaluar — ver "Ruta completa de Kubernetes" abajo |
 | 1 | Ops | 02 — Contenedores serverless | 🟡 tocado vía la curva de cómputo (VM→K8s→serverless→FaaS→PaaS), sin examen dedicado |
 | 1 | IA | 14 — Fundamentos de IA, ML y LLMs | ✅ entrenamiento/inferencia, pre-entrenamiento/fine-tuning, RAG/agentic RAG, embeddings, visión por computador, NLP, IA Responsable |
 | 2 | Ops | 03 — CI/CD multi-cloud | ✅ panorama (push vs. pull, ArgoCD, OIDC); 🔁 configuración práctica de ArgoCD pendiente; GitLab CI por autoestudio propio, sin verificar profundidad (administración de GitLab y tokens → tema 24) |
@@ -290,6 +290,102 @@ modelos) todavía no se vio.
 - Simulacros de entrevista técnica con Claude usando `examenes/` en modo mixto:
   DevOps, IA, y **mixtos DevOps + IA** (por ejemplo, *"diseñá la plataforma
   para servir un RAG a 10.000 usuarios en AWS"*), formato entrevista.
+
+## Ruta completa de Kubernetes (36 temas) — agregada 2026-10-17
+
+El tema 10 del tablero está ✅ en lo que se examinó (arquitectura, networking,
+troubleshooting), pero **no cubre todo Kubernetes**. Esta sección es el mapa
+completo de Kubernetes, de lo general a lo específico, con el nivel actual de
+cada sub-tema (misma escala de `examenes/registro/progreso.md`: 🔴 Novato ·
+🟡 Intermedio · 🟢 Sólido · 🔵 Senior · ⬜ sin evaluar). Sirve también como
+temario base para la CKA (Certified Kubernetes Administrator).
+
+**Orden sugerido para cerrar huecos:** #5 → #4 → #2/#3 → #9 → #25/#26 → #21/#22
+→ #30 → #13 → #28 → #6 → el resto. Al terminar cada sub-tema, actualizar su
+nivel acá y en `progreso.md`.
+
+### Bloque A — Fundamentos y arquitectura
+
+| # | Tema | Qué incluye | Nivel |
+|---|---|---|---|
+| 1 | Arquitectura del clúster | Control plane (kube-apiserver, etcd, kube-scheduler, kube-controller-manager, cloud-controller-manager), nodos (kubelet, kube-proxy, container runtime/containerd), reconciliation loop | 🟢 |
+| 2 | Modelo declarativo y API | Manifiestos YAML, `apiVersion`/`kind`/`metadata`/`spec`/`status`, labels/selectors, annotations, Namespaces | ⬜ |
+| 3 | kubectl | `get`, `describe`, `logs`, `exec`, `apply` vs. `create`, `port-forward`, `explain`, kubeconfig y contexts | ⬜ |
+
+### Bloque B — Cargas de trabajo (workloads)
+
+| # | Tema | Qué incluye | Nivel |
+|---|---|---|---|
+| 4 | Pod | Unidad mínima, sidecars, init containers, ciclo de vida, probes (liveness/readiness/startup) | ⬜ |
+| 5 | Controladores de workloads | Deployment → ReplicaSet, StatefulSet, DaemonSet, Job, CronJob — cuándo usar cada uno | ⬜ |
+| 6 | Estrategias de despliegue | RollingUpdate (`maxSurge`/`maxUnavailable`), Recreate, rollback; canary/blue-green con Argo Rollouts/Flagger | 🔴 (tema 67 de `progreso.md`) |
+
+### Bloque C — Configuración y almacenamiento
+
+| # | Tema | Qué incluye | Nivel |
+|---|---|---|---|
+| 7 | ConfigMap y Secret | Inyección por variables de entorno o volumen; Secret = base64, no cifrado; cifrado en etcd con KMS (Key Management Service) | ⬜ |
+| 8 | Secretos externos | ESO (External Secrets Operator), CSI (Container Storage Interface) Secrets Store driver, Vault | 🟡 por confirmar |
+| 9 | Almacenamiento | Volume, PV (PersistentVolume), PVC (PersistentVolumeClaim), StorageClass, aprovisionamiento dinámico, drivers CSI, modos de acceso (RWO/RWX) | ⬜ |
+
+### Bloque D — Scheduling, recursos y autoscaling
+
+| # | Tema | Qué incluye | Nivel |
+|---|---|---|---|
+| 10 | Requests/limits y QoS (Quality of Service) | Guaranteed, Burstable, BestEffort | 🟡 |
+| 11 | Ubicación de Pods | nodeSelector, affinity/anti-affinity, taints/tolerations, topologySpreadConstraints, PriorityClass y preemption | 🟡 |
+| 12 | Autoscaling | HPA (Horizontal Pod Autoscaler), VPA (Vertical Pod Autoscaler), KEDA (Kubernetes Event-Driven Autoscaling), Cluster Autoscaler, Karpenter | 🟡 |
+| 13 | Disponibilidad | PDB (PodDisruptionBudget), drain/cordon, despliegue multi-zona | ⬜ |
+
+### Bloque E — Networking
+
+| # | Tema | Qué incluye | Nivel |
+|---|---|---|---|
+| 14 | Modelo de red y CNI (Container Network Interface) | Red plana (todos los Pods se ven por defecto), Calico, Cilium, Azure CNI Overlay | 🟢 |
+| 15 | Services | ClusterIP, NodePort, LoadBalancer, Headless; kube-proxy (iptables/IPVS); CoreDNS | 🟢 |
+| 16 | Ingress y Gateway API | Ingress Controller (NGINX/HAProxy/Envoy), Gateway API como sucesor | 🟡 |
+| 17 | NetworkPolicy | Default-deny, reglas ingress/egress, egress a DNS (puerto 53) | 🟢 |
+| 18 | Service mesh | Istio/Linkerd, mTLS (mutual TLS), sidecar vs. ambient mode | 🟢 |
+
+### Bloque F — Seguridad
+
+| # | Tema | Qué incluye | Nivel |
+|---|---|---|---|
+| 19 | RBAC (Role-Based Access Control) de Kubernetes | Role, ClusterRole, RoleBinding, ServiceAccount; RBAC de K8s ≠ IAM de la nube | 🟡 |
+| 20 | Identidad pod → nube | IRSA (IAM Roles for Service Accounts), AKS/GKE Workload Identity | 🟢 (tema 27 de `progreso.md`) |
+| 21 | Seguridad de Pods | Pod Security Standards (privileged/baseline/restricted), securityContext, runAsNonRoot | ⬜ |
+| 22 | Políticas como código | OPA (Open Policy Agent) Gatekeeper, Kyverno, admission controllers (validating/mutating webhooks) | ⬜ |
+| 23 | Cadena de suministro | Escaneo de imágenes (Trivy), firma (Cosign/Sigstore) | ⬜ |
+
+### Bloque G — Extensibilidad y empaquetado
+
+| # | Tema | Qué incluye | Nivel |
+|---|---|---|---|
+| 24 | CRDs (Custom Resource Definitions) y Operators | Patrón controller + CRD (cert-manager, Prometheus Operator) | 🟡 |
+| 25 | Helm | Charts, values, templates, releases, `helm upgrade --install`, rollback | ⬜ |
+| 26 | Kustomize | Base + overlays por ambiente | ⬜ |
+| 27 | GitOps | Argo CD/Flux, modelo pull, `Application`, App of Apps, sync y drift | 🟡 (tema 22 de `progreso.md`) |
+
+### Bloque H — Operación (Día 2)
+
+| # | Tema | Qué incluye | Nivel |
+|---|---|---|---|
+| 28 | Observabilidad en K8s | kube-prometheus-stack, Grafana, metrics-server, Loki/Fluent Bit, OpenTelemetry Operator | 🔴 (tema 69 de `progreso.md`) |
+| 29 | Troubleshooting | `CrashLoopBackOff`, `OOMKilled` vs. `Evicted`, `ImagePullBackOff`, `Pending`, DNS | 🔵 |
+| 30 | Upgrades del clúster | Version skew, orden control plane → nodos, deprecación de APIs, node pools blue-green | ⬜ |
+| 31 | Backup y DR (Disaster Recovery) | Velero, backup de etcd | ⬜ |
+| 32 | Costos (FinOps) | Right-sizing, spot instances, Kubecost/OpenCost | ⬜ |
+
+### Bloque I — Plataforma y ecosistema
+
+| # | Tema | Qué incluye | Nivel |
+|---|---|---|---|
+| 33 | Distribuciones de Kubernetes | AKS, EKS, GKE, OpenShift, k3s, kind/minikube | 🟢 |
+| 34 | Multi-tenancy | Namespace, RBAC, NetworkPolicy, ResourceQuota/LimitRange | 🟢 (tema 51 de `progreso.md`) |
+| 35 | Kubernetes para IA (Inteligencia Artificial) | GPUs (NVIDIA device plugin), KServe, vLLM, Kubeflow — se cruza con el tema 19 | ⬜ |
+| 36 | Certificaciones | CKA (Certified Kubernetes Administrator), CKAD (Certified Kubernetes Application Developer), CKS (Certified Kubernetes Security Specialist) | — |
+
+**Resumen:** 🔵 1 · 🟢 8 · 🟡 8 · 🔴 2 · ⬜ 16 (+ #36 sin calificación).
 
 ## Proyecto integrador (atraviesa todas las fases) — ⬜ sin empezar
 
