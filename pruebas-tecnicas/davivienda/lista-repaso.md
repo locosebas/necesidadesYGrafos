@@ -15,11 +15,11 @@
 | 6 | Cambiar el esquema de la base de datos sin romper el rollback: agregar, migrar, borrar | Expand/contract (+ dual write, backfill, CDC/trigger) | 🟡 (10-19: no salió; luego exacto. Buena pregunta propia sobre sincronizar columnas) |
 | 7 | Componente del Collector que une pipelines y cambia de señal (spans → métricas) | Connector (`spanmetrics`) | 🔴 (10-19: nombre visto en la sugerencia; dijo processor y luego invirtió `redaction`/`count`; corregido con la imagen del gas: filtro = processor, planta gas→electricidad = connector) |
 | 8 | El processor que va primero y protege al Collector de quedarse sin RAM | `memory_limiter` (+ backpressure) | 🟡 (10-19: describió "rechazo de carga por memoria"; luego nombre y por qué va primero bien) |
-| 9 | Protocolo nativo de OpenTelemetry y sus dos puertos | OTLP (OpenTelemetry Protocol) — 4317 gRPC / 4318 HTTP | 🔴 |
-| 10 | Inyecta la auto-instrumentación en Kubernetes con una anotación en el pod | OpenTelemetry Operator | 🔴 |
+| 9 | Protocolo nativo de OpenTelemetry y sus dos puertos | OTLP (OpenTelemetry Protocol) — 4317 gRPC / 4318 HTTP | 🟡 (10-19: primero lo confundió con W3C/B3; luego OTLP y puertos exactos. Imagen: OTLP = camión, traceparent = etiqueta) |
+| 10 | Inyecta la auto-instrumentación en Kubernetes con una anotación en el pod | OpenTelemetry Operator | 🟡 (10-19: no salió (antes dijo Istio); luego exacto. Tercera vez que salta el nombre cuando va con otra pregunta) |
 | 11 | Muestreo que decide al final de la traza y conserva los errores | Tail-based sampling | 🔴 |
 | 12 | Exporter de la capa 1 que manda todos los spans de una traza a la misma réplica | `loadbalancing` (por traceID) | 🔴 |
-| 13 | Header del W3C que lleva el ID de la traza entre servicios (y el formato viejo de Zipkin) | `traceparent` (W3C Trace Context); B3 | 🔴 |
+| 13 | Header del W3C que lleva el ID de la traza entre servicios (y el formato viejo de Zipkin) | `traceparent` (W3C Trace Context); B3 | 🔴 (10-19: dijo "W3s y C3"; `traceparent` no salió) |
 | 14 | Una etiqueta de métrica con el número de cliente crea una serie por cliente | Explosión de cardinalidad | 🔴 |
 | 15 | Convertir logs repetitivos en contadores para no pagar por cada línea | Log-to-Metrics | 🔴 |
 | 16 | Convenciones para que todo el banco llame igual a lo mismo | Semantic Conventions | 🔴 |
