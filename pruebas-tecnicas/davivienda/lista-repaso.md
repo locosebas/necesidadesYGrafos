@@ -7,11 +7,11 @@
 
 | # | Mecanismo que se describe | Nombre a recordar | Nivel |
 |---|---|---|---|
-| 1 | Acuerdo firmado con negocio: qué pasa con los despliegues según cuánto presupuesto de errores queda | Error Budget Policy | 🔴 |
-| 2 | Qué tan rápido se está gastando el presupuesto frente a lo sostenible (y el umbral de página en 1 h) | Burn rate (14,4×) | 🟡 |
-| 3 | Regla del environment de producción: una app de Plataforma aprueba o rechaza cada despliegue | Deployment protection rule | 🔴 |
-| 4 | Automatiza el canary sobre un service mesh existente, sin tocar los Deployments | Flagger | 🔴 |
-| 5 | Automatiza el canary reemplazando el Deployment, sin exigir Argo CD | Argo Rollouts | 🔴 |
+| 1 | Acuerdo firmado con negocio: qué pasa con los despliegues según cuánto presupuesto de errores queda | Error Budget Policy | 🟡 (10-19: dijo "agreement", luego exacto) |
+| 2 | Qué tan rápido se está gastando el presupuesto frente a lo sostenible (y el umbral de página en 1 h) | Burn rate (14,4×) | 🟢 (10-19: + 2% en 1 h) |
+| 3 | Regla del environment de producción: una app de Plataforma aprueba o rechaza cada despliegue | Deployment protection rule | 🔴 (10-19: no salió; defensa con OIDC + `job_workflow_ref` + Terraform 8/10 con los nombres dados) |
+| 4 | Automatiza el canary sobre un service mesh existente, sin tocar los Deployments | Flagger | 🟡 (10-19: no salió y lo confundió con feature flags; luego bien elegido frente a Argo Rollouts) |
+| 5 | Automatiza el canary reemplazando el Deployment, sin exigir Argo CD | Argo Rollouts | 🟢 (10-19: sin pistas) |
 | 6 | Cambiar el esquema de la base de datos sin romper el rollback: agregar, migrar, borrar | Expand/contract | 🔴 |
 | 7 | Componente del Collector que une pipelines y cambia de señal (spans → métricas) | Connector (`spanmetrics`) | 🔴 |
 | 8 | El processor que va primero y protege al Collector de quedarse sin RAM | `memory_limiter` | 🔴 |
@@ -34,6 +34,12 @@
 | 25 | Trabajo manual, repetitivo, automatizable, que crece con el servicio | Toil | 🔴 |
 | 26 | Ejercicio programado de caos con el equipo (no es prueba de carga) | Game Day | 🔴 |
 | 27 | Herramienta que convierte un SLO en YAML en reglas de Prometheus | Sloth (spec: OpenSLO) | ⬜ |
+| 28 | La nube entrega credenciales temporales solo a un token firmado con ciertos datos (sin llaves guardadas) | OIDC (OpenID Connect) | 🟡 |
+| 29 | Dato del token OIDC que dice de qué plantilla de workflow viene el job | `job_workflow_ref` | 🔴 |
+| 30 | Quien escribe el código no es quien autoriza ni ejecuta el paso a producción | Segregación de funciones (SoD) | 🟡 |
+| 31 | Herramienta ITSM donde viven los cambios que aprueba el comité | ServiceNow; comité = CAB (Change Advisory Board) | 🟡 |
+| 32 | Proxy que Istio pega al lado de cada pod | Envoy (sidecar) | 🟢 (10-19: lo recordó tras explicarlo) |
+| 33 | Una sola versión desplegada; un interruptor decide la función por usuario (≠ canary) | Feature flag (Flipt, LaunchDarkly) | 🟢 |
 
 ## Listas de recitación estricta
 
