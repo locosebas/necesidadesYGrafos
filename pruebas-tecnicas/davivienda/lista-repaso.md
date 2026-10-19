@@ -12,9 +12,9 @@
 | 3 | Regla del environment de producción: una app de Plataforma aprueba o rechaza cada despliegue | Deployment protection rule | 🔴 (10-19: no salió; defensa con OIDC + `job_workflow_ref` + Terraform 8/10 con los nombres dados) |
 | 4 | Automatiza el canary sobre un service mesh existente, sin tocar los Deployments | Flagger | 🟡 (10-19: no salió y lo confundió con feature flags; luego bien elegido frente a Argo Rollouts) |
 | 5 | Automatiza el canary reemplazando el Deployment, sin exigir Argo CD | Argo Rollouts | 🟢 (10-19: sin pistas) |
-| 6 | Cambiar el esquema de la base de datos sin romper el rollback: agregar, migrar, borrar | Expand/contract | 🔴 |
-| 7 | Componente del Collector que une pipelines y cambia de señal (spans → métricas) | Connector (`spanmetrics`) | 🔴 |
-| 8 | El processor que va primero y protege al Collector de quedarse sin RAM | `memory_limiter` | 🔴 |
+| 6 | Cambiar el esquema de la base de datos sin romper el rollback: agregar, migrar, borrar | Expand/contract (+ dual write, backfill, CDC/trigger) | 🟡 (10-19: no salió; luego exacto. Buena pregunta propia sobre sincronizar columnas) |
+| 7 | Componente del Collector que une pipelines y cambia de señal (spans → métricas) | Connector (`spanmetrics`) | 🔴 (10-19: nombre visto en la sugerencia; dijo processor y luego invirtió `redaction`/`count`; corregido con la imagen del gas: filtro = processor, planta gas→electricidad = connector) |
+| 8 | El processor que va primero y protege al Collector de quedarse sin RAM | `memory_limiter` (+ backpressure) | 🟡 (10-19: describió "rechazo de carga por memoria"; luego nombre y por qué va primero bien) |
 | 9 | Protocolo nativo de OpenTelemetry y sus dos puertos | OTLP (OpenTelemetry Protocol) — 4317 gRPC / 4318 HTTP | 🔴 |
 | 10 | Inyecta la auto-instrumentación en Kubernetes con una anotación en el pod | OpenTelemetry Operator | 🔴 |
 | 11 | Muestreo que decide al final de la traza y conserva los errores | Tail-based sampling | 🔴 |
