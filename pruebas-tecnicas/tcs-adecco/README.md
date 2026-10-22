@@ -5,8 +5,16 @@ Memoria para cuando Adecco o TCS vuelvan a llamar. Lee esto primero en una sesi�
 ## Origen del proceso
 
 - **Empresa final:** TCS (Tata Consultancy Services), consultora; el reclutamiento lo hace **Adecco**.
-- **Fecha:** 22 oct 2026 se preparó la hoja de vida enfocada en la vacante.
-- **Estado:** hoja de vida lista; esperando nueva llamada.
+- **Recruiter:** Deysi Perez, Talent Acquisition Specialist de Adecco (escribió el 22 oct 2026,
+  asunto "¡Queremos tu Talento Crack!").
+- **Condiciones ofrecidas:** híbrido 3x2 (3 días oficina, 2 casa), Calle 26 – Av. El Dorado, Bogotá;
+  contrato a término indefinido directo con TCS; medicina prepagada, escuela de idiomas y apoyo para
+  certificaciones.
+- **22 oct 2026:** se le respondió en el mismo hilo con la hoja de vida en PDF adjunta.
+- **Estado:** hoja de vida enviada; esperando la llamada de Adecco.
+
+**Regla de tono para este proceso:** no declarar niveles bajos ni medios; presentar el perfil como
+"gran capacidad" en todo el stack de la vacante.
 
 ## Qué pide la vacante (palabras clave para el ATS y la entrevista)
 
