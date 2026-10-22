@@ -11,7 +11,13 @@ Memoria para cuando Adecco o TCS vuelvan a llamar. Lee esto primero en una sesi�
   contrato a término indefinido directo con TCS; medicina prepagada, escuela de idiomas y apoyo para
   certificaciones.
 - **22 oct 2026:** se le respondió en el mismo hilo con la hoja de vida en PDF adjunta.
-- **Estado:** hoja de vida enviada; esperando la llamada de Adecco.
+- **22 oct 2026:** Deysi pidió quitar la experiencia como Diseñador Mecánico y dejar 5 años de
+  experiencia. Se reenvió la hoja de vida corregida: 5 años, Bizagi desde 2021, fechas solo con años
+  (MercadoLibre 2024 – 2026, Bizagi 2021 – 2024), sin StroTech.
+- **Estado:** hoja de vida corregida enviada; esperando la llamada de Adecco.
+
+**Para la entrevista, mantener la misma versión:** 5 años de experiencia en DevOps, Bizagi desde 2021,
+sin mencionar meses ni la etapa de diseño mecánico.
 
 **Regla de tono para este proceso:** no declarar niveles bajos ni medios; presentar el perfil como
 "gran capacidad" en todo el stack de la vacante.
