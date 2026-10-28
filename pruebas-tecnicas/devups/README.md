@@ -9,6 +9,7 @@ El proceso tiene **dos etapas**:
 1. **Speech (demostración de lo que hemos hecho)**: presentación hablada de la experiencia y los proyectos propios.
 2. **Casos técnicos**:
    - [Caso 1 — Disaster Recovery Cross-Region](caso-1-dr-cross-region.md)
+   - [Caso 2 — Incidente productivo y observabilidad](caso-2-incidente-observabilidad.md)
 
 ## Pendiente por definir
 
