@@ -16,4 +16,4 @@ El proceso tiene **dos etapas**:
 - Cargo al que se aplica.
 - Fecha de cada etapa.
 - Duración y formato del speech.
-- ¿Hay más casos además del Caso 1?
+- ¿Hay más casos además de los Casos 1 y 2?
