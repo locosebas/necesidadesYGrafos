@@ -10,7 +10,7 @@ describe el mecanismo y **tú dices el nombre**.
 
 | # | Empresa | Proceso | Ruta de aprendizaje vigente | Estado |
 |---|---|---|---|---|
-| 1 | [Davivienda](davivienda/) | Especialista Senior SRE — prueba de observabilidad (Banco Plus) | [ruta-sustentacion.md](davivienda/ruta-sustentacion.md) (la de la entrega fue [roadmap-express.md](davivienda/roadmap-express.md)) | Prueba entregada el 12 oct 2026; falta la sustentación |
+| 1 | [Davivienda](davivienda/) | Especialista Senior SRE — prueba de observabilidad (Banco Plus) | [ruta-sustentacion.md](davivienda/ruta-sustentacion.md) (la de la entrega fue [roadmap-express.md](davivienda/roadmap-express.md)) | Prueba entregada el 12 oct 2026; sustentación el 20 oct; **no seleccionado** (29 oct 2026) |
 | 2 | [Dapta](dapta/) | Defensa: propuesta de seguridad y cumplimiento | [roadmap-express.md](dapta/roadmap-express.md) | Entrevista probable el 15 oct 2026 |
 | 3 | [Toolbox](toolbox/) | Prueba técnica: Bash, Ansible (LEMP en CentOS 7), Docker | Sin ruta (prueba corta, ya resuelta) | Entregada el 25 sep 2026 |
 
