@@ -84,3 +84,7 @@ Venían en una rama aparte (`claude/estudio-desde-postulaciones`); se trajeron a
   aplicaciones propias y en producción (referencia: repo `ElGerente`), pero el
   frontend con React es lo más flojo. Repasar React + TypeScript lo suficiente
   para armar la interfaz de un POC sobre una API FastAPI.
+- **Microsoft Sentinel** (surgió en postulaciones, BetterEngineer): sin uso
+  real. SIEM (Security Information and Event Management) de Azure: Log
+  Analytics Workspace, conectores de datos, reglas de analítica y KQL (Kusto
+  Query Language). Relacionado: Azure Monitor, Azure RBAC y Azure Policy.
