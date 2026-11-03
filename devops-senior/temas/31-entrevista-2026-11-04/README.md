@@ -24,6 +24,9 @@ clave que no pueden faltar.
 > Ojo: en el correo dice "cubs kubectl" — es un error de tipeo, se refiere a
 > **`kubectl`** (se pronuncia "kube-control", "kube-C-T-L" o "kube-cuttle").
 
+> **Presentación guía (21 diapositivas, con diagramas de cada respuesta y
+> guion en las notas):** https://claude.ai/artifact/ACjmXKiv8NmaEk837J2Sn5
+
 **Fórmula para troubleshooting (preguntas 6–9):** nunca saltar a la solución.
 Decir en voz alta: **1) confirmar el síntoma → 2) hipótesis más probable →
 3) comando para comprobarla → 4) arreglo → 5) prevención (monitoreo/IaC)**.
