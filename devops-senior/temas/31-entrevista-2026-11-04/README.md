@@ -27,10 +27,14 @@ clave que no pueden faltar.
 > **Presentación guía (21 diapositivas, con diagramas de cada respuesta y
 > guion en las notas):** https://claude.ai/artifact/ACjmXKiv8NmaEk837J2Sn5
 
-> **Presentación para la entrevista (19 diapositivas, en inglés, con íconos de
+> **Presentación para la entrevista (24 diapositivas, en inglés, con íconos de
 > las herramientas y guion + tips en español en las notas):**
-> https://claude.ai/artifact/CRWSFU5JbdMHiBarCdxG1G — experiencia (Bizagi,
-> MercadoLibre, caja de herramientas), y preguntas nuevas: **cómo sale un Pod
+> https://claude.ai/artifact/CRWSFU5JbdMHiBarCdxG1G — experiencia (Bizagi:
+> CI/CD, observabilidad con Grafana + alertas/on-call, integraciones SSO/OIDC
+> con Entra ID y proveedores externos; MercadoLibre: PaaS de cómputo,
+> Terraform —módulos compartidos, state/backends, migraciones— y diagnóstico de
+> tickets de Zendesk con Claude —RAG + MCP, certezas e hipótesis, **no
+> auto-resuelve**—; caja de herramientas), y preguntas nuevas: **cómo sale un Pod
 > a internet** (Pod → SNAT en el nodo → route table → NAT Gateway → Internet
 > Gateway; equivalentes en AKS/GKE; depuración de adentro hacia afuera) y
 > **proceso de resolución de un incidente en producción** (triage → mitigar →

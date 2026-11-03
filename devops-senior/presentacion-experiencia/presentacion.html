@@ -133,7 +133,7 @@ nav button { border:0; background:var(--azul); color:#fff; border-radius:4px; pa
       <div class="fecha">jun. 2024 – ago. 2026</div>
       <div class="emp">MercadoLibre</div>
       <div class="rol">Software Developer (DevOps)</div>
-      <ul><li>Equipo de cómputo de la PaaS interna</li><li>Kubernetes y AWS ECS</li><li>AWS y GCP con Terraform</li><li>Triage de tickets con IA</li></ul>
+      <ul><li>Equipo de cómputo de la PaaS interna</li><li>Kubernetes y AWS ECS</li><li>AWS y GCP con Terraform</li><li>Diagnóstico de tickets con Claude</li></ul>
     </div>
   </div>
   <aside class="notas">Empecé mi carrera en la ingeniería: soy ingeniero mecatrónico de la Universidad Nacional y trabajé como diseñador
@@ -307,13 +307,13 @@ nav button { border:0; background:var(--azul); color:#fff; border-radius:4px; pa
   <h2>Despliegues seguros, observabilidad y menos trabajo repetitivo gracias a la IA.</h2>
   <div class="cuerpo">
     <div class="col">
-      <div class="etq">Triage de tickets con IA</div>
+      <div class="etq">Diagnóstico de tickets con Claude</div>
       <div class="flujo vertical">
-        <div class="paso"><div class="t">Llega un ticket</div></div>
+        <div class="paso"><div class="t">Llega un ticket</div>desde Zendesk</div>
         <div class="flecha">↓</div>
-        <div class="paso dest"><div class="t">Se compara con el histórico</div>de resoluciones anteriores</div>
+        <div class="paso dest"><div class="t">Claude reúne contexto</div>RAG sobre runbooks y tickets resueltos; MCP para ver el estado real</div>
         <div class="flecha">↓</div>
-        <div class="paso ok"><div class="t">Se resuelve solo</div>si la acción es segura y la puede ejecutar el usuario</div>
+        <div class="paso ok"><div class="t">Diagnostica y sugiere</div>certezas, hipótesis y arreglo sugerido; decide un ingeniero</div>
       </div>
     </div>
     <div class="col">
@@ -326,9 +326,9 @@ nav button { border:0; background:var(--azul); color:#fff; border-radius:4px; pa
       </ul>
     </div>
   </div>
-  <aside class="notas">En la operación, los despliegues blue/green y canary eran el día a día. Co-desarrollé el sistema de triage de tickets:
-  cada ticket se compara con el histórico de resoluciones y, si la acción es segura, se resuelve solo, sin que intervenga el
-  equipo. También construí alertas de capacidad, con una capa reactiva y una predictiva, configuré Datadog en el onboarding
+  <aside class="notas">En la operación, los despliegues blue/green y canary eran el día a día. Co-desarrollé el sistema de diagnóstico de tickets con Claude:
+  lee el ticket de Zendesk, busca en runbooks y tickets resueltos (RAG), consulta el estado real con MCP, y entrega un
+  diagnóstico con certezas, hipótesis y un arreglo sugerido. No resuelve solo: decide un ingeniero. También construí alertas de capacidad, con una capa reactiva y una predictiva, configuré Datadog en el onboarding
   de clientes, y lideré análisis de causa raíz y postmortems sin culpables.</aside>
 </section>
 
@@ -343,7 +343,7 @@ nav button { border:0; background:var(--azul); color:#fff; border-radius:4px; pa
     <tr><td>Infraestructura</td><td>Terraform, ARM Templates, Python, PowerShell</td><td>Terraform (módulos y estado), AWS, GCP</td></tr>
     <tr><td>Cómputo</td><td>Kubernetes sobre Azure</td><td>Kubernetes, AWS ECS, operadores en Go</td></tr>
     <tr><td>Observabilidad</td><td>Grafana, guardias on-call</td><td>Datadog, alertas de capacidad, postmortems</td></tr>
-    <tr><td>IA</td><td>—</td><td>Triage automático de tickets con modelos de lenguaje</td></tr>
+    <tr><td>IA</td><td>—</td><td>Diagnóstico de tickets con Claude (RAG + MCP), sin auto-resolver</td></tr>
   </table>
   <aside class="notas">En resumen: en Bizagi construí el CI/CD y la automatización de infraestructura sobre Azure, y en MercadoLibre trabajé en
   la plataforma de cómputo sobre AWS y GCP, con Kubernetes y ECS, y metí IA para reducir el trabajo repetitivo del soporte.
