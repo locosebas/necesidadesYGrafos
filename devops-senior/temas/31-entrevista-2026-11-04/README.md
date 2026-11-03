@@ -27,6 +27,16 @@ clave que no pueden faltar.
 > **Presentación guía (21 diapositivas, con diagramas de cada respuesta y
 > guion en las notas):** https://claude.ai/artifact/ACjmXKiv8NmaEk837J2Sn5
 
+> **Presentación para la entrevista (19 diapositivas, en inglés, con íconos de
+> las herramientas y guion + tips en español en las notas):**
+> https://claude.ai/artifact/CRWSFU5JbdMHiBarCdxG1G — experiencia (Bizagi,
+> MercadoLibre, caja de herramientas), y preguntas nuevas: **cómo sale un Pod
+> a internet** (Pod → SNAT en el nodo → route table → NAT Gateway → Internet
+> Gateway; equivalentes en AKS/GKE; depuración de adentro hacia afuera) y
+> **proceso de resolución de un incidente en producción** (triage → mitigar →
+> diagnosticar → resolver y verificar → aprender, comunicando todo el tiempo;
+> severidades, roles y un escenario ilustrativo).
+
 **Fórmula para troubleshooting (preguntas 6–9):** nunca saltar a la solución.
 Decir en voz alta: **1) confirmar el síntoma → 2) hipótesis más probable →
 3) comando para comprobarla → 4) arreglo → 5) prevención (monitoreo/IaC)**.
