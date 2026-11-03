@@ -88,3 +88,8 @@ Venían en una rama aparte (`claude/estudio-desde-postulaciones`); se trajeron a
   real. SIEM (Security Information and Event Management) de Azure: Log
   Analytics Workspace, conectores de datos, reglas de analítica y KQL (Kusto
   Query Language). Relacionado: Azure Monitor, Azure RBAC y Azure Policy.
+- **Administración de herramientas SaaS (Google Workspace, Slack, Make)**
+  (surgió en postulaciones, Dragonfruit): sin uso como administrador. Alta y
+  baja de usuarios, permisos, SSO (Single Sign-On) y auditorías de acceso en
+  Google Workspace; Make (antes Integromat) frente a Zapier y n8n. Lo más
+  cercano que ya tiene: AWS IAM y Kubernetes RBAC.
