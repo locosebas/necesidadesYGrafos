@@ -1,0 +1,42 @@
+<section id="bizagi" data-transition="fade" style="background:#F6F5F1;color:#2B3442;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#1F5FD6;letter-spacing:2px;text-transform:uppercase">Bizagi · Azure</p>
+<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:64px;font-weight:700;line-height:1.15;color:#0E1726">I built the company’s CI/CD on Azure</h2>
+<h3 style="font-size:32px;font-weight:600;color:#0E1726">CI/CD pipeline</h3>
+<div style="display:flex;gap:16px;align-items:center">
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FDFDFB;border:1px solid #DCE0E6;border-radius:16px;padding:28px">
+<div style="display:flex;gap:12px"><img src="/_blob/ef4a3c45e349eec6af8996c7a9a73e7c" alt="Azure DevOps" style="width:52px;height:52px;object-fit:contain"><img src="/_blob/22f442e07e8ad49b778f135c26fe1dd2" alt="Jenkins" style="width:52px;height:52px;object-fit:contain"></div>
+<p style="font-size:28px;font-weight:600;color:#0E1726">Build</p>
+<p style="font-size:24px;color:#5A6475">Azure Pipelines and Jenkins</p>
+</div>
+<x-shape kind="arrow-right" style="background:#1F5FD6;width:48px;height:24px"></x-shape>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FDFDFB;border:1px solid #DCE0E6;border-radius:16px;padding:28px">
+<x-icon name="CheckCircle" style="color:#1F5FD6;width:52px;height:52px"></x-icon>
+<p style="font-size:28px;font-weight:600;color:#0E1726">Automated tests</p>
+<p style="font-size:24px;color:#5A6475">Unit, integration, end-to-end</p>
+</div>
+<x-shape kind="arrow-right" style="background:#1F5FD6;width:48px;height:24px"></x-shape>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FDFDFB;border:1px solid #DCE0E6;border-radius:16px;padding:28px">
+<x-icon name="Verified" style="color:#1F5FD6;width:52px;height:52px"></x-icon>
+<p style="font-size:28px;font-weight:600;color:#0E1726">Versioning</p>
+<p style="font-size:24px;color:#5A6475">Traceable release per change</p>
+</div>
+<x-shape kind="arrow-right" style="background:#1F5FD6;width:48px;height:24px"></x-shape>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#E8EFFC;border:2px solid #1F5FD6;border-radius:16px;padding:28px">
+<x-icon name="PaperPlane" style="color:#1F5FD6;width:52px;height:52px"></x-icon>
+<p style="font-size:28px;font-weight:600;color:#0E1726">Promotion</p>
+<p style="font-size:24px;color:#5A6475">Dev → Test → UAT → Prod</p>
+</div>
+</div>
+<h3 style="font-size:32px;font-weight:600;color:#0E1726">Customer onboarding as code</h3>
+<div style="display:flex;gap:24px">
+<div style="flex:1;display:flex;flex-direction:row;gap:20px;align-items:center;background:#FDFDFB;border:1px solid #DCE0E6;border-radius:16px;padding:24px"><img src="/_blob/d701bb8b28e562dd3a3ce311601a6255" alt="Terraform" style="width:56px;height:56px;object-fit:contain"><p style="font-size:26px;color:#2B3442">Terraform and ARM Templates</p></div>
+<div style="flex:1;display:flex;flex-direction:row;gap:20px;align-items:center;background:#FDFDFB;border:1px solid #DCE0E6;border-radius:16px;padding:24px"><img src="/_blob/c5f907d5af68d5f615fac247b2182682" alt="Python" style="width:56px;height:56px;object-fit:contain"><img src="/_blob/2ccfca4da3d110e8dfd841cb942dbc27" alt="PowerShell" style="width:56px;height:56px;object-fit:contain"><p style="font-size:26px;color:#2B3442">Provisioning scripts</p></div>
+<div style="flex:1;display:flex;flex-direction:row;gap:20px;align-items:center;background:#FDFDFB;border:1px solid #DCE0E6;border-radius:16px;padding:24px"><img src="/_blob/7da3839f0ee5a2caf6bd9c4e219aaa57" alt="Kubernetes" style="width:56px;height:56px;object-fit:contain"><p style="font-size:26px;color:#2B3442">Kubernetes on Azure (AKS)</p></div>
+<div style="flex:1;display:flex;flex-direction:row;gap:20px;align-items:center;background:#FDFDFB;border:1px solid #DCE0E6;border-radius:16px;padding:24px"><img src="/_blob/643548f84f01d240e6643b86ccd709fc" alt="Grafana" style="width:56px;height:56px;object-fit:contain"><p style="font-size:26px;color:#2B3442">Grafana dashboards from day one</p></div>
+</div>
+<aside>At Bizagi the challenge was to build the company’s Continuous Integration and Continuous Delivery. First CI: every change was built and went through automated tests inside the pipeline, in Azure Pipelines and Jenkins — if a test failed, the change didn’t move forward. Then CD: versioning, and promotion through Dev, Test, UAT (User Acceptance Testing) and Production, and customers could choose when to upgrade. The platform was certified under healthcare compliance standards, so every version had to be traceable.
+
+I also automated the onboarding of new customers: Terraform and ARM Templates as infrastructure as code, Python and PowerShell to provision Azure resources, Kubernetes on Azure, and every customer got Grafana dashboards for health and logs from day one. I was also on call supporting production.
+
+ES: Si preguntan "rate yourself in Jenkins": 7/10 + evidencia (Jenkinsfiles declarativos, plugins, credenciales, agentes) + qué te falta (tuning a gran escala, plugins propios).</aside>
+</section>

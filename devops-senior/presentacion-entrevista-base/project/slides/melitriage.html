@@ -1,0 +1,37 @@
+<section id="melitriage" data-transition="fade" style="background:#F6F5F1;color:#2B3442;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:36px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#1F5FD6;letter-spacing:2px;text-transform:uppercase">Mercado Libre · AI in support</p>
+<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:64px;font-weight:700;line-height:1.15;color:#0E1726">Ticket diagnosis with Claude</h2>
+<div style="display:flex;gap:16px;align-items:stretch">
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FDFDFB;border:1px solid #DCE0E6;border-radius:16px;padding:28px">
+<img src="/_blob/1d54091adba543e15587d9593321dbb9" alt="Zendesk" style="width:56px;height:56px;object-fit:contain">
+<p style="font-size:28px;font-weight:600;color:#0E1726">Zendesk ticket</p>
+<p style="font-size:24px;line-height:1.4;color:#5A6475">A team reports a problem with the platform</p>
+</div>
+<div style="display:flex;align-items:center"><x-shape kind="arrow-right" style="background:#1F5FD6;width:48px;height:24px"></x-shape></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#E8EFFC;border:2px solid #1F5FD6;border-radius:16px;padding:28px">
+<img src="/_blob/53e9e5b9e2f61cc12f9816af9ee14f55" alt="Claude" style="width:56px;height:56px;object-fit:contain">
+<p style="font-size:28px;font-weight:600;color:#0E1726">Claude</p>
+<p style="font-size:24px;line-height:1.4;color:#2B3442">Runs inside a harness with hooks that keep it read-only</p>
+</div>
+<div style="display:flex;align-items:center"><x-shape kind="arrow-right" style="background:#1F5FD6;width:48px;height:24px"></x-shape></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FDFDFB;border:1px solid #DCE0E6;border-radius:16px;padding:28px">
+<x-icon name="Search" style="color:#1F5FD6;width:56px;height:56px"></x-icon>
+<p style="font-size:28px;font-weight:600;color:#0E1726">Diagnosis</p>
+<p style="font-size:24px;line-height:1.4;color:#5A6475">Certainties, hypotheses and a suggested fix</p>
+</div>
+<div style="display:flex;align-items:center"><x-shape kind="arrow-right" style="background:#1F5FD6;width:48px;height:24px"></x-shape></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#0E1726;border:1px solid #0E1726;border-radius:16px;padding:28px">
+<x-icon name="Users" style="color:#F2B47A;width:56px;height:56px"></x-icon>
+<p style="font-size:28px;font-weight:600;color:#F3F1EA">Engineer decides</p>
+<p style="font-size:24px;line-height:1.4;color:#DCE3EE">Claude never resolves on its own</p>
+</div>
+</div>
+<p style="font-size:28px;font-weight:600;color:#0E1726">Context Claude gathers before answering</p>
+<div style="display:flex;gap:24px">
+<div style="flex:1;display:flex;flex-direction:row;gap:24px;align-items:center;background:#FDFDFB;border:1px solid #DCE0E6;border-radius:16px;padding:24px 28px"><x-icon name="Book" style="color:#1F5FD6;width:56px;height:56px"></x-icon><div style="flex:1;display:flex;flex-direction:column;gap:4px"><p style="font-size:28px;font-weight:600;color:#0E1726">RAG</p><p style="font-size:24px;line-height:1.4;color:#5A6475">Runbooks and similar tickets already resolved</p></div></div>
+<div style="flex:1;display:flex;flex-direction:row;gap:24px;align-items:center;background:#FDFDFB;border:1px solid #DCE0E6;border-radius:16px;padding:24px 28px"><x-icon name="Link" style="color:#1F5FD6;width:56px;height:56px"></x-icon><div style="flex:1;display:flex;flex-direction:column;gap:4px"><p style="font-size:28px;font-weight:600;color:#0E1726">MCP servers</p><p style="font-size:24px;line-height:1.4;color:#5A6475">Live state: clusters, deployments, metrics</p></div></div>
+</div>
+<aside>Model answer: “At Mercado Libre I co-developed a system that diagnoses support tickets with Claude. When a team opens a ticket in Zendesk, Claude reads it and gathers context two ways: RAG (Retrieval-Augmented Generation) over our runbooks and over similar tickets that were already resolved, and MCP (Model Context Protocol) servers that let it query the live state — the clusters, the deployments, the metrics. It runs inside a harness with hooks, so it can look but not change anything. The output is a diagnosis that separates certainties — facts it verified — from hypotheses — possible causes, ranked —, plus a suggested fix. It never resolves the ticket by itself: an engineer reviews the diagnosis and decides. That cut the time we spent on the first investigation of every ticket.”
+
+ES: Corrección importante frente a la versión anterior de tu presentación: NO auto-resolvía. Diagnosticaba y sugería. Si tienes una cifra real de ahorro de tiempo, dila; si no, no inventes un número. Si preguntan por qué no lo dejaron resolver solo: riesgo en un entorno regulado (Mercado Pago), y un humano en el ciclo (human-in-the-loop) para acciones que cambian producción.</aside>
+</section>

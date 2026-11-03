@@ -1,0 +1,33 @@
+<section id="morequestions" data-transition="fade" style="background:#F6F5F1;color:#2B3442;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#1F5FD6;letter-spacing:2px;text-transform:uppercase">Likely follow-ups</p>
+<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:64px;font-weight:700;line-height:1.15;color:#0E1726">More questions to rehearse</h2>
+<div style="display:grid;grid-template-columns:repeat(2, 1fr);gap:28px;flex:1">
+<div style="display:flex;flex-direction:column;gap:12px;background:#FDFDFB;border:1px solid #DCE0E6;border-radius:16px;padding:32px">
+<h3 style="font-size:32px;font-weight:600;color:#0E1726">A Pod is in CrashLoopBackOff</h3>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#1F5FD6">describe → logs --previous → events</p>
+<p style="font-size:26px;line-height:1.4">Exit code tells the story: 137 is OOMKilled, 1 is an app error; then config, Secrets, probes</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FDFDFB;border:1px solid #DCE0E6;border-radius:16px;padding:32px">
+<h3 style="font-size:32px;font-weight:600;color:#0E1726">Liveness vs readiness probe</h3>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#1F5FD6">restart vs remove from Service</p>
+<p style="font-size:26px;line-height:1.4">Liveness fails → kubelet restarts the container. Readiness fails → no traffic until it is ready</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FDFDFB;border:1px solid #DCE0E6;border-radius:16px;padding:32px">
+<h3 style="font-size:32px;font-weight:600;color:#0E1726">Blue/green vs canary</h3>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#1F5FD6">switch all vs shift gradually</p>
+<p style="font-size:26px;line-height:1.4">Blue/green: two full environments, instant switch and rollback. Canary: 5% → 25% → 100% while watching metrics</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FDFDFB;border:1px solid #DCE0E6;border-radius:16px;padding:32px">
+<h3 style="font-size:32px;font-weight:600;color:#0E1726">Terraform state</h3>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#1F5FD6">remote backend + locking</p>
+<p style="font-size:26px;line-height:1.4">State in S3, Azure Blob or GCS with locking; plan on every PR; drift found with terraform plan</p>
+</div>
+</div>
+<aside>CrashLoopBackOff: “The container starts and dies over and over, and Kubernetes backs off between restarts. I run kubectl describe pod for the last state and exit code — 137 means OOMKilled, so I look at memory limits —, then kubectl logs --previous to see why the previous container died, then events. Common causes: a bad config or missing Secret, a failing liveness probe, or the app crashing on startup.”
+
+Liveness vs readiness: “Liveness answers ‘is it alive?’ — if it fails, the kubelet restarts the container. Readiness answers ‘can it receive traffic?’ — if it fails, the Pod is removed from the Service endpoints but not restarted. There’s also a startup probe for slow-starting apps.”
+
+Terraform state: “The state maps the code to real resources. In a team it lives in a remote backend — S3 with locking, Azure Blob or GCS — so two applies can’t run at once. We run plan on every pull request and apply after review.”
+
+ES: Estas no estaban en el correo del reclutador, pero son las repreguntas más probables a partir de tus respuestas.</aside>
+</section>

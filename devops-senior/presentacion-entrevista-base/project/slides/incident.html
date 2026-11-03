@@ -1,0 +1,38 @@
+<section id="incident" data-transition="fade" style="background:#F6F5F1;color:#2B3442;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#1F5FD6;letter-spacing:2px;text-transform:uppercase">Question · Incident response</p>
+<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:64px;font-weight:700;line-height:1.15;color:#0E1726">How I handle a production incident</h2>
+<div style="display:flex;gap:20px;flex:1">
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FDFDFB;border:1px solid #DCE0E6;border-top:6px solid #1F5FD6;border-radius:16px;padding:28px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;color:#1F5FD6">01</p>
+<h3 style="font-size:32px;font-weight:600;color:#0E1726">Triage</h3>
+<p style="font-size:24px;line-height:1.4;color:#2B3442">Acknowledge the alert, confirm it is real, size the blast radius, set the severity</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#0E1726;border:1px solid #0E1726;border-top:6px solid #E0893A;border-radius:16px;padding:28px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;color:#F2B47A">02</p>
+<h3 style="font-size:32px;font-weight:600;color:#F3F1EA">Mitigate</h3>
+<p style="font-size:24px;line-height:1.4;color:#DCE3EE">Stop the bleeding first: rollback, failover, scale out, feature flag off</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FDFDFB;border:1px solid #DCE0E6;border-top:6px solid #1F5FD6;border-radius:16px;padding:28px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;color:#1F5FD6">03</p>
+<h3 style="font-size:32px;font-weight:600;color:#0E1726">Diagnose</h3>
+<p style="font-size:24px;line-height:1.4;color:#2B3442">What changed? Golden signals, logs, traces; test one hypothesis at a time</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FDFDFB;border:1px solid #DCE0E6;border-top:6px solid #1F5FD6;border-radius:16px;padding:28px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;color:#1F5FD6">04</p>
+<h3 style="font-size:32px;font-weight:600;color:#0E1726">Resolve and verify</h3>
+<p style="font-size:24px;line-height:1.4;color:#2B3442">Ship the real fix; metrics back within the SLO confirm it, not intuition</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FDFDFB;border:1px solid #DCE0E6;border-top:6px solid #1F5FD6;border-radius:16px;padding:28px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;color:#1F5FD6">05</p>
+<h3 style="font-size:32px;font-weight:600;color:#0E1726">Learn</h3>
+<p style="font-size:24px;line-height:1.4;color:#2B3442">Blameless postmortem with action items, owners and dates</p>
+</div>
+</div>
+<div style="display:flex;flex-direction:row;gap:24px;align-items:center;background:#E8EFFC;border-radius:16px;padding:24px 32px">
+<x-icon name="Chat" style="color:#1F5FD6;width:48px;height:48px"></x-icon>
+<p style="font-size:28px;line-height:1.4;color:#0E1726"><b>Communicate the whole time:</b> incident channel, updates every 15–30 minutes on a SEV1, status page — and escalate early.</p>
+</div>
+<aside>Model answer: “I follow five steps, and I communicate during all of them. One, triage: I acknowledge the alert so escalation stops, confirm on the dashboard that it’s real, estimate the blast radius — one customer, one region, everything? — and set the severity; when in doubt, the higher one. Two, mitigate: restoring service comes before understanding the cause. If there was a deploy ten minutes before the errors started, I roll back first and investigate later; other options are failover, scaling out or turning off a feature flag. Three, diagnose: what changed, the golden signals — latency, traffic, errors, saturation —, logs and traces, one hypothesis at a time. Four, resolve and verify: the real fix, and the metrics back within the SLO (Service Level Objective) tell me it’s fixed. Five, learn: a blameless postmortem focused on what failed in the system, with action items that have owners and dates.”
+
+ES: Frase para recordar el orden: "Clasifico, freno, entiendo, arreglo, aprendo — y aviso todo el tiempo." Error típico: saltar de 1 a 3 sin mitigar.</aside>
+</section>

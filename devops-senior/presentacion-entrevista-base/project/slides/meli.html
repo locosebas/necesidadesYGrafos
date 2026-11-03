@@ -1,0 +1,42 @@
+<section id="meli" data-transition="fade" style="background:#F6F5F1;color:#2B3442;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#1F5FD6;letter-spacing:2px;text-transform:uppercase">Mercado Libre · AWS and GCP</p>
+<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:64px;font-weight:700;line-height:1.15;color:#0E1726">The compute team of the internal PaaS</h2>
+<div style="display:flex;gap:56px;flex:1">
+<div style="flex:1.1;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;flex-direction:column;gap:4px;background:#FDFDFB;border:1px solid #DCE0E6;border-radius:16px;padding:20px 28px">
+<p style="font-size:28px;font-weight:600;color:#0E1726">Development teams</p>
+<p style="font-size:24px;color:#5A6475">Deploy their apps without thinking about servers</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:4px;background:#FDFDFB;border:1px solid #DCE0E6;border-radius:16px;padding:20px 28px">
+<p style="font-size:28px;font-weight:600;color:#0E1726">Internal PaaS (Platform as a Service)</p>
+<p style="font-size:24px;color:#5A6475">Deployment, configuration, observability</p>
+</div>
+<div style="display:flex;flex-direction:row;align-items:center;gap:20px;background:#E8EFFC;border:3px solid #1F5FD6;border-radius:16px;padding:20px 28px">
+<div style="flex:1;display:flex;flex-direction:column;gap:4px">
+<p style="font-size:28px;font-weight:600;color:#0E1726">Compute — my team</p>
+<p style="font-size:24px;color:#2B3442">Kubernetes · AWS ECS · EC2 Auto Scaling Groups</p>
+</div>
+<img src="/_blob/7da3839f0ee5a2caf6bd9c4e219aaa57" alt="Kubernetes" style="width:64px;height:64px;object-fit:contain">
+<img src="/_blob/9fe67f4661dc01fddacb9f380f9ea41c" alt="Docker" style="width:64px;height:64px;object-fit:contain">
+</div>
+<div style="display:flex;flex-direction:row;align-items:center;gap:20px;background:#FDFDFB;border:1px solid #DCE0E6;border-radius:16px;padding:20px 28px">
+<div style="flex:1;display:flex;flex-direction:column;gap:4px">
+<p style="font-size:28px;font-weight:600;color:#0E1726">Cloud</p>
+<p style="font-size:24px;color:#5A6475">AWS and GCP, provisioned with Terraform</p>
+</div>
+<img src="/_blob/60697775e19fcca82422c70ca1eff583" alt="AWS" style="width:64px;height:64px;object-fit:contain">
+<img src="/_blob/6862f65985f8436383ab99f63646068e" alt="Google Cloud" style="width:64px;height:64px;object-fit:contain">
+<img src="/_blob/d701bb8b28e562dd3a3ce311601a6255" alt="Terraform" style="width:64px;height:64px;object-fit:contain">
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:28px;justify-content:center">
+<div style="display:flex;flex-direction:row;gap:20px;align-items:center"><img src="/_blob/47a276cf75d2b92636836e530e3879b1" alt="Go" style="width:64px;height:64px;object-fit:contain"><p style="font-size:30px;line-height:1.35"><b>Kubernetes operators</b> in Go and Python</p></div>
+<div style="display:flex;flex-direction:row;gap:20px;align-items:center"><img src="/_blob/d701bb8b28e562dd3a3ce311601a6255" alt="Terraform" style="width:64px;height:64px;object-fit:contain"><p style="font-size:30px;line-height:1.35"><b>Terraform</b> modules and state management</p></div>
+<div style="display:flex;flex-direction:row;gap:20px;align-items:center"><x-icon name="Lock" style="color:#1F5FD6;width:64px;height:64px"></x-icon><p style="font-size:30px;line-height:1.35">Supported <b>Mercado Pago</b>, a regulated banking environment</p></div>
+<div style="display:flex;flex-direction:row;gap:20px;align-items:center"><x-icon name="Wrench" style="color:#1F5FD6;width:64px;height:64px"></x-icon><p style="font-size:30px;line-height:1.35">Day-to-day troubleshooting: CrashLoopBackOff, OOMKilled, evictions</p></div>
+</div>
+</div>
+<aside>Then I moved to Mercado Libre. We had an internal Platform as a Service that we ran ourselves. I was on the compute side: development teams deploy their applications, and we provide the compute underneath, with Kubernetes and AWS ECS (Elastic Container Service). The infrastructure lived in AWS and GCP, provisioned with Terraform — our own modules and state management. I wrote Kubernetes operators in Go and Python, handled day-to-day troubleshooting, and supported Mercado Pago, which is a regulated banking environment, so security and reliability were critical.
+
+ES: Si preguntan "¿qué es un Operator?": un Operator = CRD (Custom Resource Definition) + un controlador propio que ejecuta un reconciliation loop para un recurso de dominio.</aside>
+</section>

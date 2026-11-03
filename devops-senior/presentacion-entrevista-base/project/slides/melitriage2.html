@@ -1,0 +1,35 @@
+<section id="melitriage2" data-transition="fade" style="background:#ECEEF2;color:#2B3442;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:row;gap:20px;align-items:center"><img src="/_blob/53e9e5b9e2f61cc12f9816af9ee14f55" alt="Claude" style="width:56px;height:56px;object-fit:contain"><p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#1F5FD6;letter-spacing:2px;text-transform:uppercase">Mercado Libre · Illustrative output</p></div>
+<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:64px;font-weight:700;line-height:1.15;color:#0E1726">What a diagnosis looks like</h2>
+<div style="display:flex;gap:28px;flex:1">
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FDFDFB;border:1px solid #DCE0E6;border-top:6px solid #1F5FD6;border-radius:16px;padding:36px">
+<div style="display:flex;flex-direction:row;gap:16px;align-items:center"><x-icon name="CheckCircle" style="color:#1F5FD6;width:48px;height:48px"></x-icon><h3 style="font-size:36px;font-weight:600;color:#0E1726">Certainties</h3></div>
+<p style="font-size:24px;color:#5A6475">Verified through MCP</p>
+<ul style="font-size:26px;line-height:1.45">
+<li>3 of 6 Pods in CrashLoopBackOff since 10:42</li>
+<li>A new version was deployed at 10:40</li>
+<li>Exit code 137: OOMKilled</li>
+</ul>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FDFDFB;border:1px solid #DCE0E6;border-top:6px solid #E0893A;border-radius:16px;padding:36px">
+<div style="display:flex;flex-direction:row;gap:16px;align-items:center"><x-icon name="Lightbulb" style="color:#B8641F;width:48px;height:48px"></x-icon><h3 style="font-size:36px;font-weight:600;color:#0E1726">Hypotheses</h3></div>
+<p style="font-size:24px;color:#5A6475">Ranked, not yet proven</p>
+<ol style="font-size:26px;line-height:1.45">
+<li>Memory limit too low for the new version</li>
+<li>Memory leak introduced in the release</li>
+</ol>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#E8EFFC;border:2px solid #1F5FD6;border-radius:16px;padding:36px">
+<div style="display:flex;flex-direction:row;gap:16px;align-items:center"><x-icon name="Wrench" style="color:#1F5FD6;width:48px;height:48px"></x-icon><h3 style="font-size:36px;font-weight:600;color:#0E1726">Suggestion</h3></div>
+<p style="font-size:24px;color:#5A6475">For the engineer to decide</p>
+<ul style="font-size:26px;line-height:1.45">
+<li>Roll back to the previous version</li>
+<li>Compare memory usage of both versions</li>
+<li>Similar ticket and runbook linked</li>
+</ul>
+</div>
+</div>
+<aside>Use this if they ask “what did the output look like?” — it’s an illustrative example, not a real ticket. “The key design decision was to make the model separate what it knows from what it suspects. Certainties are facts it verified with the MCP tools — Pods in CrashLoopBackOff, a deploy two minutes before, exit code 137. Hypotheses are ranked possible causes it hasn’t proven. And the suggestion is for the engineer, with links to the similar ticket and the runbook. Separating them reduces the risk of the engineer trusting a hallucination, because every certainty can be checked.”
+
+ES: Este ejemplo es ilustrativo (está marcado en la diapositiva). Si recuerdas un ticket real, úsalo en lugar de este.</aside>
+</section>

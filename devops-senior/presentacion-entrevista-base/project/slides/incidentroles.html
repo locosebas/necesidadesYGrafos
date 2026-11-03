@@ -1,0 +1,27 @@
+<section id="incidentroles" data-transition="fade" style="background:#ECEEF2;color:#2B3442;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#1F5FD6;letter-spacing:2px;text-transform:uppercase">Question · Incident response</p>
+<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:64px;font-weight:700;line-height:1.15;color:#0E1726">Severity levels and incident roles</h2>
+<div style="display:flex;gap:48px;flex:1">
+<div style="flex:1.45;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:32px;font-weight:600;color:#0E1726">Severity matrix</h3>
+<table style="font-size:24px;color:#2B3442;background:#FDFDFB;border-radius:16px">
+<tr><th style="width:14%">Level</th><th style="width:43%">Criterion</th><th style="width:43%">Response</th></tr>
+<tr><td>SEV1</td><td>Full outage, money or data loss</td><td>All hands, Incident Commander, updates every 15–30 min</td></tr>
+<tr><td>SEV2</td><td>Major degradation for part of the users</td><td>On-call + owning team, updates every 30–60 min</td></tr>
+<tr><td>SEV3</td><td>Minor impact, workaround exists</td><td>Ticket, business hours</td></tr>
+<tr><td>SEV4</td><td>No user impact</td><td>Backlog</td></tr>
+</table>
+<p style="font-size:26px;line-height:1.4;color:#0E1726"><b>Rule:</b> when in doubt, declare the higher severity — lowering it later is cheap.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:32px;font-weight:600;color:#0E1726">Roles in a SEV1 or SEV2</h3>
+<div style="display:flex;flex-direction:column;gap:4px;background:#FDFDFB;border:2px solid #1F5FD6;border-radius:16px;padding:20px 28px"><p style="font-size:28px;font-weight:600;color:#0E1726">Incident Commander</p><p style="font-size:24px;color:#5A6475">Coordinates and decides — does not debug</p></div>
+<div style="display:flex;flex-direction:column;gap:4px;background:#FDFDFB;border:1px solid #DCE0E6;border-radius:16px;padding:20px 28px"><p style="font-size:28px;font-weight:600;color:#0E1726">Ops / Tech Lead</p><p style="font-size:24px;color:#5A6475">Runs the diagnosis and the technical actions</p></div>
+<div style="display:flex;flex-direction:column;gap:4px;background:#FDFDFB;border:1px solid #DCE0E6;border-radius:16px;padding:20px 28px"><p style="font-size:28px;font-weight:600;color:#0E1726">Comms Lead</p><p style="font-size:24px;color:#5A6475">Stakeholders, support, status page</p></div>
+<div style="display:flex;flex-direction:column;gap:4px;background:#FDFDFB;border:1px solid #DCE0E6;border-radius:16px;padding:20px 28px"><p style="font-size:28px;font-weight:600;color:#0E1726">Scribe</p><p style="font-size:24px;color:#5A6475">Timeline with exact times</p></div>
+</div>
+</div>
+<aside>If they dig deeper: “Severity decides how big the response is. A SEV1 is a full outage or money or data loss: all hands, a dedicated Incident Commander and updates every 15 to 30 minutes. A SEV2 is a major degradation for part of the users. SEV3 and SEV4 become tickets. My rule is: when in doubt, declare the higher severity, because lowering it later is cheap and raising it late is expensive. In a big incident the roles are split: the Incident Commander coordinates and decides but doesn’t debug, the Ops lead does the technical work, the Comms lead talks to stakeholders, and a scribe keeps the timeline. In a small incident one person does everything — but knows they are wearing all four hats.”
+
+ES: Herramientas de on-call para nombrar: PagerDuty, Opsgenie, incident.io.</aside>
+</section>

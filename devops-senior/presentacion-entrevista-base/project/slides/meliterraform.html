@@ -1,0 +1,26 @@
+<section id="meliterraform" data-transition="fade" style="background:#ECEEF2;color:#2B3442;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:row;gap:20px;align-items:center"><img src="/_blob/d701bb8b28e562dd3a3ce311601a6255" alt="Terraform" style="width:56px;height:56px;object-fit:contain"><img src="/_blob/60697775e19fcca82422c70ca1eff583" alt="AWS" style="width:56px;height:56px;object-fit:contain"><img src="/_blob/6862f65985f8436383ab99f63646068e" alt="Google Cloud" style="width:56px;height:56px;object-fit:contain"><p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#1F5FD6;letter-spacing:2px;text-transform:uppercase">Mercado Libre · Terraform</p></div>
+<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:64px;font-weight:700;line-height:1.15;color:#0E1726">Terraform at platform scale</h2>
+<div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:28px;flex:1">
+<div style="display:flex;flex-direction:column;gap:16px;background:#FDFDFB;border:1px solid #DCE0E6;border-top:6px solid #1F5FD6;border-radius:16px;padding:36px">
+<x-icon name="Tool" style="color:#1F5FD6;width:56px;height:56px"></x-icon>
+<h3 style="font-size:36px;font-weight:600;color:#0E1726">Shared modules</h3>
+<p style="font-size:26px;line-height:1.4">Self-service modules and templates that other teams use to get infrastructure without opening a ticket</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:16px;background:#FDFDFB;border:1px solid #DCE0E6;border-top:6px solid #1F5FD6;border-radius:16px;padding:36px">
+<x-icon name="Database" style="color:#1F5FD6;width:56px;height:56px"></x-icon>
+<h3 style="font-size:36px;font-weight:600;color:#0E1726">State and backends</h3>
+<p style="font-size:26px;line-height:1.4">Remote state with locking, split by environment and account so one mistake can’t touch everything</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:16px;background:#FDFDFB;border:1px solid #DCE0E6;border-top:6px solid #1F5FD6;border-radius:16px;padding:36px">
+<x-icon name="Link" style="color:#1F5FD6;width:56px;height:56px"></x-icon>
+<h3 style="font-size:36px;font-weight:600;color:#0E1726">Infrastructure migrations</h3>
+<p style="font-size:26px;line-height:1.4">Moving infrastructure from one mechanism to another and bringing existing resources under Terraform</p>
+</div>
+</div>
+<aside>Model answer: “At Mercado Libre the infrastructure of the compute platform lived in AWS and GCP, provisioned with Terraform. I worked on three things. Shared modules: self-service modules and templates that other teams used to get infrastructure without opening a ticket to us. State management: remote state with locking — S3 with locking in AWS, GCS in GCP — split by environment and account, so the blast radius of a mistake is small and plans run fast. And migrations: moving infrastructure from one mechanism to another, which means bringing existing resources under Terraform with import, checking that the plan shows no changes, and only then switching ownership.”
+
+Likely follow-ups: “How do you split state?” — by environment, account or region, and by layer (network, cluster, apps). “How do you refactor without destroying?” — moved blocks or terraform state mv. “How do you import?” — import blocks (Terraform 1.5+) or terraform import, then plan must be clean.
+
+ES: Confirma el backend real que usaban (S3 con DynamoDB o con lockfile nativo, GCS) antes de decirlo con seguridad.</aside>
+</section>

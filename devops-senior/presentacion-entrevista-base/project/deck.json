@@ -1,0 +1,19 @@
+{
+  "v": 4,
+  "createdOnFiles": {"v": 1, "at": "2026-11-03T18:55:00Z"},
+  "lists": "css",
+  "title": "Entrevista DevOps — Sebastián Díaz",
+  "order": ["cover", "journey", "toolbox", "bizagi", "bizagiobs", "bizagiint", "meli", "meliterraform", "melitriage", "melitriage2", "ops", "qdivider", "egress", "egresscloud", "egressdebug", "incident", "incidentroles", "incidentexample", "rapidk8s", "rapidlinux", "rapidaws", "morequestions", "askthem", "close"],
+  "sections": {
+    "s1": {"description": "Who I am and the tools I have used", "start": "cover"},
+    "s2": {"description": "Experience: Bizagi and Mercado Libre", "start": "journey"},
+    "s3": {"description": "Interview questions with model answers", "start": "qdivider"},
+    "s4": {"description": "Questions for the interviewer and closing", "start": "askthem"}
+  },
+  "faces": {
+    "space-grotesk": {"family": "Space Grotesk", "href": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap"},
+    "ibm-plex-sans": {"family": "IBM Plex Sans", "href": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&display=swap"},
+    "jetbrains-mono": {"family": "JetBrains Mono", "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&display=swap"}
+  },
+  "designSystems": []
+}
