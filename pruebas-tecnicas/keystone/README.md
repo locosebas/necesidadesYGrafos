@@ -46,8 +46,7 @@ el ciclo: una persona revisaba y aprobaba antes de ejecutar cualquier acción."
 
 ## 4. Falla crítica con SQS y ECS
 
-"**[confirmar: cuenta tu caso real; si no tienes uno, usa este patrón como 'un caso típico que
-enfrentamos']**. Tuvimos consumidores en ECS leyendo de SQS donde el procesamiento de algunos mensajes
+"Un caso típico que enfrentamos: teníamos consumidores en ECS leyendo de SQS donde el procesamiento de algunos mensajes
 tardaba más que el visibility timeout. El mensaje volvía a la cola, otro consumidor lo tomaba y se
 procesaba dos veces; y un mensaje mal formado hacía fallar al consumidor una y otra vez, un poison
 message, que bloqueaba el avance. Las medidas fueron: subir el visibility timeout por encima del tiempo
