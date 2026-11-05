@@ -102,3 +102,10 @@ Venían en una rama aparte (`claude/estudio-desde-postulaciones`); se trajeron a
   Identified Mail) y DMARC (Domain-based Message Authentication, Reporting
   and Conformance). Lo más cercano que ya tiene: DNS en producción y colas
   con reintentos (SQS, SNS). Tema nuevo.
+- **Backend de datos: FastAPI, Elasticsearch, outbox/CDC y GraphQL**
+  (surgió en la entrevista de Keystone, 5 nov 2026): FastAPI async y
+  Pydantic; diseño de índices en Elasticsearch/OpenSearch (mappings, shards,
+  ILM); sincronizar PostgreSQL con Elasticsearch con transactional outbox o
+  CDC (Change Data Capture) con Debezium; GraphQL con DataLoader contra el
+  problema N+1. Lo más cercano que ya tiene: ELK para logs, SQS con
+  reintentos y el sistema de triage en Python.
