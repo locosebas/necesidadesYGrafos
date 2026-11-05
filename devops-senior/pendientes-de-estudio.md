@@ -93,3 +93,12 @@ Venían en una rama aparte (`claude/estudio-desde-postulaciones`); se trajeron a
   baja de usuarios, permisos, SSO (Single Sign-On) y auditorías de acceso en
   Google Workspace; Make (antes Integromat) frente a Zapier y n8n. Lo más
   cercano que ya tiene: AWS IAM y Kubernetes RBAC.
+- **Correo a escala: SMTP, MTA (Mail Transfer Agent), rebotes y diferidos**
+  (surgió en postulaciones, Resend "Backend Engineer, MTA", 5 nov 2026,
+  requerido): sin experiencia operando un MTA (Mail Transfer Agent). Temas:
+  SMTP (Simple Mail Transfer Protocol), bounces (rebotes) y deferrals
+  (diferidos), IP pools y reputación, comportamiento de los proveedores de
+  buzón (Gmail, Outlook), SPF (Sender Policy Framework), DKIM (DomainKeys
+  Identified Mail) y DMARC (Domain-based Message Authentication, Reporting
+  and Conformance). Lo más cercano que ya tiene: DNS en producción y colas
+  con reintentos (SQS, SNS). Tema nuevo.
