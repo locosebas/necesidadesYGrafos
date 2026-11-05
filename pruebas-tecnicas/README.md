@@ -13,6 +13,7 @@ describe el mecanismo y **tú dices el nombre**.
 | 1 | [Davivienda](davivienda/) | Especialista Senior SRE — prueba de observabilidad (Banco Plus) | [ruta-sustentacion.md](davivienda/ruta-sustentacion.md) (la de la entrega fue [roadmap-express.md](davivienda/roadmap-express.md)) | Prueba entregada el 12 oct 2026; falta la sustentación |
 | 2 | [Dapta](dapta/) | Defensa: propuesta de seguridad y cumplimiento | [roadmap-express.md](dapta/roadmap-express.md) | Entrevista probable el 15 oct 2026 |
 | 3 | [Toolbox](toolbox/) | Prueba técnica: Bash, Ansible (LEMP en CentOS 7), Docker | Sin ruta (prueba corta, ya resuelta) | Entregada el 25 sep 2026 |
+| 4 | [Gorila / Candiech](gorila-candiech/) | Prueba técnica Senior DevOps/Platform: AWS, EKS, Terraform, GitOps, incidentes (texto + videos) | Sin ruta; repaso con los "nombres clave" del [README](gorila-candiech/README.md) | Resuelta el 4 nov 2026 |
 
 ## Cómo agregar una empresa nueva
 
