@@ -14,7 +14,7 @@ describe el mecanismo y **tú dices el nombre**.
 | 2 | [Dapta](dapta/) | Defensa: propuesta de seguridad y cumplimiento | [roadmap-express.md](dapta/roadmap-express.md) | Entrevista probable el 15 oct 2026 |
 | 3 | [Toolbox](toolbox/) | Prueba técnica: Bash, Ansible (LEMP en CentOS 7), Docker | Sin ruta (prueba corta, ya resuelta) | Entregada el 25 sep 2026 |
 | 4 | [Gorila / Candiech](gorila-candiech/) | Prueba técnica Senior DevOps/Platform: AWS, EKS, Terraform, GitOps, incidentes (texto + videos) | Sin ruta; repaso con los "nombres clave" del [README](gorila-candiech/README.md) | Resuelta el 4 nov 2026 |
-| 5 | [Caso incidente Kubernetes](caso-incidente-k8s/) | Prueba técnica: respuesta a incidente con OOMKilled, Dynatrace, Splunk, OpenTelemetry, rollback y Error Budget | Sin ruta; repaso con los "nombres clave" del [README](caso-incidente-k8s/README.md) | Preparación resuelta el 4 nov 2026 |
+| 5 | [Coderbyte: incidente Kubernetes](coderbyte-incidente-k8s/) | Prueba técnica en Coderbyte: incidente con OOMKilled (Dynatrace, Splunk, OpenTelemetry, rollback, Error Budget) + preguntas cortas (trazas distribuidas, I/O wait en RHEL) | Sin ruta; repaso con los "nombres clave" del [README](coderbyte-incidente-k8s/README.md) | Presentada el 4 nov 2026 |
 
 ## Cómo agregar una empresa nueva
 
