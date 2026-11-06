@@ -234,6 +234,30 @@ escribiste tus servidores MCP.
 
 ---
 
+## Equivalentes: LangChain / LangGraph y LlamaIndex
+**Sección:** Frameworks
+- **LangChain / LangGraph** (orquestar LLM y agentes) ≈ **Semantic Kernel** (Microsoft) · **Haystack** (deepset) · **Pydantic AI** · **DSPy** · **smolagents** (Hugging Face) · **Agno**
+- SDK de los proveedores: **OpenAI Agents SDK** · **Google ADK** (Agent Development Kit) · **Claude Agent SDK** (Anthropic) · **Strands Agents** (AWS)
+- En TypeScript: **Mastra** · **Vercel AI SDK** · **LangGraph.js**
+- **LlamaIndex** (datos y RAG) ≈ **Haystack** · retrievers de **LangChain** · **txtai** · **RAGFlow**
+- RAG administrado en la nube: **Amazon Bedrock Knowledge Bases** · **Azure AI Search** · **Vertex AI RAG Engine**
+
+> Si te preguntan por un framework que no conoces, ubícalo en una de estas familias: orquestación de agentes, como LangGraph; datos y RAG, como LlamaIndex; o agentes que conversan o trabajan por roles, como AutoGen y CrewAI. Cada proveedor de LLM tiene ya su propio SDK de agentes, y como trabajaste con Claude, el más cercano a tu experiencia es el Claude Agent SDK de Anthropic. Ojo: menciónalo como el equivalente, no como algo que hayas usado.
+
+---
+
+## Equivalentes: AutoGen, CrewAI y en la nube
+**Sección:** Frameworks
+- **AutoGen** (agentes que conversan) ≈ **Microsoft Agent Framework** (su sucesor) · **AG2** (fork comunitario de AutoGen) · **Semantic Kernel Agents** · **CAMEL**
+- **CrewAI** (equipo por roles) ≈ **supervisor en LangGraph** · **OpenAI Agents SDK** (handoffs) · **Google ADK** · **Agno** · **MetaGPT**
+- Agentes administrados: **Amazon Bedrock Agents / AgentCore** · **Azure AI Foundry Agent Service** · **Vertex AI Agent Engine**
+- Protocolos que unen a todos: **MCP** (herramientas) y **A2A** (agente ↔ agente)
+- **Lo tuyo**: orquestación propia = **harness + hooks + MCP** con Claude
+
+> AutoGen tiene dos caminos: Microsoft lo está reemplazando con el Microsoft Agent Framework, y la comunidad siguió con un fork llamado AG2. CrewAI se puede reemplazar con un supervisor en LangGraph o con los handoffs del OpenAI Agents SDK. Las nubes ofrecen agentes administrados: Bedrock Agents y AgentCore en AWS, Azure AI Foundry Agent Service y Vertex AI Agent Engine. Y lo que conecta a todos estos frameworks son los protocolos MCP y A2A, que es tu punto fuerte. Si un framework habla MCP, tus servidores MCP le sirven tal cual.
+
+---
+
 ## P6 · "¿Has usado LangChain / LlamaIndex / CrewAI / AutoGen?"
 **Sección:** Frameworks
 - **No digas "no"**: "En producción orquesté el flujo directamente con el modelo, un harness con hooks y MCP"
