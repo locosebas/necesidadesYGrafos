@@ -23,7 +23,7 @@ este archivo primero.
 
 - [diagramas-c4.md](diagramas-c4.md): 15 diagramas C4 (uno o más por pregunta), con íconos de las herramientas.
 - [libreto-diapositivas.md](libreto-diapositivas.md): plan de las 18 diapositivas, con el guion de cada una.
-- [presentacion.html](presentacion.html): la presentación (← → para navegar, **N** para ver el guion).
+- [presentacion.html](presentacion.html): la presentación (← → para navegar, **N** para ver el guion). Versión para el celular (privada): https://claude.ai/artifact/MpZn3j577bAmoYpbWqC3jg
   Se regenera con `python3 generar_presentacion.py` después de editar el libreto o los diagramas.
 
 ## Nombres clave para repasar

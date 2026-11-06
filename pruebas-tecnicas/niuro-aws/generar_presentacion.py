@@ -82,7 +82,7 @@ def cargar_diapositivas(diagramas):
 def html_diapositiva(n, d, diagramas):
     figs = "".join(
         f'<figure><pre class="mermaid">{html.escape(diagramas[i]["codigo"])}</pre>'
-        f'<figcaption>{i} · {en_linea(diagramas[i]["titulo"])}</figcaption></figure>'
+        f'<figcaption>{i} · {en_linea(diagramas[i]["titulo"])}</figcaption><div class="desliza">desliza el diagrama →</div></figure>'
         for i in d["ids"])
     lis = "".join(f"<li>{en_linea(v)}</li>" for v in d["vinetas"])
     clase = "slide con-diagrama" if d["ids"] else "slide solo-texto"
@@ -132,6 +132,32 @@ body.ver-notas .notas{display:block}
 #barra{position:fixed;left:0;bottom:0;height:4px;background:#f0b400;transition:width .2s}
 #contador{position:fixed;right:14px;bottom:10px;color:#9fb3c8;font-size:13px}
 #ayuda{position:fixed;left:14px;bottom:10px;color:#9fb3c8;font-size:13px}
+#nav{position:fixed;right:12px;bottom:28px;display:none;gap:8px;z-index:5}
+#nav button{font:600 15px Segoe UI,Arial,sans-serif;border:0;border-radius:22px;padding:10px 16px;background:#1168bd;color:#fff;box-shadow:0 3px 10px #0006}
+#nav button#bn{background:#f0b400;color:#3a2f00}
+@media (max-width:820px),(pointer:coarse){
+ #nav{display:flex}#ayuda{display:none}
+}
+@media (max-width:820px) and (orientation:portrait){
+ #deck{position:static;display:block;padding:10px 8px 90px}
+ .slide{width:100%;height:auto;min-height:calc(100vh - 110px);border-radius:10px;padding:16px 14px}
+ h1{font-size:22px}.kicker{font-size:11px}
+ .cuerpo,.apilado .cuerpo{flex-direction:column;gap:12px}
+ .diagramas{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid #e3eaf2;border-radius:8px;padding:6px}
+ figure pre.mermaid{display:block}
+ .slide,.cuerpo,.diagramas,figure{min-width:0;max-width:100%}
+ .diagramas{width:100%;flex:none!important}
+ figure{flex:none}
+ figure pre.mermaid{flex:none;width:max-content}
+ figure svg{width:680px!important;max-width:none!important;height:auto!important;max-height:none!important}
+ figcaption{font-size:11px}
+ .puntos,.apilado .puntos,.solo-texto .puntos{columns:1;font-size:16px;max-height:none;max-width:none;overflow:visible}
+ .portada .puntos{font-size:18px}.portada h1{font-size:30px}
+ .notas{position:static;max-height:none;font-size:15px;margin:12px -14px -16px;border-radius:0 0 10px 10px}
+ #contador{bottom:auto;top:6px;right:10px}
+ .desliza{display:block!important}
+}
+.desliza{display:none;font-size:11px;color:#6b7785;text-align:right;margin-top:2px}
 @media print{body{background:#fff}.slide{display:flex!important;page-break-after:always;box-shadow:none}#barra,#contador,#ayuda{display:none}}
 """
 
@@ -162,7 +188,16 @@ document.addEventListener('keydown',e=>{
   else if(e.key.toLowerCase()==='n')document.body.classList.toggle('ver-notas');
 });
 document.getElementById('deck').addEventListener('click',e=>{
-  if(e.target.closest('.notas'))return;ver(e.clientX>innerWidth/2?i+1:i-1)});
+  if(e.target.closest('.notas')||matchMedia('(pointer:coarse)').matches)return;ver(e.clientX>innerWidth/2?i+1:i-1)});
+
+const movil=()=>matchMedia('(max-width:820px) and (orientation:portrait)').matches;
+document.getElementById('ba').onclick=e=>{e.stopPropagation();ver(i-1);scrollTo(0,0)};
+document.getElementById('bs').onclick=e=>{e.stopPropagation();ver(i+1);scrollTo(0,0)};
+document.getElementById('bn').onclick=e=>{e.stopPropagation();document.body.classList.toggle('ver-notas')};
+let x0=null,y0=null;
+document.addEventListener('touchstart',e=>{if(e.target.closest('.diagramas')){x0=null;return}x0=e.touches[0].clientX;y0=e.touches[0].clientY},{passive:true});
+document.addEventListener('touchend',e=>{if(x0===null)return;const dx=e.changedTouches[0].clientX-x0,dy=e.changedTouches[0].clientY-y0;
+  if(Math.abs(dx)>60&&Math.abs(dx)>2*Math.abs(dy)){ver(dx<0?i+1:i-1);scrollTo(0,0)}x0=null},{passive:true});
 ver((parseInt(location.hash.slice(1))||1)-1);
 """
 
@@ -176,7 +211,7 @@ def main():
 <title>Entrevista Niuro · AWS Infrastructure Engineer</title><style>{CSS}</style></head>
 <body><div id="deck">
 {secciones}
-</div><div id="barra"></div><div id="contador"></div><div id="ayuda">← → navegar · N guion · clic izq/der</div>
+</div><div id="barra"></div><div id="contador"></div><div id="nav"><button id="ba">←</button><button id="bn">Guion</button><button id="bs">→</button></div><div id="ayuda">← → navegar · N guion · clic izq/der</div>
 <script type="module">{JS}</script></body></html>
 """
     SALIDA.write_text(doc, encoding="utf-8")
