@@ -338,3 +338,54 @@ flowchart LR
   classDef container fill:#438dd5,stroke:#2e6295,color:#fff
   classDef ext fill:#8a8a8a,stroke:#6b6b6b,color:#fff
 ```
+
+## T13 · Dinámico: el event loop de asyncio atendiendo varias esperas
+
+Tipo: Dinámico.
+
+```mermaid
+flowchart LR
+  run["ico:flash<br/>asyncio.run(main())"]:::person
+  loop["ico:cached<br/>Event loop<br/>un solo hilo: alterna entre tareas listas"]:::system
+  subgraph tg["TaskGroup + Semaphore(5) + timeout"]
+    t1["ico:brain<br/>Task 1: await LLM<br/>(esperando red)"]:::container
+    t2["ico:database<br/>Task 2: await base de datos"]:::container
+    t3["ico:swap-horizontal<br/>Task 3: await tool MCP"]:::container
+  end
+  bad["ico:alert<br/>requests.get / time.sleep<br/>BLOQUEA el loop: todo se congela"]:::ext
+  thr["ico:account-group<br/>asyncio.to_thread<br/>para lo que bloquea sí o sí"]:::ext
+  run --> loop
+  loop -->|"avanza mientras otras esperan"| t1
+  loop --> t2
+  loop --> t3
+  bad -.->|"evitar"| loop
+  thr -.->|"saca el bloqueo del loop"| loop
+  classDef person fill:#08427b,stroke:#052e56,color:#fff
+  classDef system fill:#1168bd,stroke:#0b4884,color:#fff
+  classDef container fill:#438dd5,stroke:#2e6295,color:#fff
+  classDef ext fill:#8a8a8a,stroke:#6b6b6b,color:#fff
+```
+
+## T14 · Componentes: Pydantic como contrato entre el LLM y tu código
+
+Tipo: Componentes.
+
+```mermaid
+flowchart LR
+  m["ico:pydantic<br/>class Diagnostico(BaseModel)<br/>tipos + Field + validators"]:::system
+  sch["ico:code-json<br/>model_json_schema()<br/>schema para tools / structured output"]:::container
+  llm["ico:anthropic<br/>LLM<br/>devuelve JSON"]:::ext
+  val["ico:shield-check<br/>model_validate_json()<br/>valida y convierte"]:::container
+  err["ico:alert<br/>ValidationError<br/>e.errors() → reintento con el error"]:::container
+  ok["ico:check-decagram<br/>Objeto Python tipado<br/>seguro para ejecutar"]:::container
+  api["ico:fastapi-icon<br/>FastAPI<br/>body, response_model, OpenAPI"]:::ext
+  m --> sch --> llm --> val
+  val -->|"cumple"| ok
+  val -->|"no cumple"| err
+  err -.->|"le devuelve el error"| llm
+  m -.-> api
+  classDef person fill:#08427b,stroke:#052e56,color:#fff
+  classDef system fill:#1168bd,stroke:#0b4884,color:#fff
+  classDef container fill:#438dd5,stroke:#2e6295,color:#fff
+  classDef ext fill:#8a8a8a,stroke:#6b6b6b,color:#fff
+```

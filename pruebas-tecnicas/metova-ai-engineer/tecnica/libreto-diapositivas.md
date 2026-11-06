@@ -246,6 +246,31 @@ escribiste tus servidores MCP.
 
 ---
 
+## asyncio: la idea y los 6 conceptos
+**Sección:** Python asíncrono
+**Diagrama:** T13
+- **Idea**: **muchas esperas a la vez en un solo hilo** · ideal para **I/O-bound** (LLM, APIs, BD, MCP), no para CPU pesada
+- **1 · Event loop** (`asyncio.run`) · **2 · Coroutine** (`async def`) · **3 · `await`**: "mientras espero, atiende a otro"
+- **4 · Task** (`create_task`) · **5 · `TaskGroup`** (cancela las demás si una falla) o `gather(return_exceptions=True)`
+- **6 · Control**: **`Semaphore(n)`** para el rate limit · **`asyncio.timeout(s)`** · reintentos con `await asyncio.sleep(2 ** intento)`
+- Resultado: 10 llamadas de 3 s → **~30 s en secuencia**, **~6 s** con Semaphore(5)
+
+> asyncio permite que un solo hilo atienda muchas esperas al tiempo con un event loop. Es como un mesero que, mientras la cocina prepara un plato, atiende otra mesa. Una función async def es una corrutina, y await le dice al event loop "mientras espero, atiende a otro". Lanzo varias tasks en paralelo con un TaskGroup, que cancela las demás si una falla, y controlo con un Semaphore para no pasarme del rate limit del proveedor, timeouts y reintentos con backoff exponencial. Sirve para esperas de red, como llamar a un LLM, pero no para CPU pesada.
+
+---
+
+## asyncio: llamadas concurrentes al LLM, paso a paso
+**Sección:** Python asíncrono
+- **Un solo cliente**: `async with httpx.AsyncClient() as cliente` (o `AsyncAnthropic`), abierto una vez, en FastAPI en el **`lifespan`**
+- **Paralelo**: `async with asyncio.TaskGroup() as tg:` → `tg.create_task(llamar_llm(cliente, p))`
+- **Límite**: `async with sem:` con `sem = asyncio.Semaphore(5)`
+- **Nunca colgado**: `async with asyncio.timeout(30):` → `await cliente.post(...)`
+- **Reintento**: `except (httpx.HTTPError, TimeoutError):` → `await asyncio.sleep(2 ** intento)`
+
+> En inglés: asyncio lets one thread handle many I/O waits concurrently through an event loop, which is perfect for LLM calls. For concurrent calls I use a TaskGroup, a Semaphore to respect the provider's rate limit, timeouts, and retries with exponential backoff. In FastAPI I never block inside an async def endpoint: I use async clients opened once in the lifespan, and asyncio.to_thread for anything blocking.
+
+---
+
 ## P7 · "¿Experiencia con FastAPI y asyncio?" El flujo de una petición
 **Sección:** Python asíncrono
 **Diagrama:** T7
@@ -269,6 +294,19 @@ escribiste tus servidores MCP.
 - **I/O-bound** (LLM, red) = asyncio ✅ · **CPU-bound** (embeddings locales) = procesos o workers
 
 > El error más común es bloquear el event loop: usar requests o time.sleep dentro de una función async, porque eso congela todas las demás peticiones. Se usa httpx.AsyncClient y asyncio.sleep, y si algo bloquea sí o sí, se manda a un hilo con asyncio.to_thread. En FastAPI, un endpoint def normal corre en un threadpool y uno async def corre en el event loop, así que en el async no puedes bloquear. TaskGroup es mejor que gather porque si una tarea falla, cancela las demás. Y asyncio sirve para trabajo de entrada y salida, como llamar a un LLM, pero no para CPU pesada.
+
+---
+
+## Pydantic: qué es y sus piezas
+**Sección:** Python asíncrono
+**Diagrama:** T14
+- **Idea**: **validar y convertir datos usando los type hints de Python** · núcleo en **Rust** (pydantic-core), muy rápido
+- **`BaseModel`** con tipos · **`Field(ge=0, le=1, min_length=1, description=...)`** · `Literal`, `Enum`, modelos anidados
+- **`@field_validator`** (un campo) · **`@model_validator`** (varios campos) · **`ConfigDict(extra="forbid", strict=True)`**
+- Entrar: **`model_validate`** / **`model_validate_json`** · salir: **`model_dump`** / **`model_dump_json`** · **`model_json_schema()`**
+- Falla → **`ValidationError`** con `e.errors()` · configuración con **pydantic-settings** (`BaseSettings`)
+
+> Pydantic valida y convierte datos a partir de los type hints de Python, y su núcleo está escrito en Rust, así que es muy rápido. Defino un BaseModel con tipos, uso Field para las reglas como rangos o longitudes, y validators cuando la regla es más compleja. Con extra forbid rechazo campos que no esperaba. Los datos entran con model_validate o model_validate_json, salen con model_dump, y model_json_schema genera el JSON schema. Si algo no cumple, lanza ValidationError con el detalle de cada error.
 
 ---
 
