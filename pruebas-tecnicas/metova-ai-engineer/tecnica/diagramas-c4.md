@@ -237,3 +237,104 @@ flowchart LR
   classDef container fill:#438dd5,stroke:#2e6295,color:#fff
   classDef ext fill:#8a8a8a,stroke:#6b6b6b,color:#fff
 ```
+
+## T9 · Componentes: LangChain, las piezas y cómo se encadenan (LCEL)
+
+Tipo: Componentes.
+
+```mermaid
+flowchart LR
+  in["ico:code-json<br/>Entrada<br/>{ticket: ...}"]:::person
+  subgraph lc["Cadena LCEL: prompt | modelo | parser"]
+    p["ico:file-document-multiple<br/>ChatPromptTemplate<br/>plantilla con variables"]:::container
+    m["ico:anthropic<br/>Chat model<br/>ChatAnthropic / ChatOpenAI"]:::container
+    o["ico:pydantic<br/>with_structured_output<br/>objeto Pydantic validado"]:::container
+  end
+  t["ico:swap-horizontal<br/>Tools<br/>@tool · bind_tools · MCP adapters"]:::ext
+  r[("ico:vector-polyline<br/>Retriever + vector store<br/>RAG")]:::ext
+  in --> p --> m --> o
+  m -.->|"pide tool"| t
+  r -.->|"contexto"| p
+  classDef person fill:#08427b,stroke:#052e56,color:#fff
+  classDef system fill:#1168bd,stroke:#0b4884,color:#fff
+  classDef container fill:#438dd5,stroke:#2e6295,color:#fff
+  classDef ext fill:#8a8a8a,stroke:#6b6b6b,color:#fff
+```
+
+## T10 · Dinámico: LlamaIndex, de documentos a respuestas
+
+Tipo: Dinámico.
+
+```mermaid
+flowchart LR
+  subgraph ing["Ingesta (IngestionPipeline)"]
+    rd["ico:file-document-multiple<br/>1 · Readers<br/>SimpleDirectoryReader, LlamaHub, LlamaParse"]:::container
+    np["ico:content-cut<br/>2 · Node parser<br/>Documents → Nodes"]:::container
+    ix[("ico:vector-polyline<br/>3 · VectorStoreIndex<br/>embeddings en pgvector, etc.")]:::container
+  end
+  subgraph q["Consulta"]
+    rt["ico:magnify-scan<br/>4 · Retriever<br/>top-k + reranker"]:::container
+    qe["ico:brain<br/>5 · Query engine<br/>sintetiza la respuesta"]:::system
+    ag["ico:robot<br/>Agentes y Workflows<br/>FunctionAgent · @step por eventos"]:::system
+  end
+  rd --> np --> ix --> rt --> qe
+  qe -.->|"como tool"| ag
+  classDef person fill:#08427b,stroke:#052e56,color:#fff
+  classDef system fill:#1168bd,stroke:#0b4884,color:#fff
+  classDef container fill:#438dd5,stroke:#2e6295,color:#fff
+  classDef ext fill:#8a8a8a,stroke:#6b6b6b,color:#fff
+```
+
+## T11 · Componentes: CrewAI, un equipo de agentes por roles
+
+Tipo: Componentes.
+
+```mermaid
+flowchart LR
+  in["ico:account<br/>crew.kickoff(inputs)"]:::person
+  subgraph crew["Crew (process = sequential o hierarchical)"]
+    mg["ico:account-tie<br/>Manager<br/>solo en hierarchical"]:::container
+    a1["ico:robot<br/>Agent: Analista<br/>role · goal · backstory · tools"]:::container
+    a2["ico:robot<br/>Agent: Redactor<br/>role · goal · backstory"]:::container
+    t1["ico:clipboard-check<br/>Task 1<br/>description · expected_output"]:::container
+    t2["ico:clipboard-check<br/>Task 2<br/>context=[Task 1] · human_input"]:::container
+  end
+  out["ico:check-decagram<br/>Resultado<br/>output_pydantic"]:::system
+  in --> t1
+  t1 -->|"lo hace"| a1
+  t1 --> t2
+  t2 -->|"lo hace"| a2
+  mg -.->|"delega"| a1
+  mg -.->|"delega"| a2
+  t2 --> out
+  classDef person fill:#08427b,stroke:#052e56,color:#fff
+  classDef system fill:#1168bd,stroke:#0b4884,color:#fff
+  classDef container fill:#438dd5,stroke:#2e6295,color:#fff
+  classDef ext fill:#8a8a8a,stroke:#6b6b6b,color:#fff
+```
+
+## T12 · Dinámico: AutoGen, agentes que conversan en equipo
+
+Tipo: Dinámico.
+
+```mermaid
+flowchart LR
+  task["ico:account<br/>team.run(task)"]:::person
+  subgraph team["Team (RoundRobin / Selector / Swarm)"]
+    d["ico:robot<br/>AssistantAgent<br/>diagnosticador + tools"]:::container
+    r["ico:robot<br/>AssistantAgent<br/>revisor"]:::container
+    u["ico:account-tie<br/>UserProxyAgent<br/>la persona"]:::person
+  end
+  term["ico:timer-sand<br/>Termination<br/>TextMention('APPROVE') · MaxMessage"]:::container
+  core["ico:microsoft-icon<br/>AutoGen Core<br/>actores asíncronos por mensajes"]:::ext
+  task --> d
+  d -->|"turno"| r
+  r -->|"turno"| u
+  u -->|"turno"| d
+  r -.-> term
+  team -.->|"corre sobre"| core
+  classDef person fill:#08427b,stroke:#052e56,color:#fff
+  classDef system fill:#1168bd,stroke:#0b4884,color:#fff
+  classDef container fill:#438dd5,stroke:#2e6295,color:#fff
+  classDef ext fill:#8a8a8a,stroke:#6b6b6b,color:#fff
+```

@@ -168,6 +168,72 @@ escribiste tus servidores MCP.
 
 ---
 
+## LangChain: las piezas
+**Sección:** Frameworks
+**Diagrama:** T9
+- **Chat model** (`ChatAnthropic`, `ChatOpenAI`): misma interfaz para cualquier proveedor de LLM
+- **Prompt template** (`ChatPromptTemplate`) · **tools** (`@tool`, `.bind_tools()`) · **retrievers** para RAG
+- **Structured output**: `.with_structured_output(ModeloPydantic)`, como tu diagnóstico del triage
+- **LCEL** (LangChain Expression Language): `prompt | modelo | parser` · todo es **Runnable**: `invoke`, `ainvoke`, `stream`, `batch`
+- **langchain-mcp-adapters**: tus servidores MCP como tools · en **LangChain 1.0** `create_agent` corre sobre **LangGraph**
+
+> LangChain es la caja de piezas: modelos, prompts, tools, retrievers y salida estructurada. Las piezas se encadenan con LCEL usando un pipe, como en Linux: prompt, luego modelo, luego parser. Todas las piezas de LangChain son Runnables, así que tienen invoke y también ainvoke, que es la versión asíncrona. Con langchain-mcp-adapters cargo mis servidores MCP como tools. Y desde LangChain 1.0, los agentes se crean con create_agent, que por debajo corre sobre LangGraph.
+
+---
+
+## LangGraph: los 5 conceptos
+**Sección:** Frameworks
+**Diagrama:** T6
+- **1 · State**: un `TypedDict` con lo que viaja por el grafo (ticket, servicio, diagnóstico)
+- **2 · Nodes**: funciones que reciben el estado y devuelven **solo lo que cambiaron**
+- **3 · Edges**: `add_edge` y **`add_conditional_edges`** (decisiones y **ciclos**)
+- **4 · Checkpointer**: guarda el estado en cada paso (`MemorySaver`, **`PostgresSaver`**) por **`thread_id`**
+- **5 · `interrupt()`**: pausa para la aprobación humana · se retoma con **`Command(resume=...)`**
+- Extras: **`ToolNode`** + **`tools_condition`** (ciclo ReAct) · **supervisor** y **subgrafos** · `stream` · trazas en **LangSmith**
+
+> LangGraph controla el flujo como un grafo con estado. El estado es un TypedDict. Los nodos son funciones que devuelven solo lo que cambiaron. Las aristas condicionales deciden el camino y permiten ciclos, como volver a leer logs si faltan datos. El checkpointer guarda el estado en cada paso por thread_id, así el grafo se puede pausar, retomar y sobrevivir a un reinicio. Y interrupt pausa el grafo para la aprobación humana, que se retoma con Command resume. Mi triage se traduce uno a uno: cada paso es un nodo, aprobar o reenrutar es una arista condicional y la aprobación es un interrupt. Uso LangChain solo para una cadena lineal, y LangGraph cuando hay ciclos, estado o aprobación humana.
+
+---
+
+## LlamaIndex: el framework de datos para RAG
+**Sección:** Frameworks
+**Diagrama:** T10
+- **Readers** (`SimpleDirectoryReader`, conectores de **LlamaHub**, **LlamaParse** para PDF) → **Documents**
+- **Node parser** (`SentenceSplitter`) → **Nodes** · todo en un **`IngestionPipeline`**
+- **`VectorStoreIndex`** sobre pgvector, OpenSearch, etc. → **retriever** (top-k + **reranker**)
+- **`index.as_query_engine()`** responde · **chat engine** para conversación
+- Agentes: **`FunctionAgent`**, **`AgentWorkflow`** · **Workflows** por eventos con `@step`
+
+> LlamaIndex es el framework más fuerte en datos y RAG. Los readers cargan documentos, y para PDF difíciles está LlamaParse. El node parser los parte en nodes, el VectorStoreIndex guarda los embeddings en una base vectorial, el retriever trae los top-k con un reranker y el query engine arma la respuesta. Para agentes tiene FunctionAgent y AgentWorkflow, y los Workflows son pasos que reaccionan a eventos. Si mi problema es sobre todo buscar en documentos, como los runbooks del triage, elijo LlamaIndex.
+
+---
+
+## CrewAI: un equipo de agentes por roles
+**Sección:** Frameworks
+**Diagrama:** T11
+- **Agent**: **role**, **goal**, **backstory**, tools y LLM
+- **Task**: **description**, **expected_output**, el agente que la hace, **`context=[otra_task]`**, `output_pydantic`
+- **Crew**: agentes + tareas + **Process**: **sequential** o **hierarchical** (un **manager** delega)
+- `crew.kickoff(inputs={...})` · `human_input=True` en una Task para la aprobación humana
+- **Flows**: control por eventos (`@start`, `@listen`, `@router`) cuando necesitas más control
+
+> CrewAI organiza agentes como un equipo de trabajo. Cada Agent tiene un rol, un objetivo y una historia de fondo, que es su personalidad dentro del prompt. Cada Task tiene una descripción y la salida esperada, y puede usar el resultado de otra tarea como contexto. La Crew junta agentes y tareas con un proceso secuencial, o jerárquico si un manager reparte el trabajo. Se lanza con kickoff. Es el más rápido para armar un prototipo multiagente, y cuando necesitas más control usas Flows.
+
+---
+
+## AutoGen (Microsoft): agentes que conversan
+**Sección:** Frameworks
+**Diagrama:** T12
+- **AgentChat**: **`AssistantAgent`** (LLM + tools) y **`UserProxyAgent`** (la persona)
+- **Teams**: **`RoundRobinGroupChat`** (por turnos), **`SelectorGroupChat`** (un LLM elige quién habla), **`Swarm`** (handoffs)
+- **Termination**: `TextMentionTermination("APPROVE")`, `MaxMessageTermination`
+- **Core**: modelo de **actores asíncronos** que se mandan mensajes (puede ser distribuido) · **todo es `async`**
+- Sucesor: **Microsoft Agent Framework** (AutoGen + Semantic Kernel, desde octubre de 2025)
+
+> AutoGen, de Microsoft, modela el trabajo como una conversación entre agentes. Un AssistantAgent es un LLM con tools, y el UserProxyAgent representa a la persona. Los agentes se organizan en equipos: por turnos con RoundRobinGroupChat, con un LLM que elige quién habla con SelectorGroupChat o con traspasos con Swarm. La conversación termina con una condición, por ejemplo cuando alguien dice APPROVE. Por debajo está AutoGen Core, un modelo de actores asíncronos. Microsoft lo está unificando con Semantic Kernel en el Microsoft Agent Framework, y eso vale la pena mencionarlo.
+
+---
+
 ## P6 · "¿Has usado LangChain / LlamaIndex / CrewAI / AutoGen?"
 **Sección:** Frameworks
 - **No digas "no"**: "En producción orquesté el flujo directamente con el modelo, un harness con hooks y MCP"
