@@ -109,3 +109,13 @@ Venían en una rama aparte (`claude/estudio-desde-postulaciones`); se trajeron a
   CDC (Change Data Capture) con Debezium; GraphQL con DataLoader contra el
   problema N+1. Lo más cercano que ya tiene: ELK para logs, SQS con
   reintentos y el sistema de triage en Python.
+- **Frameworks multiagente y A2A: LangGraph, CrewAI, AutoGen y A2A**
+  (surgió en la entrevista técnica de Metova Talent, AI Engineer, 6 nov
+  2026, requerido): construir en un proyecto personal un supervisor en
+  LangGraph (StateGraph, checkpointer, `interrupt()`), la misma idea en
+  CrewAI (Agent, Task, Crew, Process) y en AutoGen / Microsoft Agent
+  Framework, y dos agentes que se hablen por A2A (Agent-to-Agent: Agent
+  Card, tasks, SSE, artifacts) usando como tools sus servidores MCP (Model
+  Context Protocol) con langchain-mcp-adapters. Lo más cercano que ya tiene:
+  el triage con Claude, harness, hooks y MCP en MercadoLibre. Material:
+  `pruebas-tecnicas/metova-ai-engineer/tecnica/`.

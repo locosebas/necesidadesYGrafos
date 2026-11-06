@@ -34,3 +34,15 @@ RAG (Retrieval-Augmented Generation) · chunking · embeddings · similitud cose
 MCP (Model Context Protocol) · LangChain · LangGraph · human-in-the-loop · guardarraíles ·
 golden dataset · LLM-as-a-judge · faithfulness · Ragas · LLMOps · caché y fallback de modelos ·
 EOR (Employer of Record).
+
+## Entrevista técnica (6 nov 2026)
+
+Habilidades evaluadas: frameworks de agentes (LangChain, LlamaIndex, AutoGen, CrewAI), Python con
+FastAPI, asyncio y Pydantic, liderar discusiones con producto, UX, datos y backend, arquitectura con
+agentes y LLM, y MCP + A2A (Agent-to-Agent) para coordinar varios agentes.
+
+- [tecnica/diagramas-c4.md](tecnica/diagramas-c4.md): 8 diagramas C4 (T1 a T8).
+- [tecnica/libreto-diapositivas.md](tecnica/libreto-diapositivas.md): 17 diapositivas con preguntas y guion.
+- [tecnica/presentacion.html](tecnica/presentacion.html), versión para el celular (privada):
+  https://claude.ai/artifact/1zFmgSAGf8qk7NZgqeowUR · se regenera con
+  `python3 tecnica/generar_presentacion.py`.
