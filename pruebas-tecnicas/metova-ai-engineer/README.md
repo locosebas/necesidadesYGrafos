@@ -42,7 +42,7 @@ FastAPI, asyncio y Pydantic, liderar discusiones con producto, UX, datos y backe
 agentes y LLM, y MCP + A2A (Agent-to-Agent) para coordinar varios agentes.
 
 - [tecnica/diagramas-c4.md](tecnica/diagramas-c4.md): 8 diagramas C4 (T1 a T8).
-- [tecnica/libreto-diapositivas.md](tecnica/libreto-diapositivas.md): 17 diapositivas con preguntas y guion.
+- [tecnica/libreto-diapositivas.md](tecnica/libreto-diapositivas.md): 21 diapositivas: plan de 30 min, serie P1-P11, inglés y preguntas para el entrevistador.
 - [tecnica/presentacion.html](tecnica/presentacion.html), versión para el celular (privada):
   https://claude.ai/artifact/1zFmgSAGf8qk7NZgqeowUR · se regenera con
   `python3 tecnica/generar_presentacion.py`.

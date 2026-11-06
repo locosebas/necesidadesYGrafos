@@ -20,11 +20,37 @@ escribiste tus servidores MCP.
 
 ## Entrevista técnica · Metova Talent · AI Engineer
 **Sección:** Portada
-- Las **5 habilidades** que van a evaluar, con un diagrama C4 por idea
+- **Hoy, viernes 6 nov · 5:00 – 5:30 p. m. hora Colombia** (4:00 p. m. de México) · Google Meet
+- Las **5 habilidades** que van a evaluar, en una **serie de 11 preguntas (P1 a P11)**
 - Para cada una: **concepto** → **tu experiencia real** → **cómo lo harías**
 - Teclas: ← → para moverse · N para ver el guion
 
 > La estrategia para toda la entrevista: primero muestras que entiendes el concepto, después lo conectas con lo que hiciste en producción en MercadoLibre y terminas con cómo lo harías en su caso. Nunca te quedes solo en la teoría.
+
+---
+
+## Plan de los 30 minutos
+**Sección:** Antes de empezar
+- **0-3 min**: saludo + **P1** (tu sistema con LLM) en **90 segundos**
+- **3-22 min**: entre **5 y 7 preguntas** técnicas: **60-90 s por respuesta**, empezando por el ejemplo real
+- **22-28 min**: **tus preguntas** técnicas (stack, framework, proveedor de LLM, el equipo)
+- **28-30 min**: siguientes pasos
+- Si te piden pantalla o código: **piensa en voz alta**, empieza por el diagrama y después el detalle
+
+> En 30 minutos no hay tiempo para respuestas largas. Usa la fórmula de siempre: una frase de concepto, una de tu experiencia real y una de cómo lo harías. Si el entrevistador quiere más detalle, te lo pide. Ten agua y la cámara encendida, y entra al Meet dos minutos antes.
+
+---
+
+## La serie de preguntas (en orden de probabilidad)
+**Sección:** Antes de empezar
+- **P1** Cuéntame de un sistema con LLM · **P2** ¿Has implementado MCP? · **P3** MCP vs A2A
+- **P4** Diseña un sistema multiagente · **P5** ¿Cómo haces seguro un flujo autónomo?
+- **P6** ¿Has usado LangChain / LlamaIndex / CrewAI / AutoGen?
+- **P7** ¿FastAPI y asyncio? · **P8** Errores comunes con asyncio · **P9** ¿Cómo validas lo que devuelve el LLM?
+- **P10** ¿Cómo lideras discusiones entre producto, UX, datos y backend?
+- **P11** ¿Cómo evalúas y operas los agentes?
+
+> Las preguntas de la 1 a la 5 son las más probables, porque son el corazón del rol: agentes, MCP y A2A. Si solo alcanzas a repasar cinco antes de la llamada, que sean esas. La 6 seguro sale porque está en la vacante, y ahí se aplica la regla de dar el ejemplo más cercano.
 
 ---
 
@@ -41,7 +67,7 @@ escribiste tus servidores MCP.
 
 ---
 
-## P · "Cuéntame de un sistema con LLM que hayas construido"
+## P1 · "Cuéntame de un sistema con LLM que hayas construido"
 **Sección:** Pitch técnico
 **Diagrama:** T6
 - **Triage de incidentes** en MercadoLibre, **en producción**, con **Claude (Anthropic)**
@@ -67,7 +93,7 @@ escribiste tus servidores MCP.
 
 ---
 
-## P · "¿Has implementado MCP?"
+## P2 · "¿Has implementado MCP?"
 **Sección:** MCP y A2A
 - **Sí**: he construido **varios servidores MCP**
 - En MercadoLibre **co-diseñé** el servidor MCP con el equipo de **observabilidad (o11y)** para que el LLM leyera logs
@@ -92,7 +118,7 @@ escribiste tus servidores MCP.
 
 ---
 
-## P · "¿Cuál es la diferencia entre MCP y A2A?"
+## P3 · "¿Cuál es la diferencia entre MCP y A2A?"
 **Sección:** MCP y A2A
 - **MCP = agente ↔ herramienta** (vertical): el agente **usa** una capacidad
 - **A2A = agente ↔ agente** (horizontal): el agente **delega** una tarea a otro agente autónomo
@@ -104,7 +130,7 @@ escribiste tus servidores MCP.
 
 ---
 
-## P · "Diseña un sistema multiagente para un negocio"
+## P4 · "Diseña un sistema multiagente para un negocio"
 **Sección:** Arquitectura
 **Diagrama:** T4
 - **1 · Entender el problema**: qué tarea, qué métrica de éxito y qué riesgo tiene equivocarse
@@ -117,7 +143,7 @@ escribiste tus servidores MCP.
 
 ---
 
-## P · "¿Cómo haces seguro un flujo autónomo en producción?"
+## P5 · "¿Cómo haces seguro un flujo autónomo en producción?"
 **Sección:** Arquitectura
 - **Autonomía por niveles**: leer = automático · escribir = con aprobación · irreversible = siempre humano
 - **Menor privilegio**: cada agente con sus credenciales y solo sus tools
@@ -142,7 +168,7 @@ escribiste tus servidores MCP.
 
 ---
 
-## P · "¿Has usado LangChain / LlamaIndex / CrewAI?"
+## P6 · "¿Has usado LangChain / LlamaIndex / CrewAI / AutoGen?"
 **Sección:** Frameworks
 - **No digas "no"**: "En producción orquesté el flujo directamente con el modelo, un harness con hooks y MCP"
 - "Esa orquestación es justo lo que resuelve **LangGraph**: nodos, estado, aristas condicionales e `interrupt()`"
@@ -154,7 +180,7 @@ escribiste tus servidores MCP.
 
 ---
 
-## FastAPI + asyncio + Pydantic: el flujo de una petición
+## P7 · "¿Experiencia con FastAPI y asyncio?" El flujo de una petición
 **Sección:** Python asíncrono
 **Diagrama:** T7
 - **Pydantic** valida el body con `BaseModel` y genera el **schema** (también sirve para las tools del LLM)
@@ -162,12 +188,13 @@ escribiste tus servidores MCP.
 - Llamadas en paralelo con **`asyncio.gather`** o **`TaskGroup`** (Python 3.11+)
 - **`Semaphore`** para no pasar el rate limit del LLM · **`asyncio.timeout`** · reintentos con backoff
 - **`StreamingResponse`** con **SSE** para mandar los tokens a medida que salen
+- **[confirmar]** Abre diciendo dónde lo usaste: "**en el trabajo**" o "**en proyectos propios**", lo que sea cierto
 
 > Una petición llega a FastAPI y Pydantic valida el body contra un BaseModel. Ese mismo modelo de Pydantic genera el JSON schema, que también sirve para definir las tools del LLM. El endpoint es async def, y con Depends inyecto los clientes y la autenticación. Los clientes se abren una sola vez en el lifespan. Si necesito el LLM, la búsqueda vectorial y una tool al tiempo, los lanzo en paralelo con asyncio.gather o TaskGroup, con un Semaphore para no pasarme del rate limit del proveedor, timeouts y reintentos con backoff. Para la experiencia de usuario, devuelvo StreamingResponse con SSE y los tokens van saliendo.
 
 ---
 
-## P · "¿Errores comunes con asyncio?"
+## P8 · "¿Errores comunes con asyncio?"
 **Sección:** Python asíncrono
 - **Bloquear el event loop**: `requests` o `time.sleep` dentro de `async def` → usar **`httpx.AsyncClient`**, **`asyncio.sleep`**
 - Código que bloquea sí o sí → **`asyncio.to_thread`** o un worker aparte
@@ -179,7 +206,7 @@ escribiste tus servidores MCP.
 
 ---
 
-## Pydantic y structured outputs
+## P9 · "¿Cómo validas lo que devuelve el LLM?" Pydantic
 **Sección:** Python asíncrono
 - **Pydantic v2**: `BaseModel`, `Field`, `model_validate`, `model_json_schema`
 - **Structured output**: le pides al LLM un JSON que cumpla un schema Pydantic → **validas** → si falla, **reintentas** con el error
@@ -191,7 +218,7 @@ escribiste tus servidores MCP.
 
 ---
 
-## P · "¿Cómo lideras discusiones con producto, UX, datos y backend?"
+## P10 · "¿Cómo lideras discusiones con producto, UX, datos y backend?"
 **Sección:** Colaboración
 **Diagrama:** T8
 - **Ejemplo real**: co-diseñé el **servidor MCP con el equipo de observabilidad** (otro equipo, otras prioridades)
@@ -204,7 +231,7 @@ escribiste tus servidores MCP.
 
 ---
 
-## P · "¿Cómo evalúas y operas los agentes?"
+## P11 · "¿Cómo evalúas y operas los agentes?"
 **Sección:** Operación
 - **Golden dataset** + **LLM-as-a-judge** · en RAG: **faithfulness** y relevancia (ej.: **Ragas**)
 - Evaluación **dentro del CI/CD**: si no pasa el umbral, **no se despliega**
@@ -213,6 +240,31 @@ escribiste tus servidores MCP.
 - Los casos malos de producción **alimentan el dataset** (ciclo de mejora)
 
 > Armo un golden dataset con casos y respuestas esperadas, y uso un LLM como juez. En RAG mido si la respuesta es fiel al contexto y relevante, por ejemplo con Ragas. Esa evaluación corre en el CI/CD y bloquea el despliegue si baja la calidad, igual que una prueba. En producción trazo cada paso del agente con LangSmith, Langfuse u OpenTelemetry, y miro latencia, costo por tarea, tasa de éxito y cuántas veces escala a un humano. Los casos que salen mal se vuelven nuevos casos del dataset. Esa parte de operar con métricas es mi terreno como DevOps.
+
+---
+
+## Respuestas cortas en inglés (si la entrevista es en inglés)
+**Sección:** Inglés
+- **P1**: "I contributed to an **LLM-based incident triage system in production**, with Claude, MCP and **human approval** before any action."
+- **P2**: "Yes, I've built **several MCP servers**; at MercadoLibre I **co-designed** one with the observability team."
+- **P3**: "**MCP connects an agent to tools**; **A2A connects agents to other agents**. They're complementary."
+- **P5**: "**Tiered autonomy**: reads are automatic, writes need approval, irreversible actions always need a human."
+- **P6**: "I orchestrated it **directly with the model, a harness and MCP**. LangGraph solves the same problem and I'm **comfortable adopting it**."
+
+> Si el entrevistador cambia a inglés, abre cada respuesta con estas frases y después desarrolla. Habla despacio y usa frases cortas. No pidas disculpas por tu inglés: es C1.
+
+---
+
+## Tus preguntas para el entrevistador técnico
+**Sección:** Preguntas para él
+- **1 ·** ¿Qué **framework de agentes** usan hoy (LangGraph, CrewAI, propio) y por qué lo eligieron?
+- **2 ·** ¿Qué **proveedor de LLM** usan y si tienen un gateway con caché o fallback?
+- **3 ·** ¿Ya tienen **servidores MCP** en producción, o eso sería parte del rol?
+- **4 ·** ¿Cómo **evalúan** la calidad de los agentes antes de desplegar?
+- **5 ·** ¿Qué tanta **autonomía** tienen los agentes y dónde hay aprobación humana?
+- **6 ·** ¿Cómo es el **equipo** con el que trabajaría (producto, datos, backend)?
+
+> Haz al menos tres. La 1 y la 3 te dicen cuánto encaja tu experiencia con MCP, y la 4 y la 5 muestran que piensas en producción, que es tu diferencial frente a otros candidatos de IA.
 
 ---
 
