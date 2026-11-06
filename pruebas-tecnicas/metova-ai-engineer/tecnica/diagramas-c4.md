@@ -389,3 +389,67 @@ flowchart LR
   classDef container fill:#438dd5,stroke:#2e6295,color:#fff
   classDef ext fill:#8a8a8a,stroke:#6b6b6b,color:#fff
 ```
+
+## T15 · Despliegue: dónde vive cada pieza de un sistema de agentes en AWS
+
+Tipo: Despliegue.
+
+```mermaid
+flowchart LR
+  u["ico:account-group<br/>Usuarios / sistemas"]:::person
+  subgraph aws["AWS"]
+    gw["ico:aws-api-gateway ico:aws-elb<br/>API Gateway / ALB"]:::container
+    subgraph cmp["Cómputo de los agentes (elige uno)"]
+      k8s["ico:aws-eks ico:aws-ecs<br/>EKS / ECS Fargate<br/>FastAPI + LangGraph en contenedores"]:::container
+      ac["ico:aws<br/>Bedrock AgentCore Runtime<br/>agente administrado, sesiones aisladas"]:::container
+    end
+    q["ico:aws-sqs<br/>SQS<br/>tareas largas en segundo plano"]:::container
+    db[("ico:aws-rds<br/>RDS Postgres<br/>checkpointer + pgvector")]:::container
+    mcp["ico:aws-lambda<br/>Servidores MCP<br/>Lambda o contenedores · AgentCore Gateway"]:::container
+    llm["ico:anthropic<br/>Amazon Bedrock<br/>Claude y otros modelos"]:::ext
+    obs["ico:aws-cloudwatch ico:datadog<br/>CloudWatch / Datadog<br/>trazas OpenTelemetry"]:::ext
+  end
+  u --> gw --> k8s
+  gw --> ac
+  k8s --> q
+  k8s --> db
+  k8s -->|"MCP"| mcp
+  ac -->|"MCP"| mcp
+  k8s --> llm
+  ac --> llm
+  k8s -.-> obs
+  ac -.-> obs
+  classDef person fill:#08427b,stroke:#052e56,color:#fff
+  classDef system fill:#1168bd,stroke:#0b4884,color:#fff
+  classDef container fill:#438dd5,stroke:#2e6295,color:#fff
+  classDef ext fill:#8a8a8a,stroke:#6b6b6b,color:#fff
+```
+
+## T16 · Contexto: las 4 opciones de dónde correr agentes
+
+Tipo: Contexto.
+
+```mermaid
+flowchart TB
+  ag["ico:robot<br/>Tu agente<br/>(LangGraph, ADK, Strands, CrewAI…)"]:::system
+  subgraph adm["Administrado por la nube"]
+    awsr["ico:aws<br/>AWS<br/>Bedrock AgentCore · Bedrock Agents"]:::ext
+    gcp["ico:google-cloud<br/>Google Cloud<br/>Vertex AI Agent Engine"]:::ext
+    az["ico:azure-icon<br/>Azure<br/>AI Foundry Agent Service"]:::ext
+  end
+  subgraph prop["Contenedores propios"]
+    k["ico:kubernetes<br/>Kubernetes<br/>EKS · AKS · GKE"]:::container
+    sl["ico:google-cloud-run ico:aws-ecs<br/>Contenedores serverless<br/>Cloud Run · ECS Fargate · Container Apps"]:::container
+  end
+  fn["ico:aws-lambda<br/>Funciones<br/>Lambda: solo tools y MCP cortos"]:::container
+  ag --> awsr
+  ag --> gcp
+  ag --> az
+  ag --> k
+  ag --> sl
+  ag -.->|"tools"| fn
+  classDef person fill:#08427b,stroke:#052e56,color:#fff
+  classDef system fill:#1168bd,stroke:#0b4884,color:#fff
+  classDef container fill:#438dd5,stroke:#2e6295,color:#fff
+  classDef ext fill:#8a8a8a,stroke:#6b6b6b,color:#fff
+```

@@ -41,8 +41,8 @@ Habilidades evaluadas: frameworks de agentes (LangChain, LlamaIndex, AutoGen, Cr
 FastAPI, asyncio y Pydantic, liderar discusiones con producto, UX, datos y backend, arquitectura con
 agentes y LLM, y MCP + A2A (Agent-to-Agent) para coordinar varios agentes.
 
-- [tecnica/diagramas-c4.md](tecnica/diagramas-c4.md): 14 diagramas C4 (T1 a T14).
-- [tecnica/libreto-diapositivas.md](tecnica/libreto-diapositivas.md): 31 diapositivas: plan de 30 min, serie P1-P11, inglés y preguntas para el entrevistador.
+- [tecnica/diagramas-c4.md](tecnica/diagramas-c4.md): 16 diagramas C4 (T1 a T16).
+- [tecnica/libreto-diapositivas.md](tecnica/libreto-diapositivas.md): 36 diapositivas: plan de 30 min, serie P1-P11, inglés y preguntas para el entrevistador.
 - [tecnica/presentacion.html](tecnica/presentacion.html), versión para el celular (privada):
   https://claude.ai/artifact/1zFmgSAGf8qk7NZgqeowUR · se regenera con
   `python3 tecnica/generar_presentacion.py`.

@@ -258,6 +258,69 @@ escribiste tus servidores MCP.
 
 ---
 
+## Diferencias: equivalentes de LangGraph (1/2)
+**Sección:** Frameworks
+- **Semantic Kernel** (Microsoft): empresas en **.NET, C# y Python**, con "plugins" en vez de grafo · se une con AutoGen en el **Microsoft Agent Framework**
+- **Haystack** (deepset): **pipelines** de componentes · más fuerte en **búsqueda y RAG** que en agentes con ciclos
+- **Pydantic AI**: **tipado fuerte**, la salida del agente es un modelo Pydantic · más simple que LangGraph
+- **DSPy** (Stanford): **no escribes prompts**: declaras qué entra y qué sale, y DSPy **optimiza** el prompt
+- **smolagents** (Hugging Face): muy liviano, el agente **escribe y ejecuta código Python** como acción
+- **Agno**: liviano y rápido, agentes con memoria y tools · menos control del flujo
+
+> La diferencia de fondo es cuánto control te da cada uno. LangGraph te da control total del flujo con un grafo. Semantic Kernel es la opción de Microsoft para empresas en .NET. Haystack es más de pipelines de búsqueda. Pydantic AI apuesta por tipado fuerte y simplicidad. DSPy cambia el enfoque: en vez de escribir prompts, los optimiza. Y smolagents hace que el agente escriba código como acción.
+
+---
+
+## Diferencias: equivalentes de LangGraph (2/2) · SDK de proveedores
+**Sección:** Frameworks
+- **OpenAI Agents SDK**: lo mínimo: agentes, tools, **handoffs** y guardrails · optimizado para OpenAI
+- **Google ADK** (Agent Development Kit): integrado con **Gemini y Vertex AI** · **A2A** nativo
+- **Claude Agent SDK** (Anthropic): el harness de Claude Code como librería: ciclo, tools, **MCP** y **hooks** · **el más parecido a lo tuyo**
+- **Strands Agents** (AWS): integrado con **Bedrock**, el modelo decide el flujo con poco código
+- **Mastra** y **Vercel AI SDK**: lo mismo en **TypeScript** · Vercel AI SDK es más que todo para el chat en el frontend
+
+> Cada proveedor de LLM tiene ya su propio SDK de agentes, más simple que LangGraph y pensado para su modelo y su nube. El más parecido a lo que construiste es el Claude Agent SDK, porque tiene el mismo ciclo con tools, MCP y hooks. Recuerda: es el equivalente de lo tuyo, no algo que hayas usado.
+
+---
+
+## Diferencias: equivalentes de LlamaIndex, AutoGen y CrewAI
+**Sección:** Frameworks
+- **RAG**: **Haystack** (rival directo, pipelines explícitos) · **txtai** (todo en uno, liviano) · **RAGFlow** (aplicación con interfaz, fuerte en PDF y tablas) · **Bedrock KB / Azure AI Search / Vertex RAG Engine** (administrado: cero infraestructura, menos control)
+- **AutoGen** → **Microsoft Agent Framework** (sucesor oficial) · **AG2** (fork de la comunidad, estilo original) · **CAMEL** (investigación, juego de roles)
+- **CrewAI** → **supervisor en LangGraph** (más código, más control) · **OpenAI Agents SDK** (handoffs sin roles) · **Google ADK** (jerarquía padre e hijos + A2A) · **MetaGPT** (simula una empresa de software)
+- **Regla**: si te nombran uno que no conoces → ubícalo en su familia ("es como LangGraph, pero…") y vuelve a **MCP + harness + hooks + HITL**
+
+> Para RAG, Haystack es el rival directo de LlamaIndex, y los servicios administrados de cada nube te quitan la infraestructura a cambio de menos control. AutoGen sigue en el Microsoft Agent Framework o en el fork AG2. Y CrewAI se puede hacer con un supervisor en LangGraph si necesitas más control, o con los handoffs del OpenAI Agents SDK si lo quieres simple.
+
+---
+
+## ¿Dónde corren los agentes? Las 4 opciones
+**Sección:** Infraestructura
+**Diagrama:** T16
+- **Administrado**: **AWS Bedrock AgentCore** · **Google Vertex AI Agent Engine** · **Azure AI Foundry Agent Service**
+- **AgentCore**: corre **tu** agente (LangGraph, CrewAI, Strands…) con **Runtime** (sesiones aisladas), **Memory**, **Gateway** (APIs y Lambdas como tools MCP), **Identity** y **Observability**
+- **Kubernetes** (EKS, AKS, GKE): **máximo control**, el mismo CI/CD y observabilidad de siempre · **tu terreno**
+- **Contenedores serverless**: **Cloud Run**, **ECS Fargate**, **Azure Container Apps** · sin administrar nodos
+- **Lambda**: solo para **tools y servidores MCP cortos** (límite de **15 minutos**), no para el agente completo
+
+> Hay cuatro lugares. Los runtimes administrados de cada nube: Bedrock AgentCore en AWS, Vertex AI Agent Engine en Google Cloud y AI Foundry Agent Service en Azure. Tú traes el agente y ellos ponen el runtime, la memoria, la identidad y la observabilidad. Si la empresa quiere control total, Kubernetes, con el mismo CI/CD y la misma observabilidad de siempre, que es mi experiencia. Un punto medio son los contenedores serverless como Cloud Run o ECS Fargate. Y Lambda sirve para las tools o los servidores MCP, no para un agente que puede tardar minutos.
+
+---
+
+## Dónde vive cada pieza (ejemplo en AWS)
+**Sección:** Infraestructura
+**Diagrama:** T15
+- **Entrada**: API Gateway o ALB → **FastAPI** en **EKS / ECS Fargate**, o **AgentCore Runtime**
+- **Estado**: **RDS Postgres** como **checkpointer** de LangGraph + **pgvector** para RAG
+- **Tareas largas**: **SQS** + workers, para no dejar una petición HTTP abierta minutos
+- **Tools**: **servidores MCP** en Lambda o contenedores, publicados con **AgentCore Gateway**
+- **Modelos**: **Amazon Bedrock** (Claude incluido) · **observabilidad**: CloudWatch / Datadog con **OpenTelemetry**
+- **Hogar natural**: **ADK** → Vertex · **Strands** → AgentCore · **Microsoft Agent Framework** → Azure Foundry · **LangGraph / CrewAI** → cualquiera
+
+> En AWS lo armaría así. Entra por API Gateway o un ALB a una API FastAPI en EKS o ECS Fargate, o directo a AgentCore Runtime si queremos menos operación. El estado del agente vive en Postgres como checkpointer de LangGraph, y el mismo Postgres con pgvector sirve para RAG. Las tareas largas van por SQS con workers. Las tools son servidores MCP en Lambda o contenedores, y los modelos vienen de Bedrock, que incluye Claude. Todo trazado con OpenTelemetry hacia CloudWatch o Datadog. Cada framework tiene su nube natural: ADK en Vertex, Strands en AgentCore, el Microsoft Agent Framework en Azure, y LangGraph o CrewAI corren en cualquier parte.
+
+---
+
 ## P6 · "¿Has usado LangChain / LlamaIndex / CrewAI / AutoGen?"
 **Sección:** Frameworks
 - **No digas "no"**: "En producción orquesté el flujo directamente con el modelo, un harness con hooks y MCP"
