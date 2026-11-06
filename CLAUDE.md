@@ -67,3 +67,9 @@ que se trabaje en este repo — no hace falta que las repita cada sesión.
   `progreso.md` después de sesiones de examen o repaso significativas.
 - Commitear y pushear los cambios al repo (rama de trabajo actual) después
   de actualizaciones de contenido del plan de estudio.
+
+## Mensajes listos para enviar (correos, WhatsApp, formularios)
+
+- **Nunca entregar un texto para copiar y pegar con espacios sin llenar**
+  (`[SALARIO]`, `[CONFIRMAR]`, etc.). Si falta un dato, **preguntárselo
+  antes** y entregar el texto solo cuando esté completo.
