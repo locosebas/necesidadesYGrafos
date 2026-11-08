@@ -73,3 +73,10 @@ que se trabaje en este repo — no hace falta que las repita cada sesión.
 - **Nunca entregar un texto para copiar y pegar con espacios sin llenar**
   (`[SALARIO]`, `[CONFIRMAR]`, etc.). Si falta un dato, **preguntárselo
   antes** y entregar el texto solo cuando esté completo.
+
+## Revisión del correo
+
+- Cada vez que se revise el correo, **terminar siempre con la lista de
+  pendientes abiertos** (pruebas, videos, entrevistas con IA, formularios),
+  aunque no haya llegado nada nuevo sobre ellos. Sebastián pidió que se le
+  siga recordando hasta que diga que ya lo hizo.
