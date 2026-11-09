@@ -12,7 +12,7 @@
 - [diagramas-c4.md](diagramas-c4.md): 26 diagramas C4 (4 de presentación personal + 22 de preguntas), con íconos.
 - [libreto-diapositivas.md](libreto-diapositivas.md): 32 diapositivas, **bilingües**: viñetas y guion en inglés y en español.
 - [presentacion.html](presentacion.html): la presentación (← → navegar, **L** inglés/español, **N** guion en los dos idiomas).
-  Se regenera con `python3 generar_presentacion.py`.
+  Versión para el celular (privada): https://claude.ai/artifact/UpDBko5VcyAZ6mGZCscNh8 · Se regenera con `python3 generar_presentacion.py`.
 - Parte A (presentación personal): quién soy, Bizagi, MercadoLibre, por qué encajo.
 - Parte B (25 preguntas): Azure, landing zone en GCP, Cloud Adoption Framework, Terraform (estructura,
   pipeline en Jenkins, drift), Ansible, Kubernetes (arquitectura, AKS/EKS/GKE, CrashLoopBackOff),
