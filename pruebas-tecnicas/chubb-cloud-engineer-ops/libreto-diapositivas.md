@@ -195,9 +195,28 @@ Regla de honestidad: Chubb pide 15 años y experiencia liderando transformación
 
 ---
 
-## Q4 · How would you build the new GCP platform? · ¿Cómo construirías la nueva plataforma GCP?
+## Q4a · GCP resource hierarchy · Jerarquía de recursos en GCP
 **Sección:** Parte B · GCP
-**Diagrama:** D2, D3
+**Diagrama:** D2
+**EN:**
+- **Organization** → **Folders** (environment or business unit) → **Projects** (app + environment)
+- **Organization Policies** and **IAM** are **inherited** downward
+- **Shared VPC**: one **host project** shares subnets with service projects
+- Same idea as Azure: Management Groups → Subscriptions → Resource Groups
+**ES:**
+- **Organization** → **Folders** (ambiente o unidad de negocio) → **Projects** (aplicación + ambiente)
+- Las **Organization Policies** y el **IAM** se **heredan** hacia abajo
+- **Shared VPC**: un **host project** comparte subredes con los service projects
+- Misma idea que en Azure: Management Groups → Subscriptions → Resource Groups
+
+> EN: In GCP everything hangs from the organization. Below it, folders, usually by environment or business unit, and below them projects, one per application and environment. Policies and IAM roles granted at a folder are inherited by every project inside. The network usually lives in a host project with a Shared VPC, and application projects use its subnets. It's the same idea as management groups, subscriptions and resource groups in Azure.
+> ES: En GCP todo cuelga de la organización. Debajo, folders, normalmente por ambiente o unidad de negocio, y debajo de ellos projects, uno por aplicación y ambiente. Las políticas y los roles de IAM dados en un folder los heredan todos los projects de adentro. La red suele vivir en un host project con una Shared VPC, y los projects de aplicación usan sus subredes. Es la misma idea que management groups, suscripciones y resource groups en Azure.
+
+---
+
+## Q4b · How would you build the new GCP platform? · ¿Cómo construirías la nueva plataforma GCP?
+**Sección:** Parte B · GCP
+**Diagrama:** D3
 **EN:**
 - **Resource hierarchy**: Organization → Folders → Projects
 - **Organization Policies** + **IAM by groups** at folder level
@@ -435,6 +454,70 @@ Regla de honestidad: Chubb pide 15 años y experiencia liderando transformación
 
 ---
 
+## Security layer (1/3): identity · Capa de seguridad (1/3): identidad
+**Sección:** Glosario rápido de seguridad
+**EN:**
+- **Entra ID** (Azure) / **Cloud Identity** (GCP): the **directory** of users and groups → one place to manage who exists
+- **SSO** (Single Sign-On): **one login** for many apps → fewer passwords, central control
+- **OIDC** (OpenID Connect) / **SAML**: the **protocols** that carry the login between systems → federation between Entra ID, GCP and apps
+- **MFA** (Multi-Factor Authentication): password **+ a second factor** → a stolen password is not enough
+- **Federation**: GCP **trusts** Entra ID → people use the same corporate login in both clouds
+**ES:**
+- **Entra ID** (Azure) / **Cloud Identity** (GCP): el **directorio** de usuarios y grupos → un solo lugar para manejar quién existe
+- **SSO** (Single Sign-On): **un solo inicio de sesión** para muchas aplicaciones → menos contraseñas, control central
+- **OIDC** (OpenID Connect) / **SAML** (Security Assertion Markup Language): los **protocolos** que llevan el inicio de sesión entre sistemas → federación entre Entra ID, GCP y las aplicaciones
+- **MFA** (Multi-Factor Authentication): contraseña **+ un segundo factor** → robar la contraseña no basta
+- **Federación**: GCP **confía** en Entra ID → la gente usa el mismo login corporativo en las dos nubes
+
+> EN: Identity answers "who are you". Entra ID is the directory, SSO gives one login, OIDC is the protocol behind it, MFA protects the login, and federation lets GCP trust Entra ID.
+> ES: La identidad responde "¿quién eres?". Entra ID es el directorio, SSO da un solo inicio de sesión, OIDC es el protocolo que lo hace posible, MFA protege el inicio de sesión y la federación hace que GCP confíe en Entra ID. Truco: autenticación = quién eres; autorización (siguiente diapositiva) = qué puedes hacer.
+
+---
+
+## Security layer (2/3): permissions · Capa de seguridad (2/3): permisos
+**Sección:** Glosario rápido de seguridad
+**EN:**
+- **RBAC** (Role-Based Access Control): **role + who + scope** → what you can do and where; e.g. *Reader* on a subscription
+- **Least privilege**: only the permissions needed, at the **smallest scope** → limits the damage of a mistake or a stolen account
+- **PIM** (Privileged Identity Management): admin rights **just-in-time**, for hours, with approval → nobody is admin permanently
+- **Managed Identity** (Azure): an identity **for a resource** (VM, app, AKS) managed by Azure → the app reaches Key Vault or SQL **without passwords or keys**
+- **Workload Identity** (AKS / GKE): links a Kubernetes **service account** to a cloud identity → each **Pod** gets its own permissions, no keys
+- **Service account** (GCP): the identity of an application → avoid downloading its **JSON keys**
+**ES:**
+- **RBAC** (Role-Based Access Control): **rol + quién + scope (alcance)** → qué puedes hacer y dónde; ej. *Reader* en una suscripción
+- **Mínimo privilegio**: solo los permisos necesarios, en el **scope más pequeño** → limita el daño de un error o de una cuenta robada
+- **PIM** (Privileged Identity Management): permisos de administrador **just-in-time**, por horas y con aprobación → nadie es admin de forma permanente
+- **Managed Identity** (Azure): una identidad **para un recurso** (VM, app, AKS) que administra Azure → la aplicación entra a Key Vault o a SQL **sin contraseñas ni llaves**
+- **Workload Identity** (AKS / GKE): une una **service account** de Kubernetes con una identidad de la nube → cada **Pod** tiene sus propios permisos, sin llaves
+- **Service account** (GCP): la identidad de una aplicación → evitar descargar sus **llaves JSON**
+
+> EN: Permissions answer "what can you do". RBAC assigns a role to a group at a scope. Least privilege keeps it small. PIM makes admin temporary. And for applications, Managed Identity and Workload Identity replace passwords and keys: the cloud gives the app a short-lived token automatically.
+> ES: Los permisos responden "¿qué puedes hacer?". RBAC le asigna un rol a un grupo en un scope. El mínimo privilegio lo mantiene pequeño. PIM hace que el administrador sea temporal. Y para las aplicaciones, Managed Identity y Workload Identity reemplazan contraseñas y llaves: la nube le da a la aplicación un token de corta duración automáticamente. Frase para la entrevista: "no long-lived keys".
+
+---
+
+## Security layer (3/3): secrets, policies and network · Capa de seguridad (3/3): secretos, políticas y red
+**Sección:** Glosario rápido de seguridad
+**EN:**
+- **Key Vault** (Azure) / **Secret Manager** (GCP): **safe** for secrets, certificates and keys → nothing secret in code or pipelines
+- **KMS** (Key Management Service) / **CMEK** (customer-managed keys): **encryption keys** → encrypt data at rest with keys the company controls
+- **Azure Policy** / **Organization Policies**: **rules** applied to the whole hierarchy → block what is not allowed (public IPs, wrong regions)
+- **OPA Gatekeeper**: policies **inside Kubernetes** → rejects insecure manifests (root, no limits)
+- **NSG** (Network Security Group) / **firewall rules**: who can talk to whom on the network
+- **Private Endpoint** / **Private Service Connect**: reach PaaS services **through a private IP** → databases never exposed to the internet
+**ES:**
+- **Key Vault** (Azure) / **Secret Manager** (GCP): **caja fuerte** para secretos, certificados y llaves → nada secreto en el código ni en los pipelines
+- **KMS** (Key Management Service) / **CMEK** (Customer-Managed Encryption Keys): **llaves de cifrado** → cifrar los datos en reposo con llaves que controla la empresa
+- **Azure Policy** / **Organization Policies**: **reglas** aplicadas a toda la jerarquía → bloquear lo que no se permite (IPs públicas, regiones no autorizadas)
+- **OPA Gatekeeper** (Open Policy Agent): políticas **dentro de Kubernetes** → rechaza manifiestos inseguros (root, sin limits)
+- **NSG** (Network Security Group) / **firewall rules**: quién puede hablar con quién en la red
+- **Private Endpoint** / **Private Service Connect**: llegar a servicios PaaS **por una IP privada** → las bases de datos nunca quedan expuestas a internet
+
+> EN: The rest of the security layer: Key Vault or Secret Manager keep secrets, KMS keeps encryption keys, policies stop bad configurations before they exist, NSGs and firewall rules control traffic, and private endpoints keep data services off the internet.
+> ES: El resto de la capa de seguridad: Key Vault o Secret Manager guardan los secretos, KMS guarda las llaves de cifrado, las políticas frenan las malas configuraciones antes de que existan, los NSG y las firewall rules controlan el tráfico, y los private endpoints mantienen los servicios de datos fuera de internet. Resumen en capas: identidad → permisos → secretos → políticas → red.
+
+---
+
 ## Q16 · Security policies and governance as code · Gobierno y políticas como código
 **Sección:** Parte B · Gobierno y seguridad
 **Diagrama:** D15
@@ -453,6 +536,52 @@ Regla de honestidad: Chubb pide 15 años y experiencia liderando transformación
 
 > EN: I treat policies like code: they live in Git and are deployed by a pipeline with Terraform. In Azure, Azure Policy with effects like Deny, Audit, Modify, or DeployIfNotExists, for example to force diagnostic settings. In GCP, Organization Policies, like restricting regions or forbidding public IPs. In Kubernetes, OPA Gatekeeper to reject insecure manifests. The important part is the rollout: first in Audit mode to see the impact, talk with the affected teams, and then switch to Deny.
 > ES: Trato las políticas como código: viven en Git y se despliegan por pipeline con Terraform. En Azure, Azure Policy con efectos como Deny, Audit, Modify o DeployIfNotExists, por ejemplo para forzar los diagnostic settings. En GCP, Organization Policies, como restringir regiones o prohibir IPs públicas. En Kubernetes, OPA Gatekeeper para rechazar manifiestos inseguros. Lo importante es el despliegue: primero en modo Audit para ver el impacto, hablar con los equipos afectados y luego pasar a Deny.
+
+---
+
+## Networking layer (1/2): the building blocks · Capa de red (1/2): las piezas
+**Sección:** Glosario rápido de networking
+**EN:**
+- **VNet** (Azure) / **VPC** (Virtual Private Cloud, GCP/AWS): your **private network** in the cloud → isolates your resources
+- **Subnet** + **CIDR** (e.g. `10.20.0.0/16`): a slice of the network and its **IP range** → separate tiers (public, app, data); ranges must **not overlap**
+- **Route table** / **UDR** (User-Defined Route): decides **where traffic goes** → e.g. force everything through the firewall
+- **NAT Gateway** / **Cloud NAT**: lets private resources **go out** to the internet without a public IP → outbound only, nobody can come in
+- **NSG** (Network Security Group) / **firewall rules**: allow or deny by IP, port and protocol → **who talks to whom**
+- In GCP a **VPC is global** and its subnets are regional; in Azure a **VNet is regional**
+**ES:**
+- **VNet** (Virtual Network, Azure) / **VPC** (Virtual Private Cloud, GCP/AWS): tu **red privada** en la nube → aísla tus recursos
+- **Subred** + **CIDR** (Classless Inter-Domain Routing, ej. `10.20.0.0/16`): un pedazo de la red y su **rango de IPs** → separar capas (pública, aplicación, datos); los rangos **no se pueden cruzar**
+- **Route table** / **UDR** (User-Defined Route): decide **por dónde va el tráfico** → ej. obligar a que todo pase por el firewall
+- **NAT Gateway** / **Cloud NAT** (Network Address Translation): deja que los recursos privados **salgan** a internet sin IP pública → solo salida, nadie puede entrar
+- **NSG** (Network Security Group) / **firewall rules**: permiten o niegan por IP, puerto y protocolo → **quién habla con quién**
+- En GCP la **VPC es global** y sus subredes son regionales; en Azure la **VNet es regional**
+
+> EN: The network starts with a VNet or VPC, split into subnets with non-overlapping IP ranges. Route tables decide the path, NAT gives private resources outbound internet, and NSGs or firewall rules filter the traffic.
+> ES: La red empieza con una VNet o una VPC, partida en subredes con rangos de IP que no se cruzan. Las route tables deciden el camino, el NAT les da salida a internet a los recursos privados, y los NSG o las firewall rules filtran el tráfico. Ojo con la diferencia que suelen preguntar: en GCP la VPC es global; en Azure y AWS es regional.
+
+---
+
+## Networking layer (2/2): connecting and exposing · Capa de red (2/2): conectar y exponer
+**Sección:** Glosario rápido de networking
+**EN:**
+- **Peering**: connects two VNets/VPCs **privately** → the base of **hub-and-spoke**; it is **not transitive**
+- **Shared VPC** (GCP): a **host project** owns the network, other projects use its subnets → central network team, many apps
+- **VPN Gateway**: encrypted tunnel **over the internet** to the datacenter → quick and cheap
+- **ExpressRoute** (Azure) / **Cloud Interconnect** (GCP): **dedicated private link** → more bandwidth, stable latency
+- **Load balancer**: **L4** (TCP/UDP) or **L7** (HTTP: Application Gateway, Cloud Load Balancing) → spreads traffic, health checks
+- **WAF** (Web Application Firewall): protects HTTP apps from attacks (SQL injection, XSS)
+- **Private DNS zones**: resolve **private names** → needed for **Private Endpoints** to work
+**ES:**
+- **Peering**: conecta dos VNets/VPCs **en privado** → la base del **hub-and-spoke**; **no es transitivo** (A↔B y B↔C no da A↔C)
+- **Shared VPC** (GCP): un **host project** es dueño de la red y los demás projects usan sus subredes → un equipo central de red, muchas aplicaciones
+- **VPN Gateway**: túnel cifrado **por internet** hacia el datacenter → rápido y barato
+- **ExpressRoute** (Azure) / **Cloud Interconnect** (GCP): **enlace privado dedicado** → más ancho de banda, latencia estable
+- **Load balancer** (balanceador): **L4** (TCP/UDP) o **L7** (HTTP: Application Gateway, Cloud Load Balancing) → reparte el tráfico, health checks
+- **WAF** (Web Application Firewall): protege las aplicaciones HTTP de ataques (SQL injection, XSS)
+- **Zonas DNS privadas**: resuelven **nombres privados** → necesarias para que funcionen los **Private Endpoints**
+
+> EN: To connect networks: peering between VNets or VPCs, Shared VPC in GCP, and VPN or ExpressRoute or Interconnect to the datacenter. To expose apps: load balancers at layer 4 or 7, with a WAF in front of web apps. And private DNS so private endpoints resolve correctly.
+> ES: Para conectar redes: peering entre VNets o VPCs, Shared VPC en GCP, y VPN o ExpressRoute o Interconnect hacia el datacenter. Para exponer aplicaciones: balanceadores de capa 4 o de capa 7, con un WAF delante de las aplicaciones web. Y DNS privado para que los private endpoints resuelvan bien. Detalle que demuestra experiencia: el peering no es transitivo, por eso en hub-and-spoke el tráfico entre spokes pasa por el firewall del hub.
 
 ---
 

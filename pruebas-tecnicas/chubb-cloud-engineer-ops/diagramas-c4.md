@@ -148,7 +148,7 @@ flowchart TB
 Pregunta: cómo construirías la nueva plataforma GCP (landing zone). Tipo: Contexto.
 
 ```mermaid
-flowchart TB
+flowchart LR
   org["ico:google-cloud<br/>Organization<br/>chubb.com"]:::system
   subgraph fold["Folders · por ambiente o unidad de negocio"]
     fprod["Folder prod"]:::container
