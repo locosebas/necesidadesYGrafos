@@ -80,3 +80,16 @@ que se trabaje en este repo — no hace falta que las repita cada sesión.
   pendientes abiertos** (pruebas, videos, entrevistas con IA, formularios),
   aunque no haya llegado nada nuevo sobre ellos. Sebastián pidió que se le
   siga recordando hasta que diga que ya lo hizo.
+
+## Guardar los chats con reclutadores
+
+- **Todo chat, mensaje o correo de un reclutador que Sebastián pegue en la
+  conversación se guarda** en la Mesa de Postulaciones (artifact
+  `1TA5UUU7Tq6bmW71Gp5XaE`, colección `conversaciones`, con ArtifactData),
+  sin que tenga que pedirlo. Cada documento lleva: `vacanteId` (el id del
+  doc en `vacantes`), `empresa`, `contacto`, `canal`, `fecha`, `recibido`
+  (el texto tal como lo pegó) y `respuestaPropuesta` (el borrador que se le
+  dio). Si la vacante no existe en `vacantes`, crearla también.
+- Antes de responder a un contacto, **consultar `conversaciones`** de esa
+  empresa para tener el contexto de lo que ya se habló.
+- No va al repo (es público): la Mesa es privada.
