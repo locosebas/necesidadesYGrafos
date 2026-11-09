@@ -4,7 +4,9 @@ Estado: 🟢 respondida · 🟡 parcial · 🔴 pendiente · ⚠️ bloqueante (
 
 ## A. Identidad y marca
 1. 🟢 ¿Nombre propio o marca? → Marca: **Línea 5** (identidad 5-3-2).
-2. 🔴⚠️ ¿Desde qué perfil se hace el contacto: tu LinkedIn personal o una página de empresa de Línea 5? (En LinkedIn las notas de conexión salen de una persona, no de una página.)
+2. 🟢 ¿Desde qué perfil se hace el contacto? → **Dos canales**: LinkedIn personal de Sebastián con cargo funcional en Línea 5 + correo con dominio de Línea 5.
+   - Regla: cargo funcional verdadero (ej. "Ingeniero de Plataforma"), sin decir que hay un jefe ni un equipo que no existe. Si preguntan directamente, se responde la verdad.
+   - Correo: dirección con nombre (no contacto@), dominio propio con SPF/DKIM/DMARC, opción de no recibir más correos (Ley 1581 de 2012, habeas data).
 3. 🔴 ¿Qué tanto se muestra de ti en la web y en la oferta (nombre, foto, experiencia)?
 4. 🟡 Frase de apoyo: "Defensa sólida para que tu equipo ataque" — ¿se queda?
 5. 🔴 ¿Qué dominio y correo se compran (linea5.co, lineacinco.com)?
