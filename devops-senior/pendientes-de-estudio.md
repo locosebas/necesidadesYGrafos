@@ -119,3 +119,11 @@ Venían en una rama aparte (`claude/estudio-desde-postulaciones`); se trajeron a
   Context Protocol) con langchain-mcp-adapters. Lo más cercano que ya tiene:
   el triage con Claude, harness, hooks y MCP en MercadoLibre. Material:
   `pruebas-tecnicas/metova-ai-engineer/tecnica/`.
+- **Pruebas de performance, chaos engineering y análisis de JVM**
+  (surgió en la postulación de DaCodes, Performance Test Engineer / SRE,
+  9 nov 2026): JMeter o k6 para pruebas de carga (escenarios, ramp-up,
+  percentiles p95/p99), una herramienta de chaos engineering (Chaos Mesh o
+  Litmus en Kubernetes: experimento de matar pods o meter latencia) y
+  análisis de JVM (Java Virtual Machine) con thread dumps y heap dumps
+  (VisualVM, Eclipse MAT). Lo más cercano que ya tiene: alertas de capacidad,
+  RCA y postmortems en MercadoLibre, diagnóstico con Datadog y Grafana.
