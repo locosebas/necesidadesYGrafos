@@ -10,16 +10,17 @@ cree una nueva, agregarla aquí **y** en `indice-presentaciones.html`, y volver 
 
 | # | Presentación | Fecha | En línea | En el repo |
 |---|---|---|---|---|
-| 1 | HITSS · Claro: CI/CD seguro y cloud security | 10 nov 2026 | [abrir](https://claude.ai/artifact/R1CGvMXRR7bcUfnVfRQsD6) | [hits-claro/](../pruebas-tecnicas/hits-claro/) |
-| 2 | Chubb · Cloud Engineer Ops | 9 nov 2026 | [abrir](https://claude.ai/artifact/UpDBko5VcyAZ6mGZCscNh8) | — |
-| 3 | Metova · AI Engineer (técnica) | 6 nov 2026 | [abrir](https://claude.ai/artifact/1zFmgSAGf8qk7NZgqeowUR) | [metova-ai-engineer/tecnica/](../pruebas-tecnicas/metova-ai-engineer/tecnica/) |
-| 4 | Metova Talent · llamada AI Engineer | 6 nov 2026 | [abrir](https://claude.ai/artifact/8WP7sLxViPGcSpHWphsfQq) | [metova-ai-engineer/](../pruebas-tecnicas/metova-ai-engineer/) |
-| 5 | Niuro · AWS Infrastructure Engineer | 5 nov 2026 | [abrir](https://claude.ai/artifact/MpZn3j577bAmoYpbWqC3jg) | [niuro-aws/](../pruebas-tecnicas/niuro-aws/) |
-| 6 | Keystone · respuestas de la entrevista | 5 nov 2026 | [abrir](https://claude.ai/artifact/8Xdud7F28ujUg8A3zF3f9g) | [keystone/](../pruebas-tecnicas/keystone/) |
-| 7 | Amaris · lo que sé | 22 oct 2026 | [abrir](https://claude.ai/artifact/YUN1xmobWRMhQx7DVmyH1t) | — |
-| 8 | Davivienda · Banco Plus (confiabilidad del pago QR) | 12 oct 2026 | sin publicar | [davivienda/](../pruebas-tecnicas/davivienda/) |
-| 9 | Dapta · defensa de la plataforma | oct 2026 | sin publicar | [dapta/](../pruebas-tecnicas/dapta/) |
-| 10 | IN Groupe · DevOps Support Engineer | 5 oct 2026 | [abrir](https://claude.ai/artifact/D9PYokrQwc23vZfuX2G3fu) | — |
+| 1 | Cardif · Observabilidad y herramientas (cliente de Amaris y de otra empresa) | 10 nov 2026 | [abrir](https://claude.ai/artifact/5sy3xQ3nLLbDdmprzAPEZ7) | [cardif-observabilidad/](../pruebas-tecnicas/cardif-observabilidad/) |
+| 2 | HITSS · Claro: CI/CD seguro y cloud security | 10 nov 2026 | [abrir](https://claude.ai/artifact/R1CGvMXRR7bcUfnVfRQsD6) | [hits-claro/](../pruebas-tecnicas/hits-claro/) |
+| 3 | Chubb · Cloud Engineer Ops | 9 nov 2026 | [abrir](https://claude.ai/artifact/UpDBko5VcyAZ6mGZCscNh8) | — |
+| 4 | Metova · AI Engineer (técnica) | 6 nov 2026 | [abrir](https://claude.ai/artifact/1zFmgSAGf8qk7NZgqeowUR) | [metova-ai-engineer/tecnica/](../pruebas-tecnicas/metova-ai-engineer/tecnica/) |
+| 5 | Metova Talent · llamada AI Engineer | 6 nov 2026 | [abrir](https://claude.ai/artifact/8WP7sLxViPGcSpHWphsfQq) | [metova-ai-engineer/](../pruebas-tecnicas/metova-ai-engineer/) |
+| 6 | Niuro · AWS Infrastructure Engineer | 5 nov 2026 | [abrir](https://claude.ai/artifact/MpZn3j577bAmoYpbWqC3jg) | [niuro-aws/](../pruebas-tecnicas/niuro-aws/) |
+| 7 | Keystone · respuestas de la entrevista | 5 nov 2026 | [abrir](https://claude.ai/artifact/8Xdud7F28ujUg8A3zF3f9g) | [keystone/](../pruebas-tecnicas/keystone/) |
+| 8 | Amaris · lo que sé | 22 oct 2026 | [abrir](https://claude.ai/artifact/YUN1xmobWRMhQx7DVmyH1t) | — |
+| 9 | Davivienda · Banco Plus (confiabilidad del pago QR) | 12 oct 2026 | sin publicar | [davivienda/](../pruebas-tecnicas/davivienda/) |
+| 10 | Dapta · defensa de la plataforma | oct 2026 | sin publicar | [dapta/](../pruebas-tecnicas/dapta/) |
+| 11 | IN Groupe · DevOps Support Engineer | 5 oct 2026 | [abrir](https://claude.ai/artifact/D9PYokrQwc23vZfuX2G3fu) | — |
 
 ## 2. Preparación general de entrevista
 
