@@ -1,6 +1,6 @@
 # Pruebas técnicas y entrevistas por empresa
 
-Una carpeta por empresa. Cada una tiene su **ruta de aprendizaje** enfocada en esa entrevista: qué
+Una carpeta por empresa. Todas las presentaciones están listadas en [../presentaciones/](../presentaciones/README.md). Cada una tiene su **ruta de aprendizaje** enfocada en esa entrevista: qué
 estudiar, en qué orden y con qué preguntas, con la misma escala de
 [`../devops-senior/examenes/registro/progreso.md`](../devops-senior/examenes/registro/progreso.md)
 (⬜ no visto · 🔴 novato · 🟡 intermedio · 🟢 sólido · 🔵 senior).
@@ -17,6 +17,7 @@ describe el mecanismo y **tú dices el nombre**.
 | 5 | [Coderbyte: incidente Kubernetes](coderbyte-incidente-k8s/) | Prueba técnica en Coderbyte: incidente con OOMKilled (Dynatrace, Splunk, OpenTelemetry, rollback, Error Budget) + preguntas cortas (trazas distribuidas, I/O wait en RHEL) | Sin ruta; repaso con los "nombres clave" del [README](coderbyte-incidente-k8s/README.md) | Presentada el 4 nov 2026 |
 | 6 | [Keystone](keystone/) | Entrevista por voz con IA: Python/FastAPI, SQS/ECS, Elasticsearch, PostgreSQL, GraphQL, agentes LLM | Sin ruta; repaso con los "nombres clave" del [README](keystone/README.md) | Preguntas recibidas el 5 nov 2026 |
 | 7 | [Niuro: AWS Infrastructure Engineer](niuro-aws/) | Entrevista con IA: AWS para cargas sensibles, Terraform, blue/green con esquema, CI/CD .NET, ECS EC2 vs Fargate, VPC y security groups | Sin ruta; repaso con los "nombres clave" del [README](niuro-aws/README.md). **Estudiar antes de una segunda entrevista** | Hecha el 5 nov 2026; salió bien |
+| 8 | [HITSS para Claro](hits-claro/) | Entrevista: procesos CI/CD con aseguramiento de código (quality gates, SAST/SCA, firma de imágenes) y cloud security | Sin ruta; repaso con la [presentación](hits-claro/presentacion.html) y los "nombres clave" del [README](hits-claro/README.md) | Entrevista hecha en nov 2026; guardada por si vuelve |
 
 ## Cómo agregar una empresa nueva
 

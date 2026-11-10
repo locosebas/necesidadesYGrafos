@@ -1,0 +1,160 @@
+<title>Mis presentaciones</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: una sola columna de lectura rápida; grupos con encabezado y filas compactas que se tocan con el pulgar */
+:root{
+  --bg:#f4f7fb; --surface:#ffffff; --fg:#14212e; --muted:#5d6b7a; --line:#d9e2ec;
+  --accent:#0f5fae; --accent-ink:#08427b; --amber:#c98a00; --amber-bg:#fff6dc;
+  --font-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0c1622; --surface:#132233; --fg:#e4ecf4; --muted:#93a4b6; --line:#24384d;
+  --accent:#5aa7f0; --accent-ink:#9fcbf7; --amber:#f0b400; --amber-bg:#2e2508; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0c1622; --surface:#132233; --fg:#e4ecf4; --muted:#93a4b6; --line:#24384d;
+  --accent:#5aa7f0; --accent-ink:#9fcbf7; --amber:#f0b400; --amber-bg:#2e2508; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 48px}
+.wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+header{display:flex;flex-direction:column;gap:6px}
+.eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+h1{margin:0;font-size:clamp(28px,6vw,40px);line-height:1.1;color:var(--accent-ink);text-wrap:balance}
+.lead{margin:0;color:var(--muted);max-width:62ch}
+.search{display:flex;flex-direction:column;gap:6px}
+.search label{font-size:13px;color:var(--muted)}
+#q{font:inherit;font-size:16px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--fg);width:100%}
+#q:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+section{display:flex;flex-direction:column;gap:10px}
+h2{margin:0;font-size:13px;font-family:var(--font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;gap:8px;align-items:baseline}
+h2 .n{color:var(--accent)}
+ul{list-style:none;margin:0;padding:0;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+li+li{border-top:1px solid var(--line)}
+li a,li .local{display:grid;grid-template-columns:1fr auto;gap:2px 14px;padding:12px 16px;color:inherit;text-decoration:none}
+li a:hover{background:color-mix(in srgb,var(--accent) 7%,transparent)}
+li a:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.t{font-weight:600;color:var(--accent-ink);min-width:0}
+.d{grid-column:1;color:var(--muted);font-size:14px;min-width:0}
+.f{grid-row:1;grid-column:2;font-family:var(--font-mono);font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.nueva{display:inline-block;margin-left:8px;font-size:11px;font-family:var(--font-mono);letter-spacing:.05em;text-transform:uppercase;background:var(--amber-bg);color:var(--amber);padding:1px 7px;border-radius:999px;vertical-align:2px}
+.local .t{color:var(--fg)}
+.local code{font-family:var(--font-mono);font-size:12px;color:var(--muted);word-break:break-all}
+.vacio{color:var(--muted);font-size:14px;padding:4px 2px}
+footer{color:var(--muted);font-size:13px}
+@media (max-width:480px){li a,li .local{grid-template-columns:1fr}.f{grid-row:auto;grid-column:1}}
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Plan de estudio · Sebastián Díaz</span>
+    <h1>Mis presentaciones</h1>
+    <p class="lead">Las presentaciones de cada entrevista y el material visual de estudio, en un solo lugar. Cada presentación se navega con ← → y la tecla N muestra el guion.</p>
+  </header>
+
+  <div class="search">
+    <label for="q">Buscar por empresa, tema o herramienta</label>
+    <input id="q" type="search" placeholder="ej.: CI/CD, AWS, Kubernetes, Metova" autocomplete="off">
+  </div>
+
+  <section data-grupo>
+    <h2><span class="n">01</span> Entrevistas por empresa</h2>
+    <ul>
+      <li><a href="https://claude.ai/artifact/R1CGvMXRR7bcUfnVfRQsD6" target="_blank" rel="noopener" data-k="hitss hits claro cicd ci/cd continuous integration delivery devsecops sonarqube snyk trivy checkov argo cloud security cspm oidc">
+        <span class="t">HITSS · Claro: CI/CD seguro<span class="nueva">nueva</span></span><span class="f">10 nov 2026</span>
+        <span class="d">Los 11 pasos de CI/CD con quality gates, seguridad del código y cloud security</span></a></li>
+      <li><a href="https://claude.ai/artifact/UpDBko5VcyAZ6mGZCscNh8" target="_blank" rel="noopener" data-k="chubb cloud engineer ops">
+        <span class="t">Chubb · Cloud Engineer Ops</span><span class="f">9 nov 2026</span>
+        <span class="d">Preparación de la entrevista de Cloud Engineer Ops</span></a></li>
+      <li><a href="https://claude.ai/artifact/1zFmgSAGf8qk7NZgqeowUR" target="_blank" rel="noopener" data-k="metova ai engineer langchain langgraph llamaindex crewai autogen asyncio pydantic agentes">
+        <span class="t">Metova · AI Engineer (técnica)</span><span class="f">6 nov 2026</span>
+        <span class="d">LangChain, LangGraph, LlamaIndex, CrewAI, AutoGen, asyncio y Pydantic</span></a></li>
+      <li><a href="https://claude.ai/artifact/8WP7sLxViPGcSpHWphsfQq" target="_blank" rel="noopener" data-k="metova talent ai engineer llamada">
+        <span class="t">Metova Talent · llamada AI Engineer</span><span class="f">6 nov 2026</span>
+        <span class="d">Primera llamada con Metova Talent</span></a></li>
+      <li><a href="https://claude.ai/artifact/MpZn3j577bAmoYpbWqC3jg" target="_blank" rel="noopener" data-k="niuro aws infrastructure terraform blue green ecs fargate vpc security groups">
+        <span class="t">Niuro · AWS Infrastructure Engineer</span><span class="f">5 nov 2026</span>
+        <span class="d">AWS para cargas sensibles, Terraform, blue/green con esquema, ECS y VPC</span></a></li>
+      <li><a href="https://claude.ai/artifact/8Xdud7F28ujUg8A3zF3f9g" target="_blank" rel="noopener" data-k="keystone python fastapi sqs ecs elasticsearch postgresql graphql agentes llm">
+        <span class="t">Keystone · respuestas de la entrevista</span><span class="f">5 nov 2026</span>
+        <span class="d">Python/FastAPI, SQS/ECS, Elasticsearch, PostgreSQL, GraphQL y agentes LLM</span></a></li>
+      <li><a href="https://claude.ai/artifact/YUN1xmobWRMhQx7DVmyH1t" target="_blank" rel="noopener" data-k="amaris">
+        <span class="t">Amaris · lo que sé</span><span class="f">22 oct 2026</span>
+        <span class="d">Resumen de preparación para Amaris</span></a></li>
+      <li><a href="https://claude.ai/artifact/D9PYokrQwc23vZfuX2G3fu" target="_blank" rel="noopener" data-k="in groupe devops support engineer">
+        <span class="t">IN Groupe · DevOps Support Engineer</span><span class="f">5 oct 2026</span>
+        <span class="d">Preparación de la entrevista de soporte DevOps</span></a></li>
+      <li><div class="local" data-k="davivienda banco plus sre observabilidad qr confiabilidad">
+        <span class="t">Davivienda · Banco Plus, confiabilidad del pago QR</span><span class="f">12 oct 2026</span>
+        <span class="d">Solo en el repo: <code>pruebas-tecnicas/davivienda/presentacion.html</code></span></div></li>
+      <li><div class="local" data-k="dapta seguridad cumplimiento defensa plataforma">
+        <span class="t">Dapta · defensa de la plataforma</span><span class="f">oct 2026</span>
+        <span class="d">Solo en el repo: <code>pruebas-tecnicas/dapta/presentacion.html</code></span></div></li>
+    </ul>
+  </section>
+
+  <section data-grupo>
+    <h2><span class="n">02</span> Preparación general de entrevista</h2>
+    <ul>
+      <li><a href="https://claude.ai/artifact/CRWSFU5JbdMHiBarCdxG1G" target="_blank" rel="noopener" data-k="entrevista devops experiencia bizagi mercadolibre presentacion personal">
+        <span class="t">Entrevista DevOps · presentación base</span><span class="f">3 nov 2026</span>
+        <span class="d">En inglés: experiencia en Bizagi y MercadoLibre, preguntas técnicas y preguntas al entrevistador</span></a></li>
+      <li><a href="https://claude.ai/artifact/ACjmXKiv8NmaEk837J2Sn5" target="_blank" rel="noopener" data-k="guia entrevista devops preguntas">
+        <span class="t">Guía de entrevista DevOps</span><span class="f">3 nov 2026</span>
+        <span class="d">Guía de respuestas para entrevistas DevOps</span></a></li>
+    </ul>
+  </section>
+
+  <section data-grupo>
+    <h2><span class="n">03</span> Material visual de estudio</h2>
+    <ul>
+      <li><a href="https://claude.ai/artifact/9sSxBHtBfXHRmRm84TcSk7" target="_blank" rel="noopener" data-k="mapa devops senior roadmap arquitecto plataforma">
+        <span class="t">Mapa DevOps Senior</span><span class="f">8 sep 2026</span><span class="d">El plan completo hacia Arquitecto de Plataforma</span></a></li>
+      <li><a href="https://claude.ai/artifact/EN3w8XGN2RzBv8wXG72aZH" target="_blank" rel="noopener" data-k="caja herramientas devops stack">
+        <span class="t">Caja de herramientas DevOps</span><span class="f">28 sep 2026</span><span class="d">Qué herramienta resuelve qué problema</span></a></li>
+      <li><a href="https://claude.ai/artifact/3xcoPeK3jVHSTqXWkLWqjA" target="_blank" rel="noopener" data-k="mapas cero produccion despliegue">
+        <span class="t">Mapas de cero a producción</span><span class="f">28 sep 2026</span><span class="d">Del código al ambiente productivo</span></a></li>
+      <li><a href="https://claude.ai/artifact/MWXnHtJWyDzKzqKp9n7ANo" target="_blank" rel="noopener" data-k="gitops pull argo cd flux">
+        <span class="t">Modelo Pull de GitOps</span><span class="f">1 oct 2026</span><span class="d">Cómo Argo CD y Flux sincronizan desde Git</span></a></li>
+      <li><a href="https://claude.ai/artifact/AibtLY8r1dZEcVtdhe6XMx" target="_blank" rel="noopener" data-k="kubernetes incidentes troubleshooting">
+        <span class="t">Kubernetes en llamas</span><span class="f">28 sep 2026</span><span class="d">Incidentes típicos de Kubernetes</span></a></li>
+      <li><a href="https://claude.ai/artifact/JgTfP76dUscFbcESQLZXha" target="_blank" rel="noopener" data-k="anatomia cluster kubernetes control plane">
+        <span class="t">Anatomía de un clúster</span><span class="f">18 sep 2026</span><span class="d">Las piezas de un clúster de Kubernetes</span></a></li>
+      <li><a href="https://claude.ai/artifact/UM1igYjTtAm53YdgvSRTVi" target="_blank" rel="noopener" data-k="arquitectura plataforma">
+        <span class="t">Arquitectura de la Plataforma</span><span class="f">21 sep 2026</span><span class="d">Vista general de una plataforma interna</span></a></li>
+      <li><a href="https://claude.ai/artifact/MXyoWJDuiBf5cUpArBb7Mv" target="_blank" rel="noopener" data-k="private endpoint azure redes dns">
+        <span class="t">Mapa del Private Endpoint</span><span class="f">17 sep 2026</span><span class="d">Private Endpoint y DNS privado en Azure</span></a></li>
+      <li><a href="https://claude.ai/artifact/LSd4Mwi6SZKxATgHgdCjoL" target="_blank" rel="noopener" data-k="costos cloud finops">
+        <span class="t">Cruce de Costos Cloud</span><span class="f">18 sep 2026</span><span class="d">Comparación de costos entre nubes</span></a></li>
+      <li><a href="https://claude.ai/artifact/Diiaeonkag1kM7spmVJkcn" target="_blank" rel="noopener" data-k="guia estudio devops infraestructura sql">
+        <span class="t">Guía de estudio: DevOps, infraestructura y SQL</span><span class="f">16 sep 2026</span><span class="d">Repaso de fundamentos</span></a></li>
+      <li><a href="https://claude.ai/artifact/DAhvLJZgJGBKwFJG8NrvDr" target="_blank" rel="noopener" data-k="iot mqtt embebidos herramientas">
+        <span class="t">Mapa de herramientas IoT</span><span class="f">8 oct 2026</span><span class="d">Herramientas para IoT y embebidos</span></a></li>
+      <li><a href="https://claude.ai/artifact/MXH59ME7mw4Sya4sFefFb1" target="_blank" rel="noopener" data-k="tablero progreso niveles">
+        <span class="t">Tablero de Progreso</span><span class="f">29 sep 2026</span><span class="d">Nivel de dominio por tema</span></a></li>
+    </ul>
+  </section>
+
+  <p class="vacio" id="vacio" hidden>No hay presentaciones con ese texto. Prueba con el nombre de la empresa o de una herramienta.</p>
+  <footer>El mismo listado está en el repo, en <code>presentaciones/README.md</code>.</footer>
+</div>
+
+<script>
+(function(){
+  var q=document.getElementById('q'), vacio=document.getElementById('vacio');
+  var norm=function(s){return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')};
+  q.addEventListener('input',function(){
+    var v=norm(q.value.trim()), total=0;
+    document.querySelectorAll('[data-grupo]').forEach(function(sec){
+      var vis=0;
+      sec.querySelectorAll('li').forEach(function(li){
+        var el=li.firstElementChild, txt=norm(li.textContent+' '+(el.getAttribute('data-k')||''));
+        var ok=!v||txt.indexOf(v)>-1; li.hidden=!ok; if(ok)vis++;
+      });
+      sec.hidden=vis===0; total+=vis;
+    });
+    vacio.hidden=total>0;
+  });
+})();
+</script>
