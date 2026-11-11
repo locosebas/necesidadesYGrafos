@@ -1,4 +1,18 @@
-# Prueba técnica - Gorila / Candiech
+# Gorilla Logic · Senior Platform DevOps (assessment de Canditech + entrevista técnica)
+
+Proceso con **Gorilla Logic**: llamada con la reclutadora (3 nov, posición "DevOps GCP"), assessment de
+Canditech (4 nov) y **Technical Screening con Carlos Suárez el 11 nov 2026, 4:30–6:00 pm**. Consejo de
+la reclutadora: ser uno mismo, no leer una presentación y contar la experiencia real.
+
+## Presentación de repaso
+
+- [diagramas-c4.md](diagramas-c4.md): 16 diagramas C4 con íconos.
+- [libreto-diapositivas.md](libreto-diapositivas.md): las 25 diapositivas con el guion en inglés.
+- [presentacion.html](presentacion.html): la presentación (← → para navegar, **N** para ver el guion).
+  Versión para el celular (privada): https://claude.ai/artifact/JwP9oCmUxaMm9UeUEryaqE.
+  Se regenera con `python3 generar_presentacion.py`.
+
+## Prueba técnica (assessment)
 
 Entrenamiento/prueba técnica resuelto el 4 nov 2026. Rol: Senior DevOps / Platform Engineer sobre AWS
 (Amazon Web Services), EKS (Elastic Kubernetes Service), Terraform y GitOps con Argo CD. Mezcla
