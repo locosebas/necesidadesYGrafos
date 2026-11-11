@@ -291,20 +291,41 @@ flowchart LR
   classDef ext fill:#8a8a8a,stroke:#6b6b6b,color:#fff
 ```
 
-## D12 · Dinámico: pasos 9 y 10, promoción a producción
+## D12a · Dinámico: paso 9, gate y aprobación
 
-CD, pasos 9 y 10. Tipo: Dinámico.
+CD, paso 9. Tipo: Dinámico (pasos numerados).
 
 ```mermaid
 flowchart LR
-  ev["ico:chart-line<br/>1 · Evidencia de stage<br/>pruebas + métricas"]:::container
-  cab["ico:account-group<br/>2 · Aprobación<br/>cambio ITIL / CAB"]:::person
-  env["ico:azuredevops ico:gitlab<br/>3 · Ambiente protegido<br/>approvals y checks"]:::system
-  can["ico:swap-horizontal<br/>4 · Canary 5% → 25% → 100%<br/>Argo Rollouts, Flagger"]:::container
-  ana["ico:prometheus<br/>5 · Análisis automático<br/>errores y latencia"]:::container
-  ok["ico:check-decagram<br/>6a · Promover"]:::container
-  rb["ico:alert<br/>6b · Rollback automático"]:::container
-  ev --> cab --> env --> can --> ana
+  subgraph stg["Stage"]
+    ev["ico:chart-line<br/>1 · Evidencia de stage<br/>pruebas + días de métricas sanas"]:::container
+  end
+  gate["ico:check-decagram<br/>2 · Gate automático<br/>quality gate, escaneos,<br/>firma verificada"]:::system
+  chg["ico:file-certificate<br/>3 · Solicitud de cambio<br/>ITIL: ServiceNow, Jira SM"]:::ext
+  cab["ico:account-group<br/>4 · Aprobación<br/>CAB / release manager"]:::person
+  env["ico:azuredevops ico:gitlab ico:github-actions<br/>5 · Ambiente protegido<br/>approvals, checks, ventana de cambio"]:::system
+  prod["ico:kubernetes<br/>6 · Libera el<br/>despliegue a producción"]:::container
+  ev --> gate --> chg --> cab --> env --> prod
+  classDef person fill:#08427b,stroke:#052e56,color:#fff
+  classDef system fill:#1168bd,stroke:#0b4884,color:#fff
+  classDef container fill:#438dd5,stroke:#2e6295,color:#fff
+  classDef ext fill:#8a8a8a,stroke:#6b6b6b,color:#fff
+```
+
+## D12b · Dinámico: paso 10, producción progresiva
+
+CD, paso 10. Tipo: Dinámico (pasos numerados).
+
+```mermaid
+flowchart LR
+  argo["ico:argo-icon<br/>1 · Argo Rollouts / Flagger<br/>inicia el canary"]:::system
+  can["ico:swap-horizontal<br/>2 · Canary<br/>5% → 25% → 50% → 100%"]:::container
+  ff["ico:key-chain<br/>Feature flags<br/>LaunchDarkly, Unleash"]:::ext
+  ana["ico:prometheus ico:datadog<br/>3 · Análisis automático<br/>errores y latencia vs. versión anterior"]:::container
+  ok["ico:check-decagram<br/>4a · Promover<br/>al 100%"]:::container
+  rb["ico:alert<br/>4b · Rollback automático<br/>a la versión anterior"]:::container
+  argo --> can --> ana
+  ff -.->|"activa la funcionalidad<br/>sin redesplegar"| can
   ana -->|"sano"| ok
   ana -->|"degradado"| rb
   classDef person fill:#08427b,stroke:#052e56,color:#fff

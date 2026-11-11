@@ -163,15 +163,29 @@ Actions, Argo CD, Helm, Terraform y el hardening de MercadoLibre.
 
 ---
 
-## Pasos 9 y 10 · Gate, aprobación y producción progresiva
+## Paso 9 · Gate y aprobación a producción
 **Sección:** CD · Continuous Delivery
-**Diagrama:** D12
+**Diagrama:** D12a
+- **Gate automático**: quality gate en verde, escaneos sin Critical/High, **firma verificada**
+- **Gestión de cambios** ITIL (Information Technology Infrastructure Library): **ServiceNow, Jira Service Management**
+- Aprobación del **CAB (Change Advisory Board)** o del release manager, con la **evidencia de stage**
 - **Ambientes protegidos**: Azure DevOps environments, GitLab protected environments, GitHub environments
-- **Gestión de cambios** (ITIL, CAB) con la evidencia de stage
-- Estrategias: **rolling, blue/green, canary** + **feature flags**
-- **Argo Rollouts / Flagger**: canary con análisis automático y **rollback automático**
+- Ventanas de cambio y **segregación de funciones**: quien escribe el código no aprueba su paso a producción
 
-> El gate es el punto de control entre stage y producción. En una telco como Claro normalmente hay un proceso de gestión de cambios, así que la aprobación lleva adjunta la evidencia de stage. Después la versión no llega de golpe: con canary empieza con el cinco por ciento del tráfico, Argo Rollouts compara errores y latencia contra la versión anterior, y si se degrada, hace rollback solo.
+> El gate es el punto de control entre stage y producción. Tiene una parte automática: el quality gate en verde, los escaneos sin hallazgos Critical o High y la firma de la imagen verificada. Y tiene una parte humana: en una telco como Claro normalmente hay gestión de cambios ITIL, en ServiceNow o Jira Service Management, y el CAB aprueba con la evidencia de stage adjunta. En el pipeline eso se implementa con ambientes protegidos: en Azure DevOps, GitLab o GitHub, el job de producción espera la aprobación antes de correr.
+
+---
+
+## Paso 10 · Producción progresiva
+**Sección:** CD · Continuous Delivery
+**Diagrama:** D12b
+- Estrategias: **rolling update, blue/green, canary**
+- **Argo Rollouts / Flagger**: canary 5 % → 25 % → 100 % con **análisis automático**
+- El análisis compara **errores y latencia** contra la versión anterior (Prometheus, Datadog)
+- **Rollback automático** si la métrica se degrada
+- **Feature flags**: LaunchDarkly, Unleash — separar el **deploy** del **release**
+
+> Después de la aprobación, la versión no llega de golpe a todos los usuarios. Con canary empieza con el cinco por ciento del tráfico; Argo Rollouts o Flagger consultan Prometheus o Datadog y comparan errores y latencia contra la versión anterior. Si está sana, sube al veinticinco, al cincuenta y al cien por ciento. Si se degrada, Argo Rollouts hace rollback solo, sin esperar a una persona. Los feature flags permiten ir más allá: desplegar el código apagado y activarlo después, separando el deploy del release.
 
 ---
 
@@ -217,7 +231,8 @@ Actions, Argo CD, Helm, Terraform y el hardening de MercadoLibre.
 - 3 Calidad: **SonarQube** quality gate · 4 Seguridad: **Semgrep/Checkmarx, Snyk, Gitleaks, Syft**
 - 5 Imagen: **Docker, Trivy, Cosign, Artifactory/Harbor** · 6 IaC: **Terraform, Checkov, OPA**
 - 7 Deploy: **Argo CD, Helm, Vault, Kyverno** · 8 Pruebas: **Cypress, OWASP ZAP, k6**
-- 9-10 Producción: **ambientes protegidos, Argo Rollouts** · 11 Observar: **Prometheus, Grafana, DORA**
+- 9 Gate: **ambientes protegidos, ServiceNow, CAB** · 10 Producción: **Argo Rollouts, feature flags**
+- 11 Observar: **Prometheus, Grafana, DORA**
 - Nube: **Defender for Cloud / Security Hub, Falco, OIDC**
 
 > Si me preguntan por un paso, digo el control y la herramienta: el quality gate es SonarQube, el SCA es Snyk o Dependency-Check, la imagen se escanea con Trivy y se firma con Cosign, la IaC se escanea con Checkov, el DAST es OWASP ZAP, el despliegue es GitOps con Argo CD.
