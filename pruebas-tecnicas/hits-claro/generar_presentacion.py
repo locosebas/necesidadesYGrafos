@@ -31,18 +31,23 @@ def cargar_diagramas():
     return out
 
 
-def con_iconos(codigo):
-    cache = {}
+USADOS = {}
 
+
+def con_iconos(codigo):
+    """Cambia 'ico:nombre' por un <img> corto; el logo se carga después de dibujar.
+
+    Así el texto del diagrama queda pequeño y no supera el límite de tamaño de Mermaid
+    (los logos en base64 dentro del diagrama hacían fallar D1 en algunos navegadores).
+    """
     def img(m):
         nombre = m.group(1)
-        if nombre not in cache:
+        if nombre not in USADOS:
             ruta = ICONOS / f"{nombre}.svg"
             if not ruta.exists():
                 raise SystemExit(f"Falta el ícono {ruta}")
-            b64 = base64.b64encode(ruta.read_bytes()).decode()
-            cache[nombre] = f"<img class='ico' src='data:image/svg+xml;base64,{b64}' width='28' height='28'/>"
-        return cache[nombre]
+            USADOS[nombre] = "data:image/svg+xml;base64," + base64.b64encode(ruta.read_bytes()).decode()
+        return f"<img class='ico' data-i='{nombre}' width='28' height='28'/>"
 
     return re.sub(r"ico:([\w-]+)", img, codigo)
 
@@ -179,6 +184,7 @@ async function ver(n){
     await mermaid.run({nodes:pend});
     // mermaid marca subgrafos punteados como límites C4
     S[i].querySelectorAll('.cluster rect').forEach(r=>r.setAttribute('stroke-dasharray','6 4'));
+    S[i].querySelectorAll('img[data-i]').forEach(im=>{const u=ICOS[im.dataset.i];if(u)im.src=u});
   }
 }
 document.addEventListener('keydown',e=>{
@@ -212,7 +218,7 @@ def main():
 <body><div id="deck">
 {secciones}
 </div><div id="barra"></div><div id="contador"></div><div id="nav"><button id="ba">←</button><button id="bn">Guion</button><button id="bs">→</button></div><div id="ayuda">← → navegar · N guion · clic izq/der</div>
-<script type="module">{JS}</script></body></html>
+<script>const ICOS={json.dumps(USADOS)};</script><script type="module">{JS}</script></body></html>
 """
     SALIDA.write_text(doc, encoding="utf-8")
     usados = sorted({i for d in diapos for i in d["ids"]})
