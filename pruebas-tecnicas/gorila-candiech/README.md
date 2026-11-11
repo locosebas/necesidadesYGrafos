@@ -14,6 +14,8 @@ Los enunciados están resumidos con mis palabras; las respuestas son las que pre
 | 4 | Canary con progressive delivery | Primeras 4 acciones, hot-fix directo (video), rollback vs roll-forward con migración de base de datos (video) | [04-canary-gitops.md](04-canary-gitops.md) |
 | 5 | Herramienta interna `platformctl` en Python | 4 problemas del script, diseño de CLI v2, restart amplio en producción (video) | [05-platformctl.md](05-platformctl.md) |
 
+**Repaso en audio:** [libreto-podcast.md](libreto-podcast.md) — libreto a dos voces de las 5 respuestas, con pausas de "¿Cómo se llama?" para practicar los nombres (preparado para la entrevista con Gorilla Logic).
+
 ## Nombres clave para repasar
 
 - **Escalado:** HPA (Horizontal Pod Autoscaler), Cluster Autoscaler / Karpenter, Four Golden Signals.
