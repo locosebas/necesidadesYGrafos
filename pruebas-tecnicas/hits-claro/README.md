@@ -12,8 +12,8 @@ el proceso vuelve a presentarse.
 
 ## Material de estudio
 
-- [diagramas-c4.md](diagramas-c4.md): 17 diagramas C4, uno por paso del pipeline, con íconos.
-- [libreto-diapositivas.md](libreto-diapositivas.md): plan de las 19 diapositivas, con el guion de cada una.
+- [diagramas-c4.md](diagramas-c4.md): 19 diagramas C4: la base de CI y de CD, y uno por paso del pipeline, con íconos.
+- [libreto-diapositivas.md](libreto-diapositivas.md): plan de las 21 diapositivas, con el guion de cada una.
 - [presentacion.html](presentacion.html): la presentación (← → para navegar, **N** para ver el guion).
   Versión para el celular (privada): https://claude.ai/artifact/R1CGvMXRR7bcUfnVfRQsD6
   Se regenera con `python3 generar_presentacion.py` después de editar el libreto o los diagramas.

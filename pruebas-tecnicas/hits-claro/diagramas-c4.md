@@ -49,6 +49,69 @@ flowchart LR
   classDef ext fill:#8a8a8a,stroke:#6b6b6b,color:#fff
 ```
 
+## D1a · Contenedores: la base de un CI
+
+Base, Continuous Integration. Tipo: Contenedores. Lo que todo CI debe tener, sin importar la herramienta.
+
+```mermaid
+flowchart LR
+  dev["ico:account-group<br/>Desarrolladores"]:::person
+  scm["ico:git-icon<br/>Control de versiones<br/>única fuente de verdad<br/>+ ramas cortas"]:::ext
+  subgraph ci["Base de un CI"]
+    pac["ico:file-code<br/>Pipeline como código<br/>se dispara en cada commit y PR"]:::system
+    sec["ico:key-chain<br/>Secretos fuera del código<br/>vault / variables protegidas"]:::container
+    run["ico:server<br/>Runners efímeros<br/>build reproducible"]:::container
+    tst["ico:test-tube<br/>Pruebas automáticas<br/>si fallan, se detiene"]:::container
+    qg["ico:shield-check<br/>Quality gate<br/>calidad + seguridad"]:::container
+    art["ico:package-variant-closed<br/>Artefacto versionado<br/>e inmutable"]:::container
+  end
+  reg["ico:jfrog<br/>Registro de artefactos"]:::ext
+  dev -->|"push / PR"| scm
+  scm -->|"webhook"| pac
+  sec -.->|"inyecta"| pac
+  pac --> run
+  pac --> tst
+  pac --> qg
+  run --> art
+  tst --> art
+  qg --> art
+  art --> reg
+  pac -.->|"feedback en minutos"| dev
+  classDef person fill:#08427b,stroke:#052e56,color:#fff
+  classDef system fill:#1168bd,stroke:#0b4884,color:#fff
+  classDef container fill:#438dd5,stroke:#2e6295,color:#fff
+  classDef ext fill:#8a8a8a,stroke:#6b6b6b,color:#fff
+```
+
+## D1b · Contenedores: la base de un CD
+
+Base, Continuous Delivery. Tipo: Contenedores. Lo que todo CD debe tener, sin importar la herramienta.
+
+```mermaid
+flowchart LR
+  reg["ico:jfrog<br/>Artefacto del CI<br/>el mismo para todos<br/>los ambientes"]:::ext
+  subgraph cd["Base de un CD"]
+    iac["ico:terraform-icon<br/>Ambientes como código<br/>stage parecido a prod"]:::container
+    cfg["ico:file-code<br/>Configuración por ambiente<br/>fuera del artefacto"]:::container
+    dep["ico:argo-icon<br/>Despliegue automático<br/>y repetible (GitOps)"]:::system
+    tst["ico:bug-check<br/>Pruebas post-deploy<br/>smoke, e2e, DAST"]:::container
+    gate["ico:check-decagram<br/>Gates y aprobaciones<br/>evidencia y auditoría"]:::container
+    str["ico:swap-horizontal<br/>Despliegue de bajo riesgo<br/>canary + rollback"]:::container
+  end
+  rel["ico:account<br/>Release manager / CAB"]:::person
+  obs["ico:grafana<br/>Observabilidad<br/>feedback"]:::ext
+  reg --> dep
+  iac --> dep
+  cfg --> dep
+  dep --> tst --> gate --> str --> obs
+  rel -->|"aprueba"| gate
+  obs -.->|"rollback"| str
+  classDef person fill:#08427b,stroke:#052e56,color:#fff
+  classDef system fill:#1168bd,stroke:#0b4884,color:#fff
+  classDef container fill:#438dd5,stroke:#2e6295,color:#fff
+  classDef ext fill:#8a8a8a,stroke:#6b6b6b,color:#fff
+```
+
 ## D2 · Dinámico: el pipeline completo de punta a punta
 
 Panorama. Tipo: Dinámico (pasos numerados).
@@ -184,7 +247,7 @@ CI, paso 4. Tipo: Componentes.
 ```mermaid
 flowchart LR
   ci["ico:gitlab ico:github-actions<br/>Pipeline"]:::system
-  subgraph sc["Escaneos de seguridad en paralelo"]
+  subgraph sc["En paralelo"]
     sast["ico:checkmarx ico:sonarqube<br/>SAST<br/>Semgrep, Checkmarx, Fortify"]:::container
     sca["ico:snyk ico:dependabot<br/>SCA dependencias<br/>Snyk, Dependency-Check, Dependabot"]:::container
     sec["ico:key-chain<br/>Secretos en el código<br/>Gitleaks, TruffleHog"]:::container
